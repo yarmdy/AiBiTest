@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace AiBi.Dal.Model
+{
+    public partial class BusQuestionOption : IdEntity
+    {
+        public BusQuestionOption()
+        {
+            BusExampleOptions = new HashSet<BusExampleOption>();
+        }
+
+        /// <summary>
+        /// 问题Id
+        /// </summary>
+        public int? QuestionId { get; set; }
+        /// <summary>
+        /// 按钮文字
+        /// </summary>
+        public string Code { get; set; } = null!;
+        /// <summary>
+        /// 简介
+        /// </summary>
+        public string Remark { get; set; } = null!;
+        public virtual BusQuestion? Question { get; set; }
+        public virtual ICollection<BusExampleOption> BusExampleOptions { get; set; }
+    }
+}
