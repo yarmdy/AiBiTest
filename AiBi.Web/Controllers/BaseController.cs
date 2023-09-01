@@ -1,4 +1,6 @@
-﻿using AiBi.Test.Web.Models;
+﻿using AiBi.Test.Bll;
+using AiBi.Test.Dal.Model;
+using AiBi.Test.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -13,10 +15,26 @@ using System.Web.Mvc;
 namespace AiBi.Test.Web.Controllers
 {
     [Authorize]
-    public abstract class BaseController : Controller
+    public abstract class BaseController<T> : Controller where T:BaseEntity
     {
+        public abstract BaseBll<T> Bll { get; }
+
         public Response Res = new Response();
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult List()
+        {
+            return View();
+        }
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
+        #region 底层忽略
         /// <summary>
         /// 重写json方法
         /// </summary>
@@ -133,5 +151,7 @@ namespace AiBi.Test.Web.Controllers
                 }
             }
         }
+        #endregion
+
     }
 }

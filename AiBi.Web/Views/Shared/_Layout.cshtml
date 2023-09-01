@@ -1,40 +1,80 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@{
+    ActionDescriptor action = ViewBag.ActionInfo;
+}
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @@version 1.0.0-beta20
+* @@link https://tabler.io
+* Copyright 2018-2023 The Tabler Authors
+* Copyright 2018-2023 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="zh-cn">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>@ViewBag.Title - @MvcApplication.Title</title>
+    <!-- CSS files -->
+    @RenderSection("stylesbefore", false)
+    <link href="~/dist/css/tabler.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <link href="~/dist/css/tabler-flags.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <link href="~/dist/css/tabler-payments.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <link href="~/dist/css/tabler-vendors.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
+    @*<style>
+          @@import url('https://rsms.me/inter/inter.css');
+          :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+          }
+          body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+          }
+        </style>*@
+    @RenderSection("styles", false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="切换导航" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("主页", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("关于", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
+    <script src="~/dist/js/demo-theme.min.js?@MvcApplication.Version"></script>
+    <div class="page">
+        <div class="page-wrapper">
+            @RenderBody()
+            <footer class="footer footer-transparent d-print-none">
+                <div class="container-xl">
+                    <div class="row text-center align-items-center flex-row-reverse">
+                        <div class="col-lg-auto ms-lg-auto">
+                            
+                        </div>
+                        <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                            <ul class="list-inline list-inline-dots mb-0">
+                                <li class="list-inline-item">
+                                    Copyright &copy; 2023
+                                    <a href="." class="link-secondary">爱拜尔</a>.
+                                    All rights reserved.
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="./changelog.html" class="link-secondary" rel="noopener">
+                                        @MvcApplication.Version
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-        </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
+    <!-- Tabler Core -->
+    <script src="~/dist/js/tabler.min.js?@MvcApplication.Version" defer></script>
+    <script src="~/dist/js/demo.min.js?@MvcApplication.Version" defer></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
+    <script src="~/layui/layui.js?@MvcApplication.Version"></script>
+    <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
+    @if (!(ViewBag.NoScript ?? false))
+    {
+        <script src="~/Scripts/@(action.ControllerDescriptor.ControllerName.ToLower())/@(action.ActionName.ToLower()).js?@MvcApplication.Version"></script>
+    }
+    @RenderSection("scripts", false)
 </body>
 </html>

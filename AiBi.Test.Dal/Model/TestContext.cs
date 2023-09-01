@@ -1239,6 +1239,10 @@ namespace AiBi.Test.Dal.Model
                 entity.Property(e => e.Status).HasComment("1启用 0 禁用");
 
                 entity.Property(e => e.Type).HasComment("1 被测者 2 组织测试者 4 代理商 -2147483648总管理员");
+
+                entity.Property(e => e.AvatarName).HasMaxLength(50).IsUnicode(false);
+
+                entity.HasRequired(a=>a.Avatar).WithMany(a=>a.SysUsers).HasForeignKey(a=>a.AvatarId);
             });
 
             modelBuilder.Entity<SysUserRole>(entity =>

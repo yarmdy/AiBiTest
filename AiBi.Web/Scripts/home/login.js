@@ -11,4 +11,5 @@ layui.use(function () {
     if ($("input[name=Error]").val()) {
         layer.error($("input[name=Error]").val());
     }
+
 });

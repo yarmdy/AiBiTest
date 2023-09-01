@@ -11,7 +11,56 @@ namespace AiBi.Test.Bll
 {
     public abstract class BaseBll<T> where T:BaseEntity
     {
+        #region 抽象方法
+        #endregion
+        #region 虚方法
+        /// <summary>
+        /// 分页条件
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public virtual Expression<Func<T, bool>> PageWhere(PageReq req, Expression<Func<T, bool>> query)
+        {
+            return query;
+        }
+        /// <summary>
+        /// 分页排序
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public virtual IQueryable<T> PageOrder(PageReq req, IQueryable<T> query)
+        {
+            return query.OrderByDescending(a=>a.CreateTime);
+        }
+        /// <summary>
+        /// 分页完成后处理数据
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public virtual List<T> PageAfter(PageReq req, List<T> list)
+        {
+            return list;
+        }
+        #endregion
+        /// <summary>
+        /// 上下文
+        /// </summary>
         public TestContext Context { get; set; }
+        /// <summary>
+        /// 获取分页数据
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public List<T> GetPageList(PageReq req) {
+            var where = (Expression<Func<T, bool>>)(a=>true);
+            where = PageWhere(req,where);
+            var list = GetListPageOrder(out int count,req.Page,req.Size,null,where, a=>PageOrder(req,a));
+
+            req.OutCount = count;
+            list = PageAfter(req, list);
+            return list;
+        }
 
         #region lambda查询
         /// <summary>
@@ -289,7 +338,12 @@ namespace AiBi.Test.Bll
         {
             return Context.Set<T>().Find(keys);
         }
-
+        public T GetByPrimaryKeyNoTracking(params object[] keys)
+        {
+            var obj = Context.Set<T>().Find(keys);
+            Context.Entry(obj).State = EntityState.Detached;
+            return obj;
+        }
         #endregion
     }
 }

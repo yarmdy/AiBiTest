@@ -85,6 +85,14 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public string Password { get; set; }
         /// <summary>
+        /// 头像名称
+        /// </summary>
+        public string AvatarName { get; set; }
+        /// <summary>
+        /// 头像附件
+        /// </summary>
+        public int? AvatarId { get; set; }
+        /// <summary>
         /// 1 被测者 2 组织测试者 4 代理商 -2147483648总管理员
         /// </summary>
         public int Type { get; set; }
@@ -104,6 +112,7 @@ namespace AiBi.Test.Dal.Model
         /// 失效时间
         /// </summary>
         public DateTime? ExpireTime { get; set; }
+        public virtual SysAttachment Avatar { get; set; }
         public virtual ICollection<BusClassify> BusClassifyCreateUsers { get; set; }
         public virtual ICollection<BusClassify> BusClassifyDelUsers { get; set; }
         public virtual ICollection<BusClassify> BusClassifyModifyUsers { get; set; }

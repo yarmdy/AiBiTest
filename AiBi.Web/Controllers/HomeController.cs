@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AiBi.Test.Bll;
 using AiBi.Test.Common;
+using System.Web.Security;
+using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : BaseController<SysUser>
     {
         public SysUserBll SysUserBll { get; set; }
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        public override BaseBll<SysUser> Bll => SysUserBll;
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -28,6 +30,7 @@ namespace AiBi.Test.Web.Controllers
 
             return View();
         }
+
         [AllowAnonymous]
         public ActionResult Login(HomeReq.Login req) {
             if (Request.IsAjaxRequest())
@@ -50,7 +53,9 @@ namespace AiBi.Test.Web.Controllers
                     err = req.OutMsg;
                     goto noredirect;
                 }
-                return RedirectToAction("Index");
+                var cookie = $"{user.Id}|{user.Account}|{user.Name}";
+                FormsAuthentication.SetAuthCookie(cookie,false);
+                return Redirect(string.IsNullOrWhiteSpace(req.ReturnUrl) ? "/Home/Index":req.ReturnUrl);
 
             }
             

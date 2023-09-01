@@ -14,10 +14,12 @@ namespace AiBi.Test.Web
     {
         public static string Version { get; set; }
         public static string Title { get; set; }
+        public static string CopyWrite { get; set; }
         protected void Application_Start()
         {
             Version = System.Configuration.ConfigurationManager.AppSettings["version"] + "";
             Title = System.Configuration.ConfigurationManager.AppSettings["title"] + "";
+            CopyWrite = System.Configuration.ConfigurationManager.AppSettings["copywrite"] + "";
             AutofacExt.InitAutofac();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

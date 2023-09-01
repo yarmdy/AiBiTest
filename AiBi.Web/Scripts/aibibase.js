@@ -446,4 +446,65 @@ layer.success = function (msg, opt, callback) {
     layer.msg(msg, options, callback);
 }
 
+$.fn.setPager = function (page, size, count,callback) {
+    $(this).find("a.page-link").off("click.pager");
+    $(this).html("");
+    const maxcount = 10;
+    const isFirst = page == 1;
+    const pageCount = count / size + (count % size > 0 ? 1 : 0);
+    const isLast = page == pageCount;
+    const firstPage = `<li class="page-item ${(isFirst ?"disabled":"")}">
+                          <a class="page-link" href="#" ${(isFirst ?'tabindex="-1" aria-disabled="true"':'')}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+                            首页
+                          </a>
+                        </li>`;
+    var first = $(firstPage);
+    $(this).append(first);
+    if (!isFirst) {
+        first.on("click.pager", function (e) {
+            e.preventDefault();
+            callback && callback(1);
+        })
+    }
+    
+    var showCount = Math.min(maxcount, pageCount);
+    var minPage = Math.max(1, page - (parseInt(maxcount / 2)));
+    var cha = Math.max(showCount + minPage - 1 - pageCount, 0);
+    minPage = minPage - cha;
+
+    if (minPage > 1) {
+        $(this).append('<li class="page-item disabled">...</li>');
+    }
+
+    for (let i = minPage; i < minPage+showCount; i++) {
+        const pageHtml = `<li class="page-item ${(i == page ? 'active' : '')}"><a class="page-link" href="#">${i}</a></li>`;
+        var pageele = $(pageHtml);
+        $(this).append(pageele);
+        pageele.on("click.pager", function (e) {
+            e.preventDefault();
+            callback && callback(i);
+        })
+    }
+
+    if (minPage + showCount - 1 < pageCount) {
+        $(this).append('<li class="page-item disabled">...</li>');
+    }
+
+    const lastPage = `<li class="page-item ${(isLast ? "disabled" : "")}">
+                          <a class="page-link" href="#" ${(isLast ? 'tabindex="-1" aria-disabled="true"' : '')}>
+                            末页
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                          </a>
+                        </li>`;
+    var last = $(lastPage);
+    $(this).append(last);
+    if (!isLast) {
+        last.on("click.pager", function (e) {
+            e.preventDefault();
+            callback && callback(pageCount);
+        })
+    }
+}
+
 window.$$ = obj;
