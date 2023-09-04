@@ -446,12 +446,14 @@ layer.success = function (msg, opt, callback) {
     layer.msg(msg, options, callback);
 }
 
-$.fn.setPager = function (page, size, count,callback) {
-    $(this).find("a.page-link").off("click.pager");
-    $(this).html("");
+$.fn.setPager = function (page, size, count, callback) {
+    let pp = $(this).find(">p");
+    let ul = $(this).find(">ul");
+    ul.find("a.page-link").off("click.pager");
+    ul.html("");
     const maxcount = 10;
     const isFirst = page == 1;
-    const pageCount = count / size + (count % size > 0 ? 1 : 0);
+    const pageCount = parseInt(count / size) + (count % size > 0 ? 1 : 0);
     const isLast = page == pageCount;
     const firstPage = `<li class="page-item ${(isFirst ?"disabled":"")}">
                           <a class="page-link" href="#" ${(isFirst ?'tabindex="-1" aria-disabled="true"':'')}>
@@ -460,7 +462,7 @@ $.fn.setPager = function (page, size, count,callback) {
                           </a>
                         </li>`;
     var first = $(firstPage);
-    $(this).append(first);
+    ul.append(first);
     if (!isFirst) {
         first.on("click.pager", function (e) {
             e.preventDefault();
@@ -474,13 +476,13 @@ $.fn.setPager = function (page, size, count,callback) {
     minPage = minPage - cha;
 
     if (minPage > 1) {
-        $(this).append('<li class="page-item disabled">...</li>');
+        ul.append('<li class="page-item disabled">...</li>');
     }
 
     for (let i = minPage; i < minPage+showCount; i++) {
         const pageHtml = `<li class="page-item ${(i == page ? 'active' : '')}"><a class="page-link" href="#">${i}</a></li>`;
         var pageele = $(pageHtml);
-        $(this).append(pageele);
+        ul.append(pageele);
         pageele.on("click.pager", function (e) {
             e.preventDefault();
             callback && callback(i);
@@ -488,7 +490,7 @@ $.fn.setPager = function (page, size, count,callback) {
     }
 
     if (minPage + showCount - 1 < pageCount) {
-        $(this).append('<li class="page-item disabled">...</li>');
+        ul.append('<li class="page-item disabled">...</li>');
     }
 
     const lastPage = `<li class="page-item ${(isLast ? "disabled" : "")}">
@@ -498,13 +500,15 @@ $.fn.setPager = function (page, size, count,callback) {
                           </a>
                         </li>`;
     var last = $(lastPage);
-    $(this).append(last);
+    ul.append(last);
     if (!isLast) {
         last.on("click.pager", function (e) {
             e.preventDefault();
             callback && callback(pageCount);
         })
     }
+
+    pp.html('当前第 <span>' + ((page - 1) * size + 1) + '</span> 到 <span>' + Math.min((page) * size, count) + '</span> 条，共 <span>' + count + '</span> 条');
 }
 
 window.$$ = obj;
