@@ -46,6 +46,7 @@
     <Compile Include="DicHelper.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="HttpContextCache.cs" />
+    <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
