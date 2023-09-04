@@ -3,17 +3,15 @@ using System.Collections.Generic;
 
 namespace AiBi.Test.Dal.Model
 {
-    public partial class BusExample : IdEntity
+    public partial class BusTestTemplete : IdEntity
     {
-        public BusExample()
+        public BusTestTemplete()
         {
-            BusExampleOptions = new HashSet<BusExampleOption>();
-            BusExampleQuestions = new HashSet<BusExampleQuestion>();
-            BusExampleResults = new HashSet<BusExampleResult>();
             BusTestPlanExamples = new HashSet<BusTestPlanExample>();
             BusTestPlanUserExamples = new HashSet<BusTestPlanUserExample>();
             BusUserExamples = new HashSet<BusUserExample>();
-            BusTestTempleteExamples=new HashSet<BusTestTempleteExample>();
+            BusUserTestTempletes = new HashSet<BusUserTestTemplete>();
+            BusTestPlans=new HashSet<BusTestPlan>();
         }
 
         /// <summary>
@@ -33,9 +31,14 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public string Keys { get; set; }
         /// <summary>
+        /// 实例数
+        /// </summary>
+        public int ExampleNum { get; set; }
+        /// <summary>
         /// 题数
         /// </summary>
         public int QuestionNum { get; set; }
+
         /// <summary>
         /// 时长（分钟）
         /// </summary>
@@ -68,12 +71,10 @@ namespace AiBi.Test.Dal.Model
         public virtual BusClassify Classify { get; set; }
         public virtual SysAttachment Image { get; set; }
         public virtual BusClassify SubClassify { get; set; }
-        public virtual ICollection<BusExampleOption> BusExampleOptions { get; set; }
-        public virtual ICollection<BusExampleQuestion> BusExampleQuestions { get; set; }
-        public virtual ICollection<BusExampleResult> BusExampleResults { get; set; }
         public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
         public virtual ICollection<BusUserExample> BusUserExamples { get; set; }
-        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExamples { get; set; }
+        public virtual ICollection<BusUserTestTemplete> BusUserTestTempletes { get; set; }
+        public virtual ICollection<BusTestPlan> BusTestPlans { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace AiBi.Test.Dal.Model
             BusExampleSubClassifies = new HashSet<BusExample>();
             BusUserClassifies = new HashSet<BusUserClassify>();
             InverseParent = new HashSet<BusClassify>();
+            BusTestTempleteClassifies = new HashSet<BusTestTemplete>();
+            BusTestTempleteSubClassifies = new HashSet<BusTestTemplete>();
         }
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace AiBi.Test.Dal.Model
         public virtual BusClassify Parent { get; set; }
         public virtual ICollection<BusExample> BusExampleClassifies { get; set; }
         public virtual ICollection<BusExample> BusExampleSubClassifies { get; set; }
+        public virtual ICollection<BusTestTemplete> BusTestTempleteClassifies { get; set; }
+        public virtual ICollection<BusTestTemplete> BusTestTempleteSubClassifies { get; set; }
         public virtual ICollection<BusUserClassify> BusUserClassifies { get; set; }
         public virtual ICollection<BusClassify> InverseParent { get; set; }
     }

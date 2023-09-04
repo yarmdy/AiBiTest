@@ -29,6 +29,10 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public DateTime EndTime { get; set; }
         /// <summary>
+        /// 模板id
+        /// </summary>
+        public int TempleteId { get; set; }
+        /// <summary>
         /// 可以暂停
         /// </summary>
         public bool CanPause { get; set; }
@@ -44,6 +48,7 @@ namespace AiBi.Test.Dal.Model
         /// 学员数
         /// </summary>
         public int UserNum { get; set; }
+        public virtual BusTestTemplete Templete { get; set; }
         public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
         public virtual ICollection<BusTestPlanUser> BusTestPlanUsers { get; set; }

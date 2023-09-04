@@ -49,6 +49,11 @@ namespace AiBi.Test.Dal.Model
         public virtual DbSet<SysUser> SysUsers { get; set; }
         public virtual DbSet<SysUserRole> SysUserRoles { get; set; }
 
+        public virtual DbSet<BusTestTemplete> BusTestTempletes { get; set; }
+        public virtual DbSet<BusTestTempleteExample> BusTestTempleteExamples { get; set; }
+        public virtual DbSet<BusUserTestTemplete> BusUserTestTempletes { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -570,6 +575,10 @@ namespace AiBi.Test.Dal.Model
                 entity.HasRequired(d => d.ModifyUser)
                     .WithMany(p => p.BusTestPlanModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
+                    ;
+                entity.HasRequired(d => d.Templete)
+                    .WithMany(p => p.BusTestPlans)
+                    .HasForeignKey(d=>d.TempleteId)
                     ;
             });
 
@@ -1302,6 +1311,226 @@ namespace AiBi.Test.Dal.Model
                                         ;
             });
 
+            modelBuilder.Entity<BusTestTemplete>(entity =>
+            {
+                entity.ToTable("bus_TestTemplete");
+
+                entity.Property(e => e.Id).HasComment("Id");
+
+                entity.Property(e => e.ClassifyId).HasComment("分类");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+                entity.Property(e => e.DiscountPrice)
+                    .HasColumnType("decimal")
+                    .HasComment("优惠价格");
+
+                entity.Property(e => e.Duration).HasComment("时长（分钟）");
+
+                entity.Property(e => e.ImageId).HasComment("图片附件Id");
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.Keys)
+                    .HasMaxLength(400)
+                    .HasComment("关键字 | 分割");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.Property(e => e.Ncontent)
+                    .HasMaxLength(4000)
+                    .HasColumnName("NContent")
+                    .HasComment("备注  给组织测试者");
+
+                entity.Property(e => e.Note)
+                    .HasMaxLength(4000)
+                    .HasComment("说明  给被测者");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal")
+                    .HasComment("价格");
+
+                entity.Property(e => e.ExampleNum).HasComment("实例数");
+                entity.Property(e => e.QuestionNum).HasComment("题数");
+
+                entity.Property(e => e.Status).HasComment("0 创建中 1 创建完成 2已上架");
+
+                entity.Property(e => e.SubClassifyId).HasComment("子类");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .HasComment("标题");
+
+                entity.HasRequired(d => d.Classify)
+                    .WithMany(p => p.BusTestTempleteClassifies)
+                    .HasForeignKey(d => d.ClassifyId)
+                                        ;
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusTestTempleteCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasRequired(d => d.DelUser)
+                    .WithMany(p => p.BusTestTempleteDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+                entity.HasRequired(d => d.Image)
+                    .WithMany(p => p.BusTestTempletes)
+                    .HasForeignKey(d => d.ImageId)
+                    ;
+
+                entity.HasRequired(d => d.ModifyUser)
+                    .WithMany(p => p.BusTestTempleteModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasRequired(d => d.SubClassify)
+                    .WithMany(p => p.BusTestTempleteSubClassifies)
+                    .HasForeignKey(d => d.SubClassifyId)
+                    ;
+
+                
+            });
+            modelBuilder.Entity<BusTestTempleteExample>(entity =>
+            {
+                entity.HasKey(e => new { e.TempleteId, e.ExampleId });
+
+                entity.ToTable("bus_TestTemplete_Example");
+
+                entity.Property(e => e.TempleteId).HasComment("模板id");
+
+                entity.Property(e => e.ExampleId).HasComment("用例id");
+
+                entity.Property(e => e.CanPause).HasComment("可以暂停");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+                entity.Property(e => e.Duration).HasComment("时长（分钟） 0不限");
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.Property(e => e.SortNo).HasComment("排序号");
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusTestTempleteExampleCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasRequired(d => d.DelUser)
+                    .WithMany(p => p.BusTestTempleteExampleDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+                entity.HasRequired(d => d.Example)
+                    .WithMany(p => p.BusTestTempleteExamples)
+                    .HasForeignKey(d => d.ExampleId)
+                                        ;
+
+                entity.HasRequired(d => d.ModifyUser)
+                    .WithMany(p => p.BusTestTempleteExampleModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasRequired(d => d.Example)
+                    .WithMany(p => p.BusTestTempleteExamples)
+                    .HasForeignKey(d => d.ExampleId)
+                                        ;
+            });
+
+            modelBuilder.Entity<BusUserTestTemplete>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.TempleteId });
+
+                entity.ToTable("bus_User_TestTemplete");
+
+                entity.Property(e => e.UserId).HasComment("用户");
+
+                entity.Property(e => e.TempleteId).HasComment("模板");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+                entity.Property(e => e.ExpireTime)
+                    .HasColumnType("datetime")
+                    .HasComment("过期时间");
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusUserTestTempleteCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasRequired(d => d.DelUser)
+                    .WithMany(p => p.BusUserTestTempleteDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+                entity.HasRequired(d => d.Templete)
+                    .WithMany(p => p.BusUserTestTempletes)
+                    .HasForeignKey(d => d.TempleteId)
+                                        ;
+
+                entity.HasRequired(d => d.ModifyUser)
+                    .WithMany(p => p.BusUserTestTempleteModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasRequired(d => d.User)
+                    .WithMany(p => p.BusUserTestTempleteUsers)
+                    .HasForeignKey(d => d.UserId)
+                                        ;
+            });
         }
 
     }

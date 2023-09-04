@@ -66,6 +66,18 @@ namespace AiBi.Test.Dal.Model
             SysUserRoleDelUsers = new HashSet<SysUserRole>();
             SysUserRoleModifyUsers = new HashSet<SysUserRole>();
             SysUserRoleUsers = new HashSet<SysUserRole>();
+
+            BusTestTempleteCreateUsers = new HashSet<BusTestTemplete>();
+            BusTestTempleteModifyUsers = new HashSet<BusTestTemplete>();
+            BusTestTempleteDelUsers = new HashSet<BusTestTemplete>();
+            BusTestTempleteExampleCreateUsers = new HashSet<BusTestTempleteExample>();
+            BusTestTempleteExampleModifyUsers = new HashSet<BusTestTempleteExample>();
+            BusTestTempleteExampleDelUsers = new HashSet<BusTestTempleteExample>();
+
+            BusUserTestTempleteCreateUsers = new HashSet<BusUserTestTemplete>();
+            BusUserTestTempleteModifyUsers = new HashSet<BusUserTestTemplete>();
+            BusUserTestTempleteDelUsers=new HashSet<BusUserTestTemplete>();
+            BusUserTestTempleteUsers = new HashSet<BusUserTestTemplete>();
         }
 
         /// <summary>
@@ -172,5 +184,18 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<SysUserRole> SysUserRoleDelUsers { get; set; }
         public virtual ICollection<SysUserRole> SysUserRoleModifyUsers { get; set; }
         public virtual ICollection<SysUserRole> SysUserRoleUsers { get; set; }
+
+        public virtual ICollection<BusTestTemplete> BusTestTempleteCreateUsers { get; set; }
+        public virtual ICollection<BusTestTemplete> BusTestTempleteModifyUsers { get; set; }
+        public virtual ICollection<BusTestTemplete> BusTestTempleteDelUsers { get; set; }
+
+        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleCreateUsers { get; set; }
+        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleModifyUsers { get; set; }
+        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleDelUsers { get; set; }
+
+        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteCreateUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteModifyUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteDelUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteUsers { get; set; }
     }
 }
