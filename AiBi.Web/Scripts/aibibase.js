@@ -509,6 +509,7 @@ $.fn.setPager = function (page, size, count, callback) {
     }
 
     pp.html('当前第 <span>' + ((page - 1) * size + 1) + '</span> 到 <span>' + Math.min((page) * size, count) + '</span> 条，共 <span>' + count + '</span> 条');
+    return $(this);
 }
 
 window.$$ = obj;
