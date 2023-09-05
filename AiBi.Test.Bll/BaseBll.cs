@@ -6,21 +6,54 @@ using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using AiBi.Test.Dal.Model;
 using System.Data.Entity;
+using AiBi.Test.Common;
 
 namespace AiBi.Test.Bll
 {
-    public abstract class BaseBll<T> where T:BaseEntity
+    public abstract class BaseBll<T, PageReqT> where T:BaseEntity where PageReqT:PageReq
     {
-        #region 抽象方法
+        #region 依赖
+        /// <summary>
+        /// 上下文
+        /// </summary>
+        public TestContext Context { get; set; }
         #endregion
-        #region 虚方法
+
+        #region 抽象方法
+
+        #endregion
+
+
+        #region 分页
+        public virtual IQueryable<T> PageWhereKeyword(PageReqT req, IQueryable<T> query)
+        {
+            if (string.IsNullOrEmpty(req.keyword))
+            {
+                return query;
+            }
+            var where = (Expression<Func<T, bool>>)(a => false);
+            if (TypeHelper.HasProperty<T>("Title"))
+            {
+                where = where.Or(PredicateBuilder.DotExpression<T,string>("Title").Like(req.keyword));
+            }
+            if (TypeHelper.HasProperty<T>("Name"))
+            {
+                where = where.Or(PredicateBuilder.DotExpression<T, string>("Name").Like(req.keyword));
+            }
+            if (TypeHelper.HasProperty<T>("Remark"))
+            {
+                where = where.Or(PredicateBuilder.DotExpression<T, string>("Mobile").Like(req.keyword));
+            }
+            return query.Where(where);
+        }
         /// <summary>
         /// 分页条件
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public virtual Expression<Func<T, bool>> PageWhere(PageReq req, Expression<Func<T, bool>> query)
+        public virtual IQueryable<T> PageWhere(PageReqT req, IQueryable<T> query)
         {
+            query = PageWhereKeyword(req, query);
             return query;
         }
         /// <summary>
@@ -28,7 +61,7 @@ namespace AiBi.Test.Bll
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public virtual IQueryable<T> PageOrder(PageReq req, IQueryable<T> query)
+        public virtual IQueryable<T> PageOrder(PageReqT req, IQueryable<T> query)
         {
             return query.OrderByDescending(a=>a.CreateTime);
         }
@@ -38,310 +71,111 @@ namespace AiBi.Test.Bll
         /// <param name="req"></param>
         /// <param name="list"></param>
         /// <returns></returns>
-        public virtual List<T> PageAfter(PageReq req, List<T> list)
+        public virtual List<T> PageAfter(PageReqT req, List<T> list)
         {
             return list;
         }
-        #endregion
-        /// <summary>
-        /// 上下文
-        /// </summary>
-        public TestContext Context { get; set; }
         /// <summary>
         /// 获取分页数据
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public List<T> GetPageList(PageReq req) {
-            var where = (Expression<Func<T, bool>>)(a=>true);
-            where = PageWhere(req,where);
-            var list = GetListPageOrder(out int count,req.Page,req.Size,null,where, a=>PageOrder(req,a));
+        public List<T> GetPageList(PageReqT req)
+        {
+
+            var list = GetListPage(out int count, req.Page, req.Size, a => PageWhere(req, a), a => PageOrder(req, a));
 
             req.OutCount = count;
             list = PageAfter(req, list);
             return list;
         }
+        #endregion
 
         #region lambda查询
-        /// <summary>
-        /// 获取列表query
-        /// </summary>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        private IQueryable<T> getListQuery(Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate) 
+        public IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where,bool notracking)
         {
-            var query = getIncludeQuery(includeSelector);
-
-            if (predicate != null)
+            IQueryable<T> query;
+            if (notracking)
             {
-                query = query.Where(predicate);
-            }
-            return query;
-        }
-        private  IQueryable<T> getFilterQuery<TKey>( Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderSelector, bool asc = false)
-        {
-            var query = getListQuery(includeSelector, predicate);
-            if (orderSelector == null)
-            {
-                query = asc ? query.OrderBy(a => a.CreateTime) : query.OrderByDescending(a => a.CreateTime);
+                query = Context.Set<T>().AsNoTracking().AsQueryable();
             }
             else
             {
-                query = asc ? query.OrderBy(orderSelector) : query.OrderByDescending(orderSelector);
+                query = Context.Set<T>().AsQueryable();
             }
-
-            return query;
+            return where==null?query: where(query);
         }
-
-        /// <summary>
-        /// include一下
-        /// </summary>
-        /// <returns></returns>
-        private IQueryable<T> getFullQuery()
+        
+        public List<T> GetListPage(out int count,int page,int size,Func<IQueryable<T>, IQueryable<T>> where=null, Func<IQueryable<T>, IQueryable<T>> order=null)
         {
-            var iquery = Context.Set<T>().AsQueryable();
-            var otype = typeof(T);
-            otype.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty).Where(a => a.PropertyType.IsInstanceOfType(typeof(BaseEntity))).Select(a => {
-                iquery = iquery.Include(a.Name);
-                return 0;
-            });
-            return iquery;
+            var query = getListQuery(where,true);
+            
+            count = query.Count();
+            if (count == 0)
+            {
+                return new List<T>();
+            }
+            if (order == null)
+            {
+                query = query.OrderByDescending(a=>a.CreateTime);
+            }
+            else
+            {
+                query = order(query);
+            }
+            return query.Skip(size * (page - 1)).Take(size).ToList();
         }
-        /// <summary>
-        /// include一下
-        /// </summary>
-        /// <returns></returns>
-        private IQueryable<T> getIncludeQuery<TKey>(Expression<Func<T, TKey>> includeSelector)
+        public List<T> GetListFilter(Func<IQueryable<T>, IQueryable<T>> where)
         {
-            var query = Context.Set<T>().AsQueryable();
-            if (includeSelector == null)
-            {
-                return query;
-            }
-            if (includeSelector.Body.NodeType != ExpressionType.New && includeSelector.Body.NodeType != ExpressionType.MemberAccess)
-            {
-                return query;
-            }
-            if (includeSelector.Body.NodeType == ExpressionType.MemberAccess)
-            {
-                var path = getMembersPath(includeSelector.Body);
-                if (string.IsNullOrEmpty(path)) return query;
-                return query.Include(path);
-            }
-            foreach (var arg in ((NewExpression)includeSelector.Body).Arguments)
-            {
-                var path = getMembersPath(arg);
-                if (string.IsNullOrEmpty(path)) continue;
-                query = query.Include(path);
-            }
-            return query;
+            return GetListFilter(where,null,true);
         }
-        /// <summary>
-        /// 获取include路径
-        /// </summary>
-        /// <param name="expr"></param>
-        /// <returns></returns>
-        private  string getMembersPath(Expression expr)
+        public List<T> GetListFilter(Func<IQueryable<T>, IQueryable<T>> where, Func<IQueryable<T>, IQueryable<T>> order,bool notracking)
         {
-            if (!(expr is MemberExpression)) return null;
-            var exprList = new List<Expression> { expr };
-            var path = "";
-            while (exprList.Count > 0)
+            var query = getListQuery(where, notracking);
+            
+            if (order == null)
             {
-                var last = exprList[exprList.Count - 1];
-                exprList.RemoveAt(exprList.Count - 1);
-                if (last is MemberExpression)
-                {
-                    var memExpr = (last as MemberExpression);
-                    path = "." + memExpr.Member.Name + path;
-                    exprList.Add(memExpr.Expression);
-                }
-                else
-                {
-                    var children = last.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty).Where(a => a.PropertyType.IsAssignableFrom(typeof(Expression))).OrderBy(a => a.PropertyType.IsAssignableFrom(typeof(MemberExpression)) ? 1 : 0).Select(a => (Expression)a.GetValue(last)).ToList();
-                    exprList.AddRange(children);
-                }
-
+                query = query.OrderByDescending(a => a.CreateTime);
             }
-            if (path.StartsWith("."))
+            else
             {
-                path = path.Substring(1);
-            }
-            return path;
-        }
-
-        /// <summary>
-        /// 获取单个实例
-        /// </summary>
-        /// <typeparam name="T">对应实体</typeparam>
-        /// <typeparam name="TKey">排序对应字段类型</typeparam>
-        /// <param name="app">对应app</param>
-        /// <param name="includeSelector">包含什么表</param>
-        /// <param name="predicate">条件where</param>
-        /// <param name="orderSelector">排序方法</param>
-        /// <param name="asc">是否正序</param>
-        /// <param name="onlySearch">只查询不进入ef缓存</param>
-        /// <returns></returns>
-        public  T GetFirstOrDefault<TKey>( Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderSelector, bool asc = false, bool onlySearch = false)
-        {
-            var query = getFilterQuery(includeSelector, predicate, orderSelector, asc);
-            if (onlySearch)
-            {
-                query = query.AsNoTracking();
-            }
-            return query.FirstOrDefault();
-
-        }
-        /// <summary>
-        /// 获取单个实例
-        /// </summary>
-        /// <typeparam name="T">实体</typeparam>
-        /// <param name="app">app</param>
-        /// <param name="predicate">条件</param>
-        /// <returns></returns>
-        public  T GetFirstOrDefault(Expression<Func<T, bool>> predicate)
-        {
-            return GetFirstOrDefault<object>(null, predicate, null);
-        }
-        /// <summary>
-        /// 获取单个实例 不走ef缓存
-        /// </summary>
-        /// <typeparam name="T">实体</typeparam>
-        /// <param name="app">app</param>
-        /// <param name="predicate">条件</param>
-        /// <returns></returns>
-        public  T GetFirstOrDefaultNoTracking(Expression<Func<T, bool>> predicate)
-        {
-            return GetFirstOrDefault<object>(null, predicate, null, false, true);
-        }
-        /// <summary>
-        /// 获取过滤列表
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="orderSelector"></param>
-        /// <returns></returns>
-        public  List<T> GetListFilter<TKey>(Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderSelector, bool asc = false, bool onlySearch = false)
-        {
-            var query = getFilterQuery(includeSelector, predicate, orderSelector, asc);
-            if (onlySearch)
-            {
-                query = query.AsNoTracking();
+                query = order(query);
             }
             return query.ToList();
-
         }
-        /// <summary>
-        /// 获取过滤列表
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="orderSelector"></param>
-        /// <returns></returns>
-        public  List<T> GetListFilter(Expression<Func<T, bool>> predicate)
+        public T GetFirstOrDefault(Func<IQueryable<T>, IQueryable<T>> where, bool notracking=true)
         {
-            return GetListFilter<object>(null, predicate, null);
-
+            return GetFirstOrDefault(where, null, notracking);
         }
-        /// <summary>
-        /// 获取过滤列表 不走ef缓存
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="orderSelector"></param>
-        /// <returns></returns>
-        public  List<T> GetListFilterNoTracking(Expression<Func<T, bool>> predicate)
+        public T GetFirstOrDefault(Func<IQueryable<T>, IQueryable<T>> where, Func<IQueryable<T>, IQueryable<T>> order, bool notracking)
         {
-            return GetListFilter<object>(null, predicate, null, false, true);
-        }
-        /// <summary>
-        /// 获取分页数据
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="page"></param>
-        /// <param name="limit"></param>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="orderSelector"></param>
-        /// <returns></returns>
-        public  List<T> GetListPage<TKey>(out int count, int page, int limit, Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderSelector, bool asc = false)
-        {
-            var query = getListQuery(includeSelector, predicate).AsNoTracking();
+            var query = getListQuery(where, notracking);
 
-            count = query.Count();
-            if (count <= 0)
+            if (order == null)
             {
-                return new List<T>();
+                query = query.OrderByDescending(a => a.CreateTime);
             }
-            if (orderSelector == null)
-            {
-                return asc ? query.OrderBy(a => a.CreateTime).Skip(limit * (page - 1)).Take(limit).ToList() : query.OrderByDescending(a => a.CreateTime).Skip(limit * (page - 1)).Take(limit).ToList();
-
-            }
-            return asc ? query.OrderBy(orderSelector).Skip(limit * (page - 1)).Take(limit).ToList() : query.OrderByDescending(orderSelector).Skip(limit * (page - 1)).Take(limit).ToList();
-        }
-        /// <summary>
-        /// 高级排序分页
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="app"></param>
-        /// <param name="count"></param>
-        /// <param name="page"></param>
-        /// <param name="limit"></param>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="funcOrder"></param>
-        /// <returns></returns>
-        public  List<T> GetListPageOrder(out int count, int page, int limit, Expression<Func<T, object>> includeSelector, Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> funcOrder)
-        {
-            var query = getListQuery(includeSelector, predicate).AsNoTracking();
-            count = query.Count();
-            if (count <= 0)
-            {
-                return new List<T>();
-            }
-            if (funcOrder == null)
-            {
-                if (limit > 0)
-                    query.OrderByDescending(a => a.CreateTime).Skip(limit * (page - 1)).Take(limit).ToList();
-                else
-                    query.OrderByDescending(a => a.CreateTime).ToList();
-            }
-
-            if (limit > 0)
-                return funcOrder(query).Skip(limit * (page - 1)).Take(limit).ToList();
             else
-                return funcOrder(query).ToList();
+            {
+                query = order(query);
+            }
+            return query.FirstOrDefault();
         }
-
-        /// <summary>
-        /// 获取分页数据
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="page"></param>
-        /// <param name="limit"></param>
-        /// <param name="includeSelector"></param>
-        /// <param name="predicate"></param>
-        /// <param name="orderSelector"></param>
-        /// <returns></returns>
-        public  List<T> GetListPage(out int count, int page, int limit, Expression<Func<T, bool>> predicate)
+        public T Find(params object[] keys)
         {
-            return GetListPage<object>(out count, page, limit, null, predicate, null, false);
+            return Find(true,keys);
         }
-
-        public  T GetByPrimaryKey(params object[] keys) 
-        {
-            return Context.Set<T>().Find(keys);
-        }
-        public T GetByPrimaryKeyNoTracking(params object[] keys)
+        public  T Find(bool notrack,params object[] keys) 
         {
             var obj = Context.Set<T>().Find(keys);
-            Context.Entry(obj).State = EntityState.Detached;
+            if (obj == null)
+            {
+                return obj;
+            }
+            if (notrack)
+            {
+                Context.Entry(obj).State = EntityState.Detached;
+            }
             return obj;
         }
         #endregion

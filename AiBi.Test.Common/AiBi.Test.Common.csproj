@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TypeHelper.cs" />
+    <Compile Include="ExceptionEx.cs" />
     <Compile Include="Crypt.cs" />
     <Compile Include="DicHelper.cs" />
     <Compile Include="ExcelHelper.cs" />

@@ -9,7 +9,8 @@ namespace AiBi.Test.Web.Models
     {
         Succ=1,
         Fail = -1,
-        NoPermissions=-2
+        NoPermissions=-2,
+        NoLogin=-3
     }
     public class Response
     {
@@ -26,7 +27,7 @@ namespace AiBi.Test.Web.Models
                     return;
                 }
                 _code = value;
-                if(msg!= "操作成功" && msg != "操作失败" && msg != "没有权限")
+                if(msg!= "操作成功" && msg != "操作失败" && msg != "没有权限" && msg != "没有登录")
                 {
                     return;
                 }
@@ -38,6 +39,8 @@ namespace AiBi.Test.Web.Models
                             msg = "操作失败";
                         }break; case EnumResStatus.NoPermissions: {
                             msg = "没有权限";
+                        }break;case EnumResStatus.NoLogin: {
+                            msg = "没有登录";
                         }break;
                 }
                 
@@ -46,6 +49,8 @@ namespace AiBi.Test.Web.Models
         public string msg { get; set; } = "操作成功";
 
         public object data { get; set; }
+
+        public int count { get; set; }
     }
 
     public class Response<T>:Response { 

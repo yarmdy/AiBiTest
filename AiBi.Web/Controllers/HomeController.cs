@@ -8,19 +8,22 @@ using AiBi.Test.Bll;
 using AiBi.Test.Common;
 using System.Web.Security;
 using AiBi.Test.Dal.Model;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace AiBi.Test.Web.Controllers
 {
-    public class HomeController : BaseController<SysUser>
+    public class HomeController : BaseController<SysUser, UserReq.Page>
     {
         public SysUserBll SysUserBll { get; set; }
 
-        public override BaseBll<SysUser> Bll => SysUserBll;
+        public override BaseBll<SysUser, UserReq.Page> Bll => SysUserBll;
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
+            
             return View();
         }
 
@@ -33,6 +36,7 @@ namespace AiBi.Test.Web.Controllers
 
         [AllowAnonymous]
         public ActionResult Login(HomeReq.Login req) {
+            FormsAuthentication.SignOut();
             if (Request.IsAjaxRequest())
             {
                 Res.code = Models.EnumResStatus.NoPermissions;

@@ -1,4 +1,5 @@
 ﻿using AiBi.Test.Bll;
+using AiBi.Test.Common;
 using AiBi.Test.Dal.Model;
 using AiBi.Test.Web.Models;
 using Newtonsoft.Json;
@@ -15,9 +16,9 @@ using System.Web.Mvc;
 namespace AiBi.Test.Web.Controllers
 {
     [Authorize]
-    public abstract class BaseController<T> : Controller where T:BaseEntity
+    public abstract class BaseController<T,PageReqT> : Controller where T:BaseEntity where PageReqT : PageReq
     {
-        public abstract BaseBll<T> Bll { get; }
+        public abstract BaseBll<T,PageReqT> Bll { get; }
 
         public Response Res = new Response();
 
@@ -29,11 +30,31 @@ namespace AiBi.Test.Web.Controllers
         {
             return View();
         }
+        public ActionResult GetPageList(PageReqT req)
+        {
+            var list = Bll.GetPageList(req);
+            Res.count = list.Count;
+            Res.data = list;
+            return Json(Res);
+
+        }
         public ActionResult Edit()
         {
             return View();
         }
 
+        protected ActionResult Error(string title,string msg)
+        {
+            ViewBag.ErrorTitle = title??"";
+            ViewBag.ErrorTitle = msg??"";
+            return View("Error");
+        }
+        protected ActionResult Error(string msg)
+        {
+            ViewBag.ErrorTitle = "";
+            ViewBag.ErrorTitle = msg;
+            return View("Error");
+        }
         #region 底层忽略
         /// <summary>
         /// 重写json方法
@@ -50,7 +71,7 @@ namespace AiBi.Test.Web.Controllers
                 Data = data,
                 ContentType = contentType,
                 ContentEncoding = contentEncoding,
-                JsonRequestBehavior = behavior
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
         protected override void OnResultExecuted(ResultExecutedContext filterContext)

@@ -96,6 +96,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseBll.cs" />
     <Compile Include="Req\BaseReq.cs" />
+    <Compile Include="Req\UserReq.cs" />
+    <Compile Include="Req\PlanReq.cs" />
     <Compile Include="Req\HomeReq.cs" />
     <Compile Include="BusTestPlanBll.cs" />
     <Compile Include="SysUserBll.cs" />

@@ -14,6 +14,8 @@ namespace AiBi.Test.Bll
         public int Page { get; set; }
         public int Size { get; set; }
 
+        public string keyword { get; set; }
+
         public Dictionary<string,bool> Sort { get; set; }
 
         public int OutCount { get; set; }

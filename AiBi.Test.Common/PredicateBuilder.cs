@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace AiBi.Test.Common
 {
@@ -31,6 +32,19 @@ namespace AiBi.Test.Common
             var method = typeof(System.Linq.Enumerable).GetMethods().Where(a => a.Name == "Contains" && a.GetParameters().Length == 2).FirstOrDefault().MakeGenericMethod(typeof(TType));
             return Expression.Lambda<Func<T, bool>>(Expression.Call(null, method, Expression.Constant(vals), expr.Body),expr.Parameters);
         }
+        public static Expression<Func<T, bool>> Like<T>(this Expression<Func<T, string>> expr, string val)
+        {
+            var method = typeof(string).GetMethod("Contains");
+            return Expression.Lambda<Func<T, bool>>(Expression.Call(expr.Body, method, Expression.Constant(val)), expr.Parameters);
+        }
+        public static Expression<Func<T,TResult>> DotExpression<T, TResult>(string name)
+        {
+            var paramExpr = Expression.Parameter(typeof(T), "a");
+            return (Expression<Func<T,TResult>>)Expression.Lambda(Expression.MakeMemberAccess(paramExpr, typeof(T).GetMember(name,
+                BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.SetProperty
+                ).FirstOrDefault()), paramExpr);
+        }
+
         private class ExParameterVisitor : ExpressionVisitor
         {
             private readonly ParameterExpression _oldParameter;

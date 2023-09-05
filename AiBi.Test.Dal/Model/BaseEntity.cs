@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -41,5 +42,8 @@ namespace AiBi.Test.Dal.Model
         public virtual SysUser CreateUser { get; set; }
         public virtual SysUser DelUser { get; set; }
         public virtual SysUser ModifyUser { get; set; }
+
+        
     }
+
 }

@@ -5,14 +5,15 @@ using AiBi.Test.Common;
 using AiBi.Test.Dal.Enum;
 using Newtonsoft.Json;
 using System.Web;
+using System.Linq;
 
 namespace AiBi.Test.Bll
 {
-    public partial class SysUserBll:BaseBll<SysUser>
+    public partial class SysUserBll:BaseBll<SysUser, UserReq.Page>
     {
         public SysUser Login(HomeReq.Login req)
         {
-            var user = GetFirstOrDefaultNoTracking(a=>a.Account==req.Account);
+            var user = GetFirstOrDefault(a=>a.Where(b=>b.Account == b.Account));
             if (user == null)
             {
                 req.OutMsg = "账号不存在";
@@ -70,7 +71,7 @@ namespace AiBi.Test.Bll
                             return null;
                         }
                         var userBll = AutofacExt.GetService<SysUserBll>();
-                        _currentUser = userBll.GetByPrimaryKey(cuser.Id);
+                        _currentUser = userBll.Find(cuser.Id);
                         if (_currentUser == null)
                         {
                             return null;
