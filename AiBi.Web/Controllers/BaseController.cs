@@ -35,6 +35,7 @@ namespace AiBi.Test.Web.Controllers
             var list = Bll.GetPageList(req);
             Res.count = list.Count;
             Res.data = list;
+
             return Json(Res);
 
         }
@@ -66,6 +67,7 @@ namespace AiBi.Test.Web.Controllers
         /// <returns></returns>
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
+            Bll.Context.Configuration.LazyLoadingEnabled = false;
             return new JsonNetResult
             {
                 Data = data,
