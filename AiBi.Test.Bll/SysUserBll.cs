@@ -88,5 +88,12 @@ namespace AiBi.Test.Bll
             }
         }
         #endregion
+
+        //#region 重写
+        //public override void ByKeysAfter(Response<SysUser, object, object, object> res, params object[] keys)
+        //{
+            
+        //}
+        //#endregion
     }
 }

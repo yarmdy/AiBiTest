@@ -1,5 +1,6 @@
 ﻿@{
     ActionDescriptor action = ViewBag.ActionInfo;
+    AiBi.Test.Dal.Model.SysUser CurrentUser = ViewBag.CurrentUser;
 }
 <!doctype html>
 <!--
@@ -23,6 +24,9 @@
     <link href="~/dist/css/tabler-payments.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-vendors.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <script>
+        window.CurrentUser = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(CurrentUser));
+    </script>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
           :root {

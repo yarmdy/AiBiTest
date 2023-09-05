@@ -1,7 +1,6 @@
 ﻿using AiBi.Test.Bll;
 using AiBi.Test.Common;
 using AiBi.Test.Dal.Model;
-using AiBi.Test.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -19,6 +18,7 @@ namespace AiBi.Test.Web.Controllers
     public abstract class BaseController<T,PageReqT> : Controller where T:BaseEntity where PageReqT : PageReq
     {
         public abstract BaseBll<T,PageReqT> Bll { get; }
+        public SysUserBll SysUserBll { get; set; }
 
         public Response Res = new Response();
 
@@ -42,6 +42,9 @@ namespace AiBi.Test.Web.Controllers
         public ActionResult Edit()
         {
             return View();
+        }
+        public ActionResult GetByKeys(params object[] keys) {
+            return Json(Bll.GetByKeys(keys));
         }
 
         protected ActionResult Error(string title,string msg)
@@ -111,6 +114,7 @@ namespace AiBi.Test.Web.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.ActionInfo = filterContext.ActionDescriptor;
+            ViewBag.CurrentUser = SysUserBll.GetCookie();
         }
         public class AutoDateTimeFormat : DateTimeConverterBase
         {

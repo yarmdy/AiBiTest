@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AiBi.Test.Web.Models
+namespace AiBi.Test.Bll
 {
     public enum EnumResStatus
     {

@@ -218,4 +218,25 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "答完")]
         Finish = 2,
     }
+    /// <summary>
+    /// 筛选isdel的模式
+    /// </summary>
+    public enum EnumDeleteFilterMode
+    {
+        /// <summary>
+        /// 正常
+        /// </summary>
+        [Display(Name ="正常的")]
+        Normal=1,
+        /// <summary>
+        /// 删除
+        /// </summary>
+        [Display(Name = "删除的")]
+        Deleted =2,
+        /// <summary>
+        /// 全部
+        /// </summary>
+        [Display(Name = "全部的")]
+        All =3
+    }
 }

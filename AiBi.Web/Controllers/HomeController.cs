@@ -15,8 +15,6 @@ namespace AiBi.Test.Web.Controllers
 {
     public class HomeController : BaseController<SysUser, UserReq.Page>
     {
-        public SysUserBll SysUserBll { get; set; }
-
         public override BaseBll<SysUser, UserReq.Page> Bll => SysUserBll;
 
         public ActionResult About()
@@ -39,7 +37,7 @@ namespace AiBi.Test.Web.Controllers
             FormsAuthentication.SignOut();
             if (Request.IsAjaxRequest())
             {
-                Res.code = Models.EnumResStatus.NoPermissions;
+                Res.code = EnumResStatus.NoPermissions;
                 return Json(Res,JsonRequestBehavior.AllowGet);
             }
 

@@ -2,8 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 using AiBi.Test.Web;
-using AiBi.Test.Web.Models;
 using AiBi.Test.Common;
+using AiBi.Test.Bll;
 
 namespace AiBi.Test.Web
 {
