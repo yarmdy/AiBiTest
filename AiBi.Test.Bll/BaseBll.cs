@@ -108,9 +108,11 @@ namespace AiBi.Test.Bll
             if (res.data == null)
             {
                 res.code = EnumResStatus.Fail;
+                res.msg = "您查询的数据不存在";
                 return res;
             }
             ByKeysAfter(res, keys);
+           
             return res;
         }
         #endregion
