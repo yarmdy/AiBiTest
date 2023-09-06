@@ -1,6 +1,9 @@
 ﻿@{
     ViewBag.Title = "测试计划";
 }
+<script>
+    var EnumPlanStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(EnumHelper.GetSelectList(typeof(AiBi.Test.Dal.Enum.EnumPlanStatus))));
+</script>
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-fluid">
@@ -19,7 +22,7 @@
                 <div class="d-flex">
                     <div class="me-3">
                         <div class="input-icon">
-                            <input type="text" value="" class="form-control" placeholder="搜索…">
+                            <input type="text" value="" class="form-control" placeholder="搜索…" id="keyword">
                             <span class="input-icon-addon">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/search -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
@@ -37,23 +40,33 @@
     </div>
 </div>
 
-<div class="page-body">
-    <div class="container-fluid">
+<div class="page-body" style="flex:1; display:flex;flex-direction:column">
+    <div class="container-fluid" style="flex:1">
+        <div class="card mb-3" style="display:none">
+            <div class="card-body d-flex pager" parent="div.card">
+                <p class="m-0 text-secondary"></p>
+                <ul class="pagination ms-auto">
+                </ul>
+            </div>
+        </div>
+
         <div class="row row-cards">
             <div class="space-y" id="list">
-                
+
 
             </div>
         </div>
 
-        <div class="d-flex mt-5" id="pager">
-            <p class="m-0 text-secondary"></p>
-            <ul class="pagination ms-auto">
-            </ul>
+        <div class="card mt-3" style="display:none">
+            <div class="card-body d-flex pager" parent="div.card">
+                <p class="m-0 text-secondary"></p>
+                <ul class="pagination ms-auto">
+                </ul>
+            </div>
         </div>
+        
     </div>
 </div>
-
 
 <template id="listtemplete">
     <div class="card">
@@ -67,44 +80,46 @@
                 <div class="card-body ps-0">
                     <div class="row">
                         <div class="col">
-                            <h3 class="mb-0"><a href="#">Frontend Web Engineer</a></h3>
+                            <h3 class="mb-0"><a href="Detail/{{Id}}" planid="{{Id}}">{{Name}}</a></h3>
                         </div>
-                        <div class="col-auto fs-3 text-green">$140,000 - $180,000</div>
+                        <div class="col-auto fs-3 text-green">{{=(new Date(obj.StartTime)).format("yyyy/MM/dd HH:mm")}} - {{=(new Date(obj.EndTime)).format("yyyy/MM/dd HH:mm")}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
                                 <div class="list-inline-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/building-community -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" /><path d="M13 7l0 .01" /><path d="M17 7l0 .01" /><path d="M17 11l0 .01" /><path d="M17 15l0 .01" /></svg>
-                                    Center Pixel, Inc
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path><path d="M4 16v2a2 2 0 0 0 2 2h2"></path><path d="M16 4h2a2 2 0 0 1 2 2v2"></path><path d="M16 20h2a2 2 0 0 0 2 -2v-2"></path><path d="M12 12.5l4 -2.5"></path><path d="M8 10l4 2.5v4.5l4 -2.5v-4.5l-4 -2.5z"></path><path d="M8 10v4.5l4 2.5"></path></svg>
+                                    {{Templete.Title}}
                                 </div>
                                 <div class="list-inline-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/license -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" /><path d="M9 7l4 0" /><path d="M9 11l4 0" /></svg>
-                                    Full-time or Contract
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path><path d="M20 21l2 -2l-2 -2"></path><path d="M17 17l-2 2l2 2"></path></svg>
+                                    学员数：{{UserNum}}人
                                 </div>
                                 <div class="list-inline-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/map-pin -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>
-                                    Remote / Palo Alto, CA
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M12 12h3.5"></path><path d="M12 7v5"></path></svg>
+                                    时长：{{Templete.Duration}}分钟
+                                </div>
+                                <div class="list-inline-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M2 12h2l2 -5l3 10l3 -10l3 10l3 -10l1.5 5h2.5"></path></svg>
+                                    状态：{{=EnumPlanStatus.find(function(a){return a.Value==obj.Status}).Text}}
                                 </div>
                             </div>
                             <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
                                 <div class="list-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/building-community -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" /><path d="M13 7l0 .01" /><path d="M17 7l0 .01" /><path d="M17 11l0 .01" /><path d="M17 15l0 .01" /></svg>
-                                    Center Pixel, Inc
+                                    {{Templete.Title}}
                                 </div>
                                 <div class="list-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/license -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" /><path d="M9 7l4 0" /><path d="M9 11l4 0" /></svg>
-                                    Full-time or Contract
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path><path d="M20 21l2 -2l-2 -2"></path><path d="M17 17l-2 2l2 2"></path></svg>
+                                    学员数：{{UserNum}}人
                                 </div>
                                 <div class="list-item">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/map-pin -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>
-                                    Remote / Palo Alto, CA
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M12 12h3.5"></path><path d="M12 7v5"></path></svg>
+                                    时长：{{Templete.Duration}}分钟
+                                </div>
+                                <div class="list-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M2 12h2l2 -5l3 10l3 -10l3 10l3 -10l1.5 5h2.5"></path></svg>
+                                    状态：{{=EnumPlanStatus.find(function(a){return a.Value==obj.Status}).Text}}
                                 </div>
                             </div>
                         </div>
@@ -121,4 +136,9 @@
             </div>
         </div>
     </div>
+</template>
+<template id="emptytemplete">
+@{
+    Html.RenderPartial("Empty");
+}
 </template>

@@ -139,6 +139,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmptyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1663,6 +1664,7 @@
     <Content Include="static\tracks\fb4998c955d8eba049ffbfc7ab8523a4a4a1f7e9.jpg" />
     <Content Include="static\tracks\fe4ee21d30450829e5b172e806b3c1e14ca1e5f3.jpg" />
     <Content Include="static\tracks\ff2381a011d29cefb3804436ed29f60b4faa63d6.jpg" />
+    <Content Include="Styles\aibibase.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1679,10 +1681,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\TestPlan\List.cshtml" />
+    <Content Include="Views\Shared\Empty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

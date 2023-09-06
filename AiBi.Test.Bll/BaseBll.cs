@@ -76,23 +76,24 @@ namespace AiBi.Test.Bll
         /// <param name="req"></param>
         /// <param name="list"></param>
         /// <returns></returns>
-        public virtual List<T> PageAfter(PageReqT req, List<T> list)
+        public virtual void PageAfter(PageReqT req, Response<List<T>, object, object, object> res)
         {
-            return list;
+            
         }
         /// <summary>
         /// 获取分页数据
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public List<T> GetPageList(PageReqT req)
+        public Response<List<T>, object, object, object> GetPageList(PageReqT req)
         {
-
+            var res = new Response<List<T>, object, object, object>();
             var list = GetListPage(out int count, req.Page, req.Size, a => PageWhere(req, a), a => PageOrder(req, a));
 
-            req.OutCount = count;
-            list = PageAfter(req, list);
-            return list;
+            res.count = count;
+            res.data = list;
+            PageAfter(req, res);
+            return res;
         }
         #endregion
 
@@ -250,6 +251,68 @@ namespace AiBi.Test.Bll
                 return res;
             }).ToArray();
             return keyTypes;
+        }
+
+        /// <summary>
+        /// include一下
+        /// </summary>
+        /// <returns></returns>
+        protected static IQueryable<T> getIncludeQuery<TKey>(IQueryable<T> query,Expression<Func<T, TKey>> includeSelector)
+        {
+            if (includeSelector == null)
+            {
+                return query;
+            }
+            if (includeSelector.Body.NodeType != ExpressionType.New && includeSelector.Body.NodeType != ExpressionType.MemberAccess)
+            {
+                return query;
+            }
+            if (includeSelector.Body.NodeType == ExpressionType.MemberAccess)
+            {
+                var path = getMembersPath(includeSelector.Body);
+                if (string.IsNullOrEmpty(path)) return query;
+                return query.Include(path);
+            }
+            foreach (var arg in ((NewExpression)includeSelector.Body).Arguments)
+            {
+                var path = getMembersPath(arg);
+                if (string.IsNullOrEmpty(path)) continue;
+                query = query.Include(path);
+            }
+            return query;
+        }
+        /// <summary>
+        /// 获取include路径
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        private static string getMembersPath(Expression expr)
+        {
+            if (!(expr is MemberExpression)) return null;
+            var exprList = new List<Expression> { expr };
+            var path = "";
+            while (exprList.Count > 0)
+            {
+                var last = exprList[exprList.Count - 1];
+                exprList.RemoveAt(exprList.Count - 1);
+                if (last is MemberExpression)
+                {
+                    var memExpr = (last as MemberExpression);
+                    path = "." + memExpr.Member.Name + path;
+                    exprList.Add(memExpr.Expression);
+                }
+                else
+                {
+                    var children = last.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty).Where(a => a.PropertyType.IsAssignableFrom(typeof(Expression))).OrderBy(a => a.PropertyType.IsAssignableFrom(typeof(MemberExpression)) ? 1 : 0).Select(a => (Expression)a.GetValue(last)).ToList();
+                    exprList.AddRange(children);
+                }
+
+            }
+            if (path.StartsWith("."))
+            {
+                path = path.Substring(1);
+            }
+            return path;
         }
         #endregion
     }

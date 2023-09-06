@@ -6,8 +6,7 @@ namespace AiBi.Test.Bll
 {
     public abstract class BaseReq 
     {
-        public string OutMsg { get; set; }
-        public string OutCode { get; set; }
+        
     }
     public abstract class PageReq:BaseReq
     {
@@ -17,7 +16,5 @@ namespace AiBi.Test.Bll
         public string keyword { get; set; }
 
         public Dictionary<string,bool> Sort { get; set; }
-
-        public int OutCount { get; set; }
     }
 }

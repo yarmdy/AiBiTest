@@ -10,6 +10,7 @@ using System.Web.Security;
 using AiBi.Test.Dal.Model;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Caching;
 
 namespace AiBi.Test.Web.Controllers
 {
@@ -37,8 +38,9 @@ namespace AiBi.Test.Web.Controllers
             FormsAuthentication.SignOut();
             if (Request.IsAjaxRequest())
             {
-                Res.code = EnumResStatus.NoPermissions;
-                return Json(Res,JsonRequestBehavior.AllowGet);
+                var res = new Response();
+                res.code = EnumResStatus.NoPermissions;
+                return Json(res);
             }
 
             var err = "";
@@ -49,13 +51,13 @@ namespace AiBi.Test.Web.Controllers
                     err = "请输入密码";
                     goto noredirect;
                 }
-                var user = SysUserBll.Login(req);
-                if (user == null)
+                var res = SysUserBll.Login(req);
+                if (res.code <0)
                 {
-                    err = req.OutMsg;
+                    err = res.msg;
                     goto noredirect;
                 }
-                var cookie = $"{user.Id}|{user.Account}|{user.Name}";
+                var cookie = $"{res.data.Id}|{res.data.Account}|{res.data.Name}";
                 FormsAuthentication.SetAuthCookie(cookie,false);
                 return Redirect(string.IsNullOrWhiteSpace(req.ReturnUrl) ? "/Home/Index":req.ReturnUrl);
 

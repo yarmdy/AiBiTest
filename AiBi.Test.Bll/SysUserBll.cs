@@ -11,35 +11,37 @@ namespace AiBi.Test.Bll
 {
     public partial class SysUserBll:BaseBll<SysUser, UserReq.Page>
     {
-        public SysUser Login(HomeReq.Login req)
+        public Response<SysUser> Login(HomeReq.Login req)
         {
+            var res = new Response<SysUser>();
             var user = GetFirstOrDefault(a=>a.Where(b=>b.Account == b.Account));
             if (user == null)
             {
-                req.OutMsg = "账号不存在";
-                req.OutCode = "";
-                return null;
+                res.code =EnumResStatus.Fail;
+                res.msg = "账号不存在";
+                return res;
             }
             
             if (Crypt.AesDecrypt(user.Password) != req.Password)
             {
-                req.OutMsg = "账号密码错误";
-                req.OutCode = "";
-                return null;
+                res.code = EnumResStatus.Fail;
+                res.msg = "账号密码错误";
+                return res;
             }
             if (user.Status == (int)EnumEnableState.Disabled)
             {
-                req.OutMsg = "账号已禁用";
-                req.OutCode = "";
-                return null;
+                res.code = EnumResStatus.Fail;
+                res.msg = "账号已禁用";
+                return res;
             }
             if (user.ExpireTime >=DateTime.Now)
             {
-                req.OutMsg = "账号已过期";
-                req.OutCode = "";
-                return null;
+                res.code = EnumResStatus.Fail;
+                res.msg = "账号已过期";
+                return res;
             }
-            return user;
+            res.msg = "登陆成功";
+            return res;
         }
 
         #region 当前状态

@@ -1,4 +1,5 @@
 ﻿const obj = {
+    //#region 基础功能
     ajax: function (type, url, data, success, dataType) {
         if (typeof data === "function") {
             dataType = dataType || success;
@@ -87,11 +88,11 @@
         return $.ajax(ajaxObj);
     },
     //带layer load的post
-    post: function (url, data, success, dataType) {
+    opost: function (url, data, success, dataType) {
         return obj.ajax("POST", url, data, success, dataType);
     },
     //带layer load的get
-    get: function (url, data, success, dataType) {
+    oget: function (url, data, success, dataType) {
         return obj.ajax("GET", url, data, success, dataType);
     },
     //带layer load的 浏览器本地缓存对象，方便的方法
@@ -206,10 +207,41 @@
             $(a).val(data[name]);
         });
         form.render();
+    },
+    //#endregion
+    request: function (type, url, data) {
+        var def = $.Deferred();
+        obj.ajax(type, url, data).then(function (json) {
+            if (json.code >= 0) {
+
+                def.resolve(json);
+                return;
+            }
+            layer.error(json.msg);
+            def.reject(json);
+        }).fail(function (a, b, c) {
+            def.reject({ code: -1, msg: (a.status + " (" + c + ")", { icon: 2 }) });
+        });
+        return def.promise();
+    },
+    post: function (url, data) {
+        return this.request("POST", url, data);
+    },
+    get: function (url, data) {
+        return this.request("GET", url, data);
+    },
+    common: {
+        getPageList: {
+            url: "/GetPageList",
+            method:"GET",
+            req: function (data) {
+                return obj.get(BaseUrl + this.url, data);
+            }
+        }
     }
 }
 
-//仿 linq select方法
+//#region 扩展
 Array.prototype.select = function (func) {
     if (typeof func !== "function") {
         return this;
@@ -322,6 +354,10 @@ $.fn.hval = function (val) {
             this.filter("[value=" + val + "]").prop("checked");
             return this;
         }
+        if (tagName == "IMG") {
+            this.attr("src", val);
+            return this;
+        }
         this.val(val);
         return this;
     } else {
@@ -334,18 +370,10 @@ $.fn.hval = function (val) {
         if (isSelect) {
             return this.filter(":checked").val();
         }
+        if (tagName == "IMG") {
+            return this.attr("src");
+        }
         return this.val();
-    }
-}
-//方便单页调试
-if (!window.addTab) {
-    window.addTab = function (a) {
-        var newWin = window.open("about:blank", "_bland");
-        setTimeout(function () {
-            var url = $(a).attr("data-url");
-            newWin.location.href = url;
-        }, 0)
-
     }
 }
 //弹窗回调
@@ -445,71 +473,130 @@ layer.success = function (msg, opt, callback) {
     $.extend(options, opt);
     layer.msg(msg, options, callback);
 }
+$.fn.hideEx = function () {
+    let display = this.css("display");
+    this.attr("display", display);
+    var styles = (this.attr("style") || "").split(';').filter(function (a) { return a; });
+    styles.push("display:none!important");
 
-$.fn.setPager = function (page, size, count, callback) {
-    let pp = $(this).find(">p");
-    let ul = $(this).find(">ul");
-    ul.find("a.page-link").off("click.pager");
-    ul.html("");
-    const maxcount = 10;
-    const isFirst = page == 1;
-    const pageCount = parseInt(count / size) + (count % size > 0 ? 1 : 0);
-    const isLast = page == pageCount;
-    const firstPage = `<li class="page-item ${(isFirst ?"disabled":"")}">
-                          <a class="page-link" href="#" ${(isFirst ?'tabindex="-1" aria-disabled="true"':'')}>
+    this.attr("style", styles.join(";"));
+    return this;
+}
+$.fn.setPager = function (page, size, count, callback, parent) {
+
+    this.each(function () {
+        let parentele;
+        let curparent = parent || $(this).attr("parent");
+        if (curparent) {
+            if (typeof curparent == "function") {
+                parentele = $(curparent(this));
+            } else if (curparent == true) {
+                parentele = $(this).parent();
+            } else if (curparent == false) {
+                parentele = $(this);
+            } else if (typeof curparent == "string") {
+                parentele = $(this).closest(curparent);
+            } else {
+                parentele = $(this);
+            }
+        }
+        if (!parentele || parentele.length <= 0) {
+            parentele = $(this);
+        }
+        let pp = $(this).find(">p");
+        let ul = $(this).find(">ul");
+        ul.find("a.page-link").off("click.pager");
+        ul.html("");
+        if (count <= 0) {
+            parentele.hideEx();
+            return true;
+        }
+        parentele.show();
+        const maxcount = 10;
+        const isFirst = page == 1;
+        const pageCount = parseInt(count / size) + (count % size > 0 ? 1 : 0);
+        const isLast = page == pageCount;
+        const firstPage = `<li class="page-item ${(isFirst ? "disabled" : "")}">
+                          <a class="page-link" href="#" ${(isFirst ? 'tabindex="-1" aria-disabled="true"' : '')}>
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
                             首页
                           </a>
                         </li>`;
-    var first = $(firstPage);
-    ul.append(first);
-    if (!isFirst) {
-        first.on("click.pager", function (e) {
-            e.preventDefault();
-            callback && callback(1);
-        })
-    }
-    
-    var showCount = Math.min(maxcount, pageCount);
-    var minPage = Math.max(1, page - (parseInt(maxcount / 2)));
-    var cha = Math.max(showCount + minPage - 1 - pageCount, 0);
-    minPage = minPage - cha;
+        var first = $(firstPage);
+        ul.append(first);
+        if (!isFirst) {
+            first.on("click.pager", function (e) {
+                e.preventDefault();
+                callback && callback(1);
+            })
+        }
 
-    if (minPage > 1) {
-        ul.append('<li class="page-item disabled">...</li>');
-    }
+        var showCount = Math.min(maxcount, pageCount);
+        var minPage = Math.max(1, page - (parseInt(maxcount / 2)));
+        var cha = Math.max(showCount + minPage - 1 - pageCount, 0);
+        minPage = minPage - cha;
 
-    for (let i = minPage; i < minPage+showCount; i++) {
-        const pageHtml = `<li class="page-item ${(i == page ? 'active' : '')}"><a class="page-link" href="#">${i}</a></li>`;
-        var pageele = $(pageHtml);
-        ul.append(pageele);
-        pageele.on("click.pager", function (e) {
-            e.preventDefault();
-            callback && callback(i);
-        })
-    }
+        if (minPage > 1) {
+            ul.append('<li class="page-item disabled">...</li>');
+        }
 
-    if (minPage + showCount - 1 < pageCount) {
-        ul.append('<li class="page-item disabled">...</li>');
-    }
+        for (let i = minPage; i < minPage + showCount; i++) {
+            const pageHtml = `<li class="page-item ${(i == page ? 'active' : '')}"><a class="page-link" href="#">${i}</a></li>`;
+            var pageele = $(pageHtml);
+            ul.append(pageele);
+            pageele.on("click.pager", function (e) {
+                e.preventDefault();
+                callback && callback(i);
+            })
+        }
 
-    const lastPage = `<li class="page-item ${(isLast ? "disabled" : "")}">
+        if (minPage + showCount - 1 < pageCount) {
+            ul.append('<li class="page-item disabled">...</li>');
+        }
+
+        const lastPage = `<li class="page-item ${(isLast ? "disabled" : "")}">
                           <a class="page-link" href="#" ${(isLast ? 'tabindex="-1" aria-disabled="true"' : '')}>
                             末页
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
                           </a>
                         </li>`;
-    var last = $(lastPage);
-    ul.append(last);
-    if (!isLast) {
-        last.on("click.pager", function (e) {
-            e.preventDefault();
-            callback && callback(pageCount);
-        })
-    }
+        var last = $(lastPage);
+        ul.append(last);
+        if (!isLast) {
+            last.on("click.pager", function (e) {
+                e.preventDefault();
+                callback && callback(pageCount);
+            })
+        }
 
-    pp.html('当前第 <span>' + ((page - 1) * size + 1) + '</span> 到 <span>' + Math.min((page) * size, count) + '</span> 条，共 <span>' + count + '</span> 条');
-    return $(this);
+        pp.html('当前第 <span>' + ((page - 1) * size + 1) + '</span> 到 <span>' + Math.min((page) * size, count) + '</span> 条，共 <span>' + count + '</span> 条');
+    });
+
+    return this;
 }
+
+String.prototype.combineObject = function (obj) {
+    function getobjVal(obj, path) {
+        try {
+            if (path.indexOf('=') == 0) {
+                return eval('(' + (path.substring(1)) + ')');
+            }
+            if (path.indexOf('[') == 0) {
+                return eval('(obj' + (path) + ')');
+            }
+            return eval('(obj.' + (path) + ')');
+        } catch {
+            return undefined;
+        }
+    }
+    return this.replaceEach(/\{\{(.+?)\}\}/, function (exec) {
+        var res = getobjVal(obj, exec[1]);
+        return res == null ? "" : res;
+    });
+}
+//#endregion
+
+
+
 
 window.$$ = obj;

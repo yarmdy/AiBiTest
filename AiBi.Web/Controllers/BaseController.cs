@@ -20,30 +20,28 @@ namespace AiBi.Test.Web.Controllers
         public abstract BaseBll<T,PageReqT> Bll { get; }
         public SysUserBll SysUserBll { get; set; }
 
-        public Response Res = new Response();
-
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View();
         }
-        public ActionResult List()
+        public virtual ActionResult List()
         {
             return View();
         }
-        public ActionResult GetPageList(PageReqT req)
+        public virtual ActionResult GetPageList(PageReqT req)
         {
-            var list = Bll.GetPageList(req);
-            Res.count = list.Count;
-            Res.data = list;
-
-            return Json(Res);
-
+            var res = Bll.GetPageList(req);
+            return Json(res);
         }
-        public ActionResult Edit()
+        public virtual ActionResult Edit()
         {
             return View();
         }
-        public ActionResult GetByKeys(params object[] keys) {
+        public virtual ActionResult Detail()
+        {
+            return View();
+        }
+        public virtual ActionResult GetByKeys(params object[] keys) {
             return Json(Bll.GetByKeys(keys));
         }
 

@@ -19,14 +19,16 @@
     <title>@ViewBag.Title - @MvcApplication.Title</title>
     <!-- CSS files -->
     @RenderSection("stylesbefore", false)
+    <link href="~/layui/css/layui.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-flags.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-payments.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-vendors.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <link href="~/Styles/aibibase.css?@MvcApplication.Version" rel="stylesheet" />
     <script>
         window.CurrentUser = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(CurrentUser));
-        window.BaseUrl = '/@action.ControllerDescriptor.ControllerName)';
+        window.BaseUrl = '/@action.ControllerDescriptor.ControllerName';
     </script>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
@@ -46,6 +48,7 @@
             @RenderBody()
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-fluid">
+                    @RenderSection("infooter",false)
                     <div class="row text-center align-items-center flex-row-reverse">
                         <div class="col-lg-auto ms-lg-auto">
                             

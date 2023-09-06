@@ -17,20 +17,50 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>@MvcApplication.Title</title>
     <!-- CSS files -->
+    <link href="~/layui/css/layui.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-flags.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-payments.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler-vendors.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
+    <style>
+        .navbar {
+            --tblr-navbar-padding-y: 1px;
+        }
+        .tab-content > .tab-pane {
+            display: none;
+        }
+        .tab-content > .active {
+            display: flex;
+        }
+        .card-header-tabs .nav-link.active {
+            border-bottom-color: white;
+        }
+        .tab-btn-close {
+            display: block;
+            width: 1rem;
+            height: 1rem;
+            margin-left: 1rem;
+            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23182433'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
+            border: 0;
+            background-size: 0.7rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.3;
+        }
+            .tab-btn-close:hover {
+                opacity: 1;
+            }
+    </style>
     @*<style>
-      @@import url('https://rsms.me/inter/inter.css');
-      :root {
-      	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-      }
-      body {
-      	font-feature-settings: "cv03", "cv04", "cv11";
-      }
-    </style>*@
+          @@import url('https://rsms.me/inter/inter.css');
+          :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+          }
+          body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+          }
+        </style>*@
 </head>
 <body>
     <script src="~/dist/js/demo-theme.min.js?@MvcApplication.Version"></script>
@@ -254,7 +284,7 @@
         </aside>
         <!-- Navbar -->
         <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
-            <div class="container-xl">
+            <div class="container-xl" style="align-items:end">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -374,22 +404,30 @@
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <div>
-                        <form action="./" method="get" autocomplete="off" novalidate>
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                                </span>
-                                <input type="text" value="" class="form-control" placeholder="Search…" aria-label="Search in website">
-                            </div>
-                        </form>
-                    </div>
+                    <ul class="nav nav-tabs card-header-tabs " data-bs-toggle="tabs" role="tablist">
+                        <li class="nav-item" role="presentation" id="Navs-Home" tabname="首页">
+                            <a href="#Tabs-Home" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l-2 0l9 -9l9 9l-2 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
+                                首页
+                            </a>
+                        </li>
+                        @*<li class="nav-item" role="presentation">
+                                <a href="#Tabs-1" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l-2 0l9 -9l9 9l-2 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
+                                    分页
+                                </a>
+                            </li>*@
+                    </ul>
                 </div>
             </div>
         </header>
-        <div class="page-wrapper">
-            <iframe src="/home/Main" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
+        <div class="page-wrapper tab-content">
+            <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow:1" tabname="首页">
+                <iframe src="/home/Main" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
+            </div>
+            @*<div class="tab-pane" id="Tabs-1" role="tabpanel" style="flex-grow:1">
+                    <iframe src="/testplan/list" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
+                </div>*@
         </div>
     </div>
     <!-- Tabler Core -->
@@ -398,5 +436,101 @@
     <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
+    <script>
+        var tabsid = 0;
+        function addTab(name, url) {
+            var obj = findTab(name);
+            if (!obj) {
+                obj = newTab(name, url);
+            } else {
+                obj.page.find("iframe").attr("src", url);
+            }
+            hideAllTab();
+            activeTab(obj);
+        }
+        function hideAllTab() {
+            $("#Navs-Home").parent().find(">li>a.nav-link").removeClass("active").attr("aria-selected", "false");
+            $("#Tabs-Home").parent().find(">div.tab-pane").removeClass("active").removeClass("show");
+        }
+        function newTab(name, url) {
+            var tab = $($("#tabtemplete").html()).attr("Id", "Navs-" + (++tabsid)).attr("tabname", name);
+            tab.find(">a").attr("href", "#Tabs-" + tabsid).html(" " + name + '<button class="tab-btn-close"></button>');
+            var page = $($("#pagetemplete").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
+            page.find(">iframe").attr("src", url);
+
+            tab.find("button").on("click", closeTab);
+            tab.appendTo($("#Navs-Home").parent());
+            page.appendTo($("#Tabs-Home").parent());
+            return { tab: tab, page: page };
+        }
+        function findTab(name) {
+            var tab, page;
+            if (typeof name == "string") {
+                var tab = $("#Navs-Home").parent().find("[tabname=\"" + name + "\"]");
+                var page = $("#Tabs-Home").parent().find("[tabname=\"" + name + "\"]");
+            } else {
+                var tab = $("#Navs-Home").parent().find("[tabname]").eq(name);
+                var page = $("#Tabs-Home").parent().find("[tabname]").eq(name);
+            }
+            
+
+            if (tab.length <= 0) {
+                return null;
+            }
+            return { tab: tab, page: page };
+        }
+        function activeTab(obj) {
+            var tab = obj.tab;
+            var page = obj.page;
+            tab.find(">a").addClass("active").attr("aria-selected", "true");
+            page.addClass("active").addClass("show");
+            //window.ActiveTab = obj;
+        }
+        function removeTab(obj) {
+            var tab = obj.tab;
+            var page = obj.page;
+            var tabindex = tab.index();
+            tab.remove();
+            page.remove();
+            //if (ActiveTab.tab.attr("tabname") != tab.attr("tabname")) {
+            //    activeTab(ActiveTab);
+            //    return;
+            //}
+            var obj = findTab(tabindex);
+            if (obj) {
+                activeTab(obj);
+                return;
+            }
+            obj = findTab(tabindex - 1);
+            if (obj) {
+                activeTab(obj);
+                return;
+            }
+            obj = findTab(0);
+            if (obj) {
+                activeTab(obj);
+                return;
+            }
+        }
+        function getActiveTab() {
+            var name = $("#Navs-Home").parent().find(">a.active").attr("tabname");
+            return findTab(name);
+        }
+        function closeTab(e) {
+            removeTab(findTab($(this).closest("[tabname]").attr("tabname")));
+        }
+    </script>
+    <template id="tabtemplete">
+        <li class="nav-item" role="presentation">
+            <a href="" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">
+
+            </a>
+        </li>
+    </template>
+    <template id="pagetemplete">
+        <div class="tab-pane" role="tabpanel" style="flex-grow:1">
+            <iframe style="flex-grow: 1;"></iframe>
+        </div>
+    </template>
 </body>
 </html>
