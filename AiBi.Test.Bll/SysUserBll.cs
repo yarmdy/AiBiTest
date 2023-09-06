@@ -40,6 +40,7 @@ namespace AiBi.Test.Bll
                 res.msg = "账号已过期";
                 return res;
             }
+            res.data = user;
             res.msg = "登陆成功";
             return res;
         }

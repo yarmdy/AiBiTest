@@ -51,6 +51,14 @@
             .tab-btn-close:hover {
                 opacity: 1;
             }
+        li[tabname]{
+            display:inline-block;
+
+        }
+        #navbar-menu > ul {
+            display: block;
+            text-wrap:nowrap;
+        }
     </style>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
@@ -284,11 +292,11 @@
         </aside>
         <!-- Navbar -->
         <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
-            <div class="container-xl" style="align-items:end">
+            <div class="container-fluid" style="align-items:stretch">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-nav flex-row order-md-last">
+                <div class="navbar-nav flex-row order-md-last" style="align-items:center">
                     <div class="d-none d-md-flex">
                         <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip"
                            data-bs-placement="bottom">
@@ -403,10 +411,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav nav-tabs card-header-tabs " data-bs-toggle="tabs" role="tablist">
+                <div class="collapse navbar-collapse" id="navbar-menu" style="align-items:end;overflow:hidden">
+                    <ul class="nav nav-tabs card-header-tabs " data-bs-toggle="tabs" role="tablist" id="scrollul" style="position:relative">
                         <li class="nav-item" role="presentation" id="Navs-Home" tabname="首页">
-                            <a href="#Tabs-Home" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">
+                            <a href="#Tabs-Home" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab" style="display:block">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l-2 0l9 -9l9 9l-2 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
                                 首页
                             </a>
@@ -445,7 +453,7 @@
             } else {
                 obj.page.find("iframe").attr("src", url);
             }
-            hideAllTab();
+            
             activeTab(obj);
         }
         function hideAllTab() {
@@ -480,10 +488,13 @@
             return { tab: tab, page: page };
         }
         function activeTab(obj) {
+            hideAllTab();
             var tab = obj.tab;
             var page = obj.page;
             tab.find(">a").addClass("active").attr("aria-selected", "true");
             page.addClass("active").addClass("show");
+            console.log(tab.position().left);
+            $("#scrollul").parent().animate({ "scrollLeft": tab.position().left},300);
             //window.ActiveTab = obj;
         }
         function removeTab(obj) {
@@ -519,6 +530,30 @@
         function closeTab(e) {
             removeTab(findTab($(this).closest("[tabname]").attr("tabname")));
         }
+        $(function () {
+            $("#scrollul").on("mousedown", function (e) {
+                this.mousedown = {
+                    x: e.clientX + $(document).scrollLeft(),
+                    scroll: $(this).parent().scrollLeft()
+                };
+                $(this).css("pointer-events", "none");
+                $("iframe").css("pointer-events", "none");
+            });
+            $(document).on("mousemove.scrollul", function (e) {
+                if (!$("#scrollul")[0].mousedown) {
+                    return;
+                }
+                $("#scrollul")[0].mousedown.moving = true;
+                var offsetX = e.clientX + $(document).scrollLeft() - $("#scrollul")[0].mousedown.x;
+                var scrollX = $("#scrollul")[0].mousedown.scroll;
+                $("#scrollul").parent().scrollLeft(scrollX - offsetX);
+                //console.log(offsetX);
+            }).on("mouseup.scrollul", function () {
+                
+                delete $("#scrollul")[0].mousedown;
+                $("#scrollul,iframe").css("pointer-events", "auto");
+            });
+        });
     </script>
     <template id="tabtemplete">
         <li class="nav-item" role="presentation">
