@@ -238,6 +238,13 @@
                 return obj.get(BaseUrl + this.url, data);
             }
         }
+    },
+    closeThis: function () {
+        var name = top.$(window.frameElement).closest("div[tabname]").attr("tabname");
+        if (!name) {
+            return;
+        }
+        top.removeTab(top.findTab(name));
     }
 }
 
