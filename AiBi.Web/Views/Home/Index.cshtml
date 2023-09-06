@@ -209,7 +209,7 @@
                             <a href="#" class="dropdown-item">Feedback</a>
                             <div class="dropdown-divider"></div>
                             <a href="./settings.html" class="dropdown-item">Settings</a>
-                            <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                            <a href="~/Home/Login" class="dropdown-item">退出</a>
                         </div>
                     </div>
                 </div>
@@ -407,11 +407,11 @@
                             <a href="#" class="dropdown-item">Feedback</a>
                             <div class="dropdown-divider"></div>
                             <a href="./settings.html" class="dropdown-item">Settings</a>
-                            <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                            <a href="~/Home/Login" class="dropdown-item">退出</a>
                         </div>
                     </div>
                 </div>
-                <div class="collapse navbar-collapse" id="navbar-menu" style="align-items:end;overflow:hidden">
+                <div class="collapse navbar-collapse" id="navbar-menu" style="align-items:end;overflow:hidden;width:0">
                     <ul class="nav nav-tabs card-header-tabs " data-bs-toggle="tabs" role="tablist" id="scrollul" style="position:relative">
                         <li class="nav-item" role="presentation" id="Navs-Home" tabname="首页">
                             <a href="#Tabs-Home" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab" style="display:block">
@@ -493,7 +493,6 @@
             var page = obj.page;
             tab.find(">a").addClass("active").attr("aria-selected", "true");
             page.addClass("active").addClass("show");
-            console.log(tab.position().left);
             $("#scrollul").parent().animate({ "scrollLeft": tab.position().left},300);
             //window.ActiveTab = obj;
         }
@@ -532,9 +531,13 @@
         }
         $(function () {
             $("#scrollul").on("mousedown", function (e) {
+                if (e.target.tagName == "BUTTON") {
+                    return;
+                }
                 this.mousedown = {
                     x: e.clientX + $(document).scrollLeft(),
-                    scroll: $(this).parent().scrollLeft()
+                    scroll: $(this).parent().scrollLeft(),
+                    target: e.target
                 };
                 $(this).css("pointer-events", "none");
                 $("iframe").css("pointer-events", "none");
@@ -543,13 +546,22 @@
                 if (!$("#scrollul")[0].mousedown) {
                     return;
                 }
-                $("#scrollul")[0].mousedown.moving = true;
+                
                 var offsetX = e.clientX + $(document).scrollLeft() - $("#scrollul")[0].mousedown.x;
+                if (Math.abs(offsetX) > 3) {
+                    $("#scrollul")[0].mousedown.moving = true;
+                }
                 var scrollX = $("#scrollul")[0].mousedown.scroll;
                 $("#scrollul").parent().scrollLeft(scrollX - offsetX);
                 //console.log(offsetX);
             }).on("mouseup.scrollul", function () {
-                
+                if (!$("#scrollul")[0].mousedown) {
+                    return;
+                }
+                if (!$("#scrollul")[0].mousedown.moving && $($("#scrollul")[0].mousedown.target).hasClass("nav-link")) {
+                    var name = $($("#scrollul")[0].mousedown.target).closest(".nav-item").attr("tabname");
+                    activeTab(findTab(name));
+                }
                 delete $("#scrollul")[0].mousedown;
                 $("#scrollul,iframe").css("pointer-events", "auto");
             });

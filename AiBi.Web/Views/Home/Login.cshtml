@@ -5,10 +5,16 @@
 <!doctype html>
 <html lang="zh-cn">
 <head>
+    <script>
+        if (top != window) {
+            top.location.href = "/Home/Login";
+        }
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>用户登录 - @MvcApplication.Title</title>
+
     <!-- CSS files -->
     <link href="~/layui/css/layui.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/tabler.min.css?@MvcApplication.Version" rel="stylesheet" />
@@ -17,14 +23,14 @@
     <link href="~/dist/css/tabler-vendors.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
     @*<style>
-      @@import url('https://rsms.me/inter/inter.css');
-      :root {
-      	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-      }
-      body {
-      	font-feature-settings: "cv03", "cv04", "cv11";
-      }
-    </style>*@
+          @@import url('https://rsms.me/inter/inter.css');
+          :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+          }
+          body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+          }
+        </style>*@
 </head>
 <body class=" d-flex flex-column bg-white">
     <script src="~/dist/js/demo-theme.min.js?@MvcApplication.Version"></script>
