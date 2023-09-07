@@ -2,7 +2,7 @@
     ViewBag.Title = "测试计划";
 }
 <script>
-    var EnumPlanStatus = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(EnumHelper.GetSelectList(typeof(AiBi.Test.Dal.Enum.EnumPlanStatus))));
+    var EnumPlanStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(AiBi.Test.Dal.Enum.EnumPlanStatus)));
 </script>
 <!-- Page header -->
 <div class="page-header d-print-none">
@@ -19,22 +19,22 @@
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
-                <div class="d-flex">
+                <form class="d-flex" id="searchform">
                     <div class="me-3">
                         <div class="input-icon">
-                            <input type="text" value="" class="form-control" placeholder="搜索…" id="keyword">
+                            <input type="text" value="" class="form-control" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
                             <span class="input-icon-addon">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/search -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
                             </span>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-primary">
+                    <a href="~/TestPlan/Edit" class="btn btn-primary" target="addtab">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         创建测试计划
                     </a>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
                 <div class="card-body ps-0">
                     <div class="row">
                         <div class="col">
-                            <h3 class="mb-0"><a href="Detail/{{Id}}" planid="{{Id}}">{{Name}}</a></h3>
+                            <h3 class="mb-0"><a href="Detail/{{Id}}" planid="{{Id}}" target="addtab" title="测试计划{{Id}}">{{Name}}</a></h3>
                         </div>
                         <div class="col-auto fs-3 text-green">{{=(new Date(obj.StartTime)).format("yyyy/MM/dd HH:mm")}} - {{=(new Date(obj.EndTime)).format("yyyy/MM/dd HH:mm")}}</div>
                     </div>
@@ -96,8 +96,8 @@
                                     学员数：{{UserNum}}人
                                 </div>
                                 <div class="list-inline-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M12 12h3.5"></path><path d="M12 7v5"></path></svg>
-                                    时长：{{Templete.Duration}}分钟
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path><path d="M15 19l2 2l4 -4"></path></svg>
+                                    创建人：{{ObjectTag.CreateUserName}}
                                 </div>
                                 <div class="list-inline-item">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M2 12h2l2 -5l3 10l3 -10l3 10l3 -10l1.5 5h2.5"></path></svg>
@@ -114,8 +114,8 @@
                                     学员数：{{UserNum}}人
                                 </div>
                                 <div class="list-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M12 12h3.5"></path><path d="M12 7v5"></path></svg>
-                                    时长：{{Templete.Duration}}分钟
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path><path d="M15 19l2 2l4 -4"></path></svg>
+                                    创建人：{{ObjectTag.CreateUserName}}
                                 </div>
                                 <div class="list-item">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M2 12h2l2 -5l3 10l3 -10l3 10l3 -10l1.5 5h2.5"></path></svg>

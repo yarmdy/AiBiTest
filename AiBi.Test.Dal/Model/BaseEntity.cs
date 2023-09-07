@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace AiBi.Test.Dal.Model
@@ -39,11 +41,13 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public DateTime? DelTime { get; set; }
 
+        [JsonIgnore]
         public virtual SysUser CreateUser { get; set; }
+        [JsonIgnore]
         public virtual SysUser DelUser { get; set; }
+        [JsonIgnore]
         public virtual SysUser ModifyUser { get; set; }
-
-        
+        [NotMapped]
+        public object ObjectTag { get; set; }
     }
-
 }

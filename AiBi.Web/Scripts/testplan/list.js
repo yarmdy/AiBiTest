@@ -3,13 +3,18 @@
     //    e.preventDefault();
     //    var planid = $(this).attr("planid");
     //});
+    $("#searchform").on("submit", function () {
+        getPlan(1,10);
+        return false;
+    });
     function getPlan(page, size) {
         $("#list").html("");
-        $$.common.getPageList.req({
+        var postdata = $$.getFormData("#searchform");
+        $.extend(postdata, {
             page: page,
             size: size,
-            keyword: $("#keyword").hval()
-        }).then(function (json) {
+        });
+        $$.common.getPageList.req(postdata).then(function (json) {
             $(".pager").setPager(page, size, json.count, function (p) {
                 getPlan(p, size);
             });

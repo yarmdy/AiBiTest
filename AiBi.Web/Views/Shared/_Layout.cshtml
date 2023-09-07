@@ -27,7 +27,7 @@
     <link href="~/dist/css/demo.min.css?@MvcApplication.Version" rel="stylesheet" />
     <link href="~/Styles/aibibase.css?@MvcApplication.Version" rel="stylesheet" />
     <script>
-        window.CurrentUser = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(CurrentUser));
+        window.CurrentUser = @JsonHelper.ToJson(CurrentUser);
         window.BaseUrl = '/@action.ControllerDescriptor.ControllerName';
     </script>
     @*<style>

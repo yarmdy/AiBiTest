@@ -33,11 +33,11 @@ namespace AiBi.Test.Web.Controllers
             var res = Bll.GetPageList(req);
             return Json(res);
         }
-        public virtual ActionResult Edit()
+        public virtual ActionResult Edit(int? id=null)
         {
             return View();
         }
-        public virtual ActionResult Detail()
+        public virtual ActionResult Detail(int id)
         {
             return View();
         }
@@ -45,16 +45,16 @@ namespace AiBi.Test.Web.Controllers
             return Json(Bll.GetByKeys(keys));
         }
 
-        protected ActionResult Error(string title,string msg)
+        public ActionResult Error(string title,string msg)
         {
             ViewBag.ErrorTitle = title??"";
-            ViewBag.ErrorTitle = msg??"";
+            ViewBag.ErrorMessage = msg??"";
             return View("Error");
         }
-        protected ActionResult Error(string msg)
+        public ActionResult Error(string msg)
         {
             ViewBag.ErrorTitle = "";
-            ViewBag.ErrorTitle = msg;
+            ViewBag.ErrorMessage = msg;
             return View("Error");
         }
         #region 底层忽略
@@ -76,6 +76,11 @@ namespace AiBi.Test.Web.Controllers
                 ContentEncoding = contentEncoding,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            Bll.Context.Configuration.LazyLoadingEnabled = false;
+            base.OnActionExecuted(filterContext);
         }
         protected override void OnResultExecuted(ResultExecutedContext filterContext)
         {
@@ -114,31 +119,7 @@ namespace AiBi.Test.Web.Controllers
             ViewBag.ActionInfo = filterContext.ActionDescriptor;
             ViewBag.CurrentUser = SysUserBll.GetCookie();
         }
-        public class AutoDateTimeFormat : DateTimeConverterBase
-        {
-            private static IsoDateTimeConverter dConverter = new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd" };
-            private static IsoDateTimeConverter tConverter = new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" };
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                return tConverter.ReadJson(reader, objectType, existingValue, serializer);
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                if (value == null)
-                {
-                    tConverter.WriteJson(writer, value, serializer);
-                    return;
-                }
-                DateTime dd = (DateTime)value;
-                if (dd.Date == dd)
-                {
-                    dConverter.WriteJson(writer, dd, serializer);
-                    return;
-                }
-                tConverter.WriteJson(writer, dd, serializer);
-            }
-        }
+        
         /// <summary>
         /// json转换类
         /// </summary>
@@ -148,12 +129,7 @@ namespace AiBi.Test.Web.Controllers
 
             public JsonNetResult()
             {
-                Settings = new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    //DateFormatString = "yyyy-MM-dd HH:mm:ss",
-                };
-                Settings.Converters.Add(new AutoDateTimeFormat { });
+                Settings = JsonHelper.Settings;
             }
 
             public override void ExecuteResult(ControllerContext context)

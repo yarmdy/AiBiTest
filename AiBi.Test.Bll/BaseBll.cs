@@ -10,6 +10,7 @@ using AiBi.Test.Common;
 using System.Data.Entity.Infrastructure;
 using AiBi.Test.Dal.Enum;
 using System.Collections;
+using System.Web.Mvc;
 
 namespace AiBi.Test.Bll
 {
@@ -49,6 +50,7 @@ namespace AiBi.Test.Bll
             {
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Mobile").Like(req.keyword));
             }
+            where = where.Or(a => a.CreateUser.Name.Contains(req.keyword));
             return query.Where(where);
         }
         /// <summary>
@@ -150,9 +152,9 @@ namespace AiBi.Test.Bll
             return query;
         }
 
-        public List<T> GetListPage(out int count, int page, int size, Func<IQueryable<T>, IQueryable<T>> where = null, Func<IQueryable<T>, IQueryable<T>> order = null)
+        public List<T> GetListPage(out int count, int page, int size, Func<IQueryable<T>, IQueryable<T>> where = null, Func<IQueryable<T>, IQueryable<T>> order = null,bool notracking=false)
         {
-            var query = getListQuery(where, true);
+            var query = getListQuery(where, notracking);
 
             count = query.Count();
             if (count == 0)
@@ -205,11 +207,26 @@ namespace AiBi.Test.Bll
             }
             return query.FirstOrDefault();
         }
+        public List<T> ByIds(int[] Ids, Expression<Func<T, int>> expr=null) {
+            return ByIds(true,Ids,expr);
+        }
+        public List<T> ByIds(bool notracking, int[] Ids, Expression<Func<T, int>> expr)
+        {
+            if (!typeof(T).IsSubclassOf(typeof(IdEntity)) && expr == null || Ids == null || Ids.Length<=0) {
+                return new List<T>();
+            }
+            if(typeof(T).IsSubclassOf(typeof(IdEntity)))
+            {
+                expr = PredicateBuilder.DotExpression<T, int>("Id");
+            }
+            var where = PredicateBuilder.DotExpression<T, int>("Id").In(Ids);
+            return GetListFilter(a => a.Where(where), a => a.OrderByDescending(b => b.CreateTime), notracking);
+        }
         public T Find(params object[] keys)
         {
             return Find(true, keys);
         }
-        public T Find(bool notrack, params object[] keys)
+        public T Find(bool notracking, params object[] keys)
         {
             if (keys == null || keys.Length <= 0) return null;
             keys = convertKeyType(keys);
@@ -219,7 +236,7 @@ namespace AiBi.Test.Bll
             {
                 return obj;
             }
-            if (notrack)
+            if (notracking)
             {
                 Context.Entry(obj).State = EntityState.Detached;
             }
@@ -315,5 +332,20 @@ namespace AiBi.Test.Bll
             return path;
         }
         #endregion
+    }
+
+    public static class BaseEntityEx
+    {
+        public static T LoadChild<T>(this T obj, Func<T, object> func) where T : BaseEntity
+        {
+            if (func != null)
+            {
+                obj.ObjectTag = func(obj);
+            }
+            //var context = AutofacExt.GetService<TestContext>();
+            //(context as IObjectContextAdapter).ObjectContext.ContextOptions.LazyLoadingEnabled = false;
+
+            return obj;
+        }
     }
 }

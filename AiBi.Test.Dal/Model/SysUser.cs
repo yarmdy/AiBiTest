@@ -197,5 +197,6 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteModifyUsers { get; set; }
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteDelUsers { get; set; }
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteUsers { get; set; }
+
     }
 }

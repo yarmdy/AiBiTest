@@ -245,6 +245,21 @@
             return;
         }
         top.removeTab(top.findTab(name));
+    },
+    addTab: function (name, url) {
+        if (url == null) {
+            url = "about:blank";
+        }
+        url = obj.toUrl(url);
+        if (top === window && typeof window.addTab !== "function") {
+            var winhwnd = window.open("about:blank");
+            winhwnd.location.href = url;
+            return;
+        }
+        top.addTab(name,url);
+    },
+    toUrl: function (str) {
+        return new URL($("<a>").attr("href", str)[0].href).pathname;
     }
 }
 
@@ -604,6 +619,12 @@ String.prototype.combineObject = function (obj) {
 //#endregion
 
 
-
+$(function () {
+    addtabindex = 0;
+    $(document).on("click.addtab", "a[target=addtab]", function (e) {
+        e.preventDefault();
+        obj.addTab($(this).attr("title") || $(this).text(),$(this).attr("href"));
+    });
+})
 
 window.$$ = obj;

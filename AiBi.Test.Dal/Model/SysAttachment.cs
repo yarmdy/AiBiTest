@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -41,5 +42,8 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<BusQuestion> BusQuestions { get; set; }
         public virtual ICollection<BusTestTemplete> BusTestTempletes { get; set; }
         public virtual ICollection<SysUser> SysUsers { get; set; }
+
+        [NotMapped]
+        public string FullName => Path + FileName + Ext;
     }
 }

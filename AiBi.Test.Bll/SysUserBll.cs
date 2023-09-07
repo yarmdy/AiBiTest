@@ -74,7 +74,7 @@ namespace AiBi.Test.Bll
                             return null;
                         }
                         var userBll = AutofacExt.GetService<SysUserBll>();
-                        _currentUser = userBll.Find(cuser.Id);
+                        _currentUser = userBll.Find(false,cuser.Id);
                         if (_currentUser == null)
                         {
                             return null;
@@ -98,5 +98,10 @@ namespace AiBi.Test.Bll
             
         //}
         //#endregion
+
+        public static string GetAvatar(SysUser user)
+        {
+            return (!string.IsNullOrWhiteSpace(user?.AvatarName)) ? (user.AvatarName) :( user?.Avatar?.FullName ?? "/static/avatars/defaultavatar.png");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    var CurrentUser = (SysUser)ViewBag.CurrentUser;
 }
 <!doctype html>
 <!--
@@ -69,6 +70,9 @@
             font-feature-settings: "cv03", "cv04", "cv11";
           }
         </style>*@
+    <script>
+        var CurrentUser = @JsonHelper.ToJson(CurrentUser);
+    </script>
 </head>
 <body>
     <script src="~/dist/js/demo-theme.min.js?@MvcApplication.Version"></script>
@@ -197,7 +201,7 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                            <span class="avatar avatar-sm" style="background-image: url(/static/avatars/000m.jpg)"></span>
+                            <span class="avatar avatar-sm" style="background-image: url(@(SysUserBll.GetAvatar(CurrentUser))"></span>
                             <div class="d-none d-xl-block ps-2">
                                 <div>Paweł Kuna</div>
                                 <div class="mt-1 small text-secondary">UI Designer</div>
@@ -216,7 +220,7 @@
                 <div class="collapse navbar-collapse" id="sidebar-menu">
                     <ul class="navbar-nav pt-lg-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Main" target="iframe">
+                            <a class="nav-link" href="~/Home/Main" target="addtab">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
@@ -227,7 +231,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="~/TestPlan/List" target="iframe">
+                            <a class="nav-link" href="~/TestPlan/List" target="addtab">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
@@ -395,7 +399,7 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                            <span class="avatar avatar-sm" style="background-image: url(/static/avatars/000m.jpg)"></span>
+                            <span class="avatar avatar-sm" style="background-image: url(@(SysUserBll.GetAvatar(CurrentUser)))"></span>
                             <div class="d-none d-xl-block ps-2">
                                 <div>Paweł Kuna</div>
                                 <div class="mt-1 small text-secondary">UI Designer</div>
@@ -431,7 +435,7 @@
         </header>
         <div class="page-wrapper tab-content">
             <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow:1" tabname="首页">
-                <iframe src="/home/Main" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
+                <iframe src="/Home/Main" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
             </div>
             @*<div class="tab-pane" id="Tabs-1" role="tabpanel" style="flex-grow:1">
                     <iframe src="/testplan/list" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
@@ -447,6 +451,10 @@
     <script>
         var tabsid = 0;
         function addTab(name, url) {
+            if (url == null) {
+                url = "about:blank";
+            }
+            url = $$.toUrl(url);
             var obj = findTab(name);
             if (!obj) {
                 obj = newTab(name, url);
@@ -461,7 +469,11 @@
             $("#Tabs-Home").parent().find(">div.tab-pane").removeClass("active").removeClass("show");
         }
         function newTab(name, url) {
-            var tab = $($("#tabtemplete").html()).attr("Id", "Navs-" + (++tabsid)).attr("tabname", name);
+            tabsid++;
+            if (!name) {
+                name = "新窗口" + tabsid;
+            }
+            var tab = $($("#tabtemplete").html()).attr("Id", "Navs-" + (tabsid)).attr("tabname", name);
             tab.find(">a").attr("href", "#Tabs-" + tabsid).html(" " + name + '<button class="tab-btn-close"></button>');
             var page = $($("#pagetemplete").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
             page.find(">iframe").attr("src", url);
@@ -555,16 +567,21 @@
                 $("#scrollul").parent().scrollLeft(scrollX - offsetX);
                 //console.log(offsetX);
             }).on("mouseup.scrollul", function () {
-                if (!$("#scrollul")[0].mousedown) {
+                var mousedown = $("#scrollul")[0].mousedown;
+                if (!mousedown) {
                     return;
                 }
-                if (!$("#scrollul")[0].mousedown.moving && $($("#scrollul")[0].mousedown.target).hasClass("nav-link")) {
-                    var name = $($("#scrollul")[0].mousedown.target).closest(".nav-item").attr("tabname");
+                if (!mousedown.moving && ($(mousedown.target).hasClass("nav-link") || mousedown.target.tagName=="svg")) {
+                    var name = $(mousedown.target).closest(".nav-item").attr("tabname");
                     activeTab(findTab(name));
                 }
                 delete $("#scrollul")[0].mousedown;
                 $("#scrollul,iframe").css("pointer-events", "auto");
+            }).on("click.addtab", "a[target=addtab]", function (e) {
+                e.preventDefault();
+                addTab($(this).attr("title") || $(this).text(), $(this).attr("href"));
             });
+
         });
     </script>
     <template id="tabtemplete">

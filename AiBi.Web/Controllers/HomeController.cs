@@ -17,7 +17,18 @@ namespace AiBi.Test.Web.Controllers
     public class HomeController : BaseController<SysUser, UserReq.Page>
     {
         public override BaseBll<SysUser, UserReq.Page> Bll => SysUserBll;
+        public override ActionResult Index()
+        {
+            //, Funcs = a.SysUserRoleUsers.SelectMany(b => b.Role.SysRoleFuncs.Select(c => c.Func)).GroupBy(b=>b.Id).Select(b=>b.FirstOrDefault()).ToList() 
+            ViewBag.CurrentUser = SysUserBll.CurrentUser.LoadChild(a => new { a.Avatar});
+            
+            return View();
+        }
 
+        public ActionResult Main()
+        {
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
