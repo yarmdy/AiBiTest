@@ -7,6 +7,10 @@
         getPlan(1,10);
         return false;
     });
+
+    //$("#keyword").on("input", function () {
+    //    getPlan(1, 10);
+    //})
     function getPlan(page, size) {
         $("#list").html("");
         var postdata = $$.getFormData("#searchform");

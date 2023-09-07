@@ -16,7 +16,7 @@
             beforeSend: function () {
                 //loadlayer = layer.load(0,{shade:0.3});
                 layer.closeAll("loading");
-                loadlayer = layer.loadEx();
+                //loadlayer = layer.loadEx();
             },
             complete: function () {
                 layer.close(loadlayer);

@@ -925,6 +925,7 @@
     <Content Include="layui\font\iconfont.woff" />
     <Content Include="layui\font\iconfont.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\home\main.js" />
     <Content Include="Scripts\home\login.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -936,6 +937,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="static\avatars\000f.jpg" />
     <Content Include="static\avatars\000m.jpg" />
@@ -1686,6 +1688,7 @@
     <Content Include="Views\TestPlan\List.cshtml" />
     <Content Include="Views\Shared\Empty.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
+    <Content Include="Views\TestPlan\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
