@@ -143,6 +143,8 @@ namespace AiBi.Test.Web.Controllers
             PageInfo["KeyValueStr"] = string.Join(",", ids.Take(st.EntitySet.ElementType.KeyProperties.Count).Select(a => a + ""));
             var idindex = 0;
             PageInfo["KeyInfos"] = st.EntitySet.ElementType.KeyProperties.Select(a => a).ToDictionary(a => a.Name, a => new { a.Name, a.TypeName, Value = ids[idindex++] });
+            PageInfo["opener"] = Request.Params["opener"];
+            ViewBag.Title = Request.Params["title"];
         }
         
         /// <summary>

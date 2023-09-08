@@ -61,7 +61,7 @@
             text-wrap:nowrap;
         }
         .tab-pane .shade {
-            background-color: rgb(28 134 155 / 12%);
+            background-color: #ffc10726;
             width: 100%;
             height: 100%;
             position: absolute;
@@ -446,7 +446,7 @@
             <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow: 1; position: relative; " tabname="首页">
                 <iframe src="/Home/Main" style="flex-grow: 1;" name="iframe" id="iframe" onload="$('#Shade-Home').fadeOut(300)"></iframe>
                 <div class="shade" id="Shade-Home">
-                    <div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></div>
+                    <div class="spinner-border text-muted" style="width: 75px; height: 75px;border-width: 5px; "></div>
                 </div>
             </div>
             @*<div class="tab-pane" id="Tabs-1" role="tabpanel" style="flex-grow:1">
@@ -462,13 +462,11 @@
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
     <script>
         var tabsid = 0;
+        var lastTab;
         function addTab(name, url) {
-            if (url == null) {
-                url = "about:blank";
-            }
-            url = $$.toUrl(url);
-
+            
             name = name == null ? null : $.trim(name);
+            url = $$.toOpenUrl(url, name);
             var obj = findTab(name);
             if (!obj) {
                 obj = newTab(name, url);
@@ -519,6 +517,7 @@
             return { tab: tab, page: page };
         }
         function activeTab(obj) {
+            lastTab = getActiveTab();
             hideAllTab();
             var tab = obj.tab;
             var page = obj.page;
@@ -528,15 +527,17 @@
             //window.ActiveTab = obj;
         }
         function removeTab(obj) {
+            let currentTab = getActiveTab();
             var tab = obj.tab;
             var page = obj.page;
             var tabindex = tab.index();
+            var thisName = tab.attr("tabname");
             tab.remove();
             page.remove();
-            //if (ActiveTab.tab.attr("tabname") != tab.attr("tabname")) {
-            //    activeTab(ActiveTab);
-            //    return;
-            //}
+            if (currentTab.tab.attr("tabname") != thisName) {
+                
+                return;
+            }
             var obj = findTab(tabindex);
             if (obj) {
                 activeTab(obj);
@@ -554,7 +555,7 @@
             }
         }
         function getActiveTab() {
-            var name = $("#Navs-Home").parent().find(">a.active").attr("tabname");
+            var name = $("#Navs-Home").parent().find("a.active").closest("[tabname]").attr("tabname");
             return findTab(name);
         }
         function closeTab(e) {
@@ -562,9 +563,9 @@
         }
         $(function () {
             $("#scrollul").on("mousedown", function (e) {
-                if (e.target.tagName == "BUTTON") {
-                    return;
-                }
+                //if (e.target.tagName == "BUTTON") {
+                //    return;
+                //}
                 this.mousedown = {
                     x: e.clientX + $(document).scrollLeft(),
                     scroll: $(this).parent().scrollLeft(),
@@ -594,12 +595,17 @@
                     var name = $(mousedown.target).closest(".nav-item").attr("tabname");
                     activeTab(findTab(name));
                 }
+                if (!mousedown.moving && ($(mousedown.target)[0].tagName == "BUTTON")) {
+                    var name = $(mousedown.target).closest(".nav-item").attr("tabname");
+                    removeTab(findTab(name));
+                }
                 delete $("#scrollul")[0].mousedown;
                 $("#scrollul,iframe").css("pointer-events", "auto");
-            }).on("click.addtab", "a[target=addtab]", function (e) {
-                e.preventDefault();
-                addTab($(this).attr("title") || $(this).text(), $(this).attr("href"));
-            });
+            })
+            //.on("click.addtab", "a[target=addtab]", function (e) {
+            //    e.preventDefault();
+            //    addTab($(this).attr("title") || $(this).text(), $(this).attr("href"));
+            //});
 
         });
     </script>
@@ -614,7 +620,7 @@
         <div class="tab-pane" role="tabpanel" style="flex-grow:1;position:relative">
             <iframe style="flex-grow: 1;"></iframe>
             <div class="shade">
-                <div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></div>
+                <div class="spinner-border text-muted" style="width: 75px; height: 75px;border-width: 5px; "></div>
             </div>
         </div>
     </template>

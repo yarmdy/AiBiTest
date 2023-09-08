@@ -20,8 +20,8 @@
                 //loadlayer = layer.loadEx();
                 if (obj.loadingType == 1) {
                     loadlayer = layer.load(2);
-                } else if (this.loadingType == 2) {
-                    loadlayer = layer.loadEx(2);
+                } else if (obj.loadingType == 2) {
+                    loadlayer = layer.loadEx(3);
                 }
             },
             complete: function () {
@@ -251,19 +251,25 @@
     closeThis: function () {
         var name = obj.tabName();
         if (!name) {
+            window.close();
             return;
+        }
+        if (top.lastTab && top.findTab(top.lastTab.tab.attr("tabname"))) {
+            top.activeTab(top.lastTab);
         }
         top.removeTab(top.findTab(name));
     },
-    addTab: function (name, url) {
-        if (url == null) {
-            url = "about:blank";
-        }
+    toOpenUrl: function (url, name) {
         url = obj.toUrl(url);
         var tabname = obj.tabName();
         if (tabname) {
             url = obj.replaceParam(url, "opener", "opener=" + tabname);
         }
+        name = name == null ? null : $.trim(name);
+        return $$.replaceParam(url, "title", "title=" + name);
+    },
+    addTab: function (name, url) {
+        url = obj.toOpenUrl(url, name);
         if (top === window && typeof window.addTab !== "function") {
             var winhwnd = window.open("about:blank");
             winhwnd.location.href = url;
@@ -272,6 +278,9 @@
         top.addTab(name,url);
     },
     toUrl: function (str) {
+        if (!str || str.toLowerCase() == "about:blank") {
+            return "about:blank";
+        }
         var url = new URL($("<a>").attr("href", str)[0].href);
         return url.pathname + url.search + url.hash;
     },
@@ -281,7 +290,7 @@
         var paramReg = new RegExp("(?<=\\?|\\&)" + name + "(?:\\=.*?)??(?=$|\&|\\#)", "is");
         param = paramReg.exec(url);
         if (param != null) {
-            return url.replace(paramReg, rep);
+            return obj.toUrl(url.replace(paramReg, rep));
         }
         var domainReg = /(?:\?.*?(?=\#|$)|(?=\#|$))/is;
         var domain = domainReg.exec(url)[0];
@@ -290,7 +299,34 @@
         } else {
             domain += ("&" + rep);
         }
-        return url.replace(domainReg, domain);
+        return obj.toUrl(url.replace(domainReg, domain));
+    },
+    opener: function () {
+        if (window.opener) {
+            return window.opener;
+        }
+        
+        if (!PageInfo || !PageInfo.opener || !top.findTab) {
+            return top !== window ? top : null;
+        }
+        let tmptab = top.findTab(PageInfo.opener);
+        if (!tmptab) {
+            return null;
+        }
+        return tmptab.page.find("iframe")[0].contentWindow;
+    },
+    callback: function (name, ...params) {
+        let opener = obj.opener();
+        if (!opener) {
+            return;
+        }
+        if (typeof opener.callback != "object") {
+            return;
+        }
+        if (typeof opener.callback[name] != "function") {
+            return;
+        }
+        opener.callback[name].apply(window, params);
     }
 }
 
@@ -475,6 +511,9 @@ layer.loadEx = function (icon, opt) {
 
     } else if (icon == 2) {
         div = '<div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></i>';
+    } else if (icon == 3) {
+        div = '<div class="spinner-border ' + (opt && opt.color ? opt.color : "text-info") + '" style="width: ' + (opt && opt.area ? opt.area[0] : "50px") + '; height: ' + (opt && opt.area ? opt.area[1] : "50px") + ';border-width: 2px; "></div>';
+        icon = 3;
     } else {
         icon = 0;
     }
@@ -485,11 +524,23 @@ layer.loadEx = function (icon, opt) {
         zIndex: 99999999,
         shade: 0.001,
         content: div,
-        area:["76px","38px"]
+        area:icon==3?["50px","50px"]:["76px","38px"]
     }, opt);
     var tmpsucc = opt.success;
     opt.success = function (l, id, elem) {
+        if (icon == 3) {
+            l.css({
+                width: "100%", height: "100%", left: 0, top: 0,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            });
+            l.find("div.layui-layer-content").css({
+                width: opt.area[0], height: opt.area[1]
+            });
+        }
         l.attr("class", "layui-layer layui-layer-loading").find("div.layui-layer-content").attr("class", "layui-layer-content layui-layer-loading" + icon);
+        l.find("span.layui-layer-resize").remove();
         tmpsucc && tmpsucc(l, id, elem);
     }
     
@@ -627,6 +678,9 @@ $.fn.setPager = function (page, size, count, callback, parent) {
 
     return this;
 }
+$.fn.getPagerIndex = function () {
+    return parseInt(this.find("li.page-item.active a.page-link").text());
+}
 
 String.prototype.combineObject = function (obj) {
     function getobjVal(obj, path) {
@@ -656,6 +710,13 @@ $(function () {
         e.preventDefault();
         obj.addTab($(this).attr("title") || $(this).text(),$(this).attr("href"));
     });
+    $(window).on("beforeunload.addtab", function () {
+        var tabname = obj.tabName();
+        if (!tabname) {
+            return;
+        }
+        top.findTab(tabname).page.find("div.shade").show();
+    })
 })
 
 window.$$ = obj;

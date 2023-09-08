@@ -1,4 +1,10 @@
-﻿$(function () {
+﻿var callback = {
+    testplanadd: function (id, obj) {
+        layer.loadEx(0);
+        console.log(id,obj);
+    }
+};
+$(function () {
     //$(document).on("click", "a[planid]", function (e) {
     //    e.preventDefault();
     //    var planid = $(this).attr("planid");
