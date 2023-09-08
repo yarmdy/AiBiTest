@@ -11,16 +11,23 @@ using AiBi.Test.Dal.Model;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Caching;
+using System.Data.Entity;
 
 namespace AiBi.Test.Web.Controllers
 {
     public class HomeController : BaseController<SysUser, UserReq.Page>
     {
         public override BaseBll<SysUser, UserReq.Page> Bll => SysUserBll;
+        public SysFuncBll SysFuncBll { get; set; }
+        public SysRoleBll SysRoleBll { get; set; }
         public override ActionResult Index()
         {
             //, Funcs = a.SysUserRoleUsers.SelectMany(b => b.Role.SysRoleFuncs.Select(c => c.Func)).GroupBy(b=>b.Id).Select(b=>b.FirstOrDefault()).ToList() 
-            ViewBag.CurrentUser = SysUserBll.CurrentUser.LoadChild(a => new { a.Avatar});
+            var userId = SysUserBll.GetCookie().Id;
+            var roles = SysRoleBll.GetListFilter(a => a.Where(b => b.SysUserRoles.Any(c => c.UserId == userId)),a=>a.OrderBy(b=>b.Id),true);
+            var roleids = roles.Select(a => a.Id).ToArray();
+            var funcs = SysFuncBll.GetListFilter(a => a.Where(b => b.SysRoleFuncs.Any(c => roleids.Contains(c.RoleId))),a=>a.OrderBy(b=>b.Id),true);
+            ViewBag.CurrentUser = SysUserBll.CurrentUser.LoadChild(a => new { a.Avatar, Funcs=funcs,Roles=roles });
             
             return View();
         }

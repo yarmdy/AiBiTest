@@ -103,5 +103,14 @@ namespace AiBi.Test.Bll
         {
             return (!string.IsNullOrWhiteSpace(user?.AvatarName)) ? (user.AvatarName) :( user?.Avatar?.FullName ?? "/static/avatars/defaultavatar.png");
         }
+        public static string GetRoleName(SysUser user)
+        {
+            return user?.SysUserRoleUsers?.OrderBy(a => a.RoleId)?.FirstOrDefault()?.Role?.Name;
+        }
+        public static string[] GetRoleNames(SysUser user)
+        {
+            return user?.SysUserRoleUsers?.OrderBy(a => a.RoleId)?.Select(a => a.Role.Name)?.ToArray() ?? new string[0];
+        }
+
     }
 }
