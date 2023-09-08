@@ -261,6 +261,9 @@
     },
     toOpenUrl: function (url, name) {
         url = obj.toUrl(url);
+        if (!url || url.toLowerCase() == "about:blank") {
+            return "about:blank";
+        }
         var tabname = obj.tabName();
         if (tabname) {
             url = obj.replaceParam(url, "opener", "opener=" + tabname);
@@ -679,7 +682,7 @@ $.fn.setPager = function (page, size, count, callback, parent) {
     return this;
 }
 $.fn.getPagerIndex = function () {
-    return parseInt(this.find("li.page-item.active a.page-link").text());
+    return parseInt(this.find("li.page-item.active a.page-link").eq(0).text());
 }
 
 String.prototype.combineObject = function (obj) {

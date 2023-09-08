@@ -505,9 +505,12 @@
                 name = name == null ? null : $.trim(name);
                 var tab = $("#Navs-Home").parent().find("[tabname=\"" + name + "\"]");
                 var page = $("#Tabs-Home").parent().find("[tabname=\"" + name + "\"]");
-            } else {
+            } else if (typeof name == "number") {
                 var tab = $("#Navs-Home").parent().find("[tabname]").eq(name);
                 var page = $("#Tabs-Home").parent().find("[tabname]").eq(name);
+            } else {
+                tab = $();
+                page = $();
             }
             
 
@@ -523,7 +526,21 @@
             var page = obj.page;
             tab.find(">a").addClass("active").attr("aria-selected", "true");
             page.addClass("active").addClass("show");
-            $("#scrollul").parent().animate({ "scrollLeft": tab.position().left},300);
+
+            var outleft = $("#navbar-menu").scrollLeft();
+            var outright = outleft + $("#navbar-menu").width();
+            var inleft = tab.position().left;
+            var inright = inleft + tab.outerWidth();
+            if (inleft >= outleft+66 && inright <= outright-66) {
+                return;
+            }
+            let offset;
+            if (inleft - outleft > outright - inright) {
+                offset = inright - $("#navbar-menu").width()+56;
+            } else {
+                offset = inleft-66;
+            }
+            $("#scrollul").parent().animate({ "scrollLeft": offset },100);
             //window.ActiveTab = obj;
         }
         function removeTab(obj) {
