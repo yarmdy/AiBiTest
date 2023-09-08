@@ -1,5 +1,6 @@
 ﻿const obj = {
     //#region 基础功能
+    loadingType:2,//0: 关闭 1: layer自带load 2: loadEx(2) 
     ajax: function (type, url, data, success, dataType) {
         if (typeof data === "function") {
             dataType = dataType || success;
@@ -17,6 +18,11 @@
                 //loadlayer = layer.load(0,{shade:0.3});
                 layer.closeAll("loading");
                 //loadlayer = layer.loadEx();
+                if (obj.loadingType == 1) {
+                    loadlayer = layer.load(2);
+                } else if (this.loadingType == 2) {
+                    loadlayer = layer.loadEx(2);
+                }
             },
             complete: function () {
                 layer.close(loadlayer);
@@ -437,31 +443,31 @@ layer.callback = function (opt) {
 }
 layer.loadEx = function (icon, opt) {
     icon = icon || 2;
+    var div = '<i class="layui-layer-loading-icon layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>'; 
+    
+    if (icon == 1) {
+        div = '<i class="layui-layer-loading-icon layui-icon layui-icon-loading-1 layui-anim layui-anim-rotate layui-anim-loop"></i>';
+
+    } else if (icon == 2) {
+        div = '<div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></i>';
+    } else {
+        icon = 0;
+    }
     var opt = $.extend({
         type: 1,
         title: null,
         closeBtn: 0,
         zIndex: 99999999,
         shade: 0.001,
-        content: '<div class="layui-layer-loading-' + icon + ' layui-anim layui-anim-rotate layui-anim-loop"></div>'
+        content: div,
+        area:["76px","38px"]
     }, opt);
     var tmpsucc = opt.success;
     opt.success = function (l, id, elem) {
         l.attr("class", "layui-layer layui-layer-loading").find("div.layui-layer-content").attr("class", "layui-layer-content layui-layer-loading" + icon);
         tmpsucc && tmpsucc(l, id, elem);
     }
-    //if (!opt.area) {
-    //    switch (icon) {
-    //        case 1: {
-    //            opt.area = ["37px", "37px"];
-    //        } break;
-    //        case 2: {
-    //            opt.area = ["32px", "32px"];
-    //        } break;
-    //        default:
-    //            opt.area = ["62px", "24px"];
-    //    }
-    //}
+    
     return layer.open(opt);
 }
 //if (!top.layer.loadEx) {
