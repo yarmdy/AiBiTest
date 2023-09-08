@@ -1,9 +1,15 @@
 ﻿@{
-    ViewBag.Title = "测试计划";
+    
 }
-<script>
+@section styles{
+    
+}
+@section scripts{
+    <script>
     var EnumPlanStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(AiBi.Test.Dal.Enum.EnumPlanStatus)));
-</script>
+    </script>
+}
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-fluid">
@@ -125,9 +131,9 @@
                         </div>
                         <div class="col-md-auto">
                             <div class="mt-3 badges">
-                                <a href="/TestPlan/Edit/{{Id}}" class="btn btn-outline-indigo btn-pill" target="addtab">修改</a>
-                                <a href="#" class="btn btn-outline-pink btn-pill" >删除</a>
-                                <a href="#" class="btn btn-outline-vk btn-pill" >发布</a>
+                                <a href="/TestPlan/Edit/{{Id}}" class="btn btn-outline-indigo btn-pill btn-xsm" target="addtab">修改</a>
+                                <a href="#" class="btn btn-outline-pink btn-pill btn-xsm" >删除</a>
+                                <a href="#" class="btn btn-outline-vk btn-pill btn-xsm" >发布</a>
                             </div>
                         </div>
                     </div>

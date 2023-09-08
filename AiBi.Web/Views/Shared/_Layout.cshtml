@@ -29,7 +29,18 @@
     <script>
         window.CurrentUser = @JsonHelper.ToJson(CurrentUser);
         window.BaseUrl = '/@action.ControllerDescriptor.ControllerName';
+
+        window.PageInfo = @JsonHelper.ToJson(ViewBag.PageInfo);
     </script>
+    <style>
+        .btn-xsm {
+            --tblr-btn-padding-y: 0.125rem;
+            --tblr-btn-padding-x: 0.25rem;
+            --tblr-btn-font-size: 0.9rem;
+            --tblr-btn-line-height: 1.5;
+            --tblr-btn-icon-size: .9rem;
+        }
+    </style>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
           :root {
@@ -48,10 +59,10 @@
             @RenderBody()
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-fluid">
-                    @RenderSection("infooter",false)
+                    @RenderSection("infooter", false)
                     <div class="row text-center align-items-center flex-row-reverse">
                         <div class="col-lg-auto ms-lg-auto">
-                            
+
                         </div>
                         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                             <ul class="list-inline list-inline-dots mb-0">
@@ -72,17 +83,17 @@
             </footer>
         </div>
     </div>
-    
+
     <!-- Tabler Core -->
     <script src="~/dist/js/tabler.min.js?@MvcApplication.Version" defer></script>
     <script src="~/dist/js/demo.min.js?@MvcApplication.Version" defer></script>
     <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
+    @RenderSection("scripts", false)
     @if (!(ViewBag.NoScript ?? false))
     {
         <script src="~/Scripts/@(action.ControllerDescriptor.ControllerName.ToLower())/@(action.ActionName.ToLower()).js?@MvcApplication.Version"></script>
     }
-    @RenderSection("scripts", false)
 </body>
 </html>

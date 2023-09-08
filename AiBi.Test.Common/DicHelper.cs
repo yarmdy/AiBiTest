@@ -27,7 +27,7 @@ namespace AiBi.Test.Common
         /// <param name="dic"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static TValue G<TKey,TValue>(this Dictionary<TKey,TValue> dic,TKey key,TValue def = default) { 
+        public static TValue G<TKey,TValue>(this IDictionary<TKey,TValue> dic,TKey key,TValue def = default) { 
             return key!=null && dic.ContainsKey(key) ? dic[key]:def;
         }
 

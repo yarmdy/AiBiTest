@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="ModelHelper.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="ExceptionEx.cs" />
     <Compile Include="Crypt.cs" />

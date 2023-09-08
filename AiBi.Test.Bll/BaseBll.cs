@@ -228,7 +228,9 @@ namespace AiBi.Test.Bll
         }
         public T Find(bool notracking, params object[] keys)
         {
-            if (keys == null || keys.Length <= 0) return null;
+            if (keys == null ) return null;
+            keys = keys.Where(a => a != null).ToArray();
+            if ( keys.Length <= 0) return null;
             keys = convertKeyType(keys);
             keys = keys.Select(a => a).ToArray();
             var obj = Context.Set<T>().Find(keys);

@@ -11,7 +11,7 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Web.Controllers
 {
-    public class BusTestPlanUserController : BaseController<BusTestPlanUser, PlanUserReq.Page>
+    public class TestPlanUserController : BaseController<BusTestPlanUser, PlanUserReq.Page>
     {
         public BusTestPlanUserBll BusTestPlanUserBll { get; set; }
 

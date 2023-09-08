@@ -1,10 +1,13 @@
 ﻿using AiBi.Test.Bll;
 using AiBi.Test.Common;
 using AiBi.Test.Dal.Model;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,9 +18,9 @@ using System.Web.Mvc;
 namespace AiBi.Test.Web.Controllers
 {
     [Authorize]
-    public abstract class BaseController<T,PageReqT> : Controller where T:BaseEntity where PageReqT : PageReq
+    public abstract class BaseController<T, PageReqT> : Controller where T : BaseEntity where PageReqT : PageReq
     {
-        public abstract BaseBll<T,PageReqT> Bll { get; }
+        public abstract BaseBll<T, PageReqT> Bll { get; }
         public SysUserBll SysUserBll { get; set; }
 
         public virtual ActionResult Index()
@@ -33,22 +36,22 @@ namespace AiBi.Test.Web.Controllers
             var res = Bll.GetPageList(req);
             return Json(res);
         }
-        public virtual ActionResult Edit(int? id=null)
+        public virtual ActionResult Edit(int id,int? id2=null)
         {
             return View();
         }
-        public virtual ActionResult Detail(int id)
+        public virtual ActionResult Detail(int id,int? id2=null)
         {
             return View();
         }
-        public virtual ActionResult GetByKeys(params object[] keys) {
-            return Json(Bll.GetByKeys(keys));
+        public virtual ActionResult GetDetail(int id, int? id2=null) {
+            return Json(Bll.GetByKeys(id,id2));
         }
 
-        public ActionResult Error(string title,string msg)
+        public ActionResult Error(string title, string msg)
         {
-            ViewBag.ErrorTitle = title??"";
-            ViewBag.ErrorMessage = msg??"";
+            ViewBag.ErrorTitle = title ?? "";
+            ViewBag.ErrorMessage = msg ?? "";
             return View("Error");
         }
         public ActionResult Error(string msg)
@@ -58,6 +61,18 @@ namespace AiBi.Test.Web.Controllers
             return View("Error");
         }
         #region 底层忽略
+        public Dictionary<string, object> PageInfo
+        {
+            get
+            {
+                if(ViewBag.PageInfo is Dictionary<string, object>)
+                {
+                    return ViewBag.PageInfo;
+                }
+                ViewBag.PageInfo = new Dictionary<string, object>();
+                return ViewBag.PageInfo;
+            }
+        }
         /// <summary>
         /// 重写json方法
         /// </summary>
@@ -118,6 +133,16 @@ namespace AiBi.Test.Web.Controllers
         {
             ViewBag.ActionInfo = filterContext.ActionDescriptor;
             ViewBag.CurrentUser = SysUserBll.GetCookie();
+
+            var st = (Bll.Context as IObjectContextAdapter).ObjectContext.CreateObjectSet<T>();
+            PageInfo["Keys"] = st.EntitySet.ElementType.KeyProperties.Select(a => a.Name).ToArray();
+            var id = (filterContext.ActionParameters as IDictionary).G<int?>("id");
+            var id2 = (filterContext.ActionParameters as IDictionary).G<int?>("id2");
+            var ids = new int?[] {id,id2 };
+            PageInfo["KeyValues"] = ids.Take(st.EntitySet.ElementType.KeyProperties.Count);
+            PageInfo["KeyValueStr"] = string.Join(",", ids.Take(st.EntitySet.ElementType.KeyProperties.Count).Select(a => a + ""));
+            var idindex = 0;
+            PageInfo["KeyInfos"] = st.EntitySet.ElementType.KeyProperties.Select(a => a).ToDictionary(a => a.Name, a => new { a.Name, a.TypeName, Value = ids[idindex++] });
         }
         
         /// <summary>

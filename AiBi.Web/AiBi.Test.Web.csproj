@@ -134,7 +134,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BusTestPlanUserController.cs" />
+    <Compile Include="Controllers\TestPlanUserController.cs" />
     <Compile Include="Controllers\TestPlanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1689,6 +1689,8 @@
     <Content Include="Views\Shared\Empty.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\TestPlan\Edit.cshtml" />
+    <Content Include="Views\TestPlan\Detail.cshtml" />
+    <Content Include="Views\TestPlanUser\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
