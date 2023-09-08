@@ -29,7 +29,7 @@
     <script>
         window.CurrentUser = @JsonHelper.ToJson(CurrentUser);
         window.BaseUrl = '/@action.ControllerDescriptor.ControllerName';
-
+        window.Title = "@ViewBag.Title";
         window.PageInfo = @JsonHelper.ToJson(ViewBag.PageInfo);
     </script>
     <style>
