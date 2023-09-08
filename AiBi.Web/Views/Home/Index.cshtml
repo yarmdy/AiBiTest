@@ -60,6 +60,15 @@
             display: block;
             text-wrap:nowrap;
         }
+        .tab-pane .shade {
+            background-color: rgb(28 134 155 / 12%);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
@@ -434,8 +443,11 @@
             </div>
         </header>
         <div class="page-wrapper tab-content">
-            <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow:1" tabname="首页">
-                <iframe src="/Home/Main" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
+            <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow: 1; position: relative; " tabname="首页">
+                <iframe src="/Home/Main" style="flex-grow: 1;" name="iframe" id="iframe" onload="$('#Shade-Home').fadeOut(300)"></iframe>
+                <div class="shade" id="Shade-Home">
+                    <div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></div>
+                </div>
             </div>
             @*<div class="tab-pane" id="Tabs-1" role="tabpanel" style="flex-grow:1">
                     <iframe src="/testplan/list" style="flex-grow: 1;" name="iframe" id="iframe"></iframe>
@@ -455,12 +467,15 @@
                 url = "about:blank";
             }
             url = $$.toUrl(url);
+
+            name = name == null ? null : $.trim(name);
             var obj = findTab(name);
             if (!obj) {
                 obj = newTab(name, url);
             } else {
                 obj.page.find("iframe").attr("src", url);
             }
+            obj.page.find("div.shade").show();
             
             activeTab(obj);
         }
@@ -473,10 +488,13 @@
             if (!name) {
                 name = "新窗口" + tabsid;
             }
+            name = name == null ? null : $.trim(name);
             var tab = $($("#tabtemplete").html()).attr("Id", "Navs-" + (tabsid)).attr("tabname", name);
             tab.find(">a").attr("href", "#Tabs-" + tabsid).html(" " + name + '<button class="tab-btn-close"></button>');
             var page = $($("#pagetemplete").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
-            page.find(">iframe").attr("src", url);
+            page.find(">iframe").attr("src", url).on("load", function () {
+                $(this).next("div.shade").fadeOut(300);
+            });
 
             tab.find("button").on("click", closeTab);
             tab.appendTo($("#Navs-Home").parent());
@@ -486,6 +504,7 @@
         function findTab(name) {
             var tab, page;
             if (typeof name == "string") {
+                name = name == null ? null : $.trim(name);
                 var tab = $("#Navs-Home").parent().find("[tabname=\"" + name + "\"]");
                 var page = $("#Tabs-Home").parent().find("[tabname=\"" + name + "\"]");
             } else {
@@ -592,8 +611,11 @@
         </li>
     </template>
     <template id="pagetemplete">
-        <div class="tab-pane" role="tabpanel" style="flex-grow:1">
+        <div class="tab-pane" role="tabpanel" style="flex-grow:1;position:relative">
             <iframe style="flex-grow: 1;"></iframe>
+            <div class="shade">
+                <div class="layui-layer-loading-2 layui-anim layui-anim-rotate layui-anim-loop"></div>
+            </div>
         </div>
     </template>
 </body>

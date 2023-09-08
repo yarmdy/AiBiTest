@@ -245,8 +245,11 @@
             }
         }
     },
+    tabName: function () {
+        return top.$(window.frameElement).closest("div[tabname]").attr("tabname");
+    },
     closeThis: function () {
-        var name = top.$(window.frameElement).closest("div[tabname]").attr("tabname");
+        var name = obj.tabName();
         if (!name) {
             return;
         }
@@ -257,6 +260,10 @@
             url = "about:blank";
         }
         url = obj.toUrl(url);
+        var tabname = obj.tabName();
+        if (tabname) {
+            url = obj.replaceParam(url, "opener", "opener=" + tabname);
+        }
         if (top === window && typeof window.addTab !== "function") {
             var winhwnd = window.open("about:blank");
             winhwnd.location.href = url;
@@ -265,7 +272,25 @@
         top.addTab(name,url);
     },
     toUrl: function (str) {
-        return new URL($("<a>").attr("href", str)[0].href).pathname;
+        var url = new URL($("<a>").attr("href", str)[0].href);
+        return url.pathname + url.search + url.hash;
+    },
+    //  /(?<=\?|\&)opener(\=.*?|)(?=$|\#|\&)/is
+    replaceParam: function (url, name, rep) {
+        
+        var paramReg = new RegExp("(?<=\\?|\\&)" + name + "(?:\\=.*?)??(?=$|\&|\\#)", "is");
+        param = paramReg.exec(url);
+        if (param != null) {
+            return url.replace(paramReg, rep);
+        }
+        var domainReg = /(?:\?.*?(?=\#|$)|(?=\#|$))/is;
+        var domain = domainReg.exec(url)[0];
+        if (domain.indexOf("?") < 0) {
+            domain = '?' + rep;
+        } else {
+            domain += ("&" + rep);
+        }
+        return url.replace(domainReg, domain);
     }
 }
 

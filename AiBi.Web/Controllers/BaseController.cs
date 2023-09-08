@@ -36,7 +36,7 @@ namespace AiBi.Test.Web.Controllers
             var res = Bll.GetPageList(req);
             return Json(res);
         }
-        public virtual ActionResult Edit(int id,int? id2=null)
+        public virtual ActionResult Edit(int? id,int? id2=null)
         {
             return View();
         }
