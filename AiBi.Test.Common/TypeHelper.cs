@@ -20,6 +20,10 @@ namespace AiBi.Test.Common
     public static class TypeHelper
     {
         public const BindingFlags __flags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.SetProperty;
+        public static MethodInfo GetMethodInfo<T1, T2, T3>(Func<T1, T2, T3> f, T1 unused1, T2 unused2)
+        {
+            return f.Method;
+        }
         public static PropertyInfo[] GetProperties<T>()
         {
             return typeof(T).GetProperties(__flags);
@@ -28,9 +32,41 @@ namespace AiBi.Test.Common
         {
             return GetProperty<T>(name) != null;
         }
+        public static bool HasPropertyBase<T>(string name)
+        {
+            return HasPropertyBase(typeof(T),name);
+        }
+        public static bool HasPropertyBase(Type type, string name)
+        {
+            return GetPropertyBase(type,name) != null;
+        }
         public static PropertyInfo GetProperty<T>(string name)
         {
-            return typeof(T).GetProperty(name, __flags);
+            return GetProperty(typeof(T),name);
+        }
+        public static PropertyInfo GetProperty(Type type,string name)
+        {
+            var arr = name.Split('.');
+            PropertyInfo res = null;
+            foreach (var param in arr)
+            {
+                var prop = GetPropertyBase(type, param);
+                if (prop == null)
+                {
+                    return null;
+                }
+                type = prop.PropertyType;
+                res = prop;
+            }
+            return res;
+        }
+        public static PropertyInfo GetPropertyBase<T>(string name)
+        {
+            return GetPropertyBase(typeof(T),name);
+        }
+        public static PropertyInfo GetPropertyBase(Type type, string name)
+        {
+            return type.GetProperty(name, __flags);
         }
         public static void SetPropertyValue<T>(this T obj,string name, object value)
         {
@@ -38,7 +74,7 @@ namespace AiBi.Test.Common
             {
                 return;
             }
-            var prop = GetProperty<T>(name);
+            var prop = GetPropertyBase<T>(name);
             if (prop == null)
             {
                 return;
@@ -47,7 +83,7 @@ namespace AiBi.Test.Common
         }
         public static T GetPropertyValue<T>(this T obj,string name)
         {
-            var prop = GetProperty<T>(name);
+            var prop = GetPropertyBase<T>( name);
             if (prop == null)
             {
                 return default;

@@ -29,7 +29,7 @@
             },
             success: success,
             error: function (a, b, c) {
-                layer.msg(a.status + " (" + c + ")", { icon: 2 });
+                layer.msg(a.status + " (" + (a.responseJSON && a.responseJSON.msg ? a.responseJSON.msg : c) + ")", { icon: 2 });
             }
         };
         if (dataType) {

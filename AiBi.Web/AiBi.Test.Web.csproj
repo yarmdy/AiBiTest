@@ -134,6 +134,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\TestTempleteController.cs" />
     <Compile Include="Controllers\TestPlanUserController.cs" />
     <Compile Include="Controllers\TestPlanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -31,27 +31,34 @@ namespace AiBi.Test.Bll
 
 
         #region 分页
-        public virtual IQueryable<T> PageWhereKeyword(PageReqT req, IQueryable<T> query)
+        public virtual Expression<Func<T, bool>> PageWhereKeyword(PageReqT req)
         {
+            var where = (Expression<Func<T, bool>>)(a => false);
             if (string.IsNullOrEmpty(req.keyword))
             {
-                return query;
+                return where.Or(a=>true);
             }
-            var where = (Expression<Func<T, bool>>)(a => false);
-            if (TypeHelper.HasProperty<T>("Title"))
+            
+            if (TypeHelper.HasPropertyBase<T>("Title"))
             {
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Title").Like(req.keyword));
             }
-            if (TypeHelper.HasProperty<T>("Name"))
+            if (TypeHelper.HasPropertyBase<T>("Name"))
             {
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Name").Like(req.keyword));
             }
-            if (TypeHelper.HasProperty<T>("Remark"))
+            if (TypeHelper.HasPropertyBase<T>("Remark"))
             {
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Mobile").Like(req.keyword));
             }
+            if (TypeHelper.HasPropertyBase<T>("Keys"))
+            {
+                var tkey = req.keyword.Replace("|","");
+                where = where.Or(PredicateBuilder.DotExpression<T,string>("Keys").Like(tkey));
+
+            }
             where = where.Or(a => a.CreateUser.Name.Contains(req.keyword));
-            return query.Where(where);
+            return where;
         }
         /// <summary>
         /// 分页条件
@@ -60,8 +67,15 @@ namespace AiBi.Test.Bll
         /// <returns></returns>
         public virtual IQueryable<T> PageWhere(PageReqT req, IQueryable<T> query)
         {
-            query = PageWhereKeyword(req, query);
+            query = query.Where(PageWhereKeyword(req));
             return query;
+        }
+        public virtual IQueryable<T> DefOrderBy(PageReqT req, IOrderedQueryable<T> query) {
+            if (TypeHelper.HasPropertyBase<T>("Id"))
+            {
+                return query.ThenByDescending("Id");
+            }
+            return query.ThenByDescending(a=>a.CreateTime);
         }
         /// <summary>
         /// 分页排序
@@ -70,7 +84,26 @@ namespace AiBi.Test.Bll
         /// <returns></returns>
         public virtual IQueryable<T> PageOrder(PageReqT req, IQueryable<T> query)
         {
-            return query.OrderByDescending(a => a.CreateTime);
+            IOrderedQueryable<T> sortQuery = query.OrderBy(a => 0);
+            if (req.Sort != null)
+            {
+                foreach (var sort in req.Sort)
+                {
+                    if (!TypeHelper.HasProperty<T>(sort.Key))
+                    {
+                        continue;
+                    }
+                    if (sort.Value)
+                    {
+                        sortQuery = sortQuery.ThenBy(sort.Key);
+                    }
+                    else
+                    {
+                        sortQuery = sortQuery.ThenByDescending(sort.Key);
+                    }
+                }
+            }
+            return DefOrderBy(req, sortQuery);
         }
         /// <summary>
         /// 分页完成后处理数据
@@ -163,7 +196,7 @@ namespace AiBi.Test.Bll
             }
             if (order == null)
             {
-                query = query.OrderByDescending(a => a.CreateTime);
+                query = DefOrderBy(null,query.OrderBy(a=>0));
             }
             else
             {
@@ -264,7 +297,7 @@ namespace AiBi.Test.Bll
             var objset = (Context as IObjectContextAdapter).ObjectContext.CreateObjectSet<T>();
             int i = 0;
             var keyTypes = objset.EntitySet.ElementType.KeyProperties.Select(a => {
-                var type = TypeHelper.GetProperty<T>(a.Name).PropertyType;
+                var type = TypeHelper.GetPropertyBase<T>(a.Name).PropertyType;
                 var res = Convert.ChangeType(keys[i],type,null);
                 i++;
                 return res;

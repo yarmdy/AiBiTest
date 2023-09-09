@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Web.UI;
 
 namespace AiBi.Test.Common
 {
@@ -39,10 +41,162 @@ namespace AiBi.Test.Common
         }
         public static Expression<Func<T,TResult>> DotExpression<T, TResult>(string name)
         {
+            if (!TypeHelper.HasProperty<T>(name))
+            {
+                throw new Exception($"属性\"{name}\"不存在");
+            }
             var paramExpr = Expression.Parameter(typeof(T), "a");
-            return (Expression<Func<T,TResult>>)Expression.Lambda(Expression.MakeMemberAccess(paramExpr, typeof(T).GetMember(name,
-                BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.SetProperty
-                ).FirstOrDefault()), paramExpr);
+            var arr = name.Split('.');
+            Expression expr = paramExpr;
+            Type type = typeof(T);
+            foreach (var param in arr)
+            {
+                var member = TypeHelper.GetPropertyBase(type, param);
+                expr = Expression.MakeMemberAccess(expr, member);
+                type = member.PropertyType;
+            }
+            return (Expression<Func<T,TResult>>)Expression.Lambda(expr, paramExpr);
+        }
+
+        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> query, string property,bool desc=false)
+        {
+            if (desc)
+            {
+                return ThenByDescending(query, property);
+            }
+            if (!TypeHelper.HasProperty<T>(property))
+            {
+                return query;
+            }
+            var tprop = TypeHelper.GetProperty<T>(property).PropertyType;
+            var isnullable = tprop.FullName.StartsWith("System.Nullable");
+            var prop = isnullable ? tprop.GenericTypeArguments?[0] : tprop;
+            if (prop == null)
+            {
+                return query;
+            }
+            if(!isnullable)
+            {
+                switch (prop.Name)
+                {
+                    case "String":
+                        {
+                            return query.ThenBy(DotExpression<T, string>(property));
+                        }
+                    case "Int32":
+                        {
+                            return query.ThenBy(DotExpression<T, int>(property));
+                        }
+                    case "DateTime":
+                        {
+                            return query.ThenBy(DotExpression<T, DateTime>(property));
+                        }
+                    case "Decimal":
+                        {
+                            return query.ThenBy(DotExpression<T, decimal>(property));
+                        }
+                    case "Boolean":
+                        {
+                            return query.ThenBy(DotExpression<T, bool>(property));
+                        }
+
+                }
+            }
+            else
+            {
+                switch (prop.Name)
+                {
+                    case "Int32":
+                        {
+                            return query.ThenBy(DotExpression<T, int?>(property));
+                        }
+                    case "DateTime":
+                        {
+                            return query.ThenBy(DotExpression<T, DateTime?>(property));
+                        }
+                    case "Decimal":
+                        {
+                            return query.ThenBy(DotExpression<T, decimal?>(property));
+                        }
+                    case "Boolean":
+                        {
+                            return query.ThenBy(DotExpression<T, bool?>(property));
+                        }
+
+                }
+            }
+            
+            return query;
+        }
+        public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> query, string property, bool asc = false)
+        {
+            if (asc)
+            {
+                return ThenBy(query,property);
+            }
+            if (!TypeHelper.HasProperty<T>(property))
+            {
+                return query;
+            }
+            var tprop = TypeHelper.GetProperty<T>(property).PropertyType;
+            var isnullable = tprop.FullName.StartsWith("System.Nullable");
+            var prop = isnullable ? tprop.GenericTypeArguments?[0] : tprop;
+            if (prop == null)
+            {
+                return query;
+            }
+            if (!isnullable)
+            {
+                switch (prop.Name)
+                {
+                    case "String":
+                        {
+                            return query.ThenByDescending(DotExpression<T, string>(property));
+                        }
+                    case "Int32":
+                        {
+                            return query.ThenByDescending(DotExpression<T, int>(property));
+                        }
+                    case "DateTime":
+                        {
+                            return query.ThenByDescending(DotExpression<T, DateTime>(property));
+                        }
+                    case "Decimal":
+                        {
+                            return query.ThenByDescending(DotExpression<T, decimal>(property));
+                        }
+                    case "Boolean":
+                        {
+                            return query.ThenByDescending(DotExpression<T, bool>(property));
+                        }
+
+                }
+            }
+            else
+            {
+                switch (prop.Name)
+                {
+                    case "Int32":
+                        {
+                            return query.ThenByDescending(DotExpression<T, int?>(property));
+                        }
+                    case "DateTime":
+                        {
+                            return query.ThenByDescending(DotExpression<T, DateTime?>(property));
+                        }
+                    case "Decimal":
+                        {
+                            return query.ThenByDescending(DotExpression<T, decimal?>(property));
+                        }
+                    case "Boolean":
+                        {
+                            return query.ThenByDescending(DotExpression<T, bool?>(property));
+                        }
+
+                }
+            }
+
+            return query;
         }
 
         private class ExParameterVisitor : ExpressionVisitor
