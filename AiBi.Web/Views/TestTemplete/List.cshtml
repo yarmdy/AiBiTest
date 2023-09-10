@@ -1,0 +1,113 @@
+﻿@{
+
+}
+@section styles{
+    <style>
+        .card-img, .card-img-top {
+            border-top-left-radius: var(--tblr-card-inner-border-radius);
+            border-top-right-radius: var(--tblr-card-inner-border-radius);
+            height: 12rem;
+            object-fit: cover;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        if (ActionInfo.Action.toLowerCase() == "mylist") {
+            $$.common.getPageList.url = "/GetMyList";
+        }
+    </script>
+}
+
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-fluid">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                    Overview
+                </div>*@
+                <h2 class="page-title">
+                    @ViewBag.Title
+                </h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+                <form class="d-flex" id="searchform">
+                    <div class="me-3">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                            </span>
+                        </div>
+                    </div>
+                    <a href="~/TestTemplete/Edit" class="btn btn-primary" target="addtab">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                        创建测试题
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-body" style="flex:1; display:flex;flex-direction:column">
+    <div class="container-fluid" style="flex:1">
+        <div class="card mb-3" style="display:none">
+            <div class="card-body d-flex pager" parent="div.card">
+                <p class="m-0 text-secondary"></p>
+                <ul class="pagination ms-auto">
+                </ul>
+            </div>
+        </div>
+
+        <div class="row row-cards row-cols-xl-5" id="list">
+
+        </div>
+
+        <div class="card mt-3" style="display:none">
+            <div class="card-body d-flex pager" parent="div.card">
+                <p class="m-0 text-secondary"></p>
+                <ul class="pagination ms-auto">
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<template id="listtemplete">
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xxl-2">
+        <div class="card card-sm">
+            <a href="/TestTemplete/Detail/{{Id}}" class="d-block" target="addtab" title="测试套餐-{{Id}}"><img src="{{=(obj.Image?obj.FullName:'/static/photos/beautiful-blonde-woman-relaxing-with-a-can-of-coke-on-a-tree-stump-by-the-beach.jpg')}}" class="card-img-top"></a>
+            <div class="card-body">
+                <h4>{{Title}}</h4>
+                <div class="d-flex align-items-center">
+                    <div class="ms-auto">
+                        <label class="text-muted" title="时长">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" /></svg>
+                            {{Duration}}分钟
+                        </label>
+                        <label class="ms-3 text-muted" title="用例数">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><line x1="13" y1="8" x2="15" y2="8" /><line x1="13" y1="12" x2="15" y2="12" /></svg>
+                            {{ExampleNum}}
+                        </label>
+                        <label class="ms-3 text-muted" title="问题数">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><rect x="9" y="3" width="6" height="4" rx="2" /><line x1="9" y1="12" x2="9.01" y2="12" /><line x1="13" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="9.01" y2="16" /><line x1="13" y1="16" x2="15" y2="16" /></svg>
+                            {{QuestionNum}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="emptytemplete">
+@{
+    Html.RenderPartial("Empty");
+}
+</template>

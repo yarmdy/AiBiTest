@@ -938,6 +938,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\testtemplete\edit.js" />
+    <Content Include="Scripts\testtemplete\list.js" />
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="static\avatars\000f.jpg" />
@@ -1692,6 +1694,9 @@
     <Content Include="Views\TestPlan\Edit.cshtml" />
     <Content Include="Views\TestPlan\Detail.cshtml" />
     <Content Include="Views\TestPlanUser\Detail.cshtml" />
+    <Content Include="Views\TestTemplete\Detail.cshtml" />
+    <Content Include="Views\TestTemplete\Edit.cshtml" />
+    <Content Include="Views\TestTemplete\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

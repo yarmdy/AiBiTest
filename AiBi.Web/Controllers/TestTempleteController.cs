@@ -19,7 +19,7 @@ namespace AiBi.Test.Web.Controllers
 
         public ActionResult MyList()
         {
-            return View();
+            return View("List");
         }
         public ActionResult GetMyList(TestTempleteReq.Page req)
         {

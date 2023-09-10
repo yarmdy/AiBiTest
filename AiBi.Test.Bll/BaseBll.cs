@@ -330,7 +330,7 @@ namespace AiBi.Test.Bll
         /// include一下
         /// </summary>
         /// <returns></returns>
-        protected static IQueryable<T> getIncludeQuery<TKey>(IQueryable<T> query,Expression<Func<T, TKey>> includeSelector)
+        protected static IQueryable<T> GetIncludeQuery<TKey>(IQueryable<T> query,Expression<Func<T, TKey>> includeSelector)
         {
             if (includeSelector == null)
             {

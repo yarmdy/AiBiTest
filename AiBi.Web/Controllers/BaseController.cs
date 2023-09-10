@@ -128,9 +128,11 @@ namespace AiBi.Test.Web.Controllers
                     response.Filter = new DeflateStream(response.Filter, CompressionLevel.Optimal);
                 }
             }
+            
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
             ViewBag.ActionInfo = filterContext.ActionDescriptor;
             ViewBag.CurrentUser = SysUserBll.GetCookie();
 
@@ -145,8 +147,13 @@ namespace AiBi.Test.Web.Controllers
             PageInfo["KeyInfos"] = st.EntitySet.ElementType.KeyProperties.Select(a => a).ToDictionary(a => a.Name, a => new { a.Name, a.TypeName, Value = ids[idindex++] });
             PageInfo["opener"] = Request.Params["opener"];
             ViewBag.Title = Request.Params["title"];
+            
         }
-        
+        protected override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            PageInfo["View"] = (filterContext.Result is ViewResult) ? (filterContext.Result as ViewResult).ViewName : null;
+            base.OnResultExecuting(filterContext);
+        }
         /// <summary>
         /// json转换类
         /// </summary>

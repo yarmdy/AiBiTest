@@ -1,6 +1,7 @@
 ﻿@{
     ActionDescriptor action = ViewBag.ActionInfo;
     AiBi.Test.Dal.Model.SysUser CurrentUser = ViewBag.CurrentUser;
+    Dictionary<string, object> PageInfo = ViewBag.PageInfo;
 }
 <!doctype html>
 <!--
@@ -34,6 +35,10 @@
         window.TimeInfo = {
             Server: new Date('@(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"))'),
             Client: new Date()
+        };
+        window.ActionInfo = {
+            Action: "@action.ActionName",
+            Controller: "@action.ControllerDescriptor.ControllerName",
         };
     </script>
     <style>
@@ -97,7 +102,7 @@
     @RenderSection("scripts", false)
     @if (!(ViewBag.NoScript ?? false))
     {
-        <script src="~/Scripts/@(action.ControllerDescriptor.ControllerName.ToLower())/@(action.ActionName.ToLower()).js?@MvcApplication.Version"></script>
+        <script src="~/Scripts/@(action.ControllerDescriptor.ControllerName.ToLower())/@((string.IsNullOrEmpty(PageInfo.G<string>("View")) ?action.ActionName:PageInfo.G<string>("View")).ToLower()).js?@MvcApplication.Version"></script>
     }
 </body>
 </html>
