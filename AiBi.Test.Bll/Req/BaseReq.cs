@@ -15,6 +15,9 @@ namespace AiBi.Test.Bll
 
         public string keyword { get; set; }
 
+        public Dictionary<string, string> Where { get; set; }
         public Dictionary<string,bool> Sort { get; set; }
+
+        public object Tag { get; set; }
     }
 }

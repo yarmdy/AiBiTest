@@ -13,7 +13,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 问题Id
         /// </summary>
-        public int? QuestionId { get; set; }
+        public int QuestionId { get; set; }
         /// <summary>
         /// 按钮文字
         /// </summary>

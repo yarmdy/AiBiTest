@@ -99,17 +99,17 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusClassifyDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusClassifyModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
-                entity.HasRequired(d => d.Parent)
+                entity.HasOptional(d => d.Parent)
                     .WithMany(p => p.InverseParent)
                     .HasForeignKey(d => d.ParentId)
                     ;
@@ -189,22 +189,22 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.Image)
+                entity.HasOptional(d => d.Image)
                     .WithMany(p => p.BusExamples)
                     .HasForeignKey(d => d.ImageId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
-                entity.HasRequired(d => d.SubClassify)
+                entity.HasOptional(d => d.SubClassify)
                     .WithMany(p => p.BusExampleSubClassifies)
                     .HasForeignKey(d => d.SubClassifyId)
                     ;
@@ -250,7 +250,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusExampleOptionDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -260,7 +260,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusExampleOptionModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -309,7 +309,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusExampleQuestionDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -319,7 +319,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusExampleQuestionModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -381,7 +381,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusExampleResultDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -391,7 +391,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusExampleResultModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -439,17 +439,17 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusQuestionDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.Image)
+                entity.HasOptional(d => d.Image)
                     .WithMany(p => p.BusQuestions)
                     .HasForeignKey(d => d.ImageId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusQuestionModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -497,12 +497,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusQuestionOptionDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusQuestionOptionModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -567,12 +567,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestPlanDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestPlanModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -624,7 +624,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestPlanExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -634,7 +634,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestPlanExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -709,12 +709,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestPlanUserDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestPlanUserModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -794,7 +794,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestPlanUserExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -804,7 +804,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestPlanUserExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -814,7 +814,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.PlanId)
                                         ;
 
-                entity.HasRequired(d => d.Result)
+                entity.HasOptional(d => d.Result)
                     .WithMany(p => p.BusTestPlanUserExamples)
                     .HasForeignKey(d => d.ResultId)
                     ;
@@ -870,12 +870,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusUserClassifyDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusUserClassifyModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -926,7 +926,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusUserExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -936,7 +936,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusUserExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1002,12 +1002,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.SysAttachmentDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.SysAttachmentModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1069,12 +1069,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.SysFuncDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.SysFuncModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1120,12 +1120,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.SysRoleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.SysRoleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1167,7 +1167,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.SysRoleFuncDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -1177,7 +1177,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.FuncId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.SysRoleFuncModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1251,7 +1251,7 @@ namespace AiBi.Test.Dal.Model
 
                 entity.Property(e => e.AvatarName).HasMaxLength(50).IsUnicode(false);
 
-                entity.HasRequired(a=>a.Avatar).WithMany(a=>a.SysUsers).HasForeignKey(a=>a.AvatarId);
+                entity.HasOptional(a=>a.Avatar).WithMany(a=>a.SysUsers).HasForeignKey(a=>a.AvatarId);
             });
 
             modelBuilder.Entity<SysUserRole>(entity =>
@@ -1290,12 +1290,12 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.SysUserRoleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.SysUserRoleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1386,22 +1386,22 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestTempleteDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.Image)
+                entity.HasOptional(d => d.Image)
                     .WithMany(p => p.BusTestTempletes)
                     .HasForeignKey(d => d.ImageId)
                     ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestTempleteModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
-                entity.HasRequired(d => d.SubClassify)
+                entity.HasOptional(d => d.SubClassify)
                     .WithMany(p => p.BusTestTempleteSubClassifies)
                     .HasForeignKey(d => d.SubClassifyId)
                     ;
@@ -1450,7 +1450,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusTestTempleteExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -1460,7 +1460,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusTestTempleteExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
@@ -1511,7 +1511,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
-                entity.HasRequired(d => d.DelUser)
+                entity.HasOptional(d => d.DelUser)
                     .WithMany(p => p.BusUserTestTempleteDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
@@ -1521,7 +1521,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.TempleteId)
                                         ;
 
-                entity.HasRequired(d => d.ModifyUser)
+                entity.HasOptional(d => d.ModifyUser)
                     .WithMany(p => p.BusUserTestTempleteModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;

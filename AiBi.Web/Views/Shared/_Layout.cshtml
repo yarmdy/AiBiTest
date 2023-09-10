@@ -31,6 +31,10 @@
         window.BaseUrl = '/@action.ControllerDescriptor.ControllerName';
         window.Title = "@ViewBag.Title";
         window.PageInfo = @JsonHelper.ToJson(ViewBag.PageInfo);
+        window.TimeInfo = {
+            Server: new Date('@(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"))'),
+            Client: new Date()
+        };
     </script>
     <style>
         .btn-xsm {

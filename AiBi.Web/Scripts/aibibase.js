@@ -330,6 +330,13 @@
             return;
         }
         opener.callback[name].apply(window, params);
+    },
+    ServerNow: function () {
+        if (!window.TimeInfo) {
+            return new Date();
+        }
+        let offset = window.TimeInfo.Client - window.TimeInfo.Server;
+        return new Date(new Date() - offset);
     }
 }
 

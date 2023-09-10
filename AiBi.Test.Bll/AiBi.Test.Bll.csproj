@@ -109,6 +109,7 @@
     <Compile Include="Req\HomeReq.cs" />
     <Compile Include="BusTestPlanBll.cs" />
     <Compile Include="Res\Response.cs" />
+    <Compile Include="BusUserClassifyBll.cs" />
     <Compile Include="SysRoleBll.cs" />
     <Compile Include="SysFuncBll.cs" />
     <Compile Include="SysRoleFuncBll.cs" />

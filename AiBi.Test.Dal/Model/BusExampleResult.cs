@@ -13,7 +13,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 用例Id
         /// </summary>
-        public int? ExampleId { get; set; }
+        public int ExampleId { get; set; }
         /// <summary>
         /// 代码
         /// </summary>

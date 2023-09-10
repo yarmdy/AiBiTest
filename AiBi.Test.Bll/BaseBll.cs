@@ -68,6 +68,22 @@ namespace AiBi.Test.Bll
         public virtual IQueryable<T> PageWhere(PageReqT req, IQueryable<T> query)
         {
             query = query.Where(PageWhereKeyword(req));
+            if (req.Where != null)
+            {
+                foreach (var where in req.Where)
+                {
+                    if (!TypeHelper.HasProperty<T>(where.Key))
+                    {
+                        query = PageOrderCustom(req, query);
+                        continue;
+                    }
+                    query = query.EqualTo(where.Key,where.Value);
+                }
+            }
+            return query;
+        }
+        public virtual IQueryable<T> PageWhereCustom(PageReqT req, IQueryable<T> query)
+        {
             return query;
         }
         public virtual IQueryable<T> DefOrderBy(PageReqT req, IOrderedQueryable<T> query) {
@@ -91,6 +107,7 @@ namespace AiBi.Test.Bll
                 {
                     if (!TypeHelper.HasProperty<T>(sort.Key))
                     {
+                        query = PageOrderCustom(req,query);
                         continue;
                     }
                     if (sort.Value)
@@ -104,6 +121,10 @@ namespace AiBi.Test.Bll
                 }
             }
             return DefOrderBy(req, sortQuery);
+        }
+        public virtual IQueryable<T> PageOrderCustom(PageReqT req, IQueryable<T> query)
+        {
+            return query;
         }
         /// <summary>
         /// 分页完成后处理数据
@@ -154,7 +175,7 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region lambda查询
-        public IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where, bool notracking)
+        private IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where, bool notracking)
         {
             IQueryable<T> query;
             if (notracking)

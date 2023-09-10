@@ -1,6 +1,6 @@
 USE [AiBi_Test]
 GO
-/****** Object:  Table [test].[bus_Classify]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Classify]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -23,7 +23,7 @@ CREATE TABLE [test].[bus_Classify](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Example]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,7 +55,7 @@ CREATE TABLE [test].[bus_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Option]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Example_Option]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -79,7 +79,7 @@ CREATE TABLE [test].[bus_Example_Option](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Question]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Example_Question]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -103,14 +103,14 @@ CREATE TABLE [test].[bus_Example_Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Result]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Example_Result]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [test].[bus_Example_Result](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ExampleId] [int] NULL,
+	[ExampleId] [int] NOT NULL,
 	[Code] [nvarchar](10) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[NContent] [nvarchar](4000) NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE [test].[bus_Example_Result](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Question]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Question]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,14 +153,14 @@ CREATE TABLE [test].[bus_Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Question_Option]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_Question_Option]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [test].[bus_Question_Option](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[QuestionId] [int] NULL,
+	[QuestionId] [int] NOT NULL,
 	[Code] [nvarchar](10) NOT NULL,
 	[Remark] [nvarchar](400) NOT NULL,
 	[CreateUserId] [int] NOT NULL,
@@ -176,7 +176,7 @@ CREATE TABLE [test].[bus_Question_Option](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestPlan]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +205,7 @@ CREATE TABLE [test].[bus_TestPlan](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_Example]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestPlan_Example]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -230,7 +230,7 @@ CREATE TABLE [test].[bus_TestPlan_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_User]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestPlan_User]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -262,7 +262,7 @@ CREATE TABLE [test].[bus_TestPlan_User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_User_Example]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestPlan_User_Example]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -295,13 +295,13 @@ CREATE TABLE [test].[bus_TestPlan_User_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestTemplete]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestTemplete]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [test].[bus_TestTemplete](
-	[Id] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[ClassifyId] [int] NOT NULL,
 	[SubClassifyId] [int] NULL,
@@ -328,7 +328,7 @@ CREATE TABLE [test].[bus_TestTemplete](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestTemplete_Example]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_TestTemplete_Example]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -353,7 +353,7 @@ CREATE TABLE [test].[bus_TestTemplete_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_Classify]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_User_Classify]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -376,7 +376,7 @@ CREATE TABLE [test].[bus_User_Classify](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_Example]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_User_Example]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -399,7 +399,7 @@ CREATE TABLE [test].[bus_User_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_TestTemplete]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[bus_User_TestTemplete]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -422,7 +422,7 @@ CREATE TABLE [test].[bus_User_TestTemplete](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Attachment]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_Attachment]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -448,7 +448,7 @@ CREATE TABLE [test].[sys_Attachment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Func]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_Func]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -474,7 +474,7 @@ CREATE TABLE [test].[sys_Func](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Role]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_Role]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -496,7 +496,7 @@ CREATE TABLE [test].[sys_Role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Role_Func]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_Role_Func]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -518,7 +518,7 @@ CREATE TABLE [test].[sys_Role_Func](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_User]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_User]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -549,7 +549,7 @@ CREATE TABLE [test].[sys_User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_User_Role]    Script Date: 2023/9/6 14:37:36 ******/
+/****** Object:  Table [test].[sys_User_Role]    Script Date: 2023/9/10 21:07:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1102,17 +1102,17 @@ REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[sys_Func] CHECK CONSTRAINT [FK_sys_Func_sys_User2]
 GO
-ALTER TABLE [test].[sys_Role]  WITH CHECK ADD  CONSTRAINT [FK_sys_Role_sys_User] FOREIGN KEY([CreateUserId])
+ALTER TABLE [test].[sys_Role]  WITH NOCHECK ADD  CONSTRAINT [FK_sys_Role_sys_User] FOREIGN KEY([CreateUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[sys_Role] CHECK CONSTRAINT [FK_sys_Role_sys_User]
 GO
-ALTER TABLE [test].[sys_Role]  WITH CHECK ADD  CONSTRAINT [FK_sys_Role_sys_User1] FOREIGN KEY([ModifyUserId])
+ALTER TABLE [test].[sys_Role]  WITH NOCHECK ADD  CONSTRAINT [FK_sys_Role_sys_User1] FOREIGN KEY([ModifyUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[sys_Role] CHECK CONSTRAINT [FK_sys_Role_sys_User1]
 GO
-ALTER TABLE [test].[sys_Role]  WITH CHECK ADD  CONSTRAINT [FK_sys_Role_sys_User2] FOREIGN KEY([DelUserId])
+ALTER TABLE [test].[sys_Role]  WITH NOCHECK ADD  CONSTRAINT [FK_sys_Role_sys_User2] FOREIGN KEY([DelUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[sys_Role] CHECK CONSTRAINT [FK_sys_Role_sys_User2]

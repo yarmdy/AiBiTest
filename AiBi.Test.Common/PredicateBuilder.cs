@@ -25,7 +25,7 @@ namespace AiBi.Test.Common
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expr1.Body, right), expr1.Parameters);
         }
 
-        public static Expression<Func<T, bool>> Equal<T, TType>(this Expression<Func<T, TType>> expr,TType val) {
+        public static Expression<Func<T, bool>> Equal<T>(this LambdaExpression expr,object val) {
             return Expression.Lambda<Func<T, bool>>(Expression.Equal(expr.Body,Expression.Constant(val)),expr.Parameters);
         }
 
@@ -39,7 +39,12 @@ namespace AiBi.Test.Common
             var method = typeof(string).GetMethod("Contains");
             return Expression.Lambda<Func<T, bool>>(Expression.Call(expr.Body, method, Expression.Constant(val)), expr.Parameters);
         }
-        public static Expression<Func<T,TResult>> DotExpression<T, TResult>(string name)
+
+        public static Expression<Func<T, TResult>> DotExpression<T, TResult>(string name)
+        {
+            return (Expression<Func<T, TResult>>)DotExpressionBase<T>(name);
+        }
+        public static LambdaExpression DotExpressionBase<T>(string name)
         {
             if (!TypeHelper.HasProperty<T>(name))
             {
@@ -55,8 +60,9 @@ namespace AiBi.Test.Common
                 expr = Expression.MakeMemberAccess(expr, member);
                 type = member.PropertyType;
             }
-            return (Expression<Func<T,TResult>>)Expression.Lambda(expr, paramExpr);
+            return Expression.Lambda(expr, paramExpr);
         }
+
 
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> query, string property,bool desc=false)
         {
@@ -127,6 +133,17 @@ namespace AiBi.Test.Common
             }
             
             return query;
+        }
+        public static IQueryable<T> EqualTo<T>(this IQueryable<T> query,string property,object value) {
+            if (!TypeHelper.HasProperty<T>(property))
+            {
+                return query;
+            }
+            var tprop = TypeHelper.GetProperty<T>(property).PropertyType;
+            value = Convert.ChangeType(value,tprop,null);
+
+
+            return query.Where(DotExpressionBase<T>(property).Equal<T>(value));
         }
         public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> query, string property, bool asc = false)
         {

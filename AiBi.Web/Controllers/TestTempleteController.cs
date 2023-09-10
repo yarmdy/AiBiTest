@@ -21,10 +21,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return View();
         }
-        //public ActionResult GetMyList(TestTempleteReq.Page req)
-        //{
-        //    var res = BusTestTempleteBll.GetMyList(req);
-        //    return Json(res);
-        //}
+        public ActionResult GetMyList(TestTempleteReq.Page req)
+        {
+            var res = BusTestTempleteBll.GetMyList(req);
+            return Json(res);
+        }
     }
 }
