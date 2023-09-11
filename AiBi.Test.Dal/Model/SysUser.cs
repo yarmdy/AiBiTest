@@ -78,6 +78,13 @@ namespace AiBi.Test.Dal.Model
             BusUserTestTempleteModifyUsers = new HashSet<BusUserTestTemplete>();
             BusUserTestTempleteDelUsers=new HashSet<BusUserTestTemplete>();
             BusUserTestTempleteUsers = new HashSet<BusUserTestTemplete>();
+
+            BusUserInfoUsers = new HashSet<BusUserInfo>();
+            BusUserInfoOwners = new HashSet<BusUserInfo>();
+            BusUserInfoCreateUsers = new HashSet<BusUserInfo>();
+            BusUserInfoModifyUsers = new HashSet<BusUserInfo>();
+            BusUserInfoDelUsers = new HashSet<BusUserInfo>();
+
         }
 
         /// <summary>
@@ -197,6 +204,14 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteModifyUsers { get; set; }
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteDelUsers { get; set; }
         public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteUsers { get; set; }
+
+
+        public virtual ICollection<BusUserInfo> BusUserInfoUsers { get; set; }
+        public virtual ICollection<BusUserInfo> BusUserInfoOwners { get; set; }
+        public virtual ICollection<BusUserInfo> BusUserInfoCreateUsers { get; set; }
+        public virtual ICollection<BusUserInfo> BusUserInfoModifyUsers { get; set; }
+        public virtual ICollection<BusUserInfo> BusUserInfoDelUsers { get; set; }
+
 
     }
 }

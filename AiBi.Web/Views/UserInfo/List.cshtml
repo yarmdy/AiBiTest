@@ -16,6 +16,7 @@
         if (ActionInfo.Action.toLowerCase() == "mylist") {
             $$.common.getPageList.url = "/GetMyList";
         }
+        var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
     </script>
 }
 
@@ -44,10 +45,10 @@
                             </span>
                         </div>
                     </div>
-                    <a href="~/TestTemplete/Edit" class="btn btn-primary" target="addtab">
+                    <a href="~/UserInfo/Edit" class="btn btn-primary" target="addtab">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                        创建测试模板
+                        添加学员
                     </a>
                 </form>
             </div>
@@ -65,8 +66,24 @@
             </div>
         </div>
 
-        <div class="row row-cards row-cols-xl-5" id="list">
-
+        <div class="row row-cards" >
+            <div class="table-responsive">
+                <table class="table table-vcenter table-mobile-md card-table">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>单位</th>
+                            <th>身份证号</th>
+                            <th>生日</th>
+                            <th class="w-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="list">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="card mt-3" style="display:none">
@@ -81,33 +98,43 @@
 </div>
 
 <template id="listtemplete">
-    <div class="col-sm-6 col-md-4 col-lg-3 col-xxl-2">
-        <div class="card card-sm">
-            <a href="/TestTemplete/Detail/{{Id}}" class="d-block" target="addtab" title="测试套餐-{{Id}}"><img src="{{=(obj.Image?obj.FullName:'/static/photos/beautiful-blonde-woman-relaxing-with-a-can-of-coke-on-a-tree-stump-by-the-beach.jpg')}}" class="card-img-top"></a>
-            <div class="card-body">
-                <h4>{{Title}}</h4>
-                <div class="d-flex align-items-center">
-                    <div class="ms-auto">
-                        <label class="text-muted" title="时长">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" /></svg>
-                            {{Duration}}分钟
-                        </label>
-                        <label class="ms-3 text-muted" title="用例数">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><line x1="13" y1="8" x2="15" y2="8" /><line x1="13" y1="12" x2="15" y2="12" /></svg>
-                            {{ExampleNum}}
-                        </label>
-                        <label class="ms-3 text-muted" title="问题数">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><rect x="9" y="3" width="6" height="4" rx="2" /><line x1="9" y1="12" x2="9.01" y2="12" /><line x1="13" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="9.01" y2="16" /><line x1="13" y1="16" x2="15" y2="16" /></svg>
-                            {{QuestionNum}}
-                        </label>
-                    </div>
+    <tr rowid="{{UserId}},{{OwnerId}}">
+        <td data-label="姓名">
+            <div class="d-flex py-1 align-items-center">
+                <span class="avatar me-2" style="background-image: url({{=obj.Avatar?obj.Avatar.FullName:(obj.AvatarName||'/static/avatars/defaultavatar.png') }})"></span>
+                <div class="flex-fill">
+                    <div class="font-weight-medium">{{=obj.RealName||obj.User.Name}}</div>
+                    <div class="text-secondary">{{=obj.User.Mobile??obj.User.Account}}</div>
                 </div>
             </div>
-        </div>
-    </div>
+        </td>
+        <td data-label="性别">
+            <div>{{=EnumSex[obj.Sex]||"未知"}}</div>
+        </td>
+        <td class="text-secondary" data-label="单位">
+            {{=obj.Unit||"-"}}
+        </td>
+        <td class="text-secondary" data-label="身份证号">
+            {{=obj.IdCardNo||"-"}}
+        </td>
+        <td class="text-secondary" data-label="生日">
+            {{=(obj.BirthDay&&new Date(obj.BirthDay).formate())||"-"}}
+        </td>
+        <td>
+            <div class="btn-list flex-nowrap">
+                <a href="/UserInfo/Edit/{{UserId}},{{OwnerId}}" class="btn btn-outline-primary btn-pill btn-xsm" target="addtab" title="修改用户信息-{{UserId}}:{{OwnerId}}">
+                    修改
+                </a>
+                <a href="#" class="btn btn-outline-danger btn-pill btn-xsm">删除</a>
+                <a href="/UserInfo/Detail/{{UserId}},{{OwnerId}}" class="btn btn-outline-info btn-pill btn-xsm" target="addtab" title="用户详情-{{UserId}}:{{OwnerId}}">查看</a>
+            </div>
+        </td>
+    </tr>
 </template>
 <template id="emptytemplete">
-@{
-    Html.RenderPartial("Empty");
-}
+    <td colspan="1000">
+        @{
+            Html.RenderPartial("Empty");
+        }
+    </td>
 </template>

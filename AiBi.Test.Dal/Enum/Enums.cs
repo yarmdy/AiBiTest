@@ -239,4 +239,25 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "全部的")]
         All =3
     }
+    /// <summary>
+    /// 性别
+    /// </summary>
+    public enum EnumSex
+    {
+        ///// <summary>
+        ///// 保密
+        ///// </summary>
+        //[Display(Name = "保密")]
+        //Normal = 0,
+        /// <summary>
+        /// 女
+        /// </summary>
+        [Display(Name = "女")]
+        Female = 1,
+        /// <summary>
+        /// 男
+        /// </summary>
+        [Display(Name = "男")]
+        Male = 2
+    }
 }

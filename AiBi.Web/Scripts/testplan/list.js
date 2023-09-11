@@ -10,14 +10,14 @@ $(function () {
     //    var planid = $(this).attr("planid");
     //});
     $("#searchform").on("submit", function () {
-        getPlan(1,10);
+        getList(1,10);
         return false;
     });
 
     //$("#keyword").on("input", function () {
-    //    getPlan(1, 10);
+    //    getList(1, 10);
     //})
-    function getPlan(page, size) {
+    function getList(page, size) {
         $("#list").html("");
         var postdata = $$.getFormData("#searchform");
         $.extend(postdata, {
@@ -26,7 +26,7 @@ $(function () {
         });
         $$.common.getPageList.req(postdata).then(function (json) {
             $(".pager").setPager(page, size, json.count, function (p) {
-                getPlan(p, size);
+                getList(p, size);
             });
             if (json.data.length <= 0) {
                 $("#list").html($("#emptytemplete").html());
@@ -39,5 +39,5 @@ $(function () {
             })
         });
     }
-    getPlan(1,10);
+    getList(1,10);
 });

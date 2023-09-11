@@ -20,6 +20,11 @@ namespace AiBi.Test.Web.Controllers
     [Authorize]
     public abstract class BaseController<T, PageReqT> : Controller where T : BaseEntity where PageReqT : PageReq
     {
+        #region 属性
+        public int CurrentUserId => SysUserBll.GetCookie()?.Id ?? 0;
+        public string CurrentUserName => SysUserBll.GetCookie()?.Name;
+        public string CurrentAccount => SysUserBll.GetCookie()?.Account;
+        #endregion
         public abstract BaseBll<T, PageReqT> Bll { get; }
         public SysUserBll SysUserBll { get; set; }
 

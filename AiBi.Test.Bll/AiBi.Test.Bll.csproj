@@ -98,6 +98,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseBll.cs" />
     <Compile Include="Req\BaseReq.cs" />
+    <Compile Include="Req\UserInfoReq.cs" />
+    <Compile Include="Req\UserClassifyReq.cs" />
     <Compile Include="Req\TestTempleteReq.cs" />
     <Compile Include="Req\RoleReq.cs" />
     <Compile Include="Req\PlanUserReq.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="BusTestPlanBll.cs" />
     <Compile Include="Res\Response.cs" />
     <Compile Include="BusUserClassifyBll.cs" />
+    <Compile Include="BusUserInfoBll.cs" />
     <Compile Include="SysRoleBll.cs" />
     <Compile Include="SysFuncBll.cs" />
     <Compile Include="SysRoleFuncBll.cs" />

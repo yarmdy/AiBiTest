@@ -69,6 +69,7 @@
     <Compile Include="Model\BusTestPlanUser.cs" />
     <Compile Include="Model\BusTestPlanUserExample.cs" />
     <Compile Include="Model\BusUserClassify.cs" />
+    <Compile Include="Model\BusUserInfo.cs" />
     <Compile Include="Model\BusUserTestTemplete.cs" />
     <Compile Include="Model\BusUserExample.cs" />
     <Compile Include="Model\IdEntity.cs" />

@@ -16,6 +16,11 @@ namespace AiBi.Test.Bll
 {
     public abstract class BaseBll<T, PageReqT> where T : BaseEntity where PageReqT : PageReq
     {
+        #region 属性
+        public int CurrentUserId => SysUserBll.GetCookie()?.Id??0;
+        public string CurrentUserName => SysUserBll.GetCookie()?.Name;
+        public string CurrentAccount => SysUserBll.GetCookie()?.Account;
+        #endregion
         #region 依赖
         /// <summary>
         /// 上下文

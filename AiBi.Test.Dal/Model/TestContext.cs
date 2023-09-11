@@ -1531,6 +1531,73 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.UserId)
                                         ;
             });
+
+            modelBuilder.Entity<BusUserInfo>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.OwnerId });
+                entity.ToTable("bus_UserInfo");
+
+                entity.Property(e => e.RealName)
+                    .HasMaxLength(50)
+                    .HasColumnName("RealName");
+
+                entity.Property(e => e.RealName)
+                    .HasMaxLength(50)
+                    .HasColumnName("RealName");
+
+                entity.Property(e => e.Birthday)
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCardNo)
+                    .HasMaxLength(50)
+                    .HasColumnName("IdCardNo");
+
+                entity.Property(e => e.UnitName)
+                    .HasMaxLength(50)
+                    .HasColumnName("UnitName");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusUserInfoCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasOptional(d => d.DelUser)
+                    .WithMany(p => p.BusUserInfoDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+
+                entity.HasOptional(d => d.ModifyUser)
+                    .WithMany(p => p.BusUserInfoModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasRequired(d => d.User).WithMany(p => p.BusUserInfoUsers).HasForeignKey(d => d.UserId);
+                entity.HasRequired(d => d.Owner).WithMany(p => p.BusUserInfoOwners).HasForeignKey(d => d.OwnerId);
+            });
+
         }
 
     }
