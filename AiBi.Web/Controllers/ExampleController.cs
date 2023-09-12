@@ -11,10 +11,10 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Web.Controllers
 {
-    public class TestPlanUserController : BaseController<BusTestPlanUser, PlanUserReq.Page>
+    public class ExampleController : BaseController<BusExample,ExampleReq.Page>
     {
-        public BusTestPlanUserBll CurBll { get; set; }
+        public BusExampleBll CurBll { get; set; }
 
-        public override BaseBll<BusTestPlanUser, PlanUserReq.Page> Bll => CurBll;
+        public override BaseBll<BusExample, ExampleReq.Page> Bll => CurBll;
     }
 }

@@ -23,7 +23,7 @@ namespace AiBi.Test.Bll
             {
                 query = query.Where(a => a.SubClassifyId == req.SubClassifyId);
             }
-            var userId = SysUserBll.GetCookie().Id;
+            var userId = CurrentUserId;
             if (req.Tag + "" == "my")
             {
                 var classIds = BusUserClassifyBll.GetListFilter(a => a.Where(b => b.UserId == userId)).Select(a => a.ClassifyId).ToArray();

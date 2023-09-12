@@ -13,8 +13,8 @@ namespace AiBi.Test.Web.Controllers
 {
     public class UserInfoController : BaseController<BusUserInfo,UserInfoReq.Page>
     {
-        public BusUserInfoBll BusUserInfoBll { get; set; }
+        public BusUserInfoBll CurBll { get; set; }
 
-        public override BaseBll<BusUserInfo, UserInfoReq.Page> Bll => BusUserInfoBll;
+        public override BaseBll<BusUserInfo, UserInfoReq.Page> Bll => CurBll;
     }
 }

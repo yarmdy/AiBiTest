@@ -158,26 +158,34 @@ namespace AiBi.Test.Bll
         }
         #endregion
 
-        #region 详情接口
-        public virtual void ByKeysAfter(Response<T, object, object, object> res, params object[] keys)
-        {
-
+        #region 获取详情页数据
+        public virtual bool DetailBefore(int id, int? id2, Response<T, object, object, object> res) {
+            return true;
         }
-        public Response<T, object, object, object> GetByKeys(params object[] keys)
+        public virtual void DetailAfter(int id, int? id2, Response<T, object, object, object> res)
+        {
+            
+        }
+        public Response<T, object, object, object> GetDetail(int id, int? id2)
         {
             var res = new Response<T, object, object, object>();
-            res.data = Find(false, keys);
-            if (res.data == null)
+
+            var beforeRes = DetailBefore(id,id2,res);
+            if (!beforeRes)
+            {
+                return res;
+            }
+            var obj = Find(id,id2);
+            if (obj == null)
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = "您查询的数据不存在";
-                return res;
             }
-            ByKeysAfter(res, keys);
-           
+            DetailAfter(id,id2,res);
             return res;
         }
         #endregion
+
 
         #region lambda查询
         private IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where, bool notracking)

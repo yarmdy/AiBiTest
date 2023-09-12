@@ -13,9 +13,9 @@ namespace AiBi.Test.Web.Controllers
 {
     public class TestTempleteController : BaseController<BusTestTemplete,TestTempleteReq.Page>
     {
-        public BusTestTempleteBll BusTestTempleteBll { get; set; }
+        public BusTestTempleteBll CurBll { get; set; }
 
-        public override BaseBll<BusTestTemplete, TestTempleteReq.Page> Bll => BusTestTempleteBll;
+        public override BaseBll<BusTestTemplete, TestTempleteReq.Page> Bll => CurBll;
 
         public ActionResult MyList()
         {
@@ -23,7 +23,7 @@ namespace AiBi.Test.Web.Controllers
         }
         public ActionResult GetMyList(TestTempleteReq.Page req)
         {
-            var res = BusTestTempleteBll.GetMyList(req);
+            var res = CurBll.GetMyList(req);
             return Json(res);
         }
     }

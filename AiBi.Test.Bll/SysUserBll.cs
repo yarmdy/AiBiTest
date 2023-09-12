@@ -6,11 +6,33 @@ using AiBi.Test.Dal.Enum;
 using Newtonsoft.Json;
 using System.Web;
 using System.Linq;
+using System.Data.Entity;
 
 namespace AiBi.Test.Bll
 {
     public partial class SysUserBll:BaseBll<SysUser, UserReq.Page>
     {
+        public BusUserInfoBll BusUserInfoBll { get; set; }
+
+        public override IQueryable<SysUser> PageWhere(UserReq.Page req, IQueryable<SysUser> query)
+        {
+            return base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
+        }
+        public override void PageAfter(UserReq.Page req, Response<List<SysUser>, object, object, object> res)
+        {
+            var ids = res.data.Select(a => a.Id).Distinct().ToArray();
+            var infos = BusUserInfoBll.GetListFilter(a => a.Where(b => b.UserId == b.OwnerId && ids.Contains(b.UserId)));
+            res.data.ForEach(a => a.LoadChild(b => {
+                var thisroles = b.SysUserRoleUsers.Select(c => c.Role).ToList();
+                var ret = new {
+                    Roles = thisroles,
+                    RoleNames = thisroles.Select(c => c.Name).ToList(),
+                    UserInfo = infos.FirstOrDefault(c=>c.UserId==a.Id)
+                };
+                return ret;
+            }));
+        }
+
         public Response<SysUser> Login(HomeReq.Login req)
         {
             var res = new Response<SysUser>();

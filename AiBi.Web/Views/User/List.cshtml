@@ -9,6 +9,9 @@
             height: 12rem;
             object-fit: cover;
         }
+        tbody, td, tfoot, th, thead, tr {
+            overflow-wrap:anywhere;
+        }
     </style>
 }
 @section scripts{
@@ -45,7 +48,7 @@
                     <a href="~/UserInfo/Edit" class="btn btn-primary" target="addtab">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                        添加学员
+                        添加用户
                     </a>
                 </form>
             </div>
@@ -63,11 +66,13 @@
 
         <div class="row row-cards" >
             <div class="table-responsive">
-                <table class="table table-vcenter table-mobile-md card-table">
+                <table class="table table-vcenter table-mobile-lg card-table">
                     <thead>
                         <tr>
-                            <th>姓名</th>
-                            <th>性别</th>
+                            <th>用户名</th>
+                            <th>登录名/手机号</th>
+                            <th>真实姓名</th>
+                            <th>角色</th>
                             <th>单位</th>
                             <th>身份证号</th>
                             <th>生日</th>
@@ -92,35 +97,43 @@
 </div>
 
 <template id="listtemplete">
-    <tr rowid="{{UserId}},{{OwnerId}}">
-        <td data-label="姓名">
+    <tr rowid="{{Id}}">
+        <td data-label="用户名">
             <div class="d-flex py-1 align-items-center">
-                <span class="avatar me-2" style="background-image: url({{=obj.User.Avatar?obj.User.Avatar.FullName:(obj.User.AvatarName||'/static/avatars/defaultavatar.png') }})"></span>
+                <span class="avatar me-2" style="background-image: url({{=obj.Avatar?obj.Avatar.FullName:(obj.AvatarName||'/static/avatars/defaultavatar.png') }})"></span>
                 <div class="flex-fill">
-                    <div class="font-weight-medium">{{=obj.RealName||obj.User.Name}}</div>
-                    <div class="text-secondary">{{=obj.User.Mobile??obj.User.Account}}</div>
+                    <div class="font-weight-medium">{{=obj.Name}}</div>
+                    <div class="text-secondary">{{=EnumSex[obj.ObjectTag.UserInfo.Sex]||""}}</div>
                 </div>
             </div>
         </td>
-        <td data-label="性别">
-            <div>{{=EnumSex[obj.Sex]||"未知"}}</div>
+        <td data-label="登录名/手机号">
+            <div>{{Account}}</div>
+            <div class="text-secondary">{{Mobile}}</div>
         </td>
+        <td data-label="真实姓名">
+            <div>{{=obj.ObjectTag.UserInfo.RealName||"-"}}</div>
+        </td>
+        <td data-label="角色">
+            <div class="text-secondary">{{=obj.ObjectTag.RoleNames.join(",")}}</div>
+        </td>
+
         <td class="text-secondary" data-label="单位">
-            {{=obj.UnitName||"-"}}
+            {{=obj.ObjectTag.UserInfo.UnitName||"-"}}
         </td>
         <td class="text-secondary" data-label="身份证号">
-            {{=obj.IdCardNo||"-"}}
+            {{=obj.ObjectTag.UserInfo.IdCardNo||"-"}}
         </td>
         <td class="text-secondary" data-label="生日">
-            {{=(obj.Birthday?new Date(obj.Birthday).format("yyyy-MM-dd"):"")}}
+            {{=(obj.ObjectTag.UserInfo.Birthday?new Date(obj.ObjectTag.UserInfo.Birthday).format("yyyy-MM-dd"):"-")}}
         </td>
         <td>
             <div class="btn-list flex-nowrap">
-                <a href="/UserInfo/Edit/{{UserId}},{{OwnerId}}" class="btn btn-outline-primary btn-pill btn-xsm" target="addtab" title="修改用户信息-{{UserId}}:{{OwnerId}}">
+                <a href="/User/Edit/{{Id}}" class="btn btn-outline-primary btn-pill btn-sm" target="addtab" title="修改用户-{{Id}}">
                     修改
                 </a>
-                <a href="#" class="btn btn-outline-danger btn-pill btn-xsm">删除</a>
-                <a href="/UserInfo/Detail/{{UserId}},{{OwnerId}}" class="btn btn-outline-info btn-pill btn-xsm" target="addtab" title="用户详情-{{UserId}}:{{OwnerId}}">查看</a>
+                <a href="#" class="btn btn-outline-danger btn-pill btn-sm">分配角色</a>
+                <a href="#" class="btn btn-outline-info btn-pill btn-sm">重置密码</a>
             </div>
         </td>
     </tr>

@@ -134,10 +134,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ExampleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\TestTempleteController.cs" />
     <Compile Include="Controllers\TestPlanUserController.cs" />
     <Compile Include="Controllers\TestPlanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -825,6 +829,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Html\Error404.html" />
     <Content Include="Images\login1.png" />
+    <Content Include="Images\logo.png" />
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\font\iconfont.svg" />
     <Content Include="layui\layui.js" />
@@ -926,8 +931,10 @@
     <Content Include="layui\font\iconfont.woff" />
     <Content Include="layui\font\iconfont.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
-    <Content Include="Scripts\home\login.js" />
+    <Content Include="Scripts\user\list.js" />
+    <Content Include="Scripts\user\login.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -942,6 +949,7 @@
     <Content Include="Scripts\testtemplete\list.js" />
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
+    <Content Include="Scripts\userinfo\list.js" />
     <Content Include="static\avatars\000f.jpg" />
     <Content Include="static\avatars\000m.jpg" />
     <Content Include="static\avatars\001f.jpg" />
@@ -1687,7 +1695,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\TestPlan\List.cshtml" />
     <Content Include="Views\Shared\Empty.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
@@ -1697,6 +1704,10 @@
     <Content Include="Views\TestTemplete\Detail.cshtml" />
     <Content Include="Views\TestTemplete\Edit.cshtml" />
     <Content Include="Views\TestTemplete\List.cshtml" />
+    <Content Include="Views\UserInfo\List.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\Example\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

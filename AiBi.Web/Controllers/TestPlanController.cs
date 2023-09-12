@@ -13,8 +13,8 @@ namespace AiBi.Test.Web.Controllers
 {
     public class TestPlanController : BaseController<BusTestPlan,PlanReq.Page>
     {
-        public BusTestPlanBll BusTestPlanBll { get; set; }
+        public BusTestPlanBll CurBll { get; set; }
 
-        public override BaseBll<BusTestPlan,PlanReq.Page> Bll => BusTestPlanBll;
+        public override BaseBll<BusTestPlan,PlanReq.Page> Bll => CurBll;
     }
 }

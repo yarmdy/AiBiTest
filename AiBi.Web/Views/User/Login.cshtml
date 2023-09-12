@@ -7,7 +7,7 @@
 <head>
     <script>
         if (top != window) {
-            top.location.href = "/Home/Login";
+            top.location.href = "/User/Login";
         }
     </script>
     <meta charset="utf-8" />
@@ -42,13 +42,13 @@
         <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
             <div class="container container-tight my-5 px-lg-5">
                 <div class="text-center mb-4">
-                    <a href="~/" class="navbar-brand navbar-brand-autodark"><img src="~/Images/login1.png" height="36" alt=""></a>
+                    <a href="~/" class="navbar-brand navbar-brand-autodark"><img src="~/Images/logo.png" height="36" alt=""></a>
                 </div>
                 <h2 class="h3 text-center mb-3">
                     用 户 登 录
                 </h2>
                     <input type="hidden" name="Error" value="@ViewBag.Error" />
-                <form action="~/home/login" method="post" autocomplete="off" id="loginform">
+                <form action="~/user/login" method="post" autocomplete="off" id="loginform">
                     <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
                     <div class="mb-3">
                         <label class="form-label">账号</label>
