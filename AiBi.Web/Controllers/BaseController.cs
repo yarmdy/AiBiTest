@@ -52,7 +52,10 @@ namespace AiBi.Test.Web.Controllers
         public virtual ActionResult GetDetail(int id, int? id2=null) {
             return Json(Bll.GetDetail(id,id2));
         }
-
+        public virtual ActionResult Select()
+        {
+            return View();
+        }
         public ActionResult Error(string title, string msg)
         {
             ViewBag.ErrorTitle = title ?? "";

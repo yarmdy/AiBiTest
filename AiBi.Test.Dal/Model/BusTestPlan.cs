@@ -31,7 +31,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 模板id
         /// </summary>
-        public int TempleteId { get; set; }
+        public int TemplateId { get; set; }
         /// <summary>
         /// 可以暂停
         /// </summary>
@@ -48,7 +48,7 @@ namespace AiBi.Test.Dal.Model
         /// 学员数
         /// </summary>
         public int UserNum { get; set; }
-        public virtual BusTestTemplete Templete { get; set; }
+        public virtual BusTestTemplate Template { get; set; }
         public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
         public virtual ICollection<BusTestPlanUser> BusTestPlanUsers { get; set; }

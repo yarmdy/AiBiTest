@@ -243,6 +243,13 @@
             req: function (data) {
                 return obj.get(BaseUrl + this.url, data);
             }
+        },
+        getDetail: {
+            url: "/GetDetail",
+            method: "GET",
+            req: function (data) {
+                return obj.get(BaseUrl + this.url + "/" + (PageInfo && PageInfo.KeyValueStr),data);
+            }
         }
     },
     tabName: function () {
@@ -717,6 +724,9 @@ String.prototype.combineObject = function (obj) {
 $(function () {
     addtabindex = 0;
     $(document).on("click.addtab", "a[target=addtab]", function (e) {
+        if (window.callback && (typeof window.callback.beforeClickAddTab == "function") && !window.callback.beforeClickAddTab.call(this,e)) {
+            return;
+        }
         e.preventDefault();
         obj.addTab($(this).attr("title") || $(this).text(),$(this).attr("href"));
     });
@@ -730,3 +740,4 @@ $(function () {
 })
 
 window.$$ = obj;
+window.callback = {};

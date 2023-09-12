@@ -56,8 +56,8 @@
     <Compile Include="Enum\Enums.cs" />
     <Compile Include="Model\BaseEntity.cs" />
     <Compile Include="Model\BusClassify.cs" />
-    <Compile Include="Model\BusTestTempleteExample.cs" />
-    <Compile Include="Model\BusTestTemplete.cs" />
+    <Compile Include="Model\BusTestTemplateExample.cs" />
+    <Compile Include="Model\BusTestTemplate.cs" />
     <Compile Include="Model\BusExample.cs" />
     <Compile Include="Model\BusExampleOption.cs" />
     <Compile Include="Model\BusExampleQuestion.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Model\BusTestPlanUserExample.cs" />
     <Compile Include="Model\BusUserClassify.cs" />
     <Compile Include="Model\BusUserInfo.cs" />
-    <Compile Include="Model\BusUserTestTemplete.cs" />
+    <Compile Include="Model\BusUserTestTemplate.cs" />
     <Compile Include="Model\BusUserExample.cs" />
     <Compile Include="Model\IdEntity.cs" />
     <Compile Include="Model\SysAttachment.cs" />

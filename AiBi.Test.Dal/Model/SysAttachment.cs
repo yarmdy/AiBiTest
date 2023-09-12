@@ -11,7 +11,7 @@ namespace AiBi.Test.Dal.Model
             BusExamples = new HashSet<BusExample>();
             BusQuestions = new HashSet<BusQuestion>();
             SysUsers = new HashSet<SysUser>();
-            BusTestTempletes = new HashSet<BusTestTemplete>();
+            BusTestTemplates = new HashSet<BusTestTemplate>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace AiBi.Test.Dal.Model
         public int Status { get; set; }
         public virtual ICollection<BusExample> BusExamples { get; set; }
         public virtual ICollection<BusQuestion> BusQuestions { get; set; }
-        public virtual ICollection<BusTestTemplete> BusTestTempletes { get; set; }
+        public virtual ICollection<BusTestTemplate> BusTestTemplates { get; set; }
         public virtual ICollection<SysUser> SysUsers { get; set; }
 
         [NotMapped]

@@ -67,17 +67,17 @@ namespace AiBi.Test.Dal.Model
             SysUserRoleModifyUsers = new HashSet<SysUserRole>();
             SysUserRoleUsers = new HashSet<SysUserRole>();
 
-            BusTestTempleteCreateUsers = new HashSet<BusTestTemplete>();
-            BusTestTempleteModifyUsers = new HashSet<BusTestTemplete>();
-            BusTestTempleteDelUsers = new HashSet<BusTestTemplete>();
-            BusTestTempleteExampleCreateUsers = new HashSet<BusTestTempleteExample>();
-            BusTestTempleteExampleModifyUsers = new HashSet<BusTestTempleteExample>();
-            BusTestTempleteExampleDelUsers = new HashSet<BusTestTempleteExample>();
+            BusTestTemplateCreateUsers = new HashSet<BusTestTemplate>();
+            BusTestTemplateModifyUsers = new HashSet<BusTestTemplate>();
+            BusTestTemplateDelUsers = new HashSet<BusTestTemplate>();
+            BusTestTemplateExampleCreateUsers = new HashSet<BusTestTemplateExample>();
+            BusTestTemplateExampleModifyUsers = new HashSet<BusTestTemplateExample>();
+            BusTestTemplateExampleDelUsers = new HashSet<BusTestTemplateExample>();
 
-            BusUserTestTempleteCreateUsers = new HashSet<BusUserTestTemplete>();
-            BusUserTestTempleteModifyUsers = new HashSet<BusUserTestTemplete>();
-            BusUserTestTempleteDelUsers=new HashSet<BusUserTestTemplete>();
-            BusUserTestTempleteUsers = new HashSet<BusUserTestTemplete>();
+            BusUserTestTemplateCreateUsers = new HashSet<BusUserTestTemplate>();
+            BusUserTestTemplateModifyUsers = new HashSet<BusUserTestTemplate>();
+            BusUserTestTemplateDelUsers=new HashSet<BusUserTestTemplate>();
+            BusUserTestTemplateUsers = new HashSet<BusUserTestTemplate>();
 
             BusUserInfoUsers = new HashSet<BusUserInfo>();
             BusUserInfoOwners = new HashSet<BusUserInfo>();
@@ -192,18 +192,18 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<SysUserRole> SysUserRoleModifyUsers { get; set; }
         public virtual ICollection<SysUserRole> SysUserRoleUsers { get; set; }
 
-        public virtual ICollection<BusTestTemplete> BusTestTempleteCreateUsers { get; set; }
-        public virtual ICollection<BusTestTemplete> BusTestTempleteModifyUsers { get; set; }
-        public virtual ICollection<BusTestTemplete> BusTestTempleteDelUsers { get; set; }
+        public virtual ICollection<BusTestTemplate> BusTestTemplateCreateUsers { get; set; }
+        public virtual ICollection<BusTestTemplate> BusTestTemplateModifyUsers { get; set; }
+        public virtual ICollection<BusTestTemplate> BusTestTemplateDelUsers { get; set; }
 
-        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleCreateUsers { get; set; }
-        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleModifyUsers { get; set; }
-        public virtual ICollection<BusTestTempleteExample> BusTestTempleteExampleDelUsers { get; set; }
+        public virtual ICollection<BusTestTemplateExample> BusTestTemplateExampleCreateUsers { get; set; }
+        public virtual ICollection<BusTestTemplateExample> BusTestTemplateExampleModifyUsers { get; set; }
+        public virtual ICollection<BusTestTemplateExample> BusTestTemplateExampleDelUsers { get; set; }
 
-        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteCreateUsers { get; set; }
-        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteModifyUsers { get; set; }
-        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteDelUsers { get; set; }
-        public virtual ICollection<BusUserTestTemplete> BusUserTestTempleteUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplate> BusUserTestTemplateCreateUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplate> BusUserTestTemplateModifyUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplate> BusUserTestTemplateDelUsers { get; set; }
+        public virtual ICollection<BusUserTestTemplate> BusUserTestTemplateUsers { get; set; }
 
 
         public virtual ICollection<BusUserInfo> BusUserInfoUsers { get; set; }

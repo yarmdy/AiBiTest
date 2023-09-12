@@ -94,7 +94,7 @@
   <ItemGroup>
     <Compile Include="AutofacExt.cs" />
     <Compile Include="BusExampleBll.cs" />
-    <Compile Include="BusTestTempleteBll.cs" />
+    <Compile Include="BusTestTemplateBll.cs" />
     <Compile Include="BusTestPlanUserBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseBll.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="Req\ExampleReq.cs" />
     <Compile Include="Req\UserInfoReq.cs" />
     <Compile Include="Req\UserClassifyReq.cs" />
-    <Compile Include="Req\TestTempleteReq.cs" />
+    <Compile Include="Req\TestTemplateReq.cs" />
     <Compile Include="Req\RoleReq.cs" />
     <Compile Include="Req\PlanUserReq.cs" />
     <Compile Include="Req\FuncReq.cs" />

@@ -280,7 +280,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="/TestTemplete/MyList" title="我的测试模板" target="addtab">
+                            <a class="nav-link" href="/TestTemplate/MyList" title="我的测试模板" target="addtab">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/star -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
@@ -303,7 +303,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="/TestTemplete/List" title="测试模板" target="addtab">
+                            <a class="nav-link" href="/TestTemplate/List" title="测试模板" target="addtab">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/star -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
@@ -528,9 +528,9 @@
                 name = "新窗口" + tabsid;
             }
             name = name == null ? null : $.trim(name);
-            var tab = $($("#tabtemplete").html()).attr("Id", "Navs-" + (tabsid)).attr("tabname", name);
+            var tab = $($("#tabtemplate").html()).attr("Id", "Navs-" + (tabsid)).attr("tabname", name);
             tab.find(">a").attr("href", "#Tabs-" + tabsid).html(" " + name + '<button class="tab-btn-close"></button>');
-            var page = $($("#pagetemplete").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
+            var page = $($("#pagetemplate").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
             page.find(">iframe").attr("src", url).on("load", function () {
                 $(this).next("div.shade").fadeOut(300);
             });
@@ -667,14 +667,14 @@
 
         });
     </script>
-    <template id="tabtemplete">
+    <template id="tabtemplate">
         <li class="nav-item" role="presentation">
             <a href="" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">
 
             </a>
         </li>
     </template>
-    <template id="pagetemplete">
+    <template id="pagetemplate">
         <div class="tab-pane" role="tabpanel" style="flex-grow:1;position:relative">
             <iframe style="flex-grow: 1;"></iframe>
             <div class="shade">

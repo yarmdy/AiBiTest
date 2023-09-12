@@ -11,20 +11,25 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Web.Controllers
 {
-    public class TestTempleteController : BaseController<BusTestTemplete,TestTempleteReq.Page>
+    public class TestTemplateController : BaseController<BusTestTemplate,TestTemplateReq.Page>
     {
-        public BusTestTempleteBll CurBll { get; set; }
+        public BusTestTemplateBll CurBll { get; set; }
 
-        public override BaseBll<BusTestTemplete, TestTempleteReq.Page> Bll => CurBll;
+        public override BaseBll<BusTestTemplate, TestTemplateReq.Page> Bll => CurBll;
 
         public ActionResult MyList()
         {
             return View("List");
         }
-        public ActionResult GetMyList(TestTempleteReq.Page req)
+        public ActionResult GetMyList(TestTemplateReq.Page req)
         {
             var res = CurBll.GetMyList(req);
             return Json(res);
+        }
+
+        public ActionResult MySelect()
+        {
+            return View("List");
         }
     }
 }

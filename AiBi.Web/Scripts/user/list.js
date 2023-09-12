@@ -1,6 +1,4 @@
-﻿var callback = {
-    
-};
+﻿
 $(function () {
     //$(document).on("click", "a[planid]", function (e) {
     //    e.preventDefault();
@@ -26,11 +24,11 @@ $(function () {
                 getList(p, size);
             });
             if (json.data.length <= 0) {
-                $("#list").html($("#emptytemplete").html());
+                $("#list").html($("#emptytemplate").html());
                 return;
             }
             $.each(json.data, function () {
-                let item = $("#listtemplete").html().combineObject(this);
+                let item = $("#listtemplate").html().combineObject(this);
                 
                 $("#list").append(item);
             })

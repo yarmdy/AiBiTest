@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace AiBi.Test.Dal.Model
 {
-    public partial class BusTestTempleteExample:BaseEntity
+    public partial class BusTestTemplateExample:BaseEntity
     {
         /// <summary>
         /// 模板id
         /// </summary>
-        public int TempleteId { get; set; }
+        public int TemplateId { get; set; }
         /// <summary>
         /// 用例id
         /// </summary>
@@ -26,6 +26,6 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public bool CanPause { get; set; }
         public virtual BusExample Example { get; set; }
-        public virtual BusTestTemplete Templete { get; set; }
+        public virtual BusTestTemplate Template { get; set; }
     }
 }

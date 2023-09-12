@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace AiBi.Test.Dal.Model
 {
-    public partial class BusTestTemplete : IdEntity
+    public partial class BusTestTemplate : IdEntity
     {
-        public BusTestTemplete()
+        public BusTestTemplate()
         {
             BusTestPlanExamples = new HashSet<BusTestPlanExample>();
             BusTestPlanUserExamples = new HashSet<BusTestPlanUserExample>();
-            BusUserTestTempletes = new HashSet<BusUserTestTemplete>();
+            BusUserTestTemplates = new HashSet<BusUserTestTemplate>();
             BusTestPlans=new HashSet<BusTestPlan>();
         }
 
@@ -72,7 +72,7 @@ namespace AiBi.Test.Dal.Model
         public virtual BusClassify SubClassify { get; set; }
         public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
-        public virtual ICollection<BusUserTestTemplete> BusUserTestTempletes { get; set; }
+        public virtual ICollection<BusUserTestTemplate> BusUserTestTemplates { get; set; }
         public virtual ICollection<BusTestPlan> BusTestPlans { get; set; }
     }
 }

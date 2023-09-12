@@ -1,4 +1,106 @@
-﻿@{
+﻿@model BusTestPlan
+@{
     
 }
 
+<div class="page-header d-print-none">
+    <div class="container-fluid">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                        Overview
+                    </div>*@
+                <h2 class="page-title">
+                    @ViewBag.Title
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-body" style="flex:1; display:flex;flex-direction:column">
+    <div class="container-fluid" style="flex:1">
+        <form class="card" id="form">
+            <div class="card-body" id="detail">
+                
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn" onclick="$$.closeThis()">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/template" id="detailtemplate">
+    <div class="mb-3">
+        <label class="form-label">任务名称</label>
+        <input type="text" class="form-control" placeholder="输入任务名称" name="Name" value="{{Name}}" required="true">
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <label class="form-label">开始时间</label>
+            <input type="text" class="form-control" name="StartTime" placeholder="开始时间" value="{{=new Date(obj.StartTime).format()}}" />
+        </div>
+        <div class="col-6">
+            <label class="form-label">结束时间</label>
+            <input type="text" class="form-control" name="EndTime" placeholder="结束时间" value="{{=new Date(obj.EndTime).format()}}" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">测试模板</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="TemplateName" placeholder="测试模板" readonly value="{{Template.Title}}" />
+            <button class="btn btn-pill btn-outline-info selecttemplate" type="button">选择模板</button>
+        </div>
+        
+        <input type="hidden" name="TemplateId"  value="{{TemplateId}}" />
+    </div>
+    <div class="">
+        <label class="row">
+            <span class="col-auto">允许中断</span>
+            <span class="col">
+                <label class="form-check form-check-single form-switch">
+                    <input class="form-check-input" type="checkbox"  name="CanPause" value="true" {{=obj.CanPause?'checked':''}}>
+                </label>
+            </span>
+        </label>
+    </div>
+</script>
+
+<script type="text/template" id="emptytemplate">
+    <div class="mb-3">
+        <label class="form-label">任务名称</label>
+        <input type="text" class="form-control" placeholder="输入任务名称" name="Name" value="">
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <label class="form-label">开始时间</label>
+            <input type="text" class="form-control" name="StartTime" placeholder="开始时间" value="" />
+        </div>
+        <div class="col-6">
+            <label class="form-label">结束时间</label>
+            <input type="text" class="form-control" name="EndTime" placeholder="结束时间" value="" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">测试模板</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="TemplateName" placeholder="测试模板" readonly value="" />
+            <button class="btn btn-pill btn-outline-info selecttemplate" type="button">选择模板</button>
+        </div>
+
+        <input type="hidden" name="TemplateId" value="" />
+    </div>
+    <div class="">
+        <label class="row">
+            <span class="col-auto">允许中断</span>
+            <span class="col">
+                <label class="form-check form-check-single form-switch">
+                    <input class="form-check-input" type="checkbox" name="CanPause" value="true" checked>
+                </label>
+            </span>
+        </label>
+    </div>
+</script>

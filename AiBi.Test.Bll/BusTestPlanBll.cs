@@ -12,12 +12,17 @@ namespace AiBi.Test.Bll
     {
         public override IQueryable<BusTestPlan> PageWhere(PlanReq.Page req, IQueryable<BusTestPlan> query)
         {
-            query = GetIncludeQuery(query, a => new { a.Templete,a.CreateUser});
+            query = GetIncludeQuery(query, a => new { a.Template,a.CreateUser});
             return base.PageWhere(req, query);
         }
         public override void PageAfter(PlanReq.Page req, Response<List<BusTestPlan>, object, object, object> res)
         {
             res.data.ForEach(a=>a.LoadChild(b=>new { CreateUserName = b.CreateUser.Name}));
+        }
+
+        public override void DetailAfter(int id, int? id2, Response<BusTestPlan, object, object, object> res)
+        {
+            res.data.LoadChild(a => new { a.Template, a.Template.Image});
         }
     }
 }

@@ -175,12 +175,13 @@ namespace AiBi.Test.Bll
             {
                 return res;
             }
-            var obj = Find(id,id2);
+            var obj = Find(false,id,id2);
             if (obj == null)
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = "您查询的数据不存在";
             }
+            res.data = obj;
             DetailAfter(id,id2,res);
             return res;
         }

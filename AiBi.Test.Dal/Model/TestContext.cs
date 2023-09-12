@@ -49,9 +49,9 @@ namespace AiBi.Test.Dal.Model
         public virtual DbSet<SysUser> SysUsers { get; set; }
         public virtual DbSet<SysUserRole> SysUserRoles { get; set; }
 
-        public virtual DbSet<BusTestTemplete> BusTestTempletes { get; set; }
-        public virtual DbSet<BusTestTempleteExample> BusTestTempleteExamples { get; set; }
-        public virtual DbSet<BusUserTestTemplete> BusUserTestTempletes { get; set; }
+        public virtual DbSet<BusTestTemplate> BusTestTemplates { get; set; }
+        public virtual DbSet<BusTestTemplateExample> BusTestTemplateExamples { get; set; }
+        public virtual DbSet<BusUserTestTemplate> BusUserTestTemplates { get; set; }
 
 
 
@@ -576,9 +576,9 @@ namespace AiBi.Test.Dal.Model
                     .WithMany(p => p.BusTestPlanModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
-                entity.HasRequired(d => d.Templete)
+                entity.HasRequired(d => d.Template)
                     .WithMany(p => p.BusTestPlans)
-                    .HasForeignKey(d=>d.TempleteId)
+                    .HasForeignKey(d=>d.TemplateId)
                     ;
             });
 
@@ -1311,9 +1311,9 @@ namespace AiBi.Test.Dal.Model
                                         ;
             });
 
-            modelBuilder.Entity<BusTestTemplete>(entity =>
+            modelBuilder.Entity<BusTestTemplate>(entity =>
             {
-                entity.ToTable("bus_TestTemplete");
+                entity.ToTable("bus_TestTemplate");
 
                 entity.Property(e => e.Id).HasComment("Id");
 
@@ -1377,44 +1377,44 @@ namespace AiBi.Test.Dal.Model
                     .HasComment("标题");
 
                 entity.HasRequired(d => d.Classify)
-                    .WithMany(p => p.BusTestTempleteClassifies)
+                    .WithMany(p => p.BusTestTemplateClassifies)
                     .HasForeignKey(d => d.ClassifyId)
                                         ;
 
                 entity.HasRequired(d => d.CreateUser)
-                    .WithMany(p => p.BusTestTempleteCreateUsers)
+                    .WithMany(p => p.BusTestTemplateCreateUsers)
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
                 entity.HasOptional(d => d.DelUser)
-                    .WithMany(p => p.BusTestTempleteDelUsers)
+                    .WithMany(p => p.BusTestTemplateDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
                 entity.HasOptional(d => d.Image)
-                    .WithMany(p => p.BusTestTempletes)
+                    .WithMany(p => p.BusTestTemplates)
                     .HasForeignKey(d => d.ImageId)
                     ;
 
                 entity.HasOptional(d => d.ModifyUser)
-                    .WithMany(p => p.BusTestTempleteModifyUsers)
+                    .WithMany(p => p.BusTestTemplateModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
                 entity.HasOptional(d => d.SubClassify)
-                    .WithMany(p => p.BusTestTempleteSubClassifies)
+                    .WithMany(p => p.BusTestTemplateSubClassifies)
                     .HasForeignKey(d => d.SubClassifyId)
                     ;
 
                 
             });
-            modelBuilder.Entity<BusTestTempleteExample>(entity =>
+            modelBuilder.Entity<BusTestTemplateExample>(entity =>
             {
-                entity.HasKey(e => new { e.TempleteId, e.ExampleId });
+                entity.HasKey(e => new { e.TemplateId, e.ExampleId });
 
-                entity.ToTable("bus_TestTemplete_Example");
+                entity.ToTable("bus_TestTemplate_Example");
 
-                entity.Property(e => e.TempleteId).HasComment("模板id");
+                entity.Property(e => e.TemplateId).HasComment("模板id");
 
                 entity.Property(e => e.ExampleId).HasComment("用例id");
 
@@ -1446,40 +1446,40 @@ namespace AiBi.Test.Dal.Model
                 entity.Property(e => e.SortNo).HasComment("排序号");
 
                 entity.HasRequired(d => d.CreateUser)
-                    .WithMany(p => p.BusTestTempleteExampleCreateUsers)
+                    .WithMany(p => p.BusTestTemplateExampleCreateUsers)
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
                 entity.HasOptional(d => d.DelUser)
-                    .WithMany(p => p.BusTestTempleteExampleDelUsers)
+                    .WithMany(p => p.BusTestTemplateExampleDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
                 entity.HasRequired(d => d.Example)
-                    .WithMany(p => p.BusTestTempleteExamples)
+                    .WithMany(p => p.BusTestTemplateExamples)
                     .HasForeignKey(d => d.ExampleId)
                                         ;
 
                 entity.HasOptional(d => d.ModifyUser)
-                    .WithMany(p => p.BusTestTempleteExampleModifyUsers)
+                    .WithMany(p => p.BusTestTemplateExampleModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
                 entity.HasRequired(d => d.Example)
-                    .WithMany(p => p.BusTestTempleteExamples)
+                    .WithMany(p => p.BusTestTemplateExamples)
                     .HasForeignKey(d => d.ExampleId)
                                         ;
             });
 
-            modelBuilder.Entity<BusUserTestTemplete>(entity =>
+            modelBuilder.Entity<BusUserTestTemplate>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.TempleteId });
+                entity.HasKey(e => new { e.UserId, e.TemplateId });
 
-                entity.ToTable("bus_User_TestTemplete");
+                entity.ToTable("bus_User_TestTemplate");
 
                 entity.Property(e => e.UserId).HasComment("用户");
 
-                entity.Property(e => e.TempleteId).HasComment("模板");
+                entity.Property(e => e.TemplateId).HasComment("模板");
 
                 entity.Property(e => e.CreateTime)
                     .HasColumnType("datetime")
@@ -1507,27 +1507,27 @@ namespace AiBi.Test.Dal.Model
                 entity.Property(e => e.ModifyUserId).HasComment("修改人");
 
                 entity.HasRequired(d => d.CreateUser)
-                    .WithMany(p => p.BusUserTestTempleteCreateUsers)
+                    .WithMany(p => p.BusUserTestTemplateCreateUsers)
                     .HasForeignKey(d => d.CreateUserId)
                                         ;
 
                 entity.HasOptional(d => d.DelUser)
-                    .WithMany(p => p.BusUserTestTempleteDelUsers)
+                    .WithMany(p => p.BusUserTestTemplateDelUsers)
                     .HasForeignKey(d => d.DelUserId)
                     ;
 
-                entity.HasRequired(d => d.Templete)
-                    .WithMany(p => p.BusUserTestTempletes)
-                    .HasForeignKey(d => d.TempleteId)
+                entity.HasRequired(d => d.Template)
+                    .WithMany(p => p.BusUserTestTemplates)
+                    .HasForeignKey(d => d.TemplateId)
                                         ;
 
                 entity.HasOptional(d => d.ModifyUser)
-                    .WithMany(p => p.BusUserTestTempleteModifyUsers)
+                    .WithMany(p => p.BusUserTestTemplateModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
                 entity.HasRequired(d => d.User)
-                    .WithMany(p => p.BusUserTestTempleteUsers)
+                    .WithMany(p => p.BusUserTestTemplateUsers)
                     .HasForeignKey(d => d.UserId)
                                         ;
             });

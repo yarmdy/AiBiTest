@@ -5,7 +5,7 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Bll
 {
-    public partial class TestTempleteReq
+    public partial class TestTemplateReq
     {
         public class Page :PageReq{ 
             public int? ClassifyId { get; set; }

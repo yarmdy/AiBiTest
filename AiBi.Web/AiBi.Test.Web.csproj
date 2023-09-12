@@ -136,7 +136,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\TestTempleteController.cs" />
+    <Compile Include="Controllers\TestTemplateController.cs" />
     <Compile Include="Controllers\TestPlanUserController.cs" />
     <Compile Include="Controllers\TestPlanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -945,8 +945,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\testtemplete\edit.js" />
-    <Content Include="Scripts\testtemplete\list.js" />
+    <Content Include="Scripts\testtemplate\edit.js" />
+    <Content Include="Scripts\testtemplate\list.js" />
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="Scripts\userinfo\list.js" />
@@ -1701,9 +1701,9 @@
     <Content Include="Views\TestPlan\Edit.cshtml" />
     <Content Include="Views\TestPlan\Detail.cshtml" />
     <Content Include="Views\TestPlanUser\Detail.cshtml" />
-    <Content Include="Views\TestTemplete\Detail.cshtml" />
-    <Content Include="Views\TestTemplete\Edit.cshtml" />
-    <Content Include="Views\TestTemplete\List.cshtml" />
+    <Content Include="Views\TestTemplate\Detail.cshtml" />
+    <Content Include="Views\TestTemplate\Edit.cshtml" />
+    <Content Include="Views\TestTemplate\List.cshtml" />
     <Content Include="Views\UserInfo\List.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\List.cshtml" />
