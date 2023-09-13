@@ -68,32 +68,37 @@ namespace AiBi.Test.Common
         {
             return type.GetProperty(name, __flags);
         }
-        public static void SetPropertyValue<T>(this T obj,string name, object value)
+        public static void SetPropertyValue(this object obj,string name, object value)
         {
             if (obj == null)
             {
                 return;
             }
-            var prop = GetPropertyBase<T>(name);
+            var prop = GetPropertyBase(obj.GetType(),name);
             if (prop == null)
             {
                 return;
             }
             prop.SetValue(obj, value);
         }
-        public static T GetPropertyValue<T>(this T obj,string name)
+        public static TProperty GetPropertyValue<TProperty>(this object obj,string name)
         {
-            var prop = GetPropertyBase<T>( name);
+            var val = obj.GetPropertyValueObj(name);
+            if (!(val is TProperty))
+            {
+                return default;
+            }
+            return (TProperty)val;
+        }
+        public static object GetPropertyValueObj(this object obj, string name)
+        {
+            var prop = GetPropertyBase(obj.GetType(), name);
             if (prop == null)
             {
                 return default;
             }
             var val = prop.GetValue(obj);
-            if (!(val is T))
-            {
-                return default;
-            }
-            return (T)val;
+            return val;
         }
     }
 

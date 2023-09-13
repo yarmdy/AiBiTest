@@ -68,7 +68,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(4px);
         }
+        
     </style>
     @*<style>
           @@import url('https://rsms.me/inter/inter.css');
@@ -220,7 +222,7 @@
                             <span class="avatar avatar-sm" style="background-image: url(@(SysUserBll.GetAvatar(CurrentUser))"></span>
                             <div class="d-none d-xl-block ps-2">
                                 <div>@CurrentUser.Name</div>
-                                <div class="mt-1 small text-secondary">@SysUserBll.GetRoleName(CurrentUser)</div>
+                                <div class="mt-1 small text-secondary">@(CurrentUser.ObjectTag.GetPropertyValue<List<SysRole>>("Roles").FirstOrDefault()?.Name??"")</div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -452,7 +454,7 @@
                             <span class="avatar avatar-sm" style="background-image: url(@(SysUserBll.GetAvatar(CurrentUser)))"></span>
                             <div class="d-none d-xl-block ps-2">
                                 <div>@CurrentUser.Name</div>
-                                <div class="mt-1 small text-secondary">@SysUserBll.GetRoleName(CurrentUser)</div>
+                                <div class="mt-1 small text-secondary">@(CurrentUser.ObjectTag.GetPropertyValue<List<SysRole>>("Roles").FirstOrDefault()?.Name??"")</div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

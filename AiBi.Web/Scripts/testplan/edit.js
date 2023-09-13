@@ -16,11 +16,45 @@
     callback.templateSelectOk = function (obj) {
         $("#detail [name=TemplateId]").val(obj.Id);
         $("#detail [name=TemplateName]").val(obj.Title);
+        $("#form").valid();
     }
-    $(document).on("click.selecttemplate", ".selecttemplate", function () {
-        $$.addTab("选择模板","/TestTemplate/MySelect");
-    })
-    
+    callback.userInfoSelectOk = function (obj) {
+        console.log(obj);
+    }
 
+    $(document).on("click.selecttemplate", ".selecttemplate", function () {
+        $$.addTab("选择模板", "/TestTemplate/MySelect");
+    }).on("click.selectuserinfo", ".selectuserinfo", function () {
+        $$.addTab("选择学员", "/UserInfo/List");
+    });
+    
+    function initValidate() {
+        $("#form").validate({
+            submitHandler: function (form) {
+                
+            },
+            rules: {
+                Name: {
+                    required: true
+                },
+                StartTime: {
+                    required: true,
+                },
+                EndTime: {
+                    required: true
+                },
+                TemplateName: {
+                    required: true
+                }
+            },
+            messages: {
+                Name: {
+                    required: "请输入任务名称"
+                }
+            }
+        });
+    }
+
+    initValidate();
     getDetail();
 });

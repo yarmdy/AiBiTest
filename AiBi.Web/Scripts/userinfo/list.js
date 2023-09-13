@@ -9,6 +9,11 @@ $(function () {
         return false;
     });
 
+    $("#btnSelect").on("click", function (e) {
+        e.preventDefault();
+        $$.callback("userinfoSelectOk", {});
+        $$.closeThis();
+    });
     //$("#keyword").on("input", function () {
     //    getList(1, 10);
     //})
@@ -23,6 +28,8 @@ $(function () {
             $(".pager").setPager(page, size, json.count, function (p) {
                 getList(p, size);
             });
+            $(".selectall").prop("checked", false);
+            $$.selectAll(".selectall", ".selectsingle");
             if (json.data.length <= 0) {
                 $("#list").html($("#emptytemplate").html());
                 return;
@@ -34,5 +41,8 @@ $(function () {
             })
         });
     }
+    $$.selectAll(".selectall", ".selectsingle", function (data) {
+        console.log(data);
+    });
     getList(1,10);
 });

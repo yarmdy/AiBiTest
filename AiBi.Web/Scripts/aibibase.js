@@ -338,12 +338,39 @@
         }
         opener.callback[name].apply(window, params);
     },
-    ServerNow: function () {
+    serverNow: function () {
         if (!window.TimeInfo) {
             return new Date();
         }
         let offset = window.TimeInfo.Client - window.TimeInfo.Server;
         return new Date(new Date() - offset);
+    },
+    selectAll: function (all, single,callback) {
+        $(document).on("click", all + "," + single, function (e) {
+            let $this = $(this);
+            if ($this.is(all)) {
+                let checked = $this.prop("checked");
+                let changeList;
+                if (checked) {
+                    changeList = $(single).not(":checked").toArray();
+                } else {
+                    changeList = $(single).filter(":checked").toArray();
+                }
+                $(single).prop("checked", checked);
+                callback && callback({
+                    checked: checked,
+                    list: changeList,
+                });
+            } else {
+                let checked = $(single).not(":checked").length <= 0;
+                
+                $(all).prop("checked", checked);
+                callback && callback({
+                    checked: checked,
+                    list: [$this[0]],
+                });
+            }
+        })
     }
 }
 
@@ -722,6 +749,37 @@ String.prototype.combineObject = function (obj) {
 
 
 $(function () {
+    if ($.validator) {
+        $.extend($.validator.messages, {
+            required: "这是必填字段",
+            remote: "请修正此字段",
+            email: "请输入有效的电子邮件地址",
+            url: "请输入有效的网址",
+            date: "请输入有效的日期",
+            dateISO: "请输入有效的日期 (YYYY-MM-DD)",
+            number: "请输入有效的数字",
+            digits: "只能输入数字",
+            equalTo: "你的输入不相同",
+            extension: "请输入有效的后缀",
+            maxlength: $.validator.format("最多可以输入 {0} 个字符"),
+            minlength: $.validator.format("最少要输入 {0} 个字符"),
+            rangelength: $.validator.format("请输入长度在 {0} 到 {1} 之间的字符串"),
+            range: $.validator.format("请输入范围在 {0} 到 {1} 之间的数值"),
+            max: $.validator.format("请输入不大于 {0} 的数值"),
+            min: $.validator.format("请输入不小于 {0} 的数值"),
+            step: $.validator.format("请输入 {0} 的倍数")
+        });
+        $.validator.setDefaults({
+            errorPlacement:function(error, element) {
+                error.appendTo(element.parent());
+            },
+            ignore: ".ignore",
+            errorClass: "is-invalid",
+            validClass:"is-valid",
+            errorElement:"div",
+        });
+    }
+
     addtabindex = 0;
     $(document).on("click.addtab", "a[target=addtab]", function (e) {
         if (window.callback && (typeof window.callback.beforeClickAddTab == "function") && !window.callback.beforeClickAddTab.call(this,e)) {

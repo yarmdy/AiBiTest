@@ -9,6 +9,7 @@
             height: 12rem;
             object-fit: cover;
         }
+        
     </style>
 }
 @section scripts{
@@ -42,6 +43,11 @@
                             </span>
                         </div>
                     </div>
+                    <a href="#" class="btn btn-primary me-1" id="btnSelect">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                        确认选择
+                    </a>
                     <a href="~/UserInfo/Edit" class="btn btn-primary" target="addtab">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
@@ -66,6 +72,9 @@
                 <table class="table table-vcenter table-mobile-md card-table">
                     <thead>
                         <tr>
+                            <th class="w-1">
+                                <input class="form-check-input m-0 align-middle selectall" name="userselecter" type="checkbox" aria-label="Select all invoices">
+                            </th>
                             <th>姓名</th>
                             <th>性别</th>
                             <th>单位</th>
@@ -91,8 +100,11 @@
     </div>
 </div>
 
-<template id="listtemplate">
+<script type="text/template" id="listtemplate">
     <tr rowid="{{UserId}},{{OwnerId}}">
+        <td>
+            <input class="form-check-input m-0 align-middle selectsingle" name="userselecter" type="checkbox" aria-label="Select invoice">
+        </td>
         <td data-label="姓名">
             <div class="d-flex py-1 align-items-center">
                 <span class="avatar me-2" style="background-image: url({{=obj.User.Avatar?obj.User.Avatar.FullName:(obj.User.AvatarName||'/static/avatars/defaultavatar.png') }})"></span>
@@ -124,11 +136,11 @@
             </div>
         </td>
     </tr>
-</template>
-<template id="emptytemplate">
+</script>
+<script type="text/template" id="emptytemplate">
     <td colspan="1000">
         @{
             Html.RenderPartial("Empty");
         }
     </td>
-</template>
+</script>
