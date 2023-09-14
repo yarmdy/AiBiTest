@@ -58,11 +58,14 @@
         </div>
         <!-- 左侧导航 -->
         <div class="layui-side layui-bg-black">
-            <div class="user-photo">
-                <a class="img" title="我的头像"><img src="@SysUserBll.GetAvatar(CurrentUser)"></a>
-                <p>你好！<span class="userName">@CurrentUser.Name</span></p>
-            </div>
+            
             <div class="navBar layui-side-scroll"></div>
+            <div class="" style="text-align:center">
+                <div class="footer-tool">
+                    v@(MvcApplication.Version)&nbsp;&nbsp;Copyright ©<br>爱拜尔（北京）科技有限公司
+                    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js?id=JgaIVF1ZZ1sU9lWv&amp;ck=JgaIVF1ZZ1sU9lWv&amp;autoTrack=true&amp;hashMode=true"></script>
+                </div>
+            </div>
         </div>
         <!-- 右侧内容 -->
         <div class="layui-body layui-form">
@@ -87,12 +90,7 @@
                 </div>
             </div>
         </div>
-        <!-- 底部 -->
-        <div class="layui-footer footer">
-            <p>
-                Copyright &copy; 爱拜尔科技有限公司 2020
-            </p>
-        </div>
+        
     </div>
 
     <!-- 移动导航 -->
@@ -114,39 +112,7 @@
             url = $$.toOpenUrl(url, name);
             tab.addTab(name, url);
             return;
-            name = name == null ? null : $.trim(name);
-            url = $$.toOpenUrl(url, name);
-            var obj = findTab(name);
-            if (!obj) {
-                obj = newTab(name, url);
-            } else {
-                obj.page.find("iframe").attr("src", url);
-            }
-            obj.page.find("div.shade").show();
-
-            activeTab(obj);
-        }
-        function hideAllTab() {
-            $("#Navs-Home").parent().find(">li>a.nav-link").removeClass("active").attr("aria-selected", "false");
-            $("#Tabs-Home").parent().find(">div.tab-pane").removeClass("active").removeClass("show");
-        }
-        function newTab(name, url) {
-            tabsid++;
-            if (!name) {
-                name = "新窗口" + tabsid;
-            }
-            name = name == null ? null : $.trim(name);
-            var tab = $($("#tabtemplate").html()).attr("Id", "Navs-" + (tabsid)).attr("tabname", name);
-            tab.find(">a").attr("href", "#Tabs-" + tabsid).html(" " + name + '<button class="tab-btn-close"></button>');
-            var page = $($("#pagetemplate").html()).attr("Id", "Tabs-" + tabsid).attr("tabname", name);
-            page.find(">iframe").attr("src", url).on("load", function () {
-                $(this).next("div.shade").fadeOut(300);
-            });
-
-            tab.find("button").on("click", closeTab);
-            tab.appendTo($("#Navs-Home").parent());
-            page.appendTo($("#Tabs-Home").parent());
-            return { tab: tab, page: page };
+            
         }
         function findTab(name) {
             var tab, page,layid;
@@ -169,109 +135,6 @@
             }
             return { tab: tab, page: page };
         }
-        function activeTab(obj) {
-            lastTab = getActiveTab();
-            hideAllTab();
-            var tab = obj.tab;
-            var page = obj.page;
-            tab.find(">a").addClass("active").attr("aria-selected", "true");
-            page.addClass("active").addClass("show");
-
-            var outleft = $("#navbar-menu").scrollLeft();
-            var outright = outleft + $("#navbar-menu").width();
-            var inleft = tab.position().left;
-            var inright = inleft + tab.outerWidth();
-            if (inleft >= outleft + 66 && inright <= outright - 66) {
-                return;
-            }
-            let offset;
-            if (inleft - outleft > outright - inright) {
-                offset = inright - $("#navbar-menu").width() + 56;
-            } else {
-                offset = inleft - 66;
-            }
-            $("#scrollul").parent().animate({ "scrollLeft": offset }, 100);
-            //window.ActiveTab = obj;
-        }
-        function removeTab(obj) {
-            let currentTab = getActiveTab();
-            var tab = obj.tab;
-            var page = obj.page;
-            var tabindex = tab.index();
-            var thisName = tab.attr("tabname");
-            tab.remove();
-            page.remove();
-            if (currentTab.tab.attr("tabname") != thisName) {
-
-                return;
-            }
-            var obj = findTab(tabindex);
-            if (obj) {
-                activeTab(obj);
-                return;
-            }
-            obj = findTab(tabindex - 1);
-            if (obj) {
-                activeTab(obj);
-                return;
-            }
-            obj = findTab(0);
-            if (obj) {
-                activeTab(obj);
-                return;
-            }
-        }
-        function getActiveTab() {
-            var name = $("#Navs-Home").parent().find("a.active").closest("[tabname]").attr("tabname");
-            return findTab(name);
-        }
-        function closeTab(e) {
-            removeTab(findTab($(this).closest("[tabname]").attr("tabname")));
-        }
-        //$(function () {
-        //    //$("#scrollul").on("mousedown", function (e) {
-        //    //    //if (e.target.tagName == "BUTTON") {
-        //    //    //    return;
-        //    //    //}
-        //    //    this.mousedown = {
-        //    //        x: e.clientX + $(document).scrollLeft(),
-        //    //        scroll: $(this).parent().scrollLeft(),
-        //    //        target: e.target
-        //    //    };
-        //    //    $(this).css("pointer-events", "none");
-        //    //    $("iframe").css("pointer-events", "none");
-        //    //});
-        //    //$(document).on("mousemove.scrollul", function (e) {
-        //    //    if (!$("#scrollul")[0].mousedown) {
-        //    //        return;
-        //    //    }
-
-        //    //    var offsetX = e.clientX + $(document).scrollLeft() - $("#scrollul")[0].mousedown.x;
-        //    //    if (Math.abs(offsetX) > 3) {
-        //    //        $("#scrollul")[0].mousedown.moving = true;
-        //    //    }
-        //    //    var scrollX = $("#scrollul")[0].mousedown.scroll;
-        //    //    $("#scrollul").parent().scrollLeft(scrollX - offsetX);
-        //    //    //console.log(offsetX);
-        //    //}).on("mouseup.scrollul", function () {
-        //    //    var mousedown = $("#scrollul")[0].mousedown;
-        //    //    if (!mousedown) {
-        //    //        return;
-        //    //    }
-        //    //    if (!mousedown.moving && ($(mousedown.target).hasClass("nav-link") || mousedown.target.tagName == "svg")) {
-        //    //        var name = $(mousedown.target).closest(".nav-item").attr("tabname");
-        //    //        activeTab(findTab(name));
-        //    //    }
-        //    //    if (!mousedown.moving && ($(mousedown.target)[0].tagName == "BUTTON")) {
-        //    //        var name = $(mousedown.target).closest(".nav-item").attr("tabname");
-        //    //        removeTab(findTab(name));
-        //    //    }
-        //    //    delete $("#scrollul")[0].mousedown;
-        //    //    $("#scrollul,iframe").css("pointer-events", "auto");
-        //    //})
-            
-
-        //});
     </script>
     @Html.Partial("ChangePass")
     @Html.Partial("PersonInfo")

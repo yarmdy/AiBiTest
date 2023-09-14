@@ -847,8 +847,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Html\Error404.html" />
-    <Content Include="Images2\login1.png" />
-    <Content Include="Images2\logo.png" />
     <Content Include="Images\alipay.jpg" />
     <Content Include="Images\code.jpg" />
     <Content Include="Images\face.jpg" />
@@ -2432,7 +2430,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LayoutBak.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -2449,11 +2446,8 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\Example\List.cshtml" />
-    <Content Include="Views\User\Login2.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\ChangePass.cshtml" />
     <Content Include="Views\Home\PersonInfo.cshtml" />
-    <Content Include="Views\Shared\_LayoutGood.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
