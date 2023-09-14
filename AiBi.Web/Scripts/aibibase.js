@@ -547,7 +547,7 @@ layer.callback = function (opt) {
     return layer.open(opt);
 }
 layer.loadEx = function (icon, opt) {
-    icon = icon == null?2:0;
+    icon = icon == null ? 2 : icon;
     var div = '<i class="layui-layer-loading-icon layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>'; 
     
     if (icon == 1) {
