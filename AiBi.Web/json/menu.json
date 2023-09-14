@@ -1,0 +1,297 @@
+[
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+      "CascadeId": ".0.2.",
+      "Name": "会员管理",
+      "Url": "/",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe638;",
+      "Checked": false,
+      "SortNo": 0,
+      "Code": null,
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    },
+    "Children": [
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnAdd",
+              "Name": "新的申请",
+              "Attr": "",
+              "Script": "add()",
+              "Icon": "&#xe654;",
+              "Class": "layui-btn-normal",
+              "Remark": "申请物品",
+              "Sort": 0,
+              "ModuleId": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "68484265-7802-4f06-b024-33e8b2f2edcf"
+            },
+            {
+              "DomId": "btnDel",
+              "Name": "删除",
+              "Attr": "",
+              "Script": "del()",
+              "Icon": "&#xe640;",
+              "Class": "layui-btn-danger",
+              "Remark": "",
+              "Sort": 3,
+              "ModuleId": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "584c7a3b-d28a-47b4-8648-7797d05d83d1"
+            },
+            {
+              "DomId": "btnDetail",
+              "Name": "进度详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 4,
+              "ModuleId": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "816b12b3-e916-446d-a2fa-329cfd13c831"
+            }
+          ],
+          "Id": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+          "CascadeId": ".0.2.4.",
+          "Name": "代理商管理",
+          "Url": "/User/AgentList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "会员管理",
+          "IconName": "&#xe618;",
+          "Checked": false,
+          "SortNo": 1,
+          "Code": "FlowInstance",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnDetail",
+              "Name": "进度详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 4,
+              "ModuleId": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "826b12b3-e916-446d-a2fa-329cfd13c831"
+            },
+            {
+              "DomId": "btnVerification",
+              "Name": "处理",
+              "Attr": "",
+              "Script": "verificationForm()",
+              "Icon": "&#xe610;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 5,
+              "ModuleId": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "79dcd3eb-3aaf-4e08-83c9-713d8ff446fe"
+            }
+          ],
+          "Id": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+          "CascadeId": ".0.2.5.",
+          "Name": "教师管理",
+          "Url": "/User/TestorList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "会员管理",
+          "IconName": "&#xe641;",
+          "Checked": false,
+          "SortNo": 2,
+          "Code": "FlowInstanceWait",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnDetail",
+              "Name": "查看详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 0,
+              "ModuleId": "37bb9414-19a0-4223-9056-71f8c758a930",
+              "TypeName": "",
+              "TypeId": "",
+              "Id": "b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a"
+            }
+          ],
+          "Id": "37bb9414-19a0-4223-9056-71f8c758a930",
+          "CascadeId": ".0.2.6.",
+          "Name": "会员管理",
+          "Url": "/User/TestedList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "会员管理",
+          "IconName": "&#xe610;",
+          "Checked": false,
+          "SortNo": 3,
+          "Code": "FlowInstanceDisposed",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnDetail",
+              "Name": "查看详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 0,
+              "ModuleId": "37bb9414-19a0-4223-9056-71f8c758a930",
+              "TypeName": "",
+              "TypeId": "",
+              "Id": "b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a"
+            }
+          ],
+          "Id": "37bb9414-19a0-4223-9056-71f8c758a931",
+          "CascadeId": ".0.2.7.",
+          "Name": "访客管理",
+          "Url": "/User/VisitorList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "会员管理",
+          "IconName": "&#xe610;",
+          "Checked": false,
+          "SortNo": 3,
+          "Code": "FlowInstanceDisposed",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      }
+    ]
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5199",
+      "CascadeId": ".0.3.",
+      "Name": "量表管理",
+      "Url": "/Example/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "ExampleMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5200",
+      "CascadeId": ".0.4.",
+      "Name": "任务类型",
+      "Url": "/Classify/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "ClassifyMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5201",
+      "CascadeId": ".0.5.",
+      "Name": "任务管理",
+      "Url": "/TestTemplate/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "TestTemplateMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5202",
+      "CascadeId": ".0.6.",
+      "Name": "测评报告",
+      "Url": " /TestPlan/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "TestPlanMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5203",
+      "CascadeId": ".0.7.",
+      "Name": "财务管理",
+      "Url": "/Financial/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "FinancialMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5204",
+      "CascadeId": ".0.8.",
+      "Name": "系统管理",
+      "Url": "/System/Index",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "SystemMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  }
+]

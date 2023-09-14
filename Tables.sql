@@ -1,6 +1,6 @@
 USE [AiBi_Test]
 GO
-/****** Object:  Table [test].[bus_Classify]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Classify]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -23,7 +23,7 @@ CREATE TABLE [test].[bus_Classify](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Example]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,7 +55,7 @@ CREATE TABLE [test].[bus_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Option]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Example_Option]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -79,7 +79,7 @@ CREATE TABLE [test].[bus_Example_Option](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Question]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Example_Question]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -103,7 +103,7 @@ CREATE TABLE [test].[bus_Example_Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Example_Result]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Example_Result]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -129,7 +129,7 @@ CREATE TABLE [test].[bus_Example_Result](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Question]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Question]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +153,7 @@ CREATE TABLE [test].[bus_Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_Question_Option]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_Question_Option]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -176,7 +176,7 @@ CREATE TABLE [test].[bus_Question_Option](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestPlan]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -187,7 +187,7 @@ CREATE TABLE [test].[bus_TestPlan](
 	[Status] [int] NOT NULL,
 	[StartTime] [datetime] NOT NULL,
 	[EndTime] [datetime] NOT NULL,
-	[TempleteId] [int] NOT NULL,
+	[TemplateId] [int] NOT NULL,
 	[CanPause] [bit] NOT NULL,
 	[ExampleNum] [int] NOT NULL,
 	[QuestionNum] [int] NOT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE [test].[bus_TestPlan](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_Example]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestPlan_Example]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -230,7 +230,7 @@ CREATE TABLE [test].[bus_TestPlan_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_User]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestPlan_User]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -262,7 +262,7 @@ CREATE TABLE [test].[bus_TestPlan_User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestPlan_User_Example]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestPlan_User_Example]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -295,12 +295,12 @@ CREATE TABLE [test].[bus_TestPlan_User_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestTemplete]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestTemplate]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [test].[bus_TestTemplete](
+CREATE TABLE [test].[bus_TestTemplate](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[ClassifyId] [int] NOT NULL,
@@ -328,13 +328,13 @@ CREATE TABLE [test].[bus_TestTemplete](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_TestTemplete_Example]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_TestTemplate_Example]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [test].[bus_TestTemplete_Example](
-	[TempleteId] [int] NOT NULL,
+CREATE TABLE [test].[bus_TestTemplate_Example](
+	[TemplateId] [int] NOT NULL,
 	[ExampleId] [int] NOT NULL,
 	[SortNo] [int] NOT NULL,
 	[Duration] [int] NOT NULL,
@@ -348,12 +348,12 @@ CREATE TABLE [test].[bus_TestTemplete_Example](
 	[DelTime] [datetime] NULL,
  CONSTRAINT [PK_bus_TestTemplete_Example] PRIMARY KEY CLUSTERED 
 (
-	[TempleteId] ASC,
+	[TemplateId] ASC,
 	[ExampleId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_Classify]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_User_Classify]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -376,7 +376,7 @@ CREATE TABLE [test].[bus_User_Classify](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_Example]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_User_Example]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -399,14 +399,14 @@ CREATE TABLE [test].[bus_User_Example](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[bus_User_TestTemplete]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_User_TestTemplate]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [test].[bus_User_TestTemplete](
+CREATE TABLE [test].[bus_User_TestTemplate](
 	[UserId] [int] NOT NULL,
-	[TempleteId] [int] NOT NULL,
+	[TemplateId] [int] NOT NULL,
 	[ExpireTime] [datetime] NULL,
 	[CreateUserId] [int] NOT NULL,
 	[CreateTime] [datetime] NOT NULL,
@@ -418,11 +418,38 @@ CREATE TABLE [test].[bus_User_TestTemplete](
  CONSTRAINT [PK_bus_User_TestTemplete] PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC,
-	[TempleteId] ASC
+	[TemplateId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Attachment]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[bus_UserInfo]    Script Date: 2023/9/13 14:28:58 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [test].[bus_UserInfo](
+	[UserId] [int] NOT NULL,
+	[OwnerId] [int] NOT NULL,
+	[RealName] [nvarchar](50) NULL,
+	[Sex] [int] NULL,
+	[Birthday] [date] NULL,
+	[IdCardNo] [varchar](50) NULL,
+	[UnitName] [nvarchar](50) NULL,
+	[CreateUserId] [int] NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[ModifyUserId] [int] NULL,
+	[ModifyTime] [datetime] NULL,
+	[IsDel] [bit] NOT NULL,
+	[DelUserId] [int] NULL,
+	[DelTime] [datetime] NULL,
+ CONSTRAINT [PK_bus_UserInfo] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC,
+	[OwnerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [test].[sys_Attachment]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -448,7 +475,7 @@ CREATE TABLE [test].[sys_Attachment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Func]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[sys_Func]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -474,7 +501,7 @@ CREATE TABLE [test].[sys_Func](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Role]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[sys_Role]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -496,7 +523,7 @@ CREATE TABLE [test].[sys_Role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_Role_Func]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[sys_Role_Func]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -518,7 +545,7 @@ CREATE TABLE [test].[sys_Role_Func](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_User]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[sys_User]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -549,7 +576,7 @@ CREATE TABLE [test].[sys_User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [test].[sys_User_Role]    Script Date: 2023/9/10 21:07:38 ******/
+/****** Object:  Table [test].[sys_User_Role]    Script Date: 2023/9/13 14:28:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -631,15 +658,15 @@ ALTER TABLE [test].[bus_TestPlan_User_Example] ADD  CONSTRAINT [DF_bus_TestPlan_
 GO
 ALTER TABLE [test].[bus_TestPlan_User_Example] ADD  CONSTRAINT [DF_bus_TestPlan_User_Example_IsDel]  DEFAULT ((0)) FOR [IsDel]
 GO
-ALTER TABLE [test].[bus_TestTemplete] ADD  CONSTRAINT [DF_bus_TestTemplete_Price_1]  DEFAULT ((0)) FOR [Price]
+ALTER TABLE [test].[bus_TestTemplate] ADD  CONSTRAINT [DF_bus_TestTemplete_Price_1]  DEFAULT ((0)) FOR [Price]
 GO
-ALTER TABLE [test].[bus_TestTemplete] ADD  CONSTRAINT [DF_bus_TestTemplete_CreateTime_1]  DEFAULT (getdate()) FOR [CreateTime]
+ALTER TABLE [test].[bus_TestTemplate] ADD  CONSTRAINT [DF_bus_TestTemplete_CreateTime_1]  DEFAULT (getdate()) FOR [CreateTime]
 GO
-ALTER TABLE [test].[bus_TestTemplete] ADD  CONSTRAINT [DF_bus_TestTemplete_IsDel_1]  DEFAULT ((0)) FOR [IsDel]
+ALTER TABLE [test].[bus_TestTemplate] ADD  CONSTRAINT [DF_bus_TestTemplete_IsDel_1]  DEFAULT ((0)) FOR [IsDel]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] ADD  CONSTRAINT [DF_bus_TestTemplete_Example_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
+ALTER TABLE [test].[bus_TestTemplate_Example] ADD  CONSTRAINT [DF_bus_TestTemplete_Example_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] ADD  CONSTRAINT [DF_bus_TestTemplete_Example_IsDel]  DEFAULT ((0)) FOR [IsDel]
+ALTER TABLE [test].[bus_TestTemplate_Example] ADD  CONSTRAINT [DF_bus_TestTemplete_Example_IsDel]  DEFAULT ((0)) FOR [IsDel]
 GO
 ALTER TABLE [test].[bus_User_Classify] ADD  CONSTRAINT [DF_bus_User_Classify_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
 GO
@@ -649,9 +676,13 @@ ALTER TABLE [test].[bus_User_Example] ADD  CONSTRAINT [DF_bus_User_Example_Creat
 GO
 ALTER TABLE [test].[bus_User_Example] ADD  CONSTRAINT [DF_bus_User_Example_IsDel]  DEFAULT ((0)) FOR [IsDel]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] ADD  CONSTRAINT [DF_bus_User_TestTemplete_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
+ALTER TABLE [test].[bus_User_TestTemplate] ADD  CONSTRAINT [DF_bus_User_TestTemplete_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] ADD  CONSTRAINT [DF_bus_User_TestTemplete_IsDel]  DEFAULT ((0)) FOR [IsDel]
+ALTER TABLE [test].[bus_User_TestTemplate] ADD  CONSTRAINT [DF_bus_User_TestTemplete_IsDel]  DEFAULT ((0)) FOR [IsDel]
+GO
+ALTER TABLE [test].[bus_UserInfo] ADD  CONSTRAINT [DF_bus_UserInfo_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
+GO
+ALTER TABLE [test].[bus_UserInfo] ADD  CONSTRAINT [DF_bus_UserInfo_IsDel]  DEFAULT ((0)) FOR [IsDel]
 GO
 ALTER TABLE [test].[sys_Attachment] ADD  CONSTRAINT [DF_sys_Attachment_CreateTime]  DEFAULT (getdate()) FOR [CreateTime]
 GO
@@ -837,8 +868,8 @@ REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[bus_Question_Option] CHECK CONSTRAINT [FK_bus_Question_Option_sys_User2]
 GO
-ALTER TABLE [test].[bus_TestPlan]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestPlan_bus_TestTemplete] FOREIGN KEY([TempleteId])
-REFERENCES [test].[bus_TestTemplete] ([Id])
+ALTER TABLE [test].[bus_TestPlan]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestPlan_bus_TestTemplete] FOREIGN KEY([TemplateId])
+REFERENCES [test].[bus_TestTemplate] ([Id])
 GO
 ALTER TABLE [test].[bus_TestPlan] CHECK CONSTRAINT [FK_bus_TestPlan_bus_TestTemplete]
 GO
@@ -942,60 +973,60 @@ REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[bus_TestPlan_User_Example] CHECK CONSTRAINT [FK_bus_TestPlan_User_Example_sys_User3]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_bus_Classify] FOREIGN KEY([ClassifyId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_bus_Classify] FOREIGN KEY([ClassifyId])
 REFERENCES [test].[bus_Classify] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_bus_Classify]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_bus_Classify]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_bus_Classify1] FOREIGN KEY([SubClassifyId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_bus_Classify1] FOREIGN KEY([SubClassifyId])
 REFERENCES [test].[bus_Classify] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_bus_Classify1]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_bus_Classify1]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_Attachment] FOREIGN KEY([ImageId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_Attachment] FOREIGN KEY([ImageId])
 REFERENCES [test].[sys_Attachment] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_Attachment]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_Attachment]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User] FOREIGN KEY([CreateUserId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User] FOREIGN KEY([CreateUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User1] FOREIGN KEY([ModifyUserId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User1] FOREIGN KEY([ModifyUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User1]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User1]
 GO
-ALTER TABLE [test].[bus_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User2] FOREIGN KEY([DelUserId])
+ALTER TABLE [test].[bus_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_sys_User2] FOREIGN KEY([DelUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User2]
+ALTER TABLE [test].[bus_TestTemplate] CHECK CONSTRAINT [FK_bus_TestTemplete_sys_User2]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_bus_Example] FOREIGN KEY([ExampleId])
+ALTER TABLE [test].[bus_TestTemplate_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_bus_Example] FOREIGN KEY([ExampleId])
 REFERENCES [test].[bus_Example] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_bus_Example]
+ALTER TABLE [test].[bus_TestTemplate_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_bus_Example]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_bus_TestTemplete] FOREIGN KEY([TempleteId])
-REFERENCES [test].[bus_TestTemplete] ([Id])
+ALTER TABLE [test].[bus_TestTemplate_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_bus_TestTemplete] FOREIGN KEY([TemplateId])
+REFERENCES [test].[bus_TestTemplate] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_bus_TestTemplete]
+ALTER TABLE [test].[bus_TestTemplate_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_bus_TestTemplete]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User] FOREIGN KEY([CreateUserId])
+ALTER TABLE [test].[bus_TestTemplate_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User] FOREIGN KEY([CreateUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User]
+ALTER TABLE [test].[bus_TestTemplate_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User1] FOREIGN KEY([ModifyUserId])
+ALTER TABLE [test].[bus_TestTemplate_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User1] FOREIGN KEY([ModifyUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User1]
+ALTER TABLE [test].[bus_TestTemplate_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User1]
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User2] FOREIGN KEY([DelUserId])
+ALTER TABLE [test].[bus_TestTemplate_Example]  WITH CHECK ADD  CONSTRAINT [FK_bus_TestTemplete_Example_sys_User2] FOREIGN KEY([DelUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_TestTemplete_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User2]
+ALTER TABLE [test].[bus_TestTemplate_Example] CHECK CONSTRAINT [FK_bus_TestTemplete_Example_sys_User2]
 GO
 ALTER TABLE [test].[bus_User_Classify]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_Classify_bus_Classify] FOREIGN KEY([ClassifyId])
 REFERENCES [test].[bus_Classify] ([Id])
@@ -1047,30 +1078,55 @@ REFERENCES [test].[sys_User] ([Id])
 GO
 ALTER TABLE [test].[bus_User_Example] CHECK CONSTRAINT [FK_bus_User_Example_sys_User3]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_bus_TestTemplete] FOREIGN KEY([TempleteId])
-REFERENCES [test].[bus_TestTemplete] ([Id])
+ALTER TABLE [test].[bus_User_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_bus_TestTemplete] FOREIGN KEY([TemplateId])
+REFERENCES [test].[bus_TestTemplate] ([Id])
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] CHECK CONSTRAINT [FK_bus_User_TestTemplete_bus_TestTemplete]
+ALTER TABLE [test].[bus_User_TestTemplate] CHECK CONSTRAINT [FK_bus_User_TestTemplete_bus_TestTemplete]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User] FOREIGN KEY([UserId])
+ALTER TABLE [test].[bus_User_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User] FOREIGN KEY([UserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User]
+ALTER TABLE [test].[bus_User_TestTemplate] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User1] FOREIGN KEY([CreateUserId])
+ALTER TABLE [test].[bus_User_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User1] FOREIGN KEY([CreateUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User1]
+ALTER TABLE [test].[bus_User_TestTemplate] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User1]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User2] FOREIGN KEY([ModifyUserId])
+ALTER TABLE [test].[bus_User_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User2] FOREIGN KEY([ModifyUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User2]
+ALTER TABLE [test].[bus_User_TestTemplate] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User2]
 GO
-ALTER TABLE [test].[bus_User_TestTemplete]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User3] FOREIGN KEY([DelUserId])
+ALTER TABLE [test].[bus_User_TestTemplate]  WITH CHECK ADD  CONSTRAINT [FK_bus_User_TestTemplete_sys_User3] FOREIGN KEY([DelUserId])
 REFERENCES [test].[sys_User] ([Id])
 GO
-ALTER TABLE [test].[bus_User_TestTemplete] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User3]
+ALTER TABLE [test].[bus_User_TestTemplate] CHECK CONSTRAINT [FK_bus_User_TestTemplete_sys_User3]
+GO
+ALTER TABLE [test].[bus_UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_bus_UserInfo_sys_User] FOREIGN KEY([UserId])
+REFERENCES [test].[sys_User] ([Id])
+GO
+ALTER TABLE [test].[bus_UserInfo] CHECK CONSTRAINT [FK_bus_UserInfo_sys_User]
+GO
+ALTER TABLE [test].[bus_UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_bus_UserInfo_sys_User1] FOREIGN KEY([OwnerId])
+REFERENCES [test].[sys_User] ([Id])
+GO
+ALTER TABLE [test].[bus_UserInfo] CHECK CONSTRAINT [FK_bus_UserInfo_sys_User1]
+GO
+ALTER TABLE [test].[bus_UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_bus_UserInfo_sys_User2] FOREIGN KEY([CreateUserId])
+REFERENCES [test].[sys_User] ([Id])
+GO
+ALTER TABLE [test].[bus_UserInfo] CHECK CONSTRAINT [FK_bus_UserInfo_sys_User2]
+GO
+ALTER TABLE [test].[bus_UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_bus_UserInfo_sys_User3] FOREIGN KEY([ModifyUserId])
+REFERENCES [test].[sys_User] ([Id])
+GO
+ALTER TABLE [test].[bus_UserInfo] CHECK CONSTRAINT [FK_bus_UserInfo_sys_User3]
+GO
+ALTER TABLE [test].[bus_UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_bus_UserInfo_sys_User4] FOREIGN KEY([DelUserId])
+REFERENCES [test].[sys_User] ([Id])
+GO
+ALTER TABLE [test].[bus_UserInfo] CHECK CONSTRAINT [FK_bus_UserInfo_sys_User4]
 GO
 ALTER TABLE [test].[sys_Attachment]  WITH CHECK ADD  CONSTRAINT [FK_sys_Attachment_sys_User] FOREIGN KEY([CreateUserId])
 REFERENCES [test].[sys_User] ([Id])
@@ -1362,7 +1418,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'开始时间' 
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'结束时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestPlan', @level2type=N'COLUMN',@level2name=N'EndTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模板Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestPlan', @level2type=N'COLUMN',@level2name=N'TempleteId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模板Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestPlan', @level2type=N'COLUMN',@level2name=N'TemplateId'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'可以暂停' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestPlan', @level2type=N'COLUMN',@level2name=N'CanPause'
 GO
@@ -1486,71 +1542,71 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestPlan_User_Example', @level2type=N'COLUMN',@level2name=N'DelTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Id'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Id'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'标题' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Title'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'标题' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Title'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'ClassifyId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'分类' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'ClassifyId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'子类' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'SubClassifyId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'子类' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'SubClassifyId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'关键字 | 分割' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Keys'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'关键字 | 分割' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Keys'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例数' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'ExampleNum'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'实例数' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'ExampleNum'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'题数' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'QuestionNum'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'题数' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'QuestionNum'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'时长（分钟）' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Duration'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'时长（分钟）' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Duration'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'图片附件Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'ImageId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'图片附件Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'ImageId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'价格' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Price'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'价格' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Price'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'优惠价格' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'DiscountPrice'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'优惠价格' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'DiscountPrice'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'说明  给被测者' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Note'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'说明  给被测者' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Note'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注  给组织测试者' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'NContent'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注  给组织测试者' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'NContent'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0 创建中 1 创建完成 2已上架' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'Status'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0 创建中 1 创建完成 2已上架' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'Status'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'CreateUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'CreateTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'CreateTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'ModifyTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'ModifyTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'IsDel'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'IsDel'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'DelUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'DelUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete', @level2type=N'COLUMN',@level2name=N'DelTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate', @level2type=N'COLUMN',@level2name=N'DelTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模板id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'TempleteId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'模板id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'TemplateId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用例id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'ExampleId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用例id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'ExampleId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'SortNo'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'排序号' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'SortNo'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'时长（分钟） 0不限' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'Duration'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'时长（分钟） 0不限' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'Duration'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'可以暂停' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'CanPause'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'可以暂停' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'CanPause'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'CreateUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'CreateTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'CreateTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'ModifyTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'ModifyTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'IsDel'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'IsDel'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'DelUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'DelUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplete_Example', @level2type=N'COLUMN',@level2name=N'DelTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_TestTemplate_Example', @level2type=N'COLUMN',@level2name=N'DelTime'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_Classify', @level2type=N'COLUMN',@level2name=N'UserId'
 GO
@@ -1592,25 +1648,53 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_Example', @level2type=N'COLUMN',@level2name=N'DelTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'UserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'UserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用例' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'TempleteId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用例' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'TemplateId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'过期时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'ExpireTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'过期时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'ExpireTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'CreateUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'CreateTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'CreateTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'ModifyTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'ModifyTime'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'IsDel'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'IsDel'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'DelUserId'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'DelUserId'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplete', @level2type=N'COLUMN',@level2name=N'DelTime'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_User_TestTemplate', @level2type=N'COLUMN',@level2name=N'DelTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'UserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'所有者Id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'OwnerId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'姓名' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'RealName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'性别 1女 2男' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'Sex'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'生日' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'Birthday'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'身份证号' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'IdCardNo'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'单位' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'UnitName'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'CreateUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'CreateTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'ModifyUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'修改时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'ModifyTime'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否删除' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'IsDel'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除人' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'DelUserId'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'删除时间' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'bus_UserInfo', @level2type=N'COLUMN',@level2name=N'DelTime'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'id' , @level0type=N'SCHEMA',@level0name=N'test', @level1type=N'TABLE',@level1name=N'sys_Attachment', @level2type=N'COLUMN',@level2name=N'Id'
 GO

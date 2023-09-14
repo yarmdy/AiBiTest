@@ -1,0 +1,44 @@
+﻿@{
+    var CurrentUser = (SysUser)ViewBag.CurrentUser;
+}
+
+@section header
+{
+    <link rel="stylesheet" href="/css/treetable.css" />
+}
+<div id="divPersonInfo" style="margin-top: 15px; margin-left: 15px; margin-right: 15px; display: none;">
+    <form id="frmPersonInfo" class="layui-form layui-form-pane" action="">
+
+        <input type="hidden" name="Id" v-model="Id" />
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="Account" v-model="Account" readonly value="@CurrentUser.Account" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" v-model="Name" readonly value="@CurrentUser.Name"
+                        autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门</label>
+            <div class="layui-input-block">
+                <input id="Organizations" name="Organizations" v-model="Organizations" readonly lay-verify="required" class="layui-input" value="@ViewBag.Orgs" />
+            </div>
+        </div>
+
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input class="layui-input" readonly value="@ViewBag.Sex" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/userJs/PersonInfo.js"></script>

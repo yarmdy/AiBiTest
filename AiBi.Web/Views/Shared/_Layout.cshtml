@@ -107,6 +107,50 @@
     <script src="~/Scripts/jquery.validate.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
+    <script>
+        (function ($$) {
+            let obj = $$;
+            $.extend($$, {
+                tabName: function () {
+                    let dataid = top.$(window.frameElement).attr("data-id");
+                    return top.$("i[data-id=" + dataid + "]").prev("cite").text();
+                },
+                closeThis: function () {
+                    if (!top.tab || !top.tab.closeTab) {
+                        window.close();
+                        return;
+                    }
+                    var iframe = window.frameElement;
+                    if (!iframe) return;
+                    if (!$(iframe).attr("data-id")) return;
+                    top.tab.closeTab($(iframe).attr("data-id"));
+                },
+                addTab: function (name, url) {
+                    url = obj.toOpenUrl(url, name);
+                    if (top === window && typeof window.addTab !== "function") {
+                        var winhwnd = window.open("about:blank");
+                        winhwnd.location.href = url;
+                        return;
+                    }
+                    top.addTab(name, url);
+                },
+                opener: function () {
+                    if (window.opener) {
+                        return window.opener;
+                    }
+
+                    if (!PageInfo || !PageInfo.opener || !top.findTab) {
+                        return top !== window ? top : null;
+                    }
+                    let tmptab = top.findTab(PageInfo.opener);
+                    if (!tmptab) {
+                        return null;
+                    }
+                    return tmptab.page.find("iframe")[0].contentWindow;
+                },
+            });
+        }) ($$);
+    </script>
     @RenderSection("scripts", false)
     @if (!(ViewBag.NoScript ?? false))
     {

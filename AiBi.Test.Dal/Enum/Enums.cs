@@ -61,6 +61,12 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "代理商")]
         Agent = 4,
         /// <summary>
+        /// 访客
+        /// </summary>
+        [Display(Name = "访客")]
+        visitor = 8,
+
+        /// <summary>
         /// 管理员
         /// </summary>
         [Display(Name = "管理员")]
