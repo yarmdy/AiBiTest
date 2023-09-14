@@ -11,13 +11,14 @@ using System.Data.Entity.Infrastructure;
 using AiBi.Test.Dal.Enum;
 using System.Collections;
 using System.Web.Mvc;
+using Autofac;
 
 namespace AiBi.Test.Bll
 {
     public abstract class BaseBll<T, PageReqT> where T : BaseEntity where PageReqT : PageReq
     {
         #region 属性
-        public int CurrentUserId => SysUserBll.GetCookie()?.Id??0;
+        public int CurrentUserId => SysUserBll.GetCookie()?.Id ?? 0;
         public string CurrentUserName => SysUserBll.GetCookie()?.Name;
         public string CurrentAccount => SysUserBll.GetCookie()?.Account;
         #endregion
@@ -41,9 +42,9 @@ namespace AiBi.Test.Bll
             var where = (Expression<Func<T, bool>>)(a => false);
             if (string.IsNullOrEmpty(req.keyword))
             {
-                return where.Or(a=>true);
+                return where.Or(a => true);
             }
-            
+
             if (TypeHelper.HasPropertyBase<T>("Title"))
             {
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Title").Like(req.keyword));
@@ -58,8 +59,8 @@ namespace AiBi.Test.Bll
             }
             if (TypeHelper.HasPropertyBase<T>("Keys"))
             {
-                var tkey = req.keyword.Replace("|","");
-                where = where.Or(PredicateBuilder.DotExpression<T,string>("Keys").Like(tkey));
+                var tkey = req.keyword.Replace("|", "");
+                where = where.Or(PredicateBuilder.DotExpression<T, string>("Keys").Like(tkey));
 
             }
             where = where.Or(a => a.CreateUser.Name.Contains(req.keyword));
@@ -82,7 +83,7 @@ namespace AiBi.Test.Bll
                         query = PageOrderCustom(req, query);
                         continue;
                     }
-                    query = query.EqualTo(where.Key,where.Value);
+                    query = query.EqualTo(where.Key, where.Value);
                 }
             }
             return query;
@@ -96,7 +97,7 @@ namespace AiBi.Test.Bll
             {
                 return query.ThenByDescending("Id");
             }
-            return query.ThenByDescending(a=>a.CreateTime);
+            return query.ThenByDescending(a => a.CreateTime);
         }
         /// <summary>
         /// 分页排序
@@ -112,7 +113,7 @@ namespace AiBi.Test.Bll
                 {
                     if (!TypeHelper.HasProperty<T>(sort.Key))
                     {
-                        query = PageOrderCustom(req,query);
+                        query = PageOrderCustom(req, query);
                         continue;
                     }
                     if (sort.Value)
@@ -139,7 +140,7 @@ namespace AiBi.Test.Bll
         /// <returns></returns>
         public virtual void PageAfter(PageReqT req, Response<List<T>, object, object, object> res)
         {
-            
+
         }
         /// <summary>
         /// 获取分页数据
@@ -164,29 +165,157 @@ namespace AiBi.Test.Bll
         }
         public virtual void DetailAfter(int id, int? id2, Response<T, object, object, object> res)
         {
-            
+
         }
         public Response<T, object, object, object> GetDetail(int id, int? id2)
         {
             var res = new Response<T, object, object, object>();
 
-            var beforeRes = DetailBefore(id,id2,res);
+            var beforeRes = DetailBefore(id, id2, res);
             if (!beforeRes)
             {
                 return res;
             }
-            var obj = Find(false,id,id2);
+            var obj = Find(false, id, id2);
             if (obj == null)
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = "您查询的数据不存在";
             }
             res.data = obj;
-            DetailAfter(id,id2,res);
+            DetailAfter(id, id2, res);
             return res;
         }
         #endregion
 
+        #region 新增
+        public virtual bool AddValidate(out string errorMsg,T model,T inModel)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual void AddAfter(Response<T, object, object, object> res,T inModel)
+        {
+
+        }
+        public Response<T, object, object, object> Add(T model)
+        {
+            var tmpModel = model;
+            if (model == null)
+            {
+                throw new ArgumentNullException("model");
+            }
+            var values = getKeyValues(model);
+            var hasOld = false;
+            if (model is IdEntity)
+            {
+                if((model as IdEntity).Id != 0)
+                {
+                    throw new ArgumentNullException("model.Id");
+                }
+                Context.Set<T>().Add(model);
+            }
+            else
+            {
+                if (values.Any(a => a.Value == null || a.Value.Equals(0)))
+                {
+                    throw new ArgumentNullException($"model.{string.Join(",",values.Keys)}");
+                }
+                var tmp = Find(false, values.Select(a => a.Value).ToArray());
+                if (tmp != null)
+                {
+                    hasOld = true;
+                    Context.Configuration.LazyLoadingEnabled = false;
+                    tmp.CopyFrom(model);
+                    Context.Configuration.LazyLoadingEnabled = true;
+                    model = tmp;
+                }
+                else
+                {
+                    Context.Set<T>().Add(model);
+                }
+            }
+            if (hasOld)
+            {
+                model.ModifyTime = DateTime.Now;
+                model.ModifyUserId = CurrentUserId;
+            }
+            else
+            {
+                model.CreateTime = DateTime.Now;
+                model.ModifyUserId = CurrentUserId;
+            }
+            if(AddValidate(out string errorMsg, model, tmpModel))
+            {
+                throw new Exception(errorMsg);
+            }
+            var res = new Response<T, object, object, object>();
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "新增失败";
+            }
+            res.data = model;
+            AddAfter(res,tmpModel);
+
+            return res;
+        }
+        #endregion
+
+        #region 修改
+        public virtual bool EditValidate(out string errorMsg, T model, T inModel)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual void EditAfter(Response<T, object, object, object> res, T inModel)
+        {
+
+        }
+        public Response<T, object, object, object> Edit(T model)
+        {
+            var tmpModel = model;
+            if (model == null)
+            {
+                throw new ArgumentNullException("model");
+            }
+            var values = getKeyValues(model);
+
+            if (values.Any(a => a.Value == null || a.Value.Equals(0)))
+            {
+                throw new ArgumentNullException($"model.{string.Join(",", values.Keys)}");
+            }
+            var tmp = Find(false, values.Select(a => a.Value).ToArray());
+            if (tmp == null)
+            {
+                throw new Exception("找不到要修改的数据");
+                
+            }
+            Context.Configuration.LazyLoadingEnabled = false;
+            tmp.CopyFrom(model, a => new { a.CreateTime,a.CreateUserId});
+            Context.Configuration.LazyLoadingEnabled = true;
+            model = tmp;
+
+            model.ModifyTime = DateTime.Now;
+            model.ModifyUserId = CurrentUserId;
+
+            if (EditValidate(out string errorMsg, model, tmpModel))
+            {
+                throw new Exception(errorMsg);
+            }
+            var res = new Response<T, object, object, object>();
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "修改失败";
+            }
+            res.data = model;
+            EditAfter(res, tmpModel);
+            return res;
+        }
+        #endregion
 
         #region lambda查询
         private IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where, bool notracking)
@@ -338,6 +467,20 @@ namespace AiBi.Test.Bll
                 return res;
             }).ToArray();
             return keyTypes;
+        }
+
+        private string[] getKeyNames() {
+            var stt = (Context as IObjectContextAdapter).ObjectContext.CreateObjectSet<T>();
+            return stt.EntitySet.ElementType.KeyProperties.Select(a => a.Name).ToArray();
+        }
+        private Dictionary<string,object> getKeyValues(T model)
+        {
+            var names = getKeyNames();
+            if (names.Length <= 0)
+            {
+                throw new Exception("系统错误，主键获取失败");
+            }
+            return names.ToDictionary(a => a, a => TypeHelper.GetPropertyValueObj(model, a));
         }
 
         /// <summary>

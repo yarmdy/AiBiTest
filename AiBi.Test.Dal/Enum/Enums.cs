@@ -64,7 +64,7 @@ namespace AiBi.Test.Dal.Enum
         /// 访客
         /// </summary>
         [Display(Name = "访客")]
-        visitor = 8,
+        Visitor = 8,
 
         /// <summary>
         /// 管理员

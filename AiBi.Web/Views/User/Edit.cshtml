@@ -1,10 +1,9 @@
 ﻿@{
-    var pageurl = (string)null;
     var editurl = (string)null;
     var name = "用户";
 
     ActionDescriptor ActionInfo = ViewBag.ActionInfo;
-    if (ActionInfo.ActionName.ToLower() == "agentlist")
+    if (ActionInfo.ActionName.ToLower() == "agentedit")
     {
         pageurl = "/GetAgentList";
         editurl = "/User/AgentEdit";

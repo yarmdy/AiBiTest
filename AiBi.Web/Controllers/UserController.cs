@@ -66,5 +66,54 @@ namespace AiBi.Test.Web.Controllers
         {
             return View("List");
         }
+        public ActionResult TestorList()
+        {
+            return View("List");
+        }
+        public ActionResult TestedList()
+        {
+            return View("List");
+        }
+        public ActionResult VisitorList()
+        {
+            return View("List");
+        }
+
+
+        public ActionResult GetAgentList(UserReq.Page req)
+        {
+            return Json(CurBll.GetAgentList(req));
+        }
+        public ActionResult GetTestorList(UserReq.Page req)
+        {
+            return Json(CurBll.GetTestorList(req));
+        }
+        public ActionResult GetTestedList(UserReq.Page req)
+        {
+            return Json(CurBll.GetTestedList(req));
+        }
+        public ActionResult GetVisitorList(UserReq.Page req)
+        {
+            return Json(CurBll.GetVisitorList(req));
+        }
+
+        public ActionResult AgentEdit(int? id)
+        {
+            return View("Edit");
+        }
+        public ActionResult TestorEdit(int? id)
+        {
+            return View("Edit");
+        }
+        public ActionResult TestedEdit(int? id)
+        {
+            return View("Edit");
+        }
+        public ActionResult VisitorEdit(int? id)
+        {
+            return View("Edit");
+        }
+
+
     }
 }

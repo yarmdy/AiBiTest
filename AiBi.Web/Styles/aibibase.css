@@ -47,3 +47,18 @@
 .layui-form-label {
     padding: 5px 15px;
 }
+
+.layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.layui-table th {
+    text-align: left;
+    font-weight: 400;
+}
+
+.layui-table-view .layui-table {
+    width: auto!important;
+}
+/*******************************
+
+********************************/

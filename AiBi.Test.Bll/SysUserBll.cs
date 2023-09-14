@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Linq;
 using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace AiBi.Test.Bll
 {
@@ -16,7 +17,26 @@ namespace AiBi.Test.Bll
 
         public override IQueryable<SysUser> PageWhere(UserReq.Page req, IQueryable<SysUser> query)
         {
-            return base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
+            query = base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
+            switch (req.Tag)
+            {
+                case "agent": {
+                        query = query.Where(a => a.Type == (int)EnumUserType.Agent);
+                    }break;
+                case "testor": {
+                        query = query.Where(a => a.Type == (int)EnumUserType.Testor);
+                    }
+                    break;
+                case "tested": {
+                        query = query.Where(a => a.Type == (int)EnumUserType.Tested);
+                    }
+                    break;
+                case "visitor": {
+                        query = query.Where(a => a.Type == (int)EnumUserType.Visitor);
+                    }
+                    break;
+            }
+            return query;
         }
         public override void PageAfter(UserReq.Page req, Response<List<SysUser>, object, object, object> res)
         {
@@ -33,6 +53,30 @@ namespace AiBi.Test.Bll
             }));
         }
 
+
+        public Response<List<SysUser>, object, object, object> GetAgentList(UserReq.Page req)
+        {
+            req.Tag = "agent";
+            return GetPageList(req);
+        }
+        
+        public Response<List<SysUser>, object, object, object> GetTestorList(UserReq.Page req)
+        {
+            req.Tag = "testor";
+            return GetPageList(req);
+        }
+        public Response<List<SysUser>, object, object, object> GetTestedList(UserReq.Page req)
+        {
+            req.Tag = "tested";
+            return GetPageList(req);
+        }
+        public Response<List<SysUser>, object, object, object> GetVisitorList(UserReq.Page req)
+        {
+            req.Tag = "visitor";
+            return GetPageList(req);
+        }
+
+        #region 登录
         public Response<SysUser> Login(HomeReq.Login req)
         {
             var res = new Response<SysUser>();
@@ -66,6 +110,8 @@ namespace AiBi.Test.Bll
             res.msg = "登陆成功";
             return res;
         }
+        #endregion
+        
 
         #region 当前状态
         public static SysUser GetCookie()
@@ -114,12 +160,7 @@ namespace AiBi.Test.Bll
         }
         #endregion
 
-        //#region 重写
-        //public override void ByKeysAfter(Response<SysUser, object, object, object> res, params object[] keys)
-        //{
-            
-        //}
-        //#endregion
+        
 
         public static string GetAvatar(SysUser user)
         {
