@@ -114,7 +114,9 @@ layui.define(["element","jquery"],function(exports){
 				"href": url
 			}
 			window.sessionStorage.setItem("curmenu", JSON.stringify(curmenu));  //当前的窗口
-			element.tabChange(tabFilter, that.getLayId(name));
+			let layid = that.getLayId(name);
+			element.tabChange(tabFilter, layid);
+			$("iframe[data-id=" + layid + "]").attr("src", url);
 			that.tabMove(); //顶部窗口是否可滚动
 		}
 	}

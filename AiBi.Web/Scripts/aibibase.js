@@ -253,18 +253,18 @@
         }
     },
     tabName: function () {
-        return top.$(window.frameElement).closest("div[tabname]").attr("tabname");
+        let dataid = top.$(window.frameElement).attr("data-id");
+        return top.$("i[data-id=" + dataid + "]").prev("cite").text();
     },
     closeThis: function () {
-        var name = obj.tabName();
-        if (!name) {
+        if (!top.tab || !top.tab.closeTab) {
             window.close();
             return;
         }
-        if (top.lastTab && top.findTab(top.lastTab.tab.attr("tabname"))) {
-            top.activeTab(top.lastTab);
-        }
-        top.removeTab(top.findTab(name));
+        var iframe = window.frameElement;
+        if (!iframe) return;
+        if (!$(iframe).attr("data-id")) return;
+        top.tab.closeTab($(iframe).attr("data-id"));
     },
     toOpenUrl: function (url, name) {
         url = obj.toUrl(url);
@@ -285,7 +285,7 @@
             winhwnd.location.href = url;
             return;
         }
-        top.addTab(name,url);
+        top.addTab(name, url);
     },
     toUrl: function (str) {
         if (!str || str.toLowerCase() == "about:blank") {
@@ -315,7 +315,7 @@
         if (window.opener) {
             return window.opener;
         }
-        
+
         if (!PageInfo || !PageInfo.opener || !top.findTab) {
             return top !== window ? top : null;
         }
@@ -547,7 +547,7 @@ layer.callback = function (opt) {
     return layer.open(opt);
 }
 layer.loadEx = function (icon, opt) {
-    icon = icon || 2;
+    icon = icon == null?2:0;
     var div = '<i class="layui-layer-loading-icon layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>'; 
     
     if (icon == 1) {

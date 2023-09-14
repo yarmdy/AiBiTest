@@ -21,45 +21,42 @@
 }
 
 <!-- Page header -->
-<div class="layout-fluid">
-    <div class="layui-row" style="margin-top:10px">
-        <div class="layui-col-xs6">
-            <form class="layui-form" id="searchForm">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="width:auto">搜索</label>
-                        <div class="layui-input-inline">
-                            <input type="text" value="" class="layui-input" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+<div class="page-header d-print-none">
+    <div class="container-fluid">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                    Overview
+                </div>*@
+                <h2 class="page-title">
+                    @ViewBag.Title
+                </h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+                <form class="d-flex" id="searchform">
+                    <div class="me-3">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                            </span>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn layui-btn-sm layui-btn-normal">搜索</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="layui-col-xs6" style="text-align: right; ">
-            <div class="layui-form">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
-                    </div>
-                    <div class="layui-inline">
-                        <a href="~/UserInfo/Edit" class="layui-btn layui-btn-sm" target="addtab">
-                            添加用户
-                        </a>
-                    </div>
-                </div>
+                    <a href="~/UserInfo/Edit" class="btn btn-primary" target="addtab">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                        添加用户
+                    </a>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="layout-fluid">
-    <table id="table"></table>
-</div>
-
-<div class="page-body" style="flex:1; display:none;flex-direction:column">
+<div class="page-body" style="flex:1; display:flex;flex-direction:column">
     <div class="container-fluid" style="flex:1">
         <div class="d-flex align-items-center pager">
             <p class="m-0 text-secondary"></p>
@@ -91,7 +88,13 @@
     </div>
 </div>
 
-
+<div class="container-fluid">
+    <div class="d-flex align-items-center pager">
+        <p class="m-0 text-secondary"></p>
+        <ul class="pagination ms-auto">
+        </ul>
+    </div>
+</div>
 
 <template id="listtemplate">
     <tr rowid="{{Id}}">
@@ -135,4 +138,10 @@
         </td>
     </tr>
 </template>
-
+<template id="emptytemplate">
+    <td colspan="1000">
+        @{
+            Html.RenderPartial("Empty");
+        }
+    </td>
+</template>

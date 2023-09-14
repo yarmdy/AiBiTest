@@ -1642,6 +1642,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
+    <Content Include="Scripts\user\listBak.js" />
     <Content Include="Scripts\user\list.js" />
     <Content Include="Scripts\user\login.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -2449,6 +2450,7 @@
     <Content Include="Views\Home\ChangePass.cshtml" />
     <Content Include="Views\Home\PersonInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\User\ListBak.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

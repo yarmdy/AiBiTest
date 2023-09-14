@@ -21,9 +21,11 @@ namespace AiBi.Test.Web.Controllers
         public override BaseBll<SysUser, UserReq.Page> Bll => CurBll;
         public SysFuncBll SysFuncBll { get; set; }
         public SysRoleBll SysRoleBll { get; set; }
-        
+
+        #region 登录
         [AllowAnonymous]
-        public ActionResult Login(HomeReq.Login req) {
+        public ActionResult Login(HomeReq.Login req)
+        {
             FormsAuthentication.SignOut();
             if (Request.IsAjaxRequest())
             {
@@ -33,7 +35,7 @@ namespace AiBi.Test.Web.Controllers
             }
 
             var err = "";
-            if (Request.HttpMethod.ToLower()=="post" && !string.IsNullOrEmpty(req.Account))
+            if (Request.HttpMethod.ToLower() == "post" && !string.IsNullOrEmpty(req.Account))
             {
                 if (string.IsNullOrEmpty(req.Password))
                 {
@@ -41,23 +43,28 @@ namespace AiBi.Test.Web.Controllers
                     goto noredirect;
                 }
                 var res = SysUserBll.Login(req);
-                if (res.code <0)
+                if (res.code < 0)
                 {
                     err = res.msg;
                     goto noredirect;
                 }
                 var cookie = $"{res.data.Id}|{res.data.Account}|{res.data.Name}";
-                FormsAuthentication.SetAuthCookie(cookie,false);
-                return Redirect(string.IsNullOrWhiteSpace(req.ReturnUrl) ? "/Home/Index":req.ReturnUrl);
+                FormsAuthentication.SetAuthCookie(cookie, false);
+                return Redirect(string.IsNullOrWhiteSpace(req.ReturnUrl) ? "/Home/Index" : req.ReturnUrl);
 
             }
-            
+
 
         noredirect:
             ViewBag.Error = err;
             ViewBag.ReturnUrl = req.ReturnUrl;
             return View();
         }
-        
+        #endregion
+
+        public ActionResult AgentList()
+        {
+            return View("List");
+        }
     }
 }
