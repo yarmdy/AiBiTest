@@ -75,7 +75,7 @@ namespace AiBi.Test.Bll
                 errorMsg = "账号不能为空";
                 return false;
             }
-            var old = GetFirstOrDefault(a=>a.Where(b=>b.Account==model.Account || b.Mobile==model.Mobile && (model.Mobile!=null || model.Mobile!="")));
+            var old = GetFirstOrDefault(a=>a.Where(b=>b.Account==model.Account || b.Mobile==model.Mobile && model.Mobile!=null ));
             if (old != null)
             {
                 errorMsg = "账号或手机号不能重复";
