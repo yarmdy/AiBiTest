@@ -5,25 +5,21 @@
     ActionDescriptor ActionInfo = ViewBag.ActionInfo;
     if (ActionInfo.ActionName.ToLower() == "agentedit")
     {
-        pageurl = "/GetAgentList";
         editurl = "/User/AgentEdit";
         name = "代理商";
     }
     if (ActionInfo.ActionName.ToLower() == "testorlist")
     {
-        pageurl = "/GetTestorList";
         editurl = "/User/TestorEdit";
         name = "教师";
     }
     if (ActionInfo.ActionName.ToLower() == "testedlist")
     {
-        pageurl = "/GetTestedList";
         editurl = "/User/TestedEdit";
         name = "会员";
     }
     if (ActionInfo.ActionName.ToLower() == "visitorlist")
     {
-        pageurl = "/GetVisitorList";
         editurl = "/User/VisitorEdit";
         name = "访客";
     }
@@ -46,10 +42,6 @@
         var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
         var EnumStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumEnableState)).ToDictionary(a=>a.Value,a=>a.Text));
         
-    @if (!string.IsNullOrEmpty(pageurl))
-    {
-        @:$$.common.getPageList.url = "@(pageurl)";
-    }
     </script>
 }
 

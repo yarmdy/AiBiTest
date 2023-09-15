@@ -113,7 +113,5 @@ namespace AiBi.Test.Web.Controllers
         {
             return View("Edit");
         }
-
-
     }
 }
