@@ -29,7 +29,7 @@ namespace AiBi.Test.Common
         {
             return obj.CopyFromExcept(obj2, null);
         }
-        public static T1 CopyFrom<T1, T2, T3>(this T1 obj, T2 obj2, Expression<Func<T1, T3>> except) where T1 : class where T2 : class
+        public static T1 CopyFrom<T1, T2, T3>(this T1 obj, T2 obj2, Expression<Func<T1, T3>> except, IEnumerable<Type> types = null) where T1 : class where T2 : class
         {
             string[] exceptArr = null;
             if (except == null)
@@ -48,7 +48,7 @@ namespace AiBi.Test.Common
             exceptArr = ((NewExpression)except.Body).Arguments.Where(a => a.NodeType == ExpressionType.MemberAccess).Select(a => (a as MemberExpression).Member.Name).ToArray();
 
         finish:
-            return obj.CopyFromExcept(obj2, exceptArr);
+            return obj.CopyFromExcept(obj2, exceptArr, types);
         }
         /// <summary>
         /// 拷贝属性
@@ -58,7 +58,7 @@ namespace AiBi.Test.Common
         /// <param name="obj"></param>
         /// <param name="obj2"></param>
         /// <returns></returns>
-        public static T1 CopyFromExcept<T1, T2>(this T1 obj, T2 obj2, string[] except) where T1 : class where T2 : class
+        public static T1 CopyFromExcept<T1, T2>(this T1 obj, T2 obj2, string[] except, IEnumerable<Type> types = null) where T1 : class where T2 : class
         {
             if (obj2 == null)
             {
@@ -70,14 +70,39 @@ namespace AiBi.Test.Common
                 return obj;
             }
             var exceptDic = except == null ? new Dictionary<string, bool>() : except.Select(a => (a + "").ToLower()).Distinct().ToDictionary(a => a, a => false);
+            types = types ?? Enumerable.Empty<Type>();
 
             var t1props = typeof(T1).GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance);
             foreach (var prop in t1props)
-            { 
+            {
                 try
                 {
                     var name = prop.Name.ToLower();
                     if (exceptDic.ContainsKey(name))
+                    {
+                        continue;
+                    }
+                    if (types.Any(a =>
+                    {
+                        if (a == prop.PropertyType)
+                        {
+                            return true;
+                        }
+                        if (a.IsAssignableFrom(prop.PropertyType))
+                        {
+                            return true;
+                        }
+                        if (!a.IsGenericType || !prop.PropertyType.IsGenericType)
+                        {
+                            return false;
+                        }
+                        if (a.GetGenericTypeDefinition() == prop.PropertyType.GetGenericTypeDefinition())
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }))
                     {
                         continue;
                     }
@@ -156,7 +181,7 @@ namespace AiBi.Test.Common
             var t2 = typeof(T2);
             var props1 = t1.GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).Select(a => new KeyValuePair<string, object>(a.Name, obj == null ? DefaultForType(a.PropertyType) : a.GetValue(obj))).ToDictionary(a => a.Key, a => a.Value);
             var props2 = t2.GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).Select(a => new KeyValuePair<string, object>(a.Name, obj2 == null ? DefaultForType(a.PropertyType) : a.GetValue(obj2))).ToDictionary(a => a.Key, a => a.Value);
-            foreach(var dic in props2)
+            foreach (var dic in props2)
             {
                 var a = dic.Key;
                 var b = dic.Value;
@@ -169,11 +194,11 @@ namespace AiBi.Test.Common
                     props1[a] = b;
                 }
             }
-            
+
 
             return props1;
         }
-        public static Dictionary<string,object> Obj2Dic<T1>(this T1 obj)
+        public static Dictionary<string, object> Obj2Dic<T1>(this T1 obj)
         {
             return typeof(T1).GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).Select(a => new KeyValuePair<string, object>(a.Name, obj == null ? DefaultForType(a.PropertyType) : a.GetValue(obj))).ToDictionary(a => a.Key, a => a.Value);
         }

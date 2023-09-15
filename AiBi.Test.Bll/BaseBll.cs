@@ -191,7 +191,13 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 新增
-        public virtual bool AddValidate(out string errorMsg, T model, T inModel)
+
+        public virtual bool AddValidate(out string errorMsg, T model)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual bool AddBefore(out string errorMsg, T model, T inModel)
         {
             errorMsg = "";
             return true;
@@ -207,6 +213,10 @@ namespace AiBi.Test.Bll
             {
                 throw new ArgumentNullException("model");
             }
+            if (!AddValidate(out string errorMsg, model))
+            {
+                throw new Exception(errorMsg);
+            }
             var values = getKeyValues(model);
             var hasOld = false;
             if (model is IdEntity)
@@ -215,6 +225,7 @@ namespace AiBi.Test.Bll
                 {
                     throw new ArgumentNullException("model.Id");
                 }
+                (model as IdEntity).Id = -1;
                 Context.Set<T>().Add(model);
             }
             else
@@ -228,7 +239,7 @@ namespace AiBi.Test.Bll
                 {
                     hasOld = true;
                     Context.Configuration.LazyLoadingEnabled = false;
-                    tmp.CopyFrom(model);
+                    tmp.CopyFrom(model, a => new { a.CreateTime, a.CreateUserId }, new[] { typeof(BaseEntity), typeof(ICollection<>) });
                     Context.Configuration.LazyLoadingEnabled = true;
                     model = tmp;
                 }
@@ -245,9 +256,9 @@ namespace AiBi.Test.Bll
             else
             {
                 model.CreateTime = DateTime.Now;
-                model.ModifyUserId = CurrentUserId;
+                model.CreateUserId = CurrentUserId;
             }
-            if (AddValidate(out string errorMsg, model, tmpModel))
+            if (!AddBefore(out errorMsg, model, tmpModel))
             {
                 throw new Exception(errorMsg);
             }
@@ -266,7 +277,12 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 修改
-        public virtual bool EditValidate(out string errorMsg, T model, T inModel)
+        public virtual bool EditValidate(out string errorMsg, T model)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual bool EditBefore(out string errorMsg, T model, T inModel)
         {
             errorMsg = "";
             return true;
@@ -282,6 +298,12 @@ namespace AiBi.Test.Bll
             {
                 throw new ArgumentNullException("model");
             }
+
+            if (!EditValidate(out string errorMsg, model))
+            {
+                throw new Exception(errorMsg);
+            }
+
             var values = getKeyValues(model);
 
             if (values.Any(a => a.Value == null || a.Value.Equals(0)))
@@ -302,7 +324,7 @@ namespace AiBi.Test.Bll
             model.ModifyTime = DateTime.Now;
             model.ModifyUserId = CurrentUserId;
 
-            if (EditValidate(out string errorMsg, model, tmpModel))
+            if (EditBefore(out errorMsg, model, tmpModel))
             {
                 throw new Exception(errorMsg);
             }
@@ -315,6 +337,53 @@ namespace AiBi.Test.Bll
             }
             res.data = model;
             EditAfter(res, tmpModel);
+            return res;
+        }
+        #endregion
+
+        #region 删除
+        public virtual bool DeleteValidate(out string errorMsg, List<T> models, int[][] ids)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual void DeleteAfter(Response<T, object, object, object> res, int[][] ids)
+        {
+
+        }
+        public Response<T, object, object, object> Delete(int[][] ids)
+        {
+            var res = new Response<T, object, object, object>();
+            if (ids == null || ids.Length <= 0 || ids[0].Length <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "没有要删除的数据";
+                return res;
+            }
+            var names = getKeyNames();
+            var models = ids.Select(a => {
+                var model = (T)Activator.CreateInstance(typeof(T));
+                var i = 0;
+                names.ToList().ForEach(b => TypeHelper.SetPropertyValue(model, b, a[i++]));
+                return model;
+            }).ToList();
+            if (DeleteValidate(out string errorMsg, models, ids))
+            {
+                throw new Exception(errorMsg);
+            }
+            models.ForEach(model => {
+                Context.Set<T>().Attach(model);
+                Context.Entry(model).State = EntityState.Deleted;
+            });
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "删除失败";
+                return res;
+            }
+            res.data2 = ret;
+            DeleteAfter(res, ids);
             return res;
         }
         #endregion
@@ -568,4 +637,3 @@ namespace AiBi.Test.Bll
         }
     }
 }
- 
