@@ -317,6 +317,53 @@ namespace AiBi.Test.Bll
         }
         #endregion
 
+        #region 删除
+        public virtual bool DeleteValidate(out string errorMsg, List<T> models, int[][] ids)
+        {
+            errorMsg = "";
+            return true;
+        }
+        public virtual void DeleteAfter(Response<T, object, object, object> res, int[][] ids)
+        {
+
+        }
+        public Response<T, object, object, object> Delete(int[][] ids)
+        {
+            var res = new Response<T, object, object, object>();
+            if(ids==null || ids.Length <= 0 || ids[0].Length<=0)
+            {
+                res.code=EnumResStatus.Fail;
+                res.msg = "没有要删除的数据";
+                return res;
+            }
+            var names = getKeyNames();
+            var models = ids.Select(a => {
+                var model = (T)Activator.CreateInstance(typeof(T));
+                var i = 0;
+                names.ToList().ForEach(b => TypeHelper.SetPropertyValue(model, b, a[i++]));
+                return model;
+            }).ToList();
+            if (DeleteValidate(out string errorMsg, models, ids))
+            {
+                throw new Exception(errorMsg);
+            }
+            models.ForEach(model => {
+                Context.Set<T>().Attach(model);
+                Context.Entry(model).State = EntityState.Deleted;
+            });
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "删除失败";
+                return res;
+            }
+            res.data2 = ret;
+            DeleteAfter(res,ids);
+            return res;
+        }
+        #endregion
+
         #region lambda查询
         private IQueryable<T> getListQuery(Func<IQueryable<T>, IQueryable<T>> where, bool notracking)
         {

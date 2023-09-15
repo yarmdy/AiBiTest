@@ -56,6 +56,18 @@ namespace AiBi.Test.Web.Controllers
         {
             return View();
         }
+        public virtual ActionResult Add(T model) {
+            return Json(Bll.Add(model));
+        }
+        public virtual ActionResult Edit(T model)
+        {
+            return Json(Bll.Edit(model));
+        }
+        public virtual ActionResult Delete(int[][] ids)
+        {
+            return Json(Bll.Delete(ids));
+        }
+        #region 底层忽略
         public ActionResult Error(string title, string msg)
         {
             ViewBag.ErrorTitle = title ?? "";
@@ -68,7 +80,6 @@ namespace AiBi.Test.Web.Controllers
             ViewBag.ErrorMessage = msg;
             return View("Error");
         }
-        #region 底层忽略
         public Dictionary<string, object> PageInfo
         {
             get
