@@ -214,7 +214,9 @@ namespace AiBi.Test.Bll
             }
             if (!AddValidate(out string errorMsg, model))
             {
-                throw new Exception(errorMsg);
+                res.code = EnumResStatus.Fail;
+                res.msg = errorMsg;
+                return res;
             }
             var values = getKeyValues(model);
             var hasOld = false;
@@ -303,7 +305,9 @@ namespace AiBi.Test.Bll
 
             if(!EditValidate(out string errorMsg, model))
             {
-                throw new Exception(errorMsg);
+                res.code = EnumResStatus.Fail;
+                res.msg = errorMsg;
+                return res;
             }
 
             var values = getKeyValues(model);
