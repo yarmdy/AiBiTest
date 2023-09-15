@@ -46,7 +46,7 @@ namespace AiBi.Test.Common
                 var desc = desctmp == null ? null : (desctmp as DisplayAttribute);
 
                 obj.Text = desc?.Name ?? name;
-                obj.Order = desc?.Order ?? 0;
+                obj.Order = desc?.GetOrder() ?? 0;
                 obj.Desc = desc?.Description ?? name;
             loopend:
                 list.Add(obj);
