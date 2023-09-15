@@ -113,5 +113,21 @@ namespace AiBi.Test.Web.Controllers
         {
             return View("Edit");
         }
+        public ActionResult AddAgent(SysUser model)
+        {
+            return Json(CurBll.AddAgent(model));
+        }
+        public ActionResult AddTestor(SysUser model)
+        {
+            return Json(CurBll.AddTestor(model));
+        }
+        public ActionResult AddTested(SysUser model)
+        {
+            return Json(CurBll.AddTested(model));
+        }
+        public ActionResult AddVisitor(SysUser model)
+        {
+            return Json(CurBll.AddVisitor(model));
+        }
     }
 }

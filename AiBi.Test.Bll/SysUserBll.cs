@@ -9,6 +9,8 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.ComponentModel;
+using Autofac.Features.OwnedInstances;
 
 namespace AiBi.Test.Bll
 {
@@ -22,18 +24,18 @@ namespace AiBi.Test.Bll
             switch (req.Tag)
             {
                 case EnumUserType.Agent: {
-                        query = query.Where(a => a.Type == (int)EnumUserType.Agent);
+                        query = query.Where(a => a.Type == (int)req.Tag);
                     }break;
                 case EnumUserType.Testor: {
-                        query = query.Where(a => a.Type == (int)EnumUserType.Testor);
+                        query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
                 case EnumUserType.Tested: {
-                        query = query.Where(a => a.Type == (int)EnumUserType.Tested);
+                        query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
                 case EnumUserType.Visitor: {
-                        query = query.Where(a => a.Type == (int)EnumUserType.Visitor);
+                        query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
             }
@@ -54,37 +56,54 @@ namespace AiBi.Test.Bll
             }));
         }
 
-        public override bool AddValidate(out string errorMsg, SysUser model, SysUser inModel)
+        public override bool AddBefore(out string errorMsg, SysUser model, SysUser inModel)
         {
             errorMsg = null;
             var res = true;
-            var types = EnumHelper.GetSelectList(typeof(EnumUserType)).Select(a=>Convert.ToInt32(a.Value)).ToArray();
+            var types = EnumConvert.ToList<EnumUserType>().Select(a=>(int)a.Value);
             if (model.ObjectTag == null)
             {
-                if (model.Type) { }
+                if (!types.Contains(model.Type)) {
+                    errorMsg = "无效的角色";
+                    return false;
+                }
 
-                return true;
             }
+            var roleId = 0;
             switch (model.ObjectTag)
             {
                 case EnumUserType.Agent:
                     {
-                        
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 2;
                     }
                     break;
                 case EnumUserType.Testor:
                     {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 3;
                     }
                     break;
                 case EnumUserType.Tested:
                     {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 4;
                     }
                     break;
                 case EnumUserType.Visitor:
                     {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 5;
                     }
                     break;
             }
+            var tempuserInfo = inModel.BusUserInfoUsers.FirstOrDefault() ?? new BusUserInfo { };
+            tempuserInfo.User = model;
+            tempuserInfo.Owner = model;
+            tempuserInfo.CreateTime = DateTime.Now;
+            tempuserInfo.CreateUserId = CurrentUserId;
+            model.SysUserRoleUsers.Add(new SysUserRole {User=model,RoleId=roleId,CreateUserId=CurrentUserId,CreateTime=DateTime.Now });
+            model.BusUserInfoUsers.Add(tempuserInfo);
             return res;
         }
 

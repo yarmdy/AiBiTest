@@ -135,6 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
+    <Compile Include="Controllers\RoleFuncController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\TestTemplateController.cs" />
     <Compile Include="Controllers\TestPlanUserController.cs" />

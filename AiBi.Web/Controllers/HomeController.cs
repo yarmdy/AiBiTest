@@ -15,6 +15,10 @@ using System.Data.Entity;
 
 namespace AiBi.Test.Web.Controllers
 {
+    public class WomanUserBll : SysUserBll
+    {
+
+    }
     public class HomeController : BaseController<SysUser, UserReq.Page>
     {
         public SysUserBll CurBll { get; set; }
