@@ -36,7 +36,7 @@ namespace AiBi.Test.Bll
         public Response<SysUser> Login(HomeReq.Login req)
         {
             var res = new Response<SysUser>();
-            var user = GetFirstOrDefault(a=>a.Where(b=>b.Account == b.Account));
+            var user = GetFirstOrDefault(a=>a.Where(b=>b.Account == req.Account));
             if (user == null)
             {
                 res.code =EnumResStatus.Fail;
