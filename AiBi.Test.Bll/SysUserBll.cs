@@ -56,19 +56,37 @@ namespace AiBi.Test.Bll
             }));
         }
 
-        public override bool AddBefore(out string errorMsg, SysUser model, SysUser inModel)
+        public override bool AddValidate(out string errorMsg, SysUser model)
         {
             errorMsg = null;
             var res = true;
-            var types = EnumConvert.ToList<EnumUserType>().Select(a=>(int)a.Value);
+            var types = EnumConvert.ToList<EnumUserType>().Select(a => (int)a.Value);
             if (model.ObjectTag == null)
             {
-                if (!types.Contains(model.Type)) {
+                if (!types.Contains(model.Type))
+                {
                     errorMsg = "无效的角色";
                     return false;
                 }
 
             }
+            if (string.IsNullOrEmpty(model.Account))
+            {
+                errorMsg = "账号不能为空";
+                return false;
+            }
+            var old = GetFirstOrDefault(a=>a.Where(b=>b.Account==model.Account || b.Mobile==model.Mobile));
+            if (old != null)
+            {
+                errorMsg = "账号或手机号不能重复";
+                return false;
+            }
+            return res;
+        }
+        public override bool AddBefore(out string errorMsg, SysUser model, SysUser inModel)
+        {
+            var res = true;
+            errorMsg = null;
             var roleId = 0;
             switch (model.ObjectTag)
             {
