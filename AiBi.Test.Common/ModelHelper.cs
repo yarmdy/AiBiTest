@@ -73,7 +73,7 @@ namespace AiBi.Test.Common
 
             var t1props = typeof(T1).GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance);
             foreach (var prop in t1props)
-            {
+            { 
                 try
                 {
                     var name = prop.Name.ToLower();
