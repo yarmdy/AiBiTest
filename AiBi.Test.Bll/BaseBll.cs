@@ -208,6 +208,7 @@ namespace AiBi.Test.Bll
         }
         public Response<T, object, object, object> Add(T model)
         {
+            var res = new Response<T, object, object, object>();
             var tmpModel = model;
             if (model == null)
             {
@@ -260,9 +261,11 @@ namespace AiBi.Test.Bll
             }
             if (!AddBefore(out errorMsg, model, tmpModel))
             {
-                throw new Exception(errorMsg);
+                res.code = EnumResStatus.Fail;
+                res.msg = errorMsg;
+                return res;
             }
-            var res = new Response<T, object, object, object>();
+
             var ret = Context.SaveChanges();
             if (ret <= 0)
             {
@@ -293,6 +296,7 @@ namespace AiBi.Test.Bll
         }
         public Response<T, object, object, object> Edit(T model)
         {
+            var res = new Response<T, object, object, object>();
             var tmpModel = model;
             if (model == null)
             {
@@ -313,8 +317,9 @@ namespace AiBi.Test.Bll
             var tmp = Find(false, values.Select(a => a.Value).ToArray());
             if (tmp == null)
             {
-                throw new Exception("找不到要修改的数据");
-
+                res.code = EnumResStatus.Fail;
+                res.msg = "找不到要修改的数据";
+                return res;
             }
             Context.Configuration.LazyLoadingEnabled = false;
             tmp.CopyFrom(model, a => new { a.CreateTime, a.CreateUserId });
@@ -326,9 +331,11 @@ namespace AiBi.Test.Bll
 
             if (EditBefore(out errorMsg, model, tmpModel))
             {
-                throw new Exception(errorMsg);
+                res.code = EnumResStatus.Fail;
+                res.msg = errorMsg;
+                return res;
             }
-            var res = new Response<T, object, object, object>();
+
             var ret = Context.SaveChanges();
             if (ret <= 0)
             {
@@ -369,7 +376,9 @@ namespace AiBi.Test.Bll
             }).ToList();
             if (DeleteValidate(out string errorMsg, models, ids))
             {
-                throw new Exception(errorMsg);
+                res.code = EnumResStatus.Fail;
+                res.msg = errorMsg;
+                return res;
             }
             models.ForEach(model => {
                 Context.Set<T>().Attach(model);
