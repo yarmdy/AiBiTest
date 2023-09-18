@@ -89,13 +89,19 @@
     <script src="~/dist/js/demo-theme.min.js?@MvcApplication.Version"></script>
     <div class="page">
         <!-- Sidebar -->
-        <aside class="navbar navbar-vertical navbar-expand-lg navbar-transparent" data-bs-theme="" style="">
-            
-            <div class="container-fluid" style="">
+        <aside class="navbar navbar-vertical navbar-expand-lg navbar-transparent" data-bs-theme="" style="overflow-y: hidden; flex-direction: column">
+            <div class="container-fluid  d-none d-lg-flex" style="min-height: unset; background: var(--tblr-navbar-bg)">
+                <h1 class="navbar-brand navbar-brand-autodark" style="border-bottom: 1px solid var(--tblr-border-color); height:55px">
+                    <a href=".">
+                        <img src="~/Images/logo.png" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+                    </a>
+                </h1>
+            </div>
+            <div class="container-fluid" style="overflow-y:auto;min-height:auto">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <h1 class="navbar-brand navbar-brand-autodark " style="">
+                <h1 class="navbar-brand navbar-brand-autodark d-lg-none" style="height:55px">
                     <a href=".">
                         <img src="~/Images/logo.png" width="110" height="32" alt="Tabler" class="navbar-brand-image">
                     </a>
@@ -341,7 +347,7 @@
             </div>
         </aside>
         <!-- Navbar -->
-        <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none navbar-transparent" style="">
+        <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none navbar-transparent" style="margin-left: 14rem; background: var(--tblr-navbar-bg)!important">
             <div class="container-fluid" style="align-items:stretch">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -479,7 +485,7 @@
                 </div>
             </div>
         </header>
-        <div class="page-wrapper tab-content" style="">
+        <div class="page-wrapper tab-content" style="border-left: 1px solid var(--tblr-border-color);">
             <div class="tab-pane active show" id="Tabs-Home" role="tabpanel" style="flex-grow: 1; position: relative; " tabname="首页">
                 <iframe src="/Home/Main" style="flex-grow: 1;" name="iframe" id="iframe" onload="$('#Shade-Home').fadeOut(300)"></iframe>
                 <div class="shade" id="Shade-Home">
