@@ -21,6 +21,7 @@ namespace AiBi.Test.Bll
         public override IQueryable<SysUser> PageWhere(UserReq.Page req, IQueryable<SysUser> query)
         {
             query = base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
+            
             switch (req.Tag)
             {
                 case EnumUserType.Agent: {
@@ -56,6 +57,14 @@ namespace AiBi.Test.Bll
             }));
         }
 
+        public override void DetailAfter(int id, int? id2, Response<SysUser, object, object, object> res)
+        {
+            if (res.code != EnumResStatus.Succ)
+            {
+                return;
+            }
+            res.data.LoadChild(a => new { BusUserInfoUser = a.BusUserInfoUsers.Where(b => b.UserId == a.Id && b.OwnerId == a.Id).ToList() });
+        }
         public override bool AddValidate(out string errorMsg, SysUser model)
         {
             errorMsg = null;
@@ -83,11 +92,42 @@ namespace AiBi.Test.Bll
             }
             return res;
         }
+        public override bool EditValidate(out string errorMsg, SysUser model)
+        {
+            errorMsg = null;
+            var res = true;
+            var types = EnumConvert.ToList<EnumUserType>().Select(a => (int)a.Value);
+            if (model.ObjectTag == null)
+            {
+                if (!types.Contains(model.Type))
+                {
+                    errorMsg = "无效的角色";
+                    return false;
+                }
+
+            }
+            if (string.IsNullOrEmpty(model.Account))
+            {
+                errorMsg = "账号不能为空";
+                return false;
+            }
+            var old = GetFirstOrDefault(a => a.Where(b =>b.Id!=model.Id &&  (b.Account == model.Account || b.Mobile == model.Mobile && model.Mobile != null)));
+            if (old != null)
+            {
+                errorMsg = "账号或手机号不能重复";
+                return false;
+            }
+            return res;
+        }
         public override bool AddBefore(out string errorMsg, SysUser model, SysUser inModel)
         {
             var res = true;
             errorMsg = null;
             var roleId = 0;
+            if (model.ObjectTag == null)
+            {
+                model.ObjectTag = (EnumUserType)model.Type;
+            }
             switch (model.ObjectTag)
             {
                 case EnumUserType.Agent:
@@ -115,16 +155,68 @@ namespace AiBi.Test.Bll
                     }
                     break;
             }
+            model.Status = (int)EnumEnableState.Enabled;
+            model.Password = Crypt.AesEncrypt(model.Password);
             var tempuserInfo = inModel.BusUserInfoUsers.FirstOrDefault() ?? new BusUserInfo { };
             tempuserInfo.User = model;
             tempuserInfo.Owner = model;
             tempuserInfo.CreateTime = DateTime.Now;
             tempuserInfo.CreateUserId = CurrentUserId;
             model.SysUserRoleUsers.Add(new SysUserRole {User=model,RoleId=roleId,CreateUserId=CurrentUserId,CreateTime=DateTime.Now });
-            model.BusUserInfoUsers.Add(tempuserInfo);
+            //model.BusUserInfoUsers.Add(tempuserInfo);
             return res;
         }
 
+        public override bool EditBefore(out string errorMsg, SysUser model, SysUser inModel)
+        {
+            var res = true;
+            errorMsg = null;
+            var roleId = 0;
+            if (model.ObjectTag == null)
+            {
+                model.ObjectTag = (EnumUserType)model.Type;
+            }
+            switch (model.ObjectTag)
+            {
+                case EnumUserType.Agent:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 2;
+                    }
+                    break;
+                case EnumUserType.Testor:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 3;
+                    }
+                    break;
+                case EnumUserType.Tested:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 4;
+                    }
+                    break;
+                case EnumUserType.Visitor:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 5;
+                    }
+                    break;
+            }
+            model.SysUserRoleUsers.Clear();
+            model.SysUserRoleUsers.Add(new SysUserRole { User = model, RoleId = roleId, CreateUserId = CurrentUserId, CreateTime = DateTime.Now });
+            Context.Entry(model).Property(a => a.Password).IsModified = false;
+            var info = model.BusUserInfoUsers.FirstOrDefault(a=>a.UserId==model.Id&&a.OwnerId==model.Id);
+            if (info == null)
+            {
+                info = new BusUserInfo { UserId=model.Id,OwnerId=model.Id,CreateTime=DateTime.Now,CreateUserId=CurrentUserId};
+                model.BusUserInfoUsers.Add(info);
+            }
+            info.CopyFrom(inModel.BusUserInfoUsers.FirstOrDefault(), a => new { a.CreateTime, a.CreateUserId ,a.UserId,a.OwnerId}, new[] { typeof(BaseEntity),typeof(ICollection<>)});
+            info.ModifyTime = DateTime.Now;
+            info.ModifyUserId = CurrentUserId;
+            return res;
+        }
         public Response<List<SysUser>, object, object, object> GetAgentList(UserReq.Page req)
         {
             req.Tag = EnumUserType.Agent;
@@ -167,6 +259,7 @@ namespace AiBi.Test.Bll
             model.ObjectTag = EnumUserType.Visitor;
             return Add(model);
         }
+
         public Response<SysUser, object, object, object> EditAgent(SysUser model)
         {
             model.ObjectTag = EnumUserType.Agent;

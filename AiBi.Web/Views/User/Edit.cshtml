@@ -8,21 +8,22 @@
         editurl = "/User/AgentEdit";
         name = "代理商";
     }
-    if (ActionInfo.ActionName.ToLower() == "testorlist")
+    if (ActionInfo.ActionName.ToLower() == "testoredit")
     {
         editurl = "/User/TestorEdit";
         name = "教师";
     }
-    if (ActionInfo.ActionName.ToLower() == "testedlist")
+    if (ActionInfo.ActionName.ToLower() == "testededit")
     {
         editurl = "/User/TestedEdit";
         name = "会员";
     }
-    if (ActionInfo.ActionName.ToLower() == "visitorlist")
+    if (ActionInfo.ActionName.ToLower() == "visitoredit")
     {
         editurl = "/User/VisitorEdit";
         name = "访客";
     }
+    Dictionary<string, object> PageInfo = ViewBag.PageInfo;
 }
 @section styles{
     <style>
@@ -35,89 +36,154 @@
         tbody, td, tfoot, th, thead, tr {
             overflow-wrap:anywhere;
         }
+        .txt_r{
+            color:red
+        }
     </style>
 }
 @section scripts{
     <script>
         var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
         var EnumStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumEnableState)).ToDictionary(a=>a.Value,a=>a.Text));
-        
+
+        if (ActionInfo.Action.toLowerCase() == "agentedit") {
+            $$.common.add.url = "/AddAgent";
+            $$.common.edit.url = "/EditAgent";
+        }
+        if (ActionInfo.Action.toLowerCase() == "testoredit") {
+            $$.common.add.url = "/AddTestor";
+            $$.common.edit.url = "/EditTestor";
+        }
+        if (ActionInfo.Action.toLowerCase() == "testededit") {
+            $$.common.add.url = "/AddTested";
+            $$.common.edit.url = "/EditTested";
+        }
+        if (ActionInfo.Action.toLowerCase() == "visitoredit") {
+            $$.common.add.url = "/AddVisitor";
+            $$.common.edit.url = "/EditVisitor";
+        }
+
     </script>
 }
 
 <!-- Page header -->
-<div class="layout-fluid">
-    <div class="layui-row" style="margin-top:10px">
-        <div class="layui-col-xs6">
-            <form class="layui-form" id="searchForm">
+<div class="layui-fluid" style="margin-top:10px">
+    <h4>@ViewBag.Title</h4>
+</div>
+
+<div class="layui-container">
+    <form class="layui-form" id="form">
+        <div id="userform">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r">*</span>登录名</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Account" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r">*</span>用户名</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Name" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>手机号</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Mobile" />
+                    </div>
+                </div>
+            </div>
+            @if (string.IsNullOrEmpty(PageInfo.G<string>("KeyValueStr")))
+            {
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label" style="width:auto">搜索</label>
+                        <label class="layui-form-label"><span class="txt_r">*</span>密码</label>
                         <div class="layui-input-inline">
-                            <input type="text" value="" class="layui-input" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+                            <input class="layui-input" name="Password" />
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn layui-btn-sm layui-btn-normal">搜索</button>
-                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="layui-col-xs6" style="text-align: right; ">
-            <div class="layui-form">
+            }
+
+            @if (ActionInfo.ActionName.ToLower() == "edit")
+            {
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
+                        <label class="layui-form-label"><span class="txt_r">*</span>角色</label>
+                        <div class="layui-input-inline">
+                            <select name="Type">
+                                <option value="">请选择角色</option>
+                                @foreach (var option in EnumConvert.ToList<EnumUserType>())
+                                {
+                                    <option value="@option.Value">@option.Text</option>
+                                }
+                            </select>
+                        </div>
                     </div>
-                    <div class="layui-inline">
-                        <a href="@Url.Content(editurl)" class="layui-btn layui-btn-sm" target="addtab">
-                            添加@(name)
-                        </a>
+                </div>
+            }
+        </div>
+        
+        <div id="infoform">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="RealName" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>性别</label>
+                    <div class="layui-input-inline">
+                        @foreach (var radio in EnumConvert.ToList<EnumSex>())
+                        {
+                            <input type="radio" name="Sex" value="@radio.Value" title="@radio.Text">
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>生日</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Birthday" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>身份证号</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="IdCardNo" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>单位名称</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="UnitName" />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="layout-fluid">
-    <table id="table" ></table>
-</div>
-
-<div class="page-body" style="flex:1; display:none;flex-direction:column">
-    <div class="container-fluid" style="flex:1">
-        <div class="d-flex align-items-center pager">
-            <p class="m-0 text-secondary"></p>
-            <ul class="pagination ms-auto">
-            </ul>
-        </div>
-
-        <div class="row row-cards" >
-            <div class="table-responsive">
-                <table class="table table-vcenter table-mobile-lg card-table" id="table">
-                    <thead>
-                        <tr>
-                            <th>用户名</th>
-                            <th>登录名/手机号</th>
-                            <th>真实姓名</th>
-                            <th>角色</th>
-                            <th>单位</th>
-                            <th>身份证号</th>
-                            <th>生日</th>
-                            <th class="w-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="list">
-                        
-                    </tbody>
-                </table>
+        
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r"></span></label>
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-primary">保存</button>
+                    <button class="layui-btn" type="button" onclick="$$.closeThis()">取消</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
-
-
-
-<script type="text/template" id="actionTemplate">
-    <div class="layui-inline"><button class="layui-btn layui-btn-sm" type="button" lay-event="enable">{{=EnumStatus[(d.Status?0:1)]}}</button><a class="layui-btn layui-btn-sm" target="addtab" title="修改@(name)-{{=d.Id}}" href="@Url.Content(editurl)/{{=d.Id}}">修改</a><button class="layui-btn layui-btn-sm" lay-event="password">查看密码</button></div>
-</script>

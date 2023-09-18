@@ -59,6 +59,16 @@
 .layui-table-view .layui-table {
     width: auto!important;
 }
+
+.layui-form-radio {
+    line-height: 20px;
+    margin: 4px 10px 0 0;
+}
+
+
+em.layui-border-red{
+    border:0;
+}
 /*******************************
 
 ********************************/

@@ -1643,6 +1643,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
+    <Content Include="Scripts\user\edit.js" />
     <Content Include="Scripts\user\listBak.js" />
     <Content Include="Scripts\user\list.js" />
     <Content Include="Scripts\user\login.js" />

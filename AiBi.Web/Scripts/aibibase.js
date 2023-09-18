@@ -212,7 +212,6 @@
 
             $(a).val(data[name]);
         });
-        form.render();
     },
     //#endregion
     request: function (type, url, data) {
@@ -241,16 +240,30 @@
             url: "/GetPageList",
             method:"GET",
             req: function (data) {
-                return obj.get(BaseUrl + this.url, data);
+                return obj.get(BaseUrl + obj.common.getPageList.url, data);
             }
         },
         getDetail: {
             url: "/GetDetail",
             method: "GET",
             req: function (data) {
-                return obj.get(BaseUrl + this.url + "/" + (PageInfo && PageInfo.KeyValueStr),data);
+                return obj.get(BaseUrl + obj.common.getDetail.url + "/" + (PageInfo && PageInfo.KeyValueStr), data);
             }
-        }
+        },
+        add: {
+            url: "/add",
+            method: "POST",
+            req: function (data) {
+                return obj.post(BaseUrl + obj.common.add.url, data);
+            }
+        },
+        edit: {
+            url: "/edit",
+            method: "POST",
+            req: function (data) {
+                return obj.post(BaseUrl + obj.common.edit.url + "/" + (PageInfo && PageInfo.KeyValueStr), data);
+            }
+        },
     },
     tabName: function () {
         let dataid = top.$(window.frameElement).attr("data-id");
@@ -774,9 +787,9 @@ $(function () {
                 error.appendTo(element.parent());
             },
             ignore: ".ignore",
-            errorClass: "is-invalid",
-            validClass:"is-valid",
-            errorElement:"div",
+            errorClass: "layui-font-red layui-border-red",
+            validClass:"layui-font-black layui-border-green",
+            errorElement:"em",
         });
     }
 
