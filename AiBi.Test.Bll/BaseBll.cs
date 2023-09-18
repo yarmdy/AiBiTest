@@ -326,14 +326,14 @@ namespace AiBi.Test.Bll
                 return res;
             }
             Context.Configuration.LazyLoadingEnabled = false;
-            tmp.CopyFrom(model, a => new { a.CreateTime, a.CreateUserId });
+            tmp.CopyFrom(model, a => new { a.CreateTime, a.CreateUserId }, new[] { typeof(BaseEntity), typeof(ICollection<>) });
             Context.Configuration.LazyLoadingEnabled = true;
             model = tmp;
 
             model.ModifyTime = DateTime.Now;
             model.ModifyUserId = CurrentUserId;
 
-            if (EditBefore(out errorMsg, model, tmpModel))
+            if (!EditBefore(out errorMsg, model, tmpModel))
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = errorMsg;
