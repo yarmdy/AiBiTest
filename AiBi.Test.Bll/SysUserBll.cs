@@ -18,24 +18,32 @@ namespace AiBi.Test.Bll
     {
         public BusUserInfoBll BusUserInfoBll { get; set; }
 
+        
+
+        #region 高级重写
         public override IQueryable<SysUser> PageWhere(UserReq.Page req, IQueryable<SysUser> query)
         {
             query = base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
-            
+
             switch (req.Tag)
             {
-                case EnumUserType.Agent: {
-                        query = query.Where(a => a.Type == (int)req.Tag);
-                    }break;
-                case EnumUserType.Testor: {
+                case EnumUserType.Agent:
+                    {
                         query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
-                case EnumUserType.Tested: {
+                case EnumUserType.Testor:
+                    {
                         query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
-                case EnumUserType.Visitor: {
+                case EnumUserType.Tested:
+                    {
+                        query = query.Where(a => a.Type == (int)req.Tag);
+                    }
+                    break;
+                case EnumUserType.Visitor:
+                    {
                         query = query.Where(a => a.Type == (int)req.Tag);
                     }
                     break;
@@ -48,10 +56,11 @@ namespace AiBi.Test.Bll
             var infos = BusUserInfoBll.GetListFilter(a => a.Where(b => b.UserId == b.OwnerId && ids.Contains(b.UserId)));
             res.data.ForEach(a => a.LoadChild(b => {
                 var thisroles = b.SysUserRoleUsers.Select(c => c.Role).ToList();
-                var ret = new {
+                var ret = new
+                {
                     Roles = thisroles,
                     RoleNames = thisroles.Select(c => c.Name).ToList(),
-                    UserInfo = infos.FirstOrDefault(c=>c.UserId==a.Id)
+                    UserInfo = infos.FirstOrDefault(c => c.UserId == a.Id)
                 };
                 return ret;
             }));
@@ -84,7 +93,7 @@ namespace AiBi.Test.Bll
                 errorMsg = "账号不能为空";
                 return false;
             }
-            var old = GetFirstOrDefault(a=>a.Where(b=>b.Account==model.Account || b.Mobile==model.Mobile && model.Mobile!=null ));
+            var old = GetFirstOrDefault(a => a.Where(b => b.Account == model.Account || b.Mobile == model.Mobile && model.Mobile != null));
             if (old != null)
             {
                 errorMsg = "账号或手机号不能重复";
@@ -111,7 +120,7 @@ namespace AiBi.Test.Bll
                 errorMsg = "账号不能为空";
                 return false;
             }
-            var old = GetFirstOrDefault(a => a.Where(b =>b.Id!=model.Id &&  (b.Account == model.Account || b.Mobile == model.Mobile && model.Mobile != null)));
+            var old = GetFirstOrDefault(a => a.Where(b => b.Id != model.Id && (b.Account == model.Account || b.Mobile == model.Mobile && model.Mobile != null)));
             if (old != null)
             {
                 errorMsg = "账号或手机号不能重复";
@@ -162,7 +171,7 @@ namespace AiBi.Test.Bll
             tempuserInfo.Owner = model;
             tempuserInfo.CreateTime = DateTime.Now;
             tempuserInfo.CreateUserId = CurrentUserId;
-            model.SysUserRoleUsers.Add(new SysUserRole {User=model,RoleId=roleId,CreateUserId=CurrentUserId,CreateTime=DateTime.Now });
+            model.SysUserRoleUsers.Add(new SysUserRole { User = model, RoleId = roleId, CreateUserId = CurrentUserId, CreateTime = DateTime.Now });
             //model.BusUserInfoUsers.Add(tempuserInfo);
             return res;
         }
@@ -206,23 +215,26 @@ namespace AiBi.Test.Bll
             model.SysUserRoleUsers.Clear();
             model.SysUserRoleUsers.Add(new SysUserRole { User = model, RoleId = roleId, CreateUserId = CurrentUserId, CreateTime = DateTime.Now });
             Context.Entry(model).Property(a => a.Password).IsModified = false;
-            var info = model.BusUserInfoUsers.FirstOrDefault(a=>a.UserId==model.Id&&a.OwnerId==model.Id);
+            var info = model.BusUserInfoUsers.FirstOrDefault(a => a.UserId == model.Id && a.OwnerId == model.Id);
             if (info == null)
             {
-                info = new BusUserInfo { UserId=model.Id,OwnerId=model.Id,CreateTime=DateTime.Now,CreateUserId=CurrentUserId};
+                info = new BusUserInfo { UserId = model.Id, OwnerId = model.Id, CreateTime = DateTime.Now, CreateUserId = CurrentUserId };
                 model.BusUserInfoUsers.Add(info);
             }
-            info.CopyFrom(inModel.BusUserInfoUsers.FirstOrDefault(), a => new { a.CreateTime, a.CreateUserId ,a.UserId,a.OwnerId}, new[] { typeof(BaseEntity),typeof(ICollection<>)});
+            info.CopyFrom(inModel.BusUserInfoUsers.FirstOrDefault(), a => new { a.CreateTime, a.CreateUserId, a.UserId, a.OwnerId }, new[] { typeof(BaseEntity), typeof(ICollection<>) });
             info.ModifyTime = DateTime.Now;
             info.ModifyUserId = CurrentUserId;
             return res;
         }
+        #endregion
+
+        #region 身份局增删改查
         public Response<List<SysUser>, object, object, object> GetAgentList(UserReq.Page req)
         {
             req.Tag = EnumUserType.Agent;
             return GetPageList(req);
         }
-        
+
         public Response<List<SysUser>, object, object, object> GetTestorList(UserReq.Page req)
         {
             req.Tag = EnumUserType.Testor;
@@ -280,6 +292,7 @@ namespace AiBi.Test.Bll
             model.ObjectTag = EnumUserType.Visitor;
             return Edit(model);
         }
+        #endregion
 
         #region 登录
         public Response<SysUser> Login(HomeReq.Login req)
@@ -316,7 +329,6 @@ namespace AiBi.Test.Bll
             return res;
         }
         #endregion
-        
 
         #region 当前状态
         public static SysUser GetCookie()
@@ -365,11 +377,10 @@ namespace AiBi.Test.Bll
         }
         #endregion
 
-        
-
+        #region 页面辅助
         public static string GetAvatar(SysUser user)
         {
-            return (!string.IsNullOrWhiteSpace(user?.AvatarName)) ? (user.AvatarName) :( user?.Avatar?.FullName ?? "/static/avatars/defaultavatar.png");
+            return (!string.IsNullOrWhiteSpace(user?.AvatarName)) ? (user.AvatarName) : (user?.Avatar?.FullName ?? "/static/avatars/defaultavatar.png");
         }
         public static string GetRoleName(SysUser user)
         {
@@ -379,6 +390,6 @@ namespace AiBi.Test.Bll
         {
             return user?.SysUserRoleUsers?.OrderBy(a => a.RoleId)?.Select(a => a.Role.Name)?.ToArray() ?? new string[0];
         }
-
+        #endregion
     }
 }

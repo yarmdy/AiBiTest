@@ -43,6 +43,11 @@ namespace AiBi.Test.Common
             }
             return def;
         }
+
+        public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dic,Action<KeyValuePair<TKey, TValue>> func)
+        {
+            dic.ToList().ForEach(func);
+        }
     }
 
 }

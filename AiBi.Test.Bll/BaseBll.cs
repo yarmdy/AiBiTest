@@ -35,7 +35,6 @@ namespace AiBi.Test.Bll
 
         #endregion
 
-
         #region 分页
         public virtual Expression<Func<T, bool>> PageWhereKeyword(PageReqT req)
         {
@@ -346,6 +345,43 @@ namespace AiBi.Test.Bll
             }
             res.data = model;
             EditAfter(res, tmpModel);
+            return res;
+        }
+        #endregion
+
+        #region 修改个别字段
+        public Response<T,object,object,object> EditProperties(int id, int? id2, EditPartsReq req)
+        {
+            var res = new Response<T, object, object, object>();
+            if ((req?.Properties?.Count ?? 0) <= 0)
+            {
+                res.code= EnumResStatus.Fail;
+                res.msg = "未传入要修改的数据";
+                return res;
+            }
+            var existsProperties = req.Properties.Where(a => TypeHelper.HasPropertyBase<T>(a.Key)).ToDictionary(a=>a.Key,a=>a.Value);
+            if (existsProperties.Count<=0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "传入的数据无法修改";
+                return res;
+            }
+            var model = Find(false,id,id2);
+            if (model == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "要修改的数据不存在";
+                return res;
+            }
+            model.ModifyTime = DateTime.Now;
+            model.ModifyUserId = CurrentUserId;
+
+            existsProperties.ForEach(a => { 
+                var prop = TypeHelper.GetPropertyBase<T>(a.Key);
+                model.SetPropertyValue(a.Key, Convert.ChangeType(a.Value, prop.PropertyType));
+            });
+
+            res.data = model;
             return res;
         }
         #endregion

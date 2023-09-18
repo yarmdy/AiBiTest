@@ -21,9 +21,13 @@ namespace AiBi.Test.Web.Controllers
     public abstract class BaseController<T, PageReqT> : Controller where T : BaseEntity where PageReqT : PageReq
     {
         #region 属性
-        public int CurrentUserId => SysUserBll.GetCookie()?.Id ?? 0;
-        public string CurrentUserName => SysUserBll.GetCookie()?.Name;
-        public string CurrentAccount => SysUserBll.GetCookie()?.Account;
+        public int CurrentUserId => Bll.CurrentUserId;
+        public string CurrentUserName => Bll.CurrentUserName;
+        public string CurrentAccount => Bll.CurrentAccount;
+        #endregion
+
+        #region 虚方法
+
         #endregion
         public abstract BaseBll<T, PageReqT> Bll { get; }
         public SysUserBll SysUserBll { get; set; }
@@ -66,6 +70,10 @@ namespace AiBi.Test.Web.Controllers
         public virtual ActionResult Delete(int[][] ids)
         {
             return Json(Bll.Delete(ids));
+        }
+        public ActionResult EditProperties(int id, int? id2, EditPartsReq req)
+        {
+            return Json(Bll.EditProperties(id,id2,req));
         }
         #region 底层忽略
         public ActionResult Error(string title, string msg)

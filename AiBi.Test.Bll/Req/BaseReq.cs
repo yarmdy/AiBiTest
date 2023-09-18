@@ -4,11 +4,11 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Bll
 {
-    public abstract class BaseReq 
+    public class BaseReq 
     {
         
     }
-    public abstract class PageReq:BaseReq
+    public class PageReq:BaseReq
     {
         public int Page { get; set; }
         public int Size { get; set; }
@@ -19,5 +19,9 @@ namespace AiBi.Test.Bll
         public Dictionary<string,bool> Sort { get; set; }
 
         public object Tag { get; set; }
+    }
+    public class EditPartsReq : BaseReq
+    {
+        public Dictionary<string, string> Properties { get; set; }
     }
 }
