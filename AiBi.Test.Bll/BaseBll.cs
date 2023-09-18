@@ -350,6 +350,45 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 修改个别字段
+        public Response<T, object, object, object> EditProperties(int id, int? id2, object obj)
+        {
+            var res = new Response<T, object, object, object>();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            var properties = TypeHelper.GetProperties<T>();
+            if (properties.Length <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "未传入要修改的数据";
+                return res;
+            }
+
+            var model = Find(false, id, id2);
+            if (model == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "要修改的数据不存在";
+                return res;
+            }
+            model.CopyFrom(obj);
+            model.ModifyTime = DateTime.Now;
+            model.ModifyUserId = CurrentUserId;
+
+            
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "修改失败";
+                return res;
+            }
+            res.data = model;
+            return res;
+
+        }
         public Response<T,object,object,object> EditProperties(int id, int? id2, EditPartsReq req)
         {
             var res = new Response<T, object, object, object>();
@@ -380,7 +419,13 @@ namespace AiBi.Test.Bll
                 var prop = TypeHelper.GetPropertyBase<T>(a.Key);
                 model.SetPropertyValue(a.Key, Convert.ChangeType(a.Value, prop.PropertyType));
             });
-
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "修改失败";
+                return res;
+            }
             res.data = model;
             return res;
         }

@@ -228,6 +228,12 @@ namespace AiBi.Test.Bll
         }
         #endregion
 
+        public Response<SysUser, object> Enable(int id)
+        {
+            var res = EditProperties(id, null, new { });
+            return res;
+        }
+
         #region 身份局增删改查
         public Response<List<SysUser>, object, object, object> GetAgentList(UserReq.Page req)
         {
