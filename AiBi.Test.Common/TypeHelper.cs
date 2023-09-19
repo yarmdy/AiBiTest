@@ -26,7 +26,11 @@ namespace AiBi.Test.Common
         }
         public static PropertyInfo[] GetProperties<T>()
         {
-            return typeof(T).GetProperties(__flags);
+            return GetProperties(typeof(T));
+        }
+        public static PropertyInfo[] GetProperties(Type type)
+        {
+            return type.GetProperties(__flags);
         }
         public static bool HasProperty<T>(string name)
         {

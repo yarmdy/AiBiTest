@@ -104,7 +104,8 @@ namespace AiBi.Test.Common
         {
             try
             {
-                var strData = Encoding.UTF8.GetBytes(str);
+                var yan = ((int)(new Random().NextDouble() * 1000000) + "").PadLeft(6, 'z');
+                var strData = Encoding.UTF8.GetBytes(yan+str);
 
                 if (key == null)
                 {
@@ -181,7 +182,7 @@ namespace AiBi.Test.Common
                         res = trans.TransformFinalBlock(strData, 0, strData.Length);
                     }
                 }
-                return Encoding.UTF8.GetString(res);
+                return Encoding.UTF8.GetString(res).Substring(6);
             }
             catch (Exception e)
             {

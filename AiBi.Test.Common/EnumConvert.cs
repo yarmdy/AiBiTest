@@ -40,8 +40,8 @@ namespace AiBi.Test.Common
                 
                 
                 obj.Name = name;
-                obj.Value = val;
-                obj.Selected = name + "" == selectedValue + "";
+                obj.Value = (int)(object)val;
+                obj.Selected = name+""==selectedValue+"";
                 var desctmp = field.GetCustomAttribute(typeof(DisplayAttribute));
                 var desc = desctmp == null ? null : (desctmp as DisplayAttribute);
 
@@ -52,7 +52,7 @@ namespace AiBi.Test.Common
                 list.Add(obj);
             }
             return list; ;
-        }
+        } 
     }
 
     public class EnumObject
