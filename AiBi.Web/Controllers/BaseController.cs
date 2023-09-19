@@ -21,9 +21,13 @@ namespace AiBi.Test.Web.Controllers
     public abstract class BaseController<T, PageReqT> : Controller where T : BaseEntity where PageReqT : PageReq
     {
         #region 属性
-        public int CurrentUserId => SysUserBll.GetCookie()?.Id ?? 0;
-        public string CurrentUserName => SysUserBll.GetCookie()?.Name;
-        public string CurrentAccount => SysUserBll.GetCookie()?.Account;
+        public int CurrentUserId => Bll.CurrentUserId;
+        public string CurrentUserName => Bll.CurrentUserName;
+        public string CurrentAccount => Bll.CurrentAccount;
+        #endregion
+
+        #region 虚方法
+
         #endregion
         public abstract BaseBll<T, PageReqT> Bll { get; }
         public SysUserBll SysUserBll { get; set; }
@@ -41,21 +45,39 @@ namespace AiBi.Test.Web.Controllers
             var res = Bll.GetPageList(req);
             return Json(res);
         }
-        public virtual ActionResult Edit(int? id,int? id2=null)
+        public virtual ActionResult Edit(int? id = null, int? id2 = null)
         {
             return View();
         }
-        public virtual ActionResult Detail(int id,int? id2=null)
+        public virtual ActionResult Detail(int id, int? id2 = null)
         {
             return View();
         }
-        public virtual ActionResult GetDetail(int id, int? id2=null) {
-            return Json(Bll.GetDetail(id,id2));
+        public virtual ActionResult GetDetail(int id, int? id2 = null)
+        {
+            return Json(Bll.GetDetail(id, id2));
         }
         public virtual ActionResult Select()
         {
             return View();
         }
+        public virtual ActionResult Add(T model)
+        {
+            return Json(Bll.Add(model));
+        }
+        public virtual ActionResult Modify(T model)
+        {
+            return Json(Bll.Modify(model));
+        }
+        public virtual ActionResult Delete(int[][] ids)
+        {
+            return Json(Bll.Delete(ids));
+        }
+        public ActionResult EditProperties(int id, int? id2, EditPartsReq req)
+        {
+            return Json(Bll.EditProperties(id, id2, req));
+        }
+        #region 底层忽略
         public ActionResult Error(string title, string msg)
         {
             ViewBag.ErrorTitle = title ?? "";
@@ -68,12 +90,11 @@ namespace AiBi.Test.Web.Controllers
             ViewBag.ErrorMessage = msg;
             return View("Error");
         }
-        #region 底层忽略
         public Dictionary<string, object> PageInfo
         {
             get
             {
-                if(ViewBag.PageInfo is Dictionary<string, object>)
+                if (ViewBag.PageInfo is Dictionary<string, object>)
                 {
                     return ViewBag.PageInfo;
                 }
@@ -136,7 +157,7 @@ namespace AiBi.Test.Web.Controllers
                     response.Filter = new DeflateStream(response.Filter, CompressionLevel.Optimal);
                 }
             }
-            
+
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -148,14 +169,14 @@ namespace AiBi.Test.Web.Controllers
             PageInfo["Keys"] = st.EntitySet.ElementType.KeyProperties.Select(a => a.Name).ToArray();
             var id = (filterContext.ActionParameters as IDictionary).G<int?>("id");
             var id2 = (filterContext.ActionParameters as IDictionary).G<int?>("id2");
-            var ids = new int?[] {id,id2 };
+            var ids = new int?[] { id, id2 };
             PageInfo["KeyValues"] = ids.Take(st.EntitySet.ElementType.KeyProperties.Count);
             PageInfo["KeyValueStr"] = string.Join(",", ids.Take(st.EntitySet.ElementType.KeyProperties.Count).Select(a => a + ""));
             var idindex = 0;
             PageInfo["KeyInfos"] = st.EntitySet.ElementType.KeyProperties.Select(a => a).ToDictionary(a => a.Name, a => new { a.Name, a.TypeName, Value = ids[idindex++] });
             PageInfo["opener"] = Request.Params["opener"];
             ViewBag.Title = Request.Params["title"];
-            
+
         }
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
@@ -197,4 +218,4 @@ namespace AiBi.Test.Web.Controllers
         #endregion
 
     }
-} 
+}
