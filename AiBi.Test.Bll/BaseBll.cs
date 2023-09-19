@@ -35,7 +35,6 @@ namespace AiBi.Test.Bll
 
         #endregion
 
-
         #region 分页
         public virtual Expression<Func<T, bool>> PageWhereKeyword(PageReqT req)
         {
@@ -80,7 +79,7 @@ namespace AiBi.Test.Bll
                 {
                     if (!TypeHelper.HasProperty<T>(where.Key))
                     {
-                        query = PageOrderCustom(req, query);
+                        query = PageWhereCustom(req, query, where);
                         continue;
                     }
                     query = query.EqualTo(where.Key, where.Value);
@@ -88,7 +87,7 @@ namespace AiBi.Test.Bll
             }
             return query;
         }
-        public virtual IQueryable<T> PageWhereCustom(PageReqT req, IQueryable<T> query)
+        public virtual IQueryable<T> PageWhereCustom(PageReqT req, IQueryable<T> query, KeyValuePair<string, string> where)
         {
             return query;
         }
@@ -114,7 +113,7 @@ namespace AiBi.Test.Bll
                 {
                     if (!TypeHelper.HasProperty<T>(sort.Key))
                     {
-                        query = PageOrderCustom(req, query);
+                        query = PageOrderCustom(req, query, sort);
                         continue;
                     }
                     if (sort.Value)
@@ -129,7 +128,7 @@ namespace AiBi.Test.Bll
             }
             return DefOrderBy(req, sortQuery);
         }
-        public virtual IQueryable<T> PageOrderCustom(PageReqT req, IQueryable<T> query)
+        public virtual IQueryable<T> PageOrderCustom(PageReqT req, IQueryable<T> query, KeyValuePair<string, bool> sort)
         {
             return query;
         }
@@ -282,21 +281,25 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 修改
-        public virtual bool EditValidate(out string errorMsg, T model)
+        public virtual bool ModifyValidate(out string errorMsg, T model)
         {
             errorMsg = "";
             return true;
         }
-        public virtual bool EditBefore(out string errorMsg, T model, T inModel)
+        public virtual bool ModifyBefore(out string errorMsg, T model, T inModel)
         {
             errorMsg = "";
             return true;
         }
-        public virtual void EditAfter(Response<T, object, object, object> res, T inModel)
+        public virtual void ModifyAfter(Response<T, object, object, object> res, T inModel)
         {
 
         }
-        public Response<T, object, object, object> Edit(T model)
+        public virtual Expression<Func<T, object>> ModifyExcepts(T model)
+        {
+            return null;
+        }
+        public Response<T, object, object, object> Modify(T model)
         {
             var res = new Response<T, object, object, object>();
             var tmpModel = model;
@@ -305,7 +308,7 @@ namespace AiBi.Test.Bll
                 throw new ArgumentNullException("model");
             }
 
-            if (!EditValidate(out string errorMsg, model))
+            if (!ModifyValidate(out string errorMsg, model))
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = errorMsg;
@@ -326,14 +329,21 @@ namespace AiBi.Test.Bll
                 return res;
             }
             Context.Configuration.LazyLoadingEnabled = false;
-            tmp.CopyFrom(model, a => new { a.CreateTime, a.CreateUserId }, new[] { typeof(BaseEntity), typeof(ICollection<>) });
+            var expr = ModifyExcepts(model);
+            var exprList = new List<string>();
+            if (expr != null)
+            {
+                exprList.AddRange(expr.GetProperties().Select(a => a.Name));
+            }
+            exprList.AddRange(new[] { nameof(model.CreateTime), nameof(model.CreateUserId) });
+            tmp.CopyFromExcept(model, exprList.ToArray(), new[] { typeof(BaseEntity), typeof(ICollection<>) });
             Context.Configuration.LazyLoadingEnabled = true;
             model = tmp;
 
             model.ModifyTime = DateTime.Now;
             model.ModifyUserId = CurrentUserId;
 
-            if (!EditBefore(out errorMsg, model, tmpModel))
+            if (!ModifyBefore(out errorMsg, model, tmpModel))
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = errorMsg;
@@ -347,7 +357,89 @@ namespace AiBi.Test.Bll
                 res.msg = "修改失败";
             }
             res.data = model;
-            EditAfter(res, tmpModel);
+            ModifyAfter(res, tmpModel);
+            return res;
+        }
+        #endregion
+
+        #region 修改个别字段
+        public Response<T, object, object, object> EditProperties(int id, int? id2, object obj)
+        {
+            var res = new Response<T, object, object, object>();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            var properties = TypeHelper.GetProperties(obj.GetType());
+            if (properties.Length <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "未传入要修改的数据";
+                return res;
+            }
+
+            var model = Find(false, id, id2);
+            if (model == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "要修改的数据不存在";
+                return res;
+            }
+            model.CopyFrom(obj);
+            model.ModifyTime = DateTime.Now;
+            model.ModifyUserId = CurrentUserId;
+
+
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "修改失败";
+                return res;
+            }
+            res.data = model;
+            return res;
+
+        }
+        public Response<T, object, object, object> EditProperties(int id, int? id2, EditPartsReq req)
+        {
+            var res = new Response<T, object, object, object>();
+            if ((req?.Properties?.Count ?? 0) <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "未传入要修改的数据";
+                return res;
+            }
+            var existsProperties = req.Properties.Where(a => TypeHelper.HasPropertyBase<T>(a.Key)).ToDictionary(a => a.Key, a => a.Value);
+            if (existsProperties.Count <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "传入的数据无法修改";
+                return res;
+            }
+            var model = Find(false, id, id2);
+            if (model == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "要修改的数据不存在";
+                return res;
+            }
+            model.ModifyTime = DateTime.Now;
+            model.ModifyUserId = CurrentUserId;
+
+            existsProperties.ForEach(a => {
+                var prop = TypeHelper.GetPropertyBase<T>(a.Key);
+                model.SetPropertyValue(a.Key, Convert.ChangeType(a.Value, prop.PropertyType));
+            });
+            var ret = Context.SaveChanges();
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "修改失败";
+                return res;
+            }
+            res.data = model;
             return res;
         }
         #endregion
