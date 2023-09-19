@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -27,6 +28,10 @@ namespace AiBi.Test.Common
 
         public static Expression<Func<T, bool>> Equal<T>(this LambdaExpression expr,object val) {
             return Expression.Lambda<Func<T, bool>>(Expression.Equal(expr.Body,Expression.Constant(val)),expr.Parameters);
+        }
+        public static Expression<Func<T, bool>> Equal<T>(this LambdaExpression expr, object val,Type type)
+        {
+            return Expression.Lambda<Func<T, bool>>(Expression.Equal(expr.Body, Expression.Constant(val, type)), expr.Parameters);
         }
 
         public static Expression<Func<T, bool>> In<T, TType>(this Expression<Func<T, TType>> expr, TType[] vals)
@@ -140,10 +145,26 @@ namespace AiBi.Test.Common
                 return query;
             }
             var tprop = TypeHelper.GetProperty<T>(property).PropertyType;
-            value = Convert.ChangeType(value,tprop,null);
+            if (tprop.IsGenericType && tprop.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                var ttprop = tprop.GenericTypeArguments[0];
+                if (value + "" == "")
+                {
+                    value = Activator.CreateInstance(tprop);
+                }
+                else
+                {
+                    var tmpval = Convert.ChangeType(value, ttprop, null);
+                    value = tmpval; 
+                }
+                
+            }
+            else
+            {
+                value = Convert.ChangeType(value, tprop, null);
+            }
 
-
-            return query.Where(DotExpressionBase<T>(property).Equal<T>(value));
+            return query.Where(DotExpressionBase<T>(property).Equal<T>(value, tprop));
         }
         public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> query, string property, bool asc = false)
         {
@@ -216,6 +237,25 @@ namespace AiBi.Test.Common
             return query;
         }
 
+        public static PropertyInfo[] GetProperties<T,TResult>(this Expression<Func<T, TResult>> expr) {
+            if (expr == null)
+            {
+                return new PropertyInfo[0];
+            }
+            if (expr.Body.NodeType != ExpressionType.New && expr.Body.NodeType != ExpressionType.MemberAccess)
+            {
+                return new PropertyInfo[0];
+            }
+            if (expr.Body.NodeType == ExpressionType.MemberAccess)
+            {
+                if(!((expr.Body as MemberExpression).Member is PropertyInfo)) { 
+                    return new PropertyInfo[0];
+                }
+                return new[] { ((expr.Body as MemberExpression).Member as PropertyInfo) };
+            }
+            return ((NewExpression)expr.Body).Arguments.Where(a => a.NodeType == ExpressionType.MemberAccess && (a as MemberExpression).Member is PropertyInfo).Select(a => ((a as MemberExpression).Member as PropertyInfo)).ToArray();
+        }
+
         private class ExParameterVisitor : ExpressionVisitor
         {
             private readonly ParameterExpression _oldParameter;
@@ -237,6 +277,31 @@ namespace AiBi.Test.Common
 
                 return base.VisitParameter(node);
             }
+        }
+
+        private static object getNullableValue(Type type,object value)
+        {
+            switch (type.Name)
+            {
+                
+                case "Int32":
+                    {
+                        return (int?)value;
+                    }
+                case "DateTime":
+                    {
+                        return (DateTime?)value;
+                    }
+                case "Decimal":
+                    {
+                        return (decimal?)value;
+                    }
+                case "Boolean":
+                    {
+                        return (bool?)value;
+                    }
+            }
+            return value;
         }
     }
 }

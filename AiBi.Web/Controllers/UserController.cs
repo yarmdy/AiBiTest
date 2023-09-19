@@ -129,21 +129,55 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.AddVisitor(model));
         }
-        public ActionResult EditAgent(SysUser model)
+        public ActionResult ModifyAgent(SysUser model)
         {
-            return Json(CurBll.EditAgent(model));
+            return Json(CurBll.ModifyAgent(model));
         }
-        public ActionResult EditTestor(SysUser model)
+        public ActionResult ModifyTestor(SysUser model)
         {
-            return Json(CurBll.EditTestor(model));
+            return Json(CurBll.ModifyTestor(model));
         }
-        public ActionResult EditTested(SysUser model)
+        public ActionResult ModifyTested(SysUser model)
         {
-            return Json(CurBll.EditTested(model));
+            return Json(CurBll.ModifyTested(model));
         }
-        public ActionResult EditVisitor(SysUser model)
+        public ActionResult ModifyVisitor(SysUser model)
         {
-            return Json(CurBll.EditVisitor(model));
+            return Json(CurBll.ModifyVisitor(model));
+        }
+
+        public ActionResult EnableUser(int id,int status)
+        {
+            return Json(CurBll.EditProperties(id,null,new { Status=status}));
+        }
+        public ActionResult ShowPassword(int id,string password)
+        {
+            var res = new Response<string>();
+            res.data = Crypt.AesDecrypt(password);
+            if (res.data == null)
+            {
+                res.msg = $"密码解密失败，密码原文：{password}";
+                res.code = EnumResStatus.Fail;
+            }
+            return Json(res);
+        }
+        public ActionResult SetPassword(int id, string password)
+        {
+            var res = new Response<string>();
+            if (password.Length < 6)
+            {
+                res.code=EnumResStatus.Fail;
+                res.msg = "密码长度不能少于6位";
+                return Json(res);
+            }
+            var pwd = Crypt.AesEncrypt(password);
+            var ret = CurBll.EditProperties(id,null,new { Password = pwd});
+            res.CopyFrom(ret);
+            if (res.code == EnumResStatus.Succ)
+            {
+                res.data = pwd;
+            }
+            return Json(res);
         }
     }
 }

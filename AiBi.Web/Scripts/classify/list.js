@@ -6,16 +6,13 @@
     const form = layui.form;
     const cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
-        { field: 'Name', title: '用户名' },
-        { field: 'Account', title: '登录名' },
-        { field: 'Mobile', title: '手机号' },
-        { field: 'Status', title: '状态', templet: function (d) { return EnumStatus[d.Status]; } },
-        { field: 'ObjectTag.UserInfo.RealName', title: '真实姓名', templet: function (d) { return (d.ObjectTag.UserInfo||{}).RealName||""; } },
-        { field: 'ObjectTag.UserInfo.Sex', title: '性别', templet: function (d) { return (d.ObjectTag.UserInfo||{}).Sex && EnumSex[(d.ObjectTag.UserInfo||{}).Sex]||""; } },
-        { field: 'ObjectTag.RoleNames', title: '角色', width: 150, templet: function (d) { return d.ObjectTag.Roles.map(function (a) { return a.Name}).join(",")} },
-        { field: 'ObjectTag.UserInfo.UnitName', title: '单位', width: 150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).UnitName||""; } },
-        { field: 'ObjectTag.UserInfo.IdCardNo', title: '身份证号',width:150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).IdCardNo||""; } },
-        { field: 'ObjectTag.UserInfo.Birth', title: '生日', templet: function (d) { return (d.ObjectTag.UserInfo||{}).Birthday && new Date((d.ObjectTag.UserInfo||{}).Birthday).format("yyyy-MM-dd")||""; } },
+        { field: 'Name', title: '分类名称' },
+        { field: 'SortNo', title: '排序号' },
+        {
+            field: 'Parent', title: '上级', templet: function (d) {
+                return ((d.Parent || {}).Name)||"-";
+            }
+        },
         { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:210 },
 
     ]];
@@ -36,7 +33,8 @@
         },
         height: "full-60",
         size: "sm",
-        method:"post"
+        method: "post",
+        
     });
 
     $("#searchForm").on("submit", function () {
@@ -54,10 +52,10 @@
             } : {}
         });
     }
-    callback.useraddok = function (json) {
+    callback.classifyaddok = function (json) {
         getList(1, 10);
     }
-    callback.usereditok = function (json) {
+    callback.classifyeditok = function (json) {
         getList(1, 10);
     }
     table.on("tool(table)", function (e) {

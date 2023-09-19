@@ -21,7 +21,7 @@
                 if (obj.loadingType == 1) {
                     loadlayer = layer.load(2);
                 } else if (obj.loadingType == 2) {
-                    loadlayer = layer.loadEx(3);
+                    loadlayer = layer.loadEx(2);
                 }
             },
             complete: function () {
@@ -258,7 +258,7 @@
             }
         },
         edit: {
-            url: "/edit",
+            url: "/modify",
             method: "POST",
             req: function (data) {
                 return obj.post(BaseUrl + obj.common.edit.url + "/" + (PageInfo && PageInfo.KeyValueStr), data);

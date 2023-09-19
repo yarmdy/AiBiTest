@@ -45,7 +45,7 @@ namespace AiBi.Test.Web.Controllers
             var res = Bll.GetPageList(req);
             return Json(res);
         }
-        public virtual ActionResult Edit(int? id,int? id2=null)
+        public virtual ActionResult Edit(int? id=null,int? id2=null)
         {
             return View();
         }
@@ -63,9 +63,9 @@ namespace AiBi.Test.Web.Controllers
         public virtual ActionResult Add(T model) {
             return Json(Bll.Add(model));
         }
-        public virtual ActionResult Edit(T model)
+        public virtual ActionResult Modify(T model)
         {
-            return Json(Bll.Edit(model));
+            return Json(Bll.Modify(model));
         }
         public virtual ActionResult Delete(int[][] ids)
         {

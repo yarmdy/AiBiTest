@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.ComponentModel;
 using Autofac.Features.OwnedInstances;
+using System.Linq.Expressions;
 
 namespace AiBi.Test.Bll
 {
@@ -101,7 +102,7 @@ namespace AiBi.Test.Bll
             }
             return res;
         }
-        public override bool EditValidate(out string errorMsg, SysUser model)
+        public override bool ModifyValidate(out string errorMsg, SysUser model)
         {
             errorMsg = null;
             var res = true;
@@ -163,6 +164,12 @@ namespace AiBi.Test.Bll
                         roleId = 5;
                     }
                     break;
+                case EnumUserType.Admin:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 1;
+                    }
+                    break;
             }
             model.Status = (int)EnumEnableState.Enabled;
             model.Password = Crypt.AesEncrypt(model.Password);
@@ -176,7 +183,7 @@ namespace AiBi.Test.Bll
             return res;
         }
 
-        public override bool EditBefore(out string errorMsg, SysUser model, SysUser inModel)
+        public override bool ModifyBefore(out string errorMsg, SysUser model, SysUser inModel)
         {
             var res = true;
             errorMsg = null;
@@ -211,6 +218,12 @@ namespace AiBi.Test.Bll
                         roleId = 5;
                     }
                     break;
+                case EnumUserType.Admin:
+                    {
+                        model.Type = (int)model.ObjectTag;
+                        roleId = 1;
+                    }
+                    break;
             }
             model.SysUserRoleUsers.Clear();
             model.SysUserRoleUsers.Add(new SysUserRole { User = model, RoleId = roleId, CreateUserId = CurrentUserId, CreateTime = DateTime.Now });
@@ -225,6 +238,10 @@ namespace AiBi.Test.Bll
             info.ModifyTime = DateTime.Now;
             info.ModifyUserId = CurrentUserId;
             return res;
+        }
+        public override Expression<Func<SysUser, object>> ModifyExcepts(SysUser model)
+        {
+            return a => new { a.Status };
         }
         #endregion
 
@@ -278,25 +295,25 @@ namespace AiBi.Test.Bll
             return Add(model);
         }
 
-        public Response<SysUser, object, object, object> EditAgent(SysUser model)
+        public Response<SysUser, object, object, object> ModifyAgent(SysUser model)
         {
             model.ObjectTag = EnumUserType.Agent;
-            return Edit(model);
+            return Modify(model);
         }
-        public Response<SysUser, object, object, object> EditTestor(SysUser model)
+        public Response<SysUser, object, object, object> ModifyTestor(SysUser model)
         {
             model.ObjectTag = EnumUserType.Testor;
-            return Edit(model);
+            return Modify(model);
         }
-        public Response<SysUser, object, object, object> EditTested(SysUser model)
+        public Response<SysUser, object, object, object> ModifyTested(SysUser model)
         {
             model.ObjectTag = EnumUserType.Tested;
-            return Edit(model);
+            return Modify(model);
         }
-        public Response<SysUser, object, object, object> EditVisitor(SysUser model)
+        public Response<SysUser, object, object, object> ModifyVisitor(SysUser model)
         {
             model.ObjectTag = EnumUserType.Visitor;
-            return Edit(model);
+            return Modify(model);
         }
         #endregion
 

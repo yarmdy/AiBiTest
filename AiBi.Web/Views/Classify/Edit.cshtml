@@ -1,0 +1,61 @@
+﻿@{
+    
+}
+@section styles{
+    <style>
+        .txt_r{
+            color:red
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        
+    </script>
+}
+
+<!-- Page header -->
+<div class="layui-fluid" style="margin-top:10px">
+    <h4>@ViewBag.Title</h4>
+</div>
+
+<div class="layui-container">
+    <form class="layui-form" id="form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r">*</span>分类名称</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="Name" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r">*</span>排序号</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="SortNo" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r"></span>上级</label>
+                <div class="layui-input-inline">
+                    <select name="ParentId">
+                        <option value="">请选择</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r"></span></label>
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-primary">保存</button>
+                    <button class="layui-btn" type="button" onclick="$$.closeThis()">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

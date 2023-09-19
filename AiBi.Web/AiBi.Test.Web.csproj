@@ -136,6 +136,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\RoleFuncController.cs" />
+    <Compile Include="Controllers\ClassifyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\TestTemplateController.cs" />
     <Compile Include="Controllers\TestPlanUserController.cs" />
@@ -1641,6 +1642,8 @@
     <Content Include="js\umeditor\third-party\mathquill\font\Symbola.woff" />
     <Content Include="json\menu.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\classify\edit.js" />
+    <Content Include="Scripts\classify\list.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
     <Content Include="Scripts\user\edit.js" />
@@ -2453,6 +2456,8 @@
     <Content Include="Views\Home\PersonInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Classify\List.cshtml" />
+    <Content Include="Views\Classify\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

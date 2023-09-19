@@ -1,0 +1,53 @@
+﻿@{
+    
+}
+@section styles{
+    
+}
+@section scripts{
+    <script>
+    </script>
+}
+
+<!-- Page header -->
+<div class="layout-fluid">
+    <div class="layui-row" style="margin-top:10px">
+        <div class="layui-col-xs6">
+            <form class="layui-form" id="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto">搜索</label>
+                        <div class="layui-input-inline">
+                            <input type="text" value="" class="layui-input" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal">搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-xs6" style="text-align: right; ">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
+                    </div>
+                    <div class="layui-inline">
+                        <a href="/Classify/Edit" class="layui-btn layui-btn-sm" target="addtab">
+                            添加分类
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layout-fluid">
+    <table id="table" ></table>
+</div>
+
+<script type="text/template" id="actionTemplate">
+    <div class="layui-inline"><a class="layui-btn layui-btn-sm" target="addtab" title="修改分类-{{=d.Id}}" href="/Classify/Edit/{{=d.Id}}">修改</a><button class="layui-btn layui-btn-sm" lay-event="delete">删除</button></div>
+</script>

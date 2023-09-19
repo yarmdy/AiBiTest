@@ -195,6 +195,23 @@
   {
     "Item": {
       "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5099",
+      "CascadeId": ".0.1.",
+      "Name": "量表分类",
+      "Url": "/Classify/List",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "ExampleMg",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5199",
       "CascadeId": ".0.3.",
       "Name": "量表管理",
