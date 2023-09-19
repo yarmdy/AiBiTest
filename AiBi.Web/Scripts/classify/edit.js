@@ -43,6 +43,7 @@
             json.data.forEach(function (a) {
                 $("select[name=ParentId]").append(template.combineObject(a));
             });
+            form.render();
         });
     }
     function renderDetail() {
@@ -56,7 +57,9 @@
         $.when(getParents()).then(function () {
             renderDetail(PageInfo.KeyValueStr);
         });
-        
+
+    } else {
+        getParents();
     }
     initValidate();
 });

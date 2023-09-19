@@ -27,9 +27,54 @@ namespace AiBi.Test.Bll
                         }
                         
                         return query.Where(a => a.Id != val);
-                    }break;
+                    }
             }
             return query;
+        }
+
+        public override bool AddValidate(out string errorMsg, BusClassify model)
+        {
+            errorMsg = "";
+            if (model.ParentId != null)
+            {
+                var parent = Find(false, model.ParentId.Value);
+                if (parent == null)
+                {
+                    errorMsg = "上级不存在";
+                    return false;
+
+                }
+                if (parent.ParentId != null)
+                {
+                    errorMsg = parent.Name + "是子分类，请选择父分类";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public override bool ModifyValidate(out string errorMsg, BusClassify model)
+        {
+            errorMsg = "";
+            var ret = AddValidate(out errorMsg, model);
+            if (!ret)
+            {
+                return false;
+            }
+            return true;
+        }
+        public override bool ModifyBefore(out string errorMsg, BusClassify model, BusClassify inModel)
+        {
+            errorMsg = "";
+            if (model.ParentId != null)
+            {
+                if (model.InverseParent.Count > 0)
+                {
+                    errorMsg = $"本分类旗下拥有{model.InverseParent.Count}个子分类，无法变更为子分类";
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
