@@ -20,4 +20,8 @@ namespace AiBi.Test.Bll
 
         public object Tag { get; set; }
     }
+    public class EditPartsReq : BaseReq
+    {
+        public Dictionary<string, string> Properties { get; set; }
+    }
 }
