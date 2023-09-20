@@ -634,6 +634,23 @@ layer.success = function (msg, opt, callback) {
     $.extend(options, opt);
     layer.msg(msg, options, callback);
 }
+layer.image = function (title, ...srcs) {
+    srcs = srcs || [];
+    let data = srcs.map(function (a, i) {
+        return {
+            "alt": "图片"+(i+1),
+            "pid": (i + 1),
+            "src": a,
+        };
+    });
+    return layer.photos({
+        photos: {
+            "title": title,
+            "start": 0,
+            data: data
+        }
+    });
+}
 $.fn.hideEx = function () {
     let display = this.css("display");
     this.attr("display", display);
@@ -787,7 +804,7 @@ $(function () {
                 error.appendTo(element.parent());
             },
             ignore: ".ignore",
-            errorClass: "layui-font-red layui-border-red",
+            errorClass: "layui-font-red layui-form-danger",
             validClass:"layui-font-black layui-border-green",
             errorElement:"em",
         });

@@ -16,7 +16,9 @@ namespace AiBi.Test.Web.Controllers
         public SysAttachmentBll CurBll { get; set; }
 
         public override BaseBll<SysAttachment, AttachmentReq.Page> Bll => CurBll;
-
-        
+        [AllowAnonymous]
+        public ActionResult Clear() {
+            return Json(CurBll.Clear());
+        }
     }
 }

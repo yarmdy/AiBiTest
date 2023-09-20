@@ -14,6 +14,12 @@ namespace AiBi.Test.Bll
         public BusUserClassifyBll BusUserClassifyBll { get; set; }
         public SysAttachmentBll SysAttachmentBll { get; set; }
         #region 重写
+
+        #region 查询
+        public override Expression<Func<BusExample, bool>> PageWhereKeyword(ExampleReq.Page req)
+        {
+            return base.PageWhereKeyword(req).Or(a=>a.Classify.Name.Contains(req.keyword) || a.SubClassify.Name.Contains(req.keyword));
+        }
         public override IQueryable<BusExample> PageWhere(ExampleReq.Page req, IQueryable<BusExample> query)
         {
             query = base.PageWhere(req, query);
@@ -25,7 +31,7 @@ namespace AiBi.Test.Bll
             {
                 query = query.Where(a => a.SubClassifyId == req.SubClassifyId);
             }
-            query = GetIncludeQuery(query, a => new { a.Image,a.SubClassify,a.Classify });
+            query = GetIncludeQuery(query, a => new { a.Image, a.SubClassify, a.Classify });
             return query;
         }
 
@@ -38,18 +44,49 @@ namespace AiBi.Test.Bll
             res.data.Keys = res.data.ShowKeys;
             res.data.LoadChild(a => new { a.Image });
         }
+        #endregion
 
-        public override bool ModifyBefore(out string errorMsg, BusExample model, BusExample inModel, BusExample oldModel)
+        #region 新增
+        public override bool AddBefore(out string errorMsg, BusExample model, BusExample inModel)
         {
             errorMsg = "";
-            
-            if (model.ImageId!=null)
+
+            if (model.ImageId != null)
             {
                 SysAttachmentBll.Apply(model.ImageId.Value);
             }
-            if(oldModel.ImageId!=null && model.ImageId != oldModel.ImageId)
+            if (!string.IsNullOrWhiteSpace(model.Keys))
+            {
+                model.Keys = $"|{model.Keys}|";
+            }
+            return true;
+        }
+        public override void AddAfter(Response<BusExample, object, object, object> res, BusExample inModel)
+        {
+            if (res.data.Image != null)
+            {
+                SysAttachmentBll.ApplyFile(res.data.Image);
+            }
+
+        }
+        #endregion
+
+        #region 修改
+        public override bool ModifyBefore(out string errorMsg, BusExample model, BusExample inModel, BusExample oldModel)
+        {
+            errorMsg = "";
+
+            if (model.ImageId != null)
+            {
+                SysAttachmentBll.Apply(model.ImageId.Value);
+            }
+            if (oldModel.ImageId != null && model.ImageId != oldModel.ImageId)
             {
                 SysAttachmentBll.Cancel(oldModel.ImageId.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(model.Keys))
+            {
+                model.Keys = $"|{model.Keys}|";
             }
             return true;
         }
@@ -60,6 +97,12 @@ namespace AiBi.Test.Bll
                 SysAttachmentBll.ApplyFile(res.data.Image);
             }
         }
+        public override Expression<Func<BusExample, object>> ModifyExcepts(BusExample model)
+        {
+            return a => new { a.QuestionNum, a.Status };
+        }
+        #endregion
+
         #endregion
 
     }

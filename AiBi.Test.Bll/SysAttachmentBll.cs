@@ -118,5 +118,46 @@ namespace AiBi.Test.Bll
             }
             File.Copy(oldfile,newfile,true);
         }
+
+        public Response Clear() {
+            var res = new Response();
+            DelFilterMode = EnumDeleteFilterMode.All;
+            GetListFilter(a => a.Where(b => b.IsDel || b.Status == (int)EnumAttachmentStatus.Create), a => a.OrderBy(b => b.Id), false).ToList().ForEach(
+                a => {
+                    try
+                    {
+                        if (a.FullName.Contains("/UploadTmp/"))
+                        {
+                            Context.SysAttachments.Remove(a);
+                            return;
+                        }
+                        if (!File.Exists(HttpContext.Current.Server.MapPath(a.FullName)))
+                        {
+                            Context.SysAttachments.Remove(a);
+                            return;
+                        }
+                        File.Delete(HttpContext.Current.Server.MapPath(a.FullName));
+                        Context.SysAttachments.Remove(a);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            );
+            if (Directory.Exists(HttpContext.Current.Server.MapPath("/UploadTmp")))
+            {
+                try
+                {
+                    Directory.Delete(HttpContext.Current.Server.MapPath("/UploadTmp"),true);
+                }catch (Exception ex)
+                {
+
+                }
+            }
+            res.data = Context.SaveChanges();
+
+            return res;
+        }
     }
 }

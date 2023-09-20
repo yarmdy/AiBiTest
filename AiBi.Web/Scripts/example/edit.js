@@ -92,6 +92,12 @@
             return json;
         });
     }
+    $("#ImageFullName").on("click", function () {
+        var src = $(this).attr("src");
+        if (!src) return;
+
+        layer.image("图标",src);
+    });
     form.on("select(ClassifyId)", function (e) {
         getSubClassifies(e.value);
     });

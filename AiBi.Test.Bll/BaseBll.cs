@@ -59,6 +59,7 @@ namespace AiBi.Test.Bll
             if (TypeHelper.HasPropertyBase<T>("Keys"))
             {
                 var tkey = req.keyword.Replace("|", "");
+                tkey = $"|{tkey}|";
                 where = where.Or(PredicateBuilder.DotExpression<T, string>("Keys").Like(tkey));
 
             }
