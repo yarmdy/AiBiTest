@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -32,6 +33,11 @@ namespace AiBi.Test.Dal.Model
         /// 关键字 | 分割
         /// </summary>
         public string Keys { get; set; }
+        [NotMapped]
+        public string ShowKeys { get {
+                var arr = (Keys + "").Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                return string.Join("|", arr);
+            } }
         /// <summary>
         /// 题数
         /// </summary>
@@ -59,7 +65,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 备注  给组织测试者
         /// </summary>
-        public string Ncontent { get; set; }
+        public string NContent { get; set; }
         /// <summary>
         /// 0 创建中 1 创建完成 2已上架
         /// </summary>

@@ -14,10 +14,9 @@
                 var callbackstr;
                 var addoreditFunc = PageInfo.KeyValueStr ? (callbackstr = "usereditok", $$.common.edit.req) : (callbackstr = "useraddok", $$.common.add.req);
                 addoreditFunc(postData).then(function (json) {
-                    layer.success(json.msg, null, function () {
-                        $$.closeThis();
-                    });
+                    
                     $$.callback(callbackstr, json);
+                    $$.closeThis();
                     
                 });
             },

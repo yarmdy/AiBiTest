@@ -61,7 +61,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 备注  给组织测试者
         /// </summary>
-        public string Ncontent { get; set; }
+        public string NContent { get; set; }
         /// <summary>
         /// 0 创建中 1 创建完成 2已上架
         /// </summary>

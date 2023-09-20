@@ -25,7 +25,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 内容
         /// </summary>
-        public string Ncontent { get; set; }
+        public string NContent { get; set; }
         /// <summary>
         /// 最小分值
         /// </summary>

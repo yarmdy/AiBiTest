@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Web;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -45,5 +48,7 @@ namespace AiBi.Test.Dal.Model
 
         [NotMapped]
         public string FullName => Path + FileName + Ext;
+        [NotMapped,JsonIgnore]
+        public HttpPostedFile HttpFile { get; set; }
     }
 }

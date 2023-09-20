@@ -284,12 +284,12 @@ namespace AiBi.Test.Bll
             errorMsg = "";
             return true;
         }
-        public virtual bool ModifyBefore(out string errorMsg, T model, T inModel)
+        public virtual bool ModifyBefore(out string errorMsg, T model, T inModel,T oldModel)
         {
             errorMsg = "";
             return true;
         }
-        public virtual void ModifyAfter(Response<T, object, object, object> res, T inModel)
+        public virtual void ModifyAfter(Response<T, object, object, object> res, T inModel, T oldModel)
         {
 
         }
@@ -318,6 +318,7 @@ namespace AiBi.Test.Bll
             {
                 throw new ArgumentNullException($"model.{string.Join(",", values.Keys)}");
             }
+            var old = Find(true, values.Select(a => a.Value).ToArray());
             var tmp = Find(false, values.Select(a => a.Value).ToArray());
             if (tmp == null)
             {
@@ -340,7 +341,7 @@ namespace AiBi.Test.Bll
             model.ModifyTime = DateTime.Now;
             model.ModifyUserId = CurrentUserId;
 
-            if (!ModifyBefore(out errorMsg, model, tmpModel))
+            if (!ModifyBefore(out errorMsg, model, tmpModel, old))
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = errorMsg;
@@ -354,7 +355,7 @@ namespace AiBi.Test.Bll
                 res.msg = "修改失败";
             }
             res.data = model;
-            ModifyAfter(res, tmpModel);
+            ModifyAfter(res, tmpModel,old);
             return res;
         }
         #endregion

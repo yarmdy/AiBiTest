@@ -183,7 +183,7 @@ namespace AiBi.Test.Bll
             return res;
         }
 
-        public override bool ModifyBefore(out string errorMsg, SysUser model, SysUser inModel)
+        public override bool ModifyBefore(out string errorMsg, SysUser model, SysUser inModel, SysUser oldModel)
         {
             var res = true;
             errorMsg = null;

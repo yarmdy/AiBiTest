@@ -45,6 +45,8 @@
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
     <script>
+        window.layer2 = layer;
+        layer = top.layer;
         (function ($$) {
             let obj = $$;
             $.extend($$, {

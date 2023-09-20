@@ -86,12 +86,22 @@ namespace AiBi.Test.Dal.Enum
         /// 问题图片
         /// </summary>
         [Display(Name = "问题图片")]
-        Testor = 100,
+        Question = 100,
         /// <summary>
         /// 测试题图片
         /// </summary>
         [Display(Name = "测试题图片")]
-        Agent = 200,
+        Example = 200,
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [Display(Name = "头像")]
+        Avatar = 300,
+        /// <summary>
+        /// 模板图片
+        /// </summary>
+        [Display(Name = "模板图片")]
+        Template = 400,
     }
     /// <summary>
     /// 附件状态 0创建 1应用 每天状态为0的会被自动清掉以释放空间

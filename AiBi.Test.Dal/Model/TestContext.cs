@@ -156,7 +156,7 @@ namespace AiBi.Test.Dal.Model
 
                 entity.Property(e => e.ModifyUserId).HasComment("修改人");
 
-                entity.Property(e => e.Ncontent)
+                entity.Property(e => e.NContent)
                     .HasMaxLength(4000)
                     .HasColumnName("NContent")
                     .HasComment("备注  给组织测试者");
@@ -367,7 +367,7 @@ namespace AiBi.Test.Dal.Model
 
                 entity.Property(e => e.ModifyUserId).HasComment("修改人");
 
-                entity.Property(e => e.Ncontent)
+                entity.Property(e => e.NContent)
                     .HasMaxLength(4000)
                     .HasColumnName("NContent")
                     .HasComment("内容");
@@ -1352,7 +1352,7 @@ namespace AiBi.Test.Dal.Model
 
                 entity.Property(e => e.ModifyUserId).HasComment("修改人");
 
-                entity.Property(e => e.Ncontent)
+                entity.Property(e => e.NContent)
                     .HasMaxLength(4000)
                     .HasColumnName("NContent")
                     .HasComment("备注  给组织测试者");

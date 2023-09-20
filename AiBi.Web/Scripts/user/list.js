@@ -1,7 +1,7 @@
 ﻿layui.config({
     base: "/js/"
 }).use(['form', 'ztree', 'element', 'table'], async function () {
-    layer = top.layer;
+    
     const table = layui.table;
     const form = layui.form;
     const cols = [[
@@ -56,9 +56,11 @@
     }
     callback.useraddok = function (json) {
         getList(1, 10);
+        layer.success(json.msg);
     }
     callback.usereditok = function (json) {
         getList(1, 10);
+        layer.success(json.msg);
     }
     table.on("tool(table)", function (e) {
         switch (e.event) {
@@ -99,5 +101,4 @@
             });
         });
     }
-    getList();
 });

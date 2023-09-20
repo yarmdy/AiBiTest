@@ -63,7 +63,7 @@ namespace AiBi.Test.Bll
             }
             return true;
         }
-        public override bool ModifyBefore(out string errorMsg, BusClassify model, BusClassify inModel)
+        public override bool ModifyBefore(out string errorMsg, BusClassify model, BusClassify inModel, BusClassify oldModel)
         {
             errorMsg = "";
             if (model.ParentId != null)
@@ -75,6 +75,10 @@ namespace AiBi.Test.Bll
                 }
             }
             return true;
+        }
+        public override IQueryable<BusClassify> PageOrder(ClassifyReq.Page req, IQueryable<BusClassify> query)
+        {
+            return query.OrderBy(a=>a.ParentId).ThenBy(a=>a.SortNo);
         }
     }
 }
