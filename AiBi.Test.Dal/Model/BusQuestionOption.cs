@@ -19,6 +19,10 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public string Code { get; set; }
         /// <summary>
+        /// 排序号
+        /// </summary>
+        public int SortNo { get; set; }
+        /// <summary>
         /// 简介
         /// </summary>
         public string Remark { get; set; }
