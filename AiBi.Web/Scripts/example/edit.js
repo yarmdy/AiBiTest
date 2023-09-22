@@ -199,43 +199,50 @@
     function renderQuestion(data, json) {
         var type = data.Question.Type;
         var elem = addQuestion.call(lastBtnType(type));
-        $$.setFormData(elem, data);
         $$.setFormData(elem, data.Question);
+        $$.setFormData(elem, data, null, true);
         elem.find("[name=ImageFullName]").attr("src", (data.Question.Image || {}).FullName);
+        if (data.Question.Type == 3) {
+            elem.find(".option .layui-inline").remove();
+        }
         data.Question.BusQuestionOptions.forEach(function (a, i) {
             renderOption(a, json, elem.find(".optionbtn"));
         });
     }
     function renderOption(data, json, btn) {
-        var elem = addoption.call(btn);
-        $$.setFormData(elem, data);
         var score = json.data.BusExampleOptions.find(function (a) { return a.OptionId == data.Id });
+        var question = json.data.BusExampleQuestions.find(function (a) { return a.QuestionId == data.QuestionId; }).Question;
+        var elem = addoption.call(btn);
         $$.setFormData(elem, score);
+        $$.setFormData(elem, data,null,true);
     }
 
     function sortQuestion() {
-        let children = $("#questionInfo").children("[question]");
+        let children = $("#questionInfo").children("[combine]");
         children.each(function (i, a) {
-            $(a).find(".questionnumber").html((i + 1) + "");
             $(a).find("[name=SortNo]").val((i + 1) + "");
+            $(a).find(".questionnumber").html((i + 1) + "");
         });
         form.render();
     }
     
-    function initUpload(elem,module=200) {
-        upload.render({
-            elem: elem,
-            url: '/Attachment/Add', // 此处配置你自己的上传接口即可
-            data: {
-                module: module
-            },
-            size: 4096, // 限制文件大小，单位 KB
-            done: function (json) {
+    function initUpload(elem, module = 200) {
+        $(elem).each(function (i,a) {
+            upload.render({
+                elem: $(a),
+                url: '/Attachment/Add', // 此处配置你自己的上传接口即可
+                data: {
+                    module: module
+                },
+                size: 4096, // 限制文件大小，单位 KB
+                done: function (json) {
 
-                this.elem.closest("div").find("[name=ImageFullName]").attr("src", json.data.FullName);
-                this.elem.closest("div").find("input[name=ImageId]").val(json.data.Id);
-            }
+                    this.elem.closest("div").find("[name=ImageFullName]").attr("src", json.data.FullName);
+                    this.elem.closest("div").find("input[name=ImageId]").val(json.data.Id);
+                }
+            });
         });
+        
     }
     function addQuestion(e) {
         var addquestion = $(this).attr("addquestion");
@@ -250,17 +257,22 @@
             case "3": {
                 uhtml = $("#questionTemplate3").html();
             } break;
-            case "4": { } break;
+            
         }
         let elem = $(uhtml).insertAfter($(this).closest("div.layui-form-item")).after($(this).closest("div.layui-form-item").clone());
         initUpload(elem.find(".upbtn"),100);
         initValidateItems(elem.find("form"));
         sortQuestion();
+        elem.hide().show(300);
         return elem;
     }
     function addoption()
     {
         var optionElem = $($("#optionTemplate").html());
+        var type = $(this).closest("[question]").attr("question");
+        if (type == 3) {
+            optionElem.find(".btndel").remove();
+        }
         $(this).before(optionElem);
         form.render();
         return optionElem;
@@ -270,37 +282,73 @@
         var optionaction = $(this).attr("optionaction");
         switch (optionaction) {
             case "2": {
-                let thisquestion = $(this).closest("[question]");
+                let thisquestion = $(this).closest("[combine]");
                 let thisquestionbtn = thisquestion.next(".questionbtn");
-                let clone = thisquestion.clone().insertAfter(thisquestionbtn).after(thisquestionbtn.clone());
+                let clone = thisquestion.clone();
+                clone.find("[name=ImageFullName]").attr("src", "");
+                clone.find("[name=ImageId]").val("");
+                clone.find("[name=Id]").val("");
+                clone.insertAfter(thisquestionbtn).after(thisquestionbtn.clone());
                 initUpload(clone.find(".upbtn"),100);
                 initValidateItems(clone.find("form"));
+                clone.hide().show(300);
             } break;
             case "3": {
-                $(this).closest("[question]").next(".questionbtn").remove();
-                $(this).closest("[question]").remove();
+                $(this).closest("[combine]").hide(300, function () {
+                    $(this).closest("[combine]").next(".questionbtn").remove();
+                    $(this).closest("[combine]").remove();
+                    sortQuestion();
+                });
+                
             } break;
             case "-1": {
-                let lastElem = $(this).closest("[question]").prevAll("[question]").eq(0);
+                let lastElem = $(this).closest("[combine]").prevAll("[combine]").eq(0);
                 if (lastElem.length <= 0) {
                     return;
                 }
                 let questionbtn = lastElem.next(".questionbtn");
-                let myquestionbtn = $(this).closest("[question]").next(".questionbtn");
+                let myquestionbtn = $(this).closest("[combine]").next(".questionbtn");
+                let myElem = $(this).closest("[combine]");
+                
 
-                $(this).closest("[question]").insertBefore(questionbtn);
-                lastElem.insertBefore(myquestionbtn);
+                let myPos = [myElem.offset().left, myElem.offset().top];
+                let tarPos = [lastElem.offset().left, lastElem.offset().top];
+                myElem.insertBefore(questionbtn).css("visibility", "hidden");
+                lastElem.insertBefore(myquestionbtn).css("visibility", "hidden");
+
+                myElem.clone().css({ "visibility": "visible",position: "absolute", width: myElem.width() + "px", height: myElem.height() + "px", left: myPos[0] + "px", top: myPos[1] + "px" }).appendTo("body").animate({ left: tarPos[0] + "px", top: tarPos[1] + "px" }, function () {
+                    myElem.css("visibility", "visible");
+                    lastElem.css("visibility", "visible");
+                    $(this).remove();
+                });
+                lastElem.clone().css({ "visibility": "visible",position: "absolute", width: lastElem.width() + "px", height: lastElem.height() + "px", left: tarPos[0] + "px", top: tarPos[1] + "px" }).appendTo("body").animate({ left: myPos[0] + "px", top: myPos[1] + "px" }, function () {
+                    $(this).remove()
+                });
+                
             } break;
             case "1": {
-                let nextElem = $(this).closest("[question]").nextAll("[question]").eq(0);
+                let nextElem = $(this).closest("[combine]").nextAll("[combine]").eq(0);
                 if (nextElem.length <= 0) {
                     return;
                 }
                 let questionbtn = nextElem.next(".questionbtn");
-                let myquestionbtn = $(this).closest("[question]").next(".questionbtn");
+                let myquestionbtn = $(this).closest("[combine]").next(".questionbtn");
+                let myElem = $(this).closest("[combine]");
 
-                $(this).closest("[question]").insertBefore(questionbtn);
-                nextElem.insertBefore(myquestionbtn);
+                let myPos = [myElem.offset().left, myElem.offset().top];
+                let tarPos = [nextElem.offset().left, nextElem.offset().top];
+                myElem.insertBefore(questionbtn).css("visibility", "hidden");
+                nextElem.insertBefore(myquestionbtn).css("visibility", "hidden");
+
+                myElem.clone().css({ "visibility": "visible", position: "absolute", width: myElem.width() + "px", height: myElem.height() + "px", left: myPos[0] + "px", top: myPos[1] + "px" }).appendTo("body").animate({ left: tarPos[0] + "px", top: tarPos[1] + "px" }, "linear",function () {
+                    myElem.css("visibility", "visible");
+                    nextElem.css("visibility", "visible");
+                    $(this).remove();
+                });
+                nextElem.clone().css({ "visibility": "visible", position: "absolute", width: nextElem.width() + "px", height: nextElem.height() + "px", left: tarPos[0] + "px", top: tarPos[1] + "px" }).appendTo("body").animate({ left: myPos[0] + "px", top: myPos[1] + "px" }, "linear",function () {
+                    $(this).remove()
+                });
+
             } break;
         }
         sortQuestion();

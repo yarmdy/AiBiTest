@@ -14,7 +14,7 @@
         [question] {
             box-sizing: border-box;
             padding: 10px;
-            box-shadow: inset 0px 0px 5px 0px black;
+            box-shadow: 0px 0px 1px 0px black;
         }
         .questionnumber {
             position: absolute;
@@ -26,6 +26,13 @@
         .layui-input-wrap .layui-input-prefix.btndel, .layui-input-wrap .layui-input-split.btndel, .layui-input-wrap .layui-input-suffix.btndel {
             pointer-events: auto;
             cursor: pointer;
+        }
+
+        #questionInfo .layui-form-label{
+            
+        }
+        #questionInfo .layui-input-block{
+
         }
     </style>
 }
@@ -40,7 +47,7 @@
     <h4>@ViewBag.Title</h4>
 </div>
 
-<div class="layui-container">
+<div class="layui-container" id="container">
     <form class="layui-form" id="baseInfo">
         <input type="hidden" name="Id" />
         <div class="layui-form-item">
@@ -115,7 +122,6 @@
                     <button class="layui-btn layui-btn-primary layui-border-blue layui-btn-radius layui-btn-sm" addquestion="1" type="button" id=""><i class="layui-icon layui-icon-add-1"></i> 单选题 </button>
                     <button class="layui-btn layui-btn-primary layui-border-orange layui-btn-radius layui-btn-sm" addquestion="2" type="button"><i class="layui-icon layui-icon-add-1"></i> 多选题 </button>
                     <button class="layui-btn layui-btn-primary layui-border-red layui-btn-radius layui-btn-sm" addquestion="3" type="button"><i class="layui-icon layui-icon-add-1"></i> 判断题 </button>
-                    <button class="layui-btn layui-btn-primary layui-border-purple layui-btn-radius layui-btn-sm" addquestion="0" type="button"><i class="layui-icon layui-icon-add-1"></i> 组合题 </button>
                 </div>
             </div>
         </div>
@@ -132,185 +138,195 @@
 
 
 <script type="text/template" id="questionTemplate1">
-    <div class="layui-form-item" question="1">
-        <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
-        <label class="layui-form-label vm">单选题</label>
-        <div class="layui-input-block">
-            <form class="layui-form">
-                <input type="hidden" name="SortNo" />
-                <input type="hidden" name="Id" />
-                <input type="hidden" name="Type" value="1" />
-                <input type="hidden" name="OptionNum" value="0" />
-                <div class="layui-form-item">
-                    <label class="layui-form-label">题面</label>
-                    <div class="layui-input-block">
-                        <textarea name="Title" class="layui-textarea"></textarea>
+    <div combine>
+        <div class="layui-form-item" question="1">
+            <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
+            <label class="layui-form-label vm">单选题</label>
+            <div class="layui-input-block">
+                <form class="layui-form">
+                    <input type="hidden" name="SortNo" />
+                    <input type="hidden" name="Id" />
+                    <input type="hidden" name="Type" value="1" />
+                    <input type="hidden" name="OptionNum" value="0" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">题面</label>
+                        <div class="layui-input-block">
+                            <textarea name="Title" class="layui-textarea"></textarea>
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图片</label>
+                        <div class="layui-input-block">
+                            <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
+                            <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                                <i class="layui-icon layui-icon-upload"></i> 上传图片
+                            </button>
+                            <input type="hidden" name="ImageId" />
+                        </div>
+                    </div>
+                </form>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">图片</label>
-                    <div class="layui-input-block">
-                        <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-block option">
+                        <button type="button" class="layui-btn layui-btn-xs optionbtn">
+                            <i class="layui-icon layui-icon-add-1"></i>
                         </button>
-                        <input type="hidden" name="ImageId" />
                     </div>
                 </div>
-            </form>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项</label>
-                <div class="layui-input-block option">
-                    <button type="button" class="layui-btn layui-btn-xs optionbtn">
-                        <i class="layui-icon layui-icon-add-1"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作</label>
+                    <div class="layui-input-block option">
+                        <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
+                        <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
+                        <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
+                        <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </script>
 <script type="text/template" id="questionTemplate2">
-    <div class="layui-form-item" question="2">
-        <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
-        <label class="layui-form-label vm">多选题</label>
-        <div class="layui-input-block">
-            <form class="layui-form">
-                <input type="hidden" name="SortNo" />
-                <input type="hidden" name="Id" />
-                <input type="hidden" name="Type" value="2" />
-                <input type="hidden" name="OptionNum" value="0" />
-                <div class="layui-form-item">
-                    <label class="layui-form-label">题面</label>
-                    <div class="layui-input-block">
-                        <textarea name="Title" class="layui-textarea"></textarea>
+    <div combine>
+        <div class="layui-form-item" question="2">
+            <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
+            <label class="layui-form-label vm">多选题</label>
+            <div class="layui-input-block">
+                <form class="layui-form">
+                    <input type="hidden" name="SortNo" />
+                    <input type="hidden" name="Id" />
+                    <input type="hidden" name="Type" value="2" />
+                    <input type="hidden" name="OptionNum" value="0" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">题面</label>
+                        <div class="layui-input-block">
+                            <textarea name="Title" class="layui-textarea"></textarea>
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图片</label>
+                        <div class="layui-input-block">
+                            <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
+                            <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                                <i class="layui-icon layui-icon-upload"></i> 上传图片
+                            </button>
+                            <input type="hidden" name="ImageId" />
+                        </div>
+                    </div>
+                </form>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">图片</label>
-                    <div class="layui-input-block">
-                        <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-block option">
+                        <button type="button" class="layui-btn layui-btn-xs optionbtn">
+                            <i class="layui-icon layui-icon-add-1"></i>
                         </button>
-                        <input type="hidden" name="ImageId" />
                     </div>
                 </div>
-            </form>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项</label>
-                <div class="layui-input-block option">
-                    <button type="button" class="layui-btn layui-btn-xs optionbtn">
-                        <i class="layui-icon layui-icon-add-1"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作</label>
+                    <div class="layui-input-block option">
+                        <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
+                        <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
+                        <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
+                        <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </script>
 <script type="text/template" id="questionTemplate3">
-    <div class="layui-form-item" question="3">
-        <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
-        <label class="layui-form-label vm">判断题</label>
-        <div class="layui-input-block">
-            <form class="layui-form">
-                <input type="hidden" name="SortNo" />
-                <input type="hidden" name="Id" />
-                <input type="hidden" name="Type" value="3" />
-                <input type="hidden" name="OptionNum" value="0" />
-                <div class="layui-form-item">
-                    <label class="layui-form-label">题面</label>
-                    <div class="layui-input-block">
-                        <textarea name="Title" class="layui-textarea"></textarea>
+    <div combine>
+        <div class="layui-form-item" question="3">
+            <span type="text" class="layui-badge layui-bg-green questionnumber">1</span>
+            <label class="layui-form-label vm">判断题</label>
+            <div class="layui-input-block">
+                <form class="layui-form">
+                    <input type="hidden" name="SortNo" />
+                    <input type="hidden" name="Id" />
+                    <input type="hidden" name="Type" value="3" />
+                    <input type="hidden" name="OptionNum" value="0" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">题面</label>
+                        <div class="layui-input-block">
+                            <textarea name="Title" class="layui-textarea"></textarea>
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图片</label>
+                        <div class="layui-input-block">
+                            <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
+                            <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                                <i class="layui-icon layui-icon-upload"></i> 上传图片
+                            </button>
+                            <input type="hidden" name="ImageId" />
+                        </div>
+                    </div>
+                </form>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">图片</label>
-                    <div class="layui-input-block">
-                        <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-block option">
+                        <div class="layui-inline">
+                            <form class="layui-form">
+                                <input type="hidden" name="Id" />
+                                <input type="hidden" name="SortNo" />
+                                <div class="layui-input-inline" style="width:170px">
+                                    <div class="layui-input-wrap">
+
+                                        <input type="text" placeholder="选项" class="layui-input" name="Code" value="对">
+                                    </div>
+                                </div>
+                                <div class="layui-input-inline" style="width:100px">
+                                    <div class="layui-input-wrap">
+                                        <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
+                                        <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
+                                            <i class="layui-icon layui-icon-up"></i>
+                                            <i class="layui-icon layui-icon-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="layui-inline">
+                            <form class="layui-form">
+                                <input type="hidden" name="Id" />
+                                <input type="hidden" name="SortNo" />
+                                <div class="layui-input-inline" style="width:170px">
+                                    <div class="layui-input-wrap">
+
+                                        <input type="text" placeholder="选项" class="layui-input" name="Code" value="错">
+                                    </div>
+                                </div>
+                                <div class="layui-input-inline" style="width:100px">
+                                    <div class="layui-input-wrap">
+                                        <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
+                                        <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
+                                            <i class="layui-icon layui-icon-up"></i>
+                                            <i class="layui-icon layui-icon-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <button type="button" class="layui-btn layui-btn-xs optionbtn" style="display:none">
+                            <i class="layui-icon layui-icon-add-1"></i>
                         </button>
-                        <input type="hidden" name="ImageId" />
                     </div>
                 </div>
-            </form>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项</label>
-                <div class="layui-input-block option">
-                    <div class="layui-inline">
-                        <form class="layui-form">
-                            <input type="hidden" name="Id" />
-                            <input type="hidden" name="SortNo" />
-                            <div class="layui-input-inline" style="width:170px">
-                                <div class="layui-input-wrap">
-
-                                    <input type="text" placeholder="选项" class="layui-input" name="Code" value="对">
-                                </div>
-                            </div>
-                            <div class="layui-input-inline" style="width:100px">
-                                <div class="layui-input-wrap">
-                                    <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
-                                    <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
-                                        <i class="layui-icon layui-icon-up"></i>
-                                        <i class="layui-icon layui-icon-down"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作</label>
+                    <div class="layui-input-block option">
+                        <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
+                        <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
+                        <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
+                        <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
                     </div>
-                    <div class="layui-inline">
-                        <form class="layui-form">
-                            <input type="hidden" name="Id" />
-                            <input type="hidden" name="SortNo" />
-                            <div class="layui-input-inline" style="width:170px">
-                                <div class="layui-input-wrap">
-
-                                    <input type="text" placeholder="选项" class="layui-input" name="Code" value="错">
-                                </div>
-                            </div>
-                            <div class="layui-input-inline" style="width:100px">
-                                <div class="layui-input-wrap">
-                                    <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
-                                    <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
-                                        <i class="layui-icon layui-icon-up"></i>
-                                        <i class="layui-icon layui-icon-down"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
                 </div>
             </div>
         </div>
     </div>
 </script>
+
 
 <script type="text/template" id="optionTemplate">
     <div class="layui-inline">

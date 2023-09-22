@@ -17,6 +17,10 @@ namespace AiBi.Test.Common
 {
     public static class ModelHelper
     {
+        public static T1 CopySome<T1, T2,T3>(this T1 obj, T2 obj2,Expression<Func<T1,T3>> includes) where T1 : class where T2 : class
+        {
+            return obj.CopyFromExcept(obj2, null,null,includes?.GetProperties()?.Select(a=>a.Name.ToLower())?.ToArray());
+        }
         /// <summary>
         /// 拷贝属性
         /// </summary>
@@ -35,6 +39,16 @@ namespace AiBi.Test.Common
             
             return obj.CopyFromExcept(obj2, exceptArr,types);
         }
+
+        public static bool DiffCopyExcept<T1, T2>(this T1 obj, T2 obj2, string[] except, IEnumerable<Type> types = null, string[] includes = null) where T1 : class where T2 : class 
+        {
+            var diff = !obj.EqualWithExcept(obj2,includes,except, types);
+            if (diff)
+            {
+                obj.CopyFromExcept(obj2,except,types, includes);
+            }
+            return diff;
+        }
         /// <summary>
         /// 拷贝属性
         /// </summary>
@@ -43,18 +57,19 @@ namespace AiBi.Test.Common
         /// <param name="obj"></param>
         /// <param name="obj2"></param>
         /// <returns></returns>
-        public static T1 CopyFromExcept<T1, T2>(this T1 obj, T2 obj2, string[] except, IEnumerable<Type> types = null) where T1 : class where T2 : class
+        public static T1 CopyFromExcept<T1, T2>(this T1 obj, T2 obj2, string[] except, IEnumerable<Type> types = null, string[] includes=null) where T1 : class where T2 : class
         {
             if (obj2 == null)
             {
                 return obj;
             }
-            var t2props = obj2.GetType().GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).GroupBy(a=>a.Name.ToLower()).ToDictionary(a => a.Key,a=>a.OrderBy(b=>b.GetValue(obj2)==null).FirstOrDefault());
+            var t2props = obj2.GetType().GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).GroupBy(a=>a.Name.ToLower()).ToDictionary(a => a.Key,a=>a.FirstOrDefault());
             if (t2props.Count <= 0)
             {
                 return obj;
             }
             var exceptDic = except == null ? new Dictionary<string, bool>() : except.Select(a => (a + "").ToLower()).Distinct().ToDictionary(a => a, a => false);
+            var includeDic = includes == null ? new Dictionary<string, bool>() : includes.Select(a => (a + "").ToLower()).Distinct().ToDictionary(a => a, a => false);
             types = types?? Enumerable.Empty<Type>();
 
             var t1props = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance);
@@ -64,6 +79,10 @@ namespace AiBi.Test.Common
                 {
                     var name = prop.Name.ToLower();
                     if (exceptDic.ContainsKey(name))
+                    {
+                        continue;
+                    }
+                    if (includeDic.Count>0&& !includeDic.ContainsKey(name))
                     {
                         continue;
                     }
@@ -151,6 +170,118 @@ namespace AiBi.Test.Common
             }
             return obj;
         }
+        public static bool DiffCopy<T1, T2, T3>(this T1 obj, T2 obj2, Expression<Func<T1, T3>> includes) where T1 : class where T2 : class
+        { 
+            var diff = !obj.EqualWith(obj2,includes);
+            if (diff)
+            {
+                obj.CopySome(obj2, includes);
+            }
+            return diff;
+        }
+        public static bool EqualWith<T1, T2>(this T1 obj, T2 obj2)
+        {
+            return obj.EqualWithExcept(obj2,null,null,null);
+        }
+        public static bool EqualWith<T1, T2, T3>(this T1 obj, T2 obj2,Expression<Func<T1,T3>> includes)
+        {
+            return obj.EqualWithExcept(obj2, includes?.GetProperties()?.Select(a=>a.Name.ToLower())?.ToArray(), null, null);
+        }
+        public static bool EqualWith<T1, T2, T3>(this T1 obj, T2 obj2, Expression<Func<T1, T3>> includes, Expression<Func<T1, T3>> excepts, IEnumerable<Type> types = null)
+        {
+            return obj.EqualWithExcept(obj2,
+                includes?.GetProperties()?.Select(a => a.Name.ToLower())?.ToArray(),
+                excepts?.GetProperties()?.Select(a => a.Name.ToLower())?.ToArray(),
+                types);
+        }
+        public static bool EqualWithExcept<T1,T2>(this T1 obj,T2 obj2, string[] includes, string[] excepts, IEnumerable<Type> types)
+        {
+            if (obj2 == null)
+            {
+                return false;
+            }
+            var t2props = obj2.GetType().GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance).GroupBy(a => a.Name.ToLower()).ToDictionary(a => a.Key, a => a.FirstOrDefault());
+            if (t2props.Count <= 0)
+            {
+                return false;
+            }
+            var exceptDic = excepts == null ? new Dictionary<string, bool>() : excepts.Select(a => (a + "").ToLower()).Distinct().ToDictionary(a => a, a => false);
+            var includeDic = includes == null ? new Dictionary<string, bool>() : includes.Select(a => (a + "").ToLower()).Distinct().ToDictionary(a => a, a => false);
+            types = types ?? Enumerable.Empty<Type>();
+
+            var t1props = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.IgnoreCase | BindingFlags.Instance);
+            if (includeDic.Count > 0)
+            {
+                t1props = t1props.Where(a=>includeDic.ContainsKey(a.Name.ToLower())).ToArray();
+            }
+            if (exceptDic.Count > 0)
+            {
+                t1props = t1props.Where(a => !exceptDic.ContainsKey(a.Name.ToLower())).ToArray();
+            }
+            if (types.Count() > 0)
+            {
+                t1props = t1props.Where(prop => {
+                    return !types.Any(a =>
+                    {
+                        if (a == prop.PropertyType)
+                        {
+                            return true;
+                        }
+                        if (a.IsAssignableFrom(prop.PropertyType))
+                        {
+                            return true;
+                        }
+                        if (!a.IsGenericType || !prop.PropertyType.IsGenericType)
+                        {
+                            return false;
+                        }
+                        if (a.GetGenericTypeDefinition() == prop.PropertyType.GetGenericTypeDefinition())
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    });
+                }).ToArray();
+            }
+
+            foreach (var prop in t1props)
+            {
+                try
+                {
+                    var name = prop.Name.ToLower();
+                    
+                    if (!t2props.ContainsKey(name))
+                    {
+                        return false;
+                    }
+                    var prop2 = t2props[name];
+                    var p1type = prop.PropertyType;
+                    var p2type = prop2.PropertyType;
+
+                    var p1v = prop.GetValue(obj);
+                    var p2v = prop2.GetValue(obj2);
+                    if(p1v==null && p2v == null)
+                    {
+                        continue;
+                    }
+                    if(p1v==null && p2v != null)
+                    {
+                        return false;
+                    }
+                    if(!p1v.Equals(p2v))
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
         /// <summary>
         /// 合并实体未dic
         /// </summary>
@@ -236,5 +367,7 @@ namespace AiBi.Test.Common
         {
             return DefaultForType<Type>();
         }
+
+        
     }
 }

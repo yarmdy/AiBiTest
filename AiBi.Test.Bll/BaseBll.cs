@@ -334,13 +334,15 @@ namespace AiBi.Test.Bll
             {
                 exprList.AddRange(expr.GetProperties().Select(a=>a.Name));
             }
-            exprList.AddRange(new[] { nameof(model.CreateTime),nameof(model.CreateUserId)});
-            tmp.CopyFromExcept(model, exprList.ToArray(), new[] { typeof(BaseEntity), typeof(ICollection<>) });
+            exprList.AddRange(new[] { nameof(model.CreateTime),nameof(model.CreateUserId),nameof(model.ModifyTime),nameof(model.ModifyUserId),nameof(model.DelTime),nameof(model.DelUserId) });
+            if(tmp.DiffCopyExcept(model, exprList.ToArray(), new[] { typeof(BaseEntity), typeof(ICollection<>) }))
+            {
+                tmp.ModifyTime = DateTime.Now;
+                tmp.ModifyUserId = CurrentUserId;
+            }
             Context.Configuration.LazyLoadingEnabled = true;
             model = tmp;
 
-            model.ModifyTime = DateTime.Now;
-            model.ModifyUserId = CurrentUserId;
 
             if (!ModifyBefore(out errorMsg, model, tmpModel, old))
             {
@@ -350,10 +352,14 @@ namespace AiBi.Test.Bll
             }
             
             var ret = Context.SaveChanges();
-            if (ret <= 0)
+            if (ret < 0)
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = "修改失败";
+            }else if (ret == 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "没有任何修改";
             }
             res.data = model;
             ModifyAfter(res, tmpModel,old);

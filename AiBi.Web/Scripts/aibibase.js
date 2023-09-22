@@ -182,7 +182,7 @@
         return res;
     },
     //设置表单数据 高级
-    setFormData: function (elem, data, excepts) {
+    setFormData: function (elem, data, excepts,notnull) {
         if (!data) return;
         $(elem).find("[name]").each(function (i, a) {
             var tagName = a.tagName;
@@ -190,27 +190,31 @@
             if (excepts && excepts.indexOf(name) >= 0) {
                 return true;
             }
+            var setval = data[name];
+            if (setval == null && notnull) {
+                return true;
+            }
             var hasValue = ["INPUT", "TEXTAREA", "SELECT"].indexOf(tagName) >= 0;
             if (!hasValue) {
-                $(a).html(data[name]);
+                $(a).html(setval);
                 return true;
             }
             var type = ($(a).attr("type") + "").toLowerCase();
             if (type == "radio") {
-                $(a).prop("checked", $(a).val() == data[name]);
+                $(a).prop("checked", $(a).val() == setval);
                 return true;
             }
             if (type == "checkbox") {
-                if (data[name] instanceof Array) {
-                    $(a).prop("checked", data[name].indexOf($(a).val()) >= 0);
+                if (setval instanceof Array) {
+                    $(a).prop("checked", setval.indexOf($(a).val()) >= 0);
                 } else {
-                    $(a).prop("checked", $(a).val() == data[name]);
+                    $(a).prop("checked", $(a).val() == setval);
                 }
 
                 return true;
             }
 
-            $(a).val(data[name]);
+            $(a).val(setval);
         });
     },
     //#endregion

@@ -80,7 +80,12 @@ namespace AiBi.Test.Bll
         #region 修改
         public override bool ModifyValidate(out string errorMsg, BusExample model)
         {
+            if (!string.IsNullOrWhiteSpace(model.Keys))
+            {
+                model.Keys = $"|{model.Keys}|";
+            }
             return base.ModifyValidate(out errorMsg, model);
+
         }
         public override bool ModifyBefore(out string errorMsg, BusExample model, BusExample inModel, BusExample oldModel)
         {
@@ -94,11 +99,8 @@ namespace AiBi.Test.Bll
             {
                 SysAttachmentBll.Cancel(oldModel.ImageId.Value);
             }
-            if (!string.IsNullOrWhiteSpace(model.Keys))
-            {
-                model.Keys = $"|{model.Keys}|";
-            }
-
+            
+            model.LoadChild(a => new { a=a.BusExampleOptions.ToList(),b=a.BusExampleQuestions.SelectMany(b=>b.Question.BusQuestionOptions).ToList()});
             var exampleQuestions = inModel.BusExampleQuestions.ToList();
             var busExampleOptions = inModel.BusExampleOptions.ToList();
             var exampleQuestionsDels = model.BusExampleQuestions.Where(a => !exampleQuestions.Any(b => b.Question.Id == a.QuestionId)).ToList();
@@ -130,7 +132,75 @@ namespace AiBi.Test.Bll
                 model.BusExampleQuestions.Add(a);
                 
             });
+            exampleQuestionsEdits.ForEach(a =>
+            {
+                var newdata = exampleQuestions.First(b=>b.Question.Id==a.QuestionId);
+                if (newdata.SortNo != a.SortNo)
+                {
+                    a.SortNo = newdata.SortNo;
+                    a.ModifyUserId = CurrentUserId;
+                    a.ModifyTime = DateTime.Now;
+                }
+                if(a.Question.ImageId!=null && newdata.Question.ImageId != a.Question.ImageId)
+                {
+                    SysAttachmentBll.Cancel(a.Question.ImageId ?? 0);
+                }
+                if(newdata.Question.ImageId!=null && newdata.Question.ImageId != a.Question.ImageId)
+                {
+                    SysAttachmentBll.Apply(newdata.Question.ImageId ?? 0);
+                }
+                if (a.Question.DiffCopy(newdata.Question, b => new { b.ImageId, b.OptionNum, b.Title }))
+                {
+                    a.Question.ModifyTime= DateTime.Now;
+                    a.Question.ModifyUserId= CurrentUserId;
+                }
 
+                var newOptions = newdata.Question.BusQuestionOptions.Where(b=>b.Id==0).ToList();
+                var modifyOptions = a.Question.BusQuestionOptions.Where(b => newdata.Question.BusQuestionOptions.Any(c => c.Id == b.Id)).ToList();
+                var delOptions = a.Question.BusQuestionOptions.Where(b => !newdata.Question.BusQuestionOptions.Any(c => c.Id == b.Id)).ToList();
+
+                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo)).ToList();
+                newOptions.ForEach(b => {
+                    b.Question = a.Question;
+                    b.CreateTime = DateTime.Now;
+                    b.CreateUserId = CurrentUserId;
+                    b.Remark = "";
+                    a.Question.BusQuestionOptions.Add(b);
+                });
+                modifyOptions.ForEach(b => {
+                    var newOption = a.Question.BusQuestionOptions.First(c=>c.Id==b.Id);
+                    if (b.DiffCopy(newOption, c => new { c.Code, c.SortNo }))
+                    {
+                        b.ModifyUserId = CurrentUserId;
+                        b.ModifyTime = DateTime.Now;
+                    }
+                    var examOption = model.BusExampleOptions.FirstOrDefault(c=>c.OptionId==b.Id);
+                    var newExamOption = localOptions.First(c => c.Option.Id == b.Id);
+                    if (examOption.Score != newExamOption.Score)
+                    {
+                        examOption.Score = newExamOption.Score;
+                        examOption.ModifyTime = DateTime.Now;
+                        examOption.ModifyUserId = CurrentUserId;
+                    }
+                });
+                delOptions.ForEach(b => {
+                    var examOption = model.BusExampleOptions.FirstOrDefault(c => c.OptionId == b.Id);
+                    Context.BusQuestionOptions.Remove(b);
+                    Context.BusExampleOptions.Remove(examOption);
+                });
+
+            });
+            exampleQuestionsDels.ForEach(a => {
+                SysAttachmentBll.Cancel(a.Question.Image);
+                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo)).ToList();
+                Context.BusQuestions.Remove(a.Question);
+                Context.BusExampleQuestions.Remove(a);
+                //Context.BusQuestionOptions.RemoveRange(a.Question.BusQuestionOptions);
+                Context.BusExampleOptions.RemoveRange(localOptions);
+            });
+
+            //errorMsg = "系统停止修改了";
+            //return false;
             return true;
         }
         public override void ModifyAfter(Response<BusExample, object, object, object> res, BusExample inModel, BusExample oldModel)
