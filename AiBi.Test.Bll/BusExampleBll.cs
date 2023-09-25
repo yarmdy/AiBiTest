@@ -45,7 +45,7 @@ namespace AiBi.Test.Bll
         {
             res.data.Keys = res.data.ShowKeys;
             res.data.LoadChild(a => new { a.Image,data2 =  a.BusExampleOptions.ToList(),data3 = a.BusExampleQuestions.SelectMany(b=>b.Question.BusQuestionOptions).ToList(),data4=a.BusExampleQuestions.Select(b=>b.Question.Image).ToList() });
-            res.data.BusExampleQuestions = res.data.BusExampleQuestions.OrderBy(a => a.SortNo).Select(a => {
+            res.data.BusExampleQuestions = res.data.BusExampleQuestions.OrderBy(a => a.SortNo).ThenBy(a=>a.SortNo2).Select(a => {
                 a.Question.BusQuestionOptions = a.Question.BusQuestionOptions.OrderBy(b => b.SortNo).ToList();
                 return a;
             }).ToList();
@@ -53,6 +53,37 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 新增
+        public override bool AddValidate(out string errorMsg, BusExample model)
+        {
+            var busExampleOptions = model.BusExampleOptions.ToList();
+            var exampleQuestionsAdds = model.BusExampleQuestions.ToList();
+
+            exampleQuestionsAdds.ForEach(a => {
+                a.CreateTime = DateTime.Now;
+                a.CreateUserId = CurrentUserId;
+                a.Example = model;
+                a.Question.CreateTime = DateTime.Now;
+                a.Question.CreateUserId = CurrentUserId;
+                a.Question.BusQuestionOptions.ToList().ForEach(b => {
+                    b.CreateUserId = CurrentUserId;
+                    b.CreateTime = DateTime.Now;
+                    b.Question = a.Question;
+                    b.Remark = "";
+                });
+                SysAttachmentBll.Apply(a.Question.ImageId ?? 0);
+
+
+                var localOptions = busExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo && c.SortNo2 == a.SortNo2)).ToList();
+                localOptions.ForEach(b => {
+                    b.Example = model;
+                    b.Option = a.Question.BusQuestionOptions.FirstOrDefault(c => c.SortNo == b.Option.SortNo);
+                    b.CreateTime = DateTime.Now;
+                    b.CreateUserId = CurrentUserId;
+                });
+            });
+            model.QuestionNum = exampleQuestionsAdds.Count;
+            return base.AddValidate(out errorMsg, model);
+        }
         public override bool AddBefore(out string errorMsg, BusExample model, BusExample inModel)
         {
             errorMsg = "";
@@ -65,6 +96,8 @@ namespace AiBi.Test.Bll
             {
                 model.Keys = $"|{model.Keys}|";
             }
+
+            
             return true;
         }
         public override void AddAfter(Response<BusExample, object, object, object> res, BusExample inModel)
@@ -73,7 +106,12 @@ namespace AiBi.Test.Bll
             {
                 SysAttachmentBll.ApplyFile(res.data.Image);
             }
-
+            res.data.BusExampleQuestions.ToList().ForEach(a => {
+                if (a.Question.Image != null)
+                {
+                    SysAttachmentBll.ApplyFile(a.Question.Image);
+                }
+            });
         }
         #endregion
 
@@ -121,7 +159,7 @@ namespace AiBi.Test.Bll
                 });
                 SysAttachmentBll.Apply(a.Question.ImageId??0);
 
-                var localOptions = busExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo==a.SortNo)).ToList();
+                var localOptions = busExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo==a.SortNo && c.SortNo2==a.SortNo2)).ToList();
                 localOptions.ForEach(b => {
                     b.Example = model;
                     b.Option = a.Question.BusQuestionOptions.FirstOrDefault(c => c.SortNo == b.Option.SortNo);
@@ -135,9 +173,8 @@ namespace AiBi.Test.Bll
             exampleQuestionsEdits.ForEach(a =>
             {
                 var newdata = exampleQuestions.First(b=>b.Question.Id==a.QuestionId);
-                if (newdata.SortNo != a.SortNo)
+                if (a.DiffCopy(newdata, b => new { b.SortNo,b.SortNo2}))
                 {
-                    a.SortNo = newdata.SortNo;
                     a.ModifyUserId = CurrentUserId;
                     a.ModifyTime = DateTime.Now;
                 }
@@ -149,7 +186,7 @@ namespace AiBi.Test.Bll
                 {
                     SysAttachmentBll.Apply(newdata.Question.ImageId ?? 0);
                 }
-                if (a.Question.DiffCopy(newdata.Question, b => new { b.ImageId, b.OptionNum, b.Title }))
+                if (a.Question.DiffCopy(newdata.Question, b => new { b.ImageId, b.OptionNum, b.Title,b.NContent }))
                 {
                     a.Question.ModifyTime= DateTime.Now;
                     a.Question.ModifyUserId= CurrentUserId;
@@ -159,7 +196,7 @@ namespace AiBi.Test.Bll
                 var modifyOptions = a.Question.BusQuestionOptions.Where(b => newdata.Question.BusQuestionOptions.Any(c => c.Id == b.Id)).ToList();
                 var delOptions = a.Question.BusQuestionOptions.Where(b => !newdata.Question.BusQuestionOptions.Any(c => c.Id == b.Id)).ToList();
 
-                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo)).ToList();
+                var localOptions = busExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo && c.SortNo2==a.SortNo2)).ToList();
                 newOptions.ForEach(b => {
                     b.Question = a.Question;
                     b.CreateTime = DateTime.Now;
@@ -176,9 +213,8 @@ namespace AiBi.Test.Bll
                     }
                     var examOption = model.BusExampleOptions.FirstOrDefault(c=>c.OptionId==b.Id);
                     var newExamOption = localOptions.First(c => c.Option.Id == b.Id);
-                    if (examOption.Score != newExamOption.Score)
+                    if (examOption.DiffCopy(newExamOption,c=>c.Score))
                     {
-                        examOption.Score = newExamOption.Score;
                         examOption.ModifyTime = DateTime.Now;
                         examOption.ModifyUserId = CurrentUserId;
                     }
@@ -192,13 +228,14 @@ namespace AiBi.Test.Bll
             });
             exampleQuestionsDels.ForEach(a => {
                 SysAttachmentBll.Cancel(a.Question.Image);
-                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo)).ToList();
+                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo && c.SortNo2 == a.SortNo2)).ToList();
                 Context.BusQuestions.Remove(a.Question);
                 Context.BusExampleQuestions.Remove(a);
                 //Context.BusQuestionOptions.RemoveRange(a.Question.BusQuestionOptions);
                 Context.BusExampleOptions.RemoveRange(localOptions);
             });
 
+            model.QuestionNum = model.BusExampleQuestions.Count;
             //errorMsg = "系统停止修改了";
             //return false;
             return true;

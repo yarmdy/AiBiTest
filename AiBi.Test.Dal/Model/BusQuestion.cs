@@ -27,6 +27,11 @@ namespace AiBi.Test.Dal.Model
         /// 选项数
         /// </summary>
         public int OptionNum { get; set; }
+
+        /// <summary>
+        /// 总题面
+        /// </summary>
+        public string NContent { get; set; }
         public virtual SysAttachment Image { get; set; }
         public virtual ICollection<BusExampleQuestion> BusExampleQuestions { get; set; }
         public virtual ICollection<BusQuestionOption> BusQuestionOptions { get; set; }

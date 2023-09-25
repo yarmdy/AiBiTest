@@ -431,6 +431,9 @@ namespace AiBi.Test.Dal.Model
                 entity.Property(e => e.Title)
                     .HasMaxLength(4000)
                     .HasComment("标题题面");
+                entity.Property(e => e.NContent)
+                    .HasMaxLength(4000)
+                    .HasComment("总题面");
 
                 entity.Property(e => e.Type).HasComment("1单选题 2多选题 3判断题");
 

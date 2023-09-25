@@ -17,6 +17,7 @@ namespace AiBi.Test.Dal.Model
         /// 序号
         /// </summary>
         public int SortNo { get; set; }
+        public int? SortNo2 { get; set; }
         public virtual BusExample Example { get; set; }
         public virtual BusQuestion Question { get; set; }
     }

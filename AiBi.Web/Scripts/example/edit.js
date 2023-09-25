@@ -81,6 +81,9 @@
                     },
                     OptionNum: {
                         min:2,
+                    },
+                    NContent: {
+                        required: true,
                     }
 
                 },
@@ -97,6 +100,9 @@
                     },
                     OptionNum: {
                         min: "选项个数不能少于两个",
+                    },
+                    NContent: {
+                        required: "请输入题面",
                     }
 
                 },
@@ -132,6 +138,9 @@
             let optionForms = forms.not(":first");
             let exampleQuestion = $$.getFormData(questionForm);
             exampleQuestion.Question = $$.getFormData(questionForm);
+            if (exampleQuestion.SortNo2 == 1) {
+                $.extend(exampleQuestion.Question, $$.getFormData($(questionForm).closest(".layui-card-body").find("form").eq(0)));
+            }
             exampleQuestion.Question.BusQuestionOptions = optionForms.map(function (i, a) {
                 let option = $$.getFormData(a);
                 return option;
@@ -185,7 +194,13 @@
                 $("#baseInfo input[name=ImageId]").val(json.data.Image.Id);
             }
             json.data.BusExampleQuestions.forEach(function (a, i) {
-                renderQuestion(a,json);
+
+                if (a.SortNo2 == 1) {
+                    renderZuheQuestion(a, json);
+                } else if (a.SortNo2 == null) {
+                    renderQuestion(a, json);
+                }
+                
             });
             form.render();
             return json;
@@ -194,6 +209,10 @@
 
     function lastBtnType(type) {
         var btns = $("[addquestion=" + type + "]");
+        return btns[btns.length - 1];
+    }
+    function lastAskType(type) {
+        var btns = $("[askbtn=" + type + "]");
         return btns[btns.length - 1];
     }
     function renderQuestion(data, json) {
@@ -209,6 +228,25 @@
             renderOption(a, json, elem.find(".optionbtn"));
         });
     }
+    function renderZuheQuestion(data, json) {
+        var elem = addQuestion.call(lastBtnType(4));
+        $$.setFormData(elem, data.Question);
+        $$.setFormData(elem, data, null, true);
+        elem.find("[name=ImageFullName]").attr("src", (data.Question.Image || {}).FullName);
+        json.data.BusExampleQuestions.filter(function (a) { return a.SortNo == data.SortNo; }).forEach(function (a) {
+            var ask = addAsk.call(lastAskType(a.Question.Type));
+            $$.setFormData(ask, a.Question);
+            $$.setFormData(ask, a, null, true);
+            if (a.Question.Type == 3) {
+                ask.find(".option .layui-inline").remove();
+            }
+            a.Question.BusQuestionOptions.forEach(function (a, i) {
+                renderOption(a, json, ask.find(".optionbtn"));
+            });
+        });
+        
+        
+    }
     function renderOption(data, json, btn) {
         var score = json.data.BusExampleOptions.find(function (a) { return a.OptionId == data.Id });
         var question = json.data.BusExampleQuestions.find(function (a) { return a.QuestionId == data.QuestionId; }).Question;
@@ -222,6 +260,18 @@
         children.each(function (i, a) {
             $(a).find("[name=SortNo]").val((i + 1) + "");
             $(a).find(".questionnumber").html((i + 1) + "");
+        });
+        form.render();
+    }
+
+    function sortQuestion2() {
+        let children = $("#questionInfo").find("[questiontype=4]");
+        children.each(function (i, a) {
+            $(this).find("[question]").each(function (i, a) {
+                $(a).find("[name=SortNo]").val($(a).closest(".layui-card-body").find("form").find("[name=SortNo]").val());
+                $(a).find("[name=SortNo2]").val((i + 1) + "");
+                $(a).find(".questionnumber2").html((i + 1) + "");
+            });
         });
         form.render();
     }
@@ -257,6 +307,9 @@
             case "3": {
                 uhtml = $("#questionTemplate3").html();
             } break;
+            case "4": {
+                uhtml = $("#questionTemplate4").html();
+            } break;
             
         }
         let elem = $(uhtml).insertAfter($(this).closest("div.layui-form-item")).after($(this).closest("div.layui-form-item").clone());
@@ -275,6 +328,7 @@
         }
         $(this).before(optionElem);
         form.render();
+        initValidateItems(optionElem.find("form"));
         return optionElem;
     }
 
@@ -353,6 +407,100 @@
         }
         sortQuestion();
     }
+    function questionAction2() {
+        var optionaction = $(this).attr("optionaction2");
+        switch (optionaction) {
+            case "2": {
+                let thisquestion = $(this).closest("[question]");
+                let thisaskbtn = thisquestion.next(".askbtn");
+                let clone = thisquestion.clone();
+                clone.find("[name=Id]").val("");
+                clone.insertAfter(thisaskbtn).after(thisaskbtn.clone());
+                clone.hide().show(300);
+            } break;
+            case "3": {
+                $(this).closest("[question]").hide(300, function () {
+                    $(this).closest("[question]").next(".askbtn").remove();
+                    $(this).closest("[question]").remove();
+                    sortQuestion2();
+                });
+
+            } break;
+            case "-1": {
+                let lastElem = $(this).closest("[question]").prevAll("[question]").eq(0);
+                if (lastElem.length <= 0) {
+                    return;
+                }
+                let askbtn = lastElem.next(".askbtn");
+                let myaskbtn = $(this).closest("[question]").next(".askbtn");
+                let myElem = $(this).closest("[question]");
+
+
+                let myPos = [myElem.offset().left, myElem.offset().top];
+                let tarPos = [lastElem.offset().left, lastElem.offset().top];
+                myElem.insertBefore(askbtn).css("visibility", "hidden");
+                lastElem.insertBefore(myaskbtn).css("visibility", "hidden");
+
+                myElem.clone().css({ "visibility": "visible", position: "absolute", width: myElem.width() + "px", height: myElem.height() + "px", left: myPos[0] + "px", top: myPos[1] + "px" }).appendTo("body").animate({ left: tarPos[0] + "px", top: tarPos[1] + "px" }, function () {
+                    myElem.css("visibility", "visible");
+                    lastElem.css("visibility", "visible");
+                    $(this).remove();
+                });
+                lastElem.clone().css({ "visibility": "visible", position: "absolute", width: lastElem.width() + "px", height: lastElem.height() + "px", left: tarPos[0] + "px", top: tarPos[1] + "px" }).appendTo("body").animate({ left: myPos[0] + "px", top: myPos[1] + "px" }, function () {
+                    $(this).remove()
+                });
+
+            } break;
+            case "1": {
+                let nextElem = $(this).closest("[question]").nextAll("[question]").eq(0);
+                if (nextElem.length <= 0) {
+                    return;
+                }
+                let askbtn = nextElem.next(".askbtn");
+                let myaskbtn = $(this).closest("[question]").next(".askbtn");
+                let myElem = $(this).closest("[question]");
+
+                let myPos = [myElem.offset().left, myElem.offset().top];
+                let tarPos = [nextElem.offset().left, nextElem.offset().top];
+                myElem.insertBefore(askbtn).css("visibility", "hidden");
+                nextElem.insertBefore(myaskbtn).css("visibility", "hidden");
+
+                myElem.clone().css({ "visibility": "visible", position: "absolute", width: myElem.width() + "px", height: myElem.height() + "px", left: myPos[0] + "px", top: myPos[1] + "px" }).appendTo("body").animate({ left: tarPos[0] + "px", top: tarPos[1] + "px" }, "linear", function () {
+                    myElem.css("visibility", "visible");
+                    nextElem.css("visibility", "visible");
+                    $(this).remove();
+                });
+                nextElem.clone().css({ "visibility": "visible", position: "absolute", width: nextElem.width() + "px", height: nextElem.height() + "px", left: tarPos[0] + "px", top: tarPos[1] + "px" }).appendTo("body").animate({ left: myPos[0] + "px", top: myPos[1] + "px" }, "linear", function () {
+                    $(this).remove()
+                });
+
+            } break;
+        }
+        sortQuestion2();
+    }
+    function addAsk() {
+        var askbtn = $(this).attr("askbtn");
+        let uhtml = "<div>";
+        switch (askbtn) {
+            case "1": {
+                uhtml = $("#askTemplate1").html();
+            } break;
+            case "2": {
+                uhtml = $("#askTemplate2").html();
+            } break;
+            case "3": {
+                uhtml = $("#askTemplate3").html();
+            } break;
+
+        }
+        let elem = $(uhtml).insertAfter($(this).closest("div.layui-form-item")).after($(this).closest("div.layui-form-item").clone());
+        initUpload(elem.find(".upbtn"), 100);
+        initValidateItems(elem.find("form"));
+        sortQuestion2();
+        elem.hide().show(300);
+        return elem;
+    }
+
     function delOption() {
         $(this).closest(".layui-inline").remove();
     }
@@ -379,6 +527,8 @@
         .on("click", ".optionbtn", addoption)
         .on("click", "button[addquestion]", addQuestion)
         .on("click", "button[optionaction]", questionAction)
+        .on("click", "button[optionaction2]", questionAction2)
+        .on("click", "button[askbtn]", addAsk)
         .on("click", "div.btndel", delOption);
     form.on("select(ClassifyId)", function (e) {
         getSubClassifies(e.value);
