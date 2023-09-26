@@ -16,5 +16,19 @@ namespace AiBi.Test.Web.Controllers
         public BusExampleBll CurBll { get; set; }
 
         public override BaseBll<BusExample, ExampleReq.Page> Bll => CurBll;
+
+        public ActionResult EditResult(int id)
+        {
+            return View();
+        }
+
+        public ActionResult GetResults(int id)
+        {
+            return Json(CurBll.GetResults(id));
+        }
+        public ActionResult SaveResults(int id,BusExample model)
+        {
+            return Json(CurBll.SaveResults(id,model));
+        }
     }
 }

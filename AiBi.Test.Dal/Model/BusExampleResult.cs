@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mail;
+using System.Web.UI.WebControls;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -26,6 +28,7 @@ namespace AiBi.Test.Dal.Model
         /// 内容
         /// </summary>
         public string NContent { get; set; }
+        public int? ImageId { get; set; }
         /// <summary>
         /// 最小分值
         /// </summary>
@@ -34,7 +37,12 @@ namespace AiBi.Test.Dal.Model
         /// 最大分值
         /// </summary>
         public int MaxScore { get; set; }
+        /// <summary>
+        /// 排序号
+        /// </summary>
+        public int SortNo { get; set; }
         public virtual BusExample Example { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
+        public SysAttachment Image { get; set; }
     }
 }

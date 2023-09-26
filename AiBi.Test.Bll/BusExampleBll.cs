@@ -50,6 +50,74 @@ namespace AiBi.Test.Bll
                 return a;
             }).ToList();
         }
+
+        public Response<BusExample, object, object, object> GetResults(int id) {
+            var res = new Response<BusExample, object, object, object>();
+            var data = GetFirstOrDefault(a => a.Include("BusExampleResults.Image").Where(b => b.Id == id));
+
+            if (data == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "无法找到相关量表";
+            }
+            data.BusExampleResults = data.BusExampleResults.OrderBy(a => a.SortNo).ToList();
+            res.data = data;
+            return res;
+        }
+        public Response<BusExample, object, object, object> SaveResults(int id,BusExample model)
+        {
+            var res = new Response<BusExample, object, object, object>();
+            var old = GetFirstOrDefault(a => a.Include("BusExampleResults.Image").Where(b => b.Id == id),false);
+            if (old==null)
+            {
+                res.code=EnumResStatus.Fail;
+                res.msg = "无法找到相关量表";
+            }
+            var addResults = model.BusExampleResults.Where(a => a.Id == 0).ToList();
+            var editResults = old.BusExampleResults.Where(a=>model.BusExampleResults.Any(b=>b.Id==a.Id)).ToList();
+            var delResults = old.BusExampleResults.Where(a=>!model.BusExampleResults.Any(b=>b.Id==a.Id)).ToList();
+            addResults.ForEach(a => {
+                SysAttachmentBll.Apply(a.ImageId??0);
+                a.Example = old;
+                a.CreateTime= DateTime.Now;
+                a.CreateUserId = CurrentUserId;
+                old.BusExampleResults.Add(a);
+            });
+            editResults.ForEach(a => {
+                var newr = model.BusExampleResults.First(b=>b.Id==a.Id);
+                if(a.ImageId!=null && a.ImageId != newr.ImageId)
+                {
+                    SysAttachmentBll.Cancel(a.Image);
+                    if (newr.ImageId != null)
+                    {
+                        SysAttachmentBll.Apply(newr.ImageId??0);
+                    }
+                }
+                if (a.DiffCopy(newr, b => new {b.ImageId,b.Title,b.NContent,b.Code,b.SortNo,b.MaxScore,b.MinScore }))
+                {
+                    a.ModifyTime = DateTime.Now;
+                    a.ModifyUserId = CurrentUserId;
+                }
+            });
+            delResults.ForEach(a => {
+                SysAttachmentBll.Cancel(a.Image);
+                Context.BusExampleResults.Remove(a);
+            });
+
+            var ret = Context.SaveChanges();
+
+            if (ret <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = ret==0?"未做任何修改":"修改失败";
+            }
+            else
+            {
+                old.BusExampleResults.ToList().ForEach(a => SysAttachmentBll.ApplyFile(a.ImageId ?? 0));
+            }
+
+            return res;
+        }
         #endregion
 
         #region 新增

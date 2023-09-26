@@ -59,6 +59,10 @@ namespace AiBi.Test.Bll
         }
         public void Cancel(int id)
         {
+            if (id <= 0)
+            {
+                return;
+            }
             Cancel(Find(false, id));
         }
         public void Cancel(SysAttachment model)
@@ -74,6 +78,10 @@ namespace AiBi.Test.Bll
         }
         public void Apply(int id)
         {
+            if (id <= 0)
+            {
+                return;
+            }
             Apply(Find(false,id));
         }
         public void Apply(SysAttachment model)
@@ -93,6 +101,10 @@ namespace AiBi.Test.Bll
         }
         public void ApplyFile(int id)
         {
+            if (id <= 0)
+            {
+                return;
+            }
             ApplyFile(Find(false,id));
         }
         public void ApplyFile(SysAttachment model)

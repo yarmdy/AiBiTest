@@ -15,6 +15,7 @@ namespace AiBi.Test.Dal.Model
             BusQuestions = new HashSet<BusQuestion>();
             SysUsers = new HashSet<SysUser>();
             BusTestTemplates = new HashSet<BusTestTemplate>();
+            BusExampleResults = new HashSet<BusExampleResult>();
         }
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<BusQuestion> BusQuestions { get; set; }
         public virtual ICollection<BusTestTemplate> BusTestTemplates { get; set; }
         public virtual ICollection<SysUser> SysUsers { get; set; }
+        public virtual ICollection<BusExampleResult> BusExampleResults { get; set; }
 
         [NotMapped]
         public string FullName => Path + FileName + Ext;

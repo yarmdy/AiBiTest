@@ -1645,9 +1645,9 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\classify\edit.js" />
     <Content Include="Scripts\classify\list.js" />
+    <Content Include="Scripts\example\editresult.js" />
     <Content Include="Scripts\example\edit.js" />
     <Content Include="Scripts\example\list.js" />
-    <Content Include="Scripts\example\list2.js" />
     <Content Include="Scripts\home\main.js" />
     <Content Include="Scripts\user\edit.js" />
     <Content Include="Scripts\user\listBak.js" />
@@ -2454,7 +2454,6 @@
     <Content Include="Views\UserInfo\List.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\List.cshtml" />
-    <Content Include="Views\Example\List2.cshtml" />
     <Content Include="Views\Home\ChangePass.cshtml" />
     <Content Include="Views\Home\PersonInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -2463,6 +2462,7 @@
     <Content Include="Views\Classify\Edit.cshtml" />
     <Content Include="Views\Example\List.cshtml" />
     <Content Include="Views\Example\Edit.cshtml" />
+    <Content Include="Views\Example\EditResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

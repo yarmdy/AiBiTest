@@ -13,7 +13,8 @@
                 setChildOptionNum();
                 var allvalid = true;
                 $("form").not("#baseInfo").each(function (i, a) {
-                    allvalid = allvalid && $(a).valid();
+                    allvalid = $(a).valid()&& allvalid ;
+                    $(a).submit();
                 });
 
                 if (!allvalid) return false;

@@ -395,6 +395,8 @@ namespace AiBi.Test.Dal.Model
                     .WithMany(p => p.BusExampleResultModifyUsers)
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
+
+                entity.HasOptional(d => d.Image).WithMany(p=>p.BusExampleResults).HasForeignKey(d => d.ImageId);
             });
 
             modelBuilder.Entity<BusQuestion>(entity =>

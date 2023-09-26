@@ -30,6 +30,9 @@
         layer.success(json.msg);
         getList();
     }
+    callback.exampleresulteditok = function (json) {
+        layer.success(json.msg);
+    }
 
     table.render({
         elem: '#table',
