@@ -1,124 +1,137 @@
-﻿@model BusTestPlan
-@{
-    
+﻿@{
+
+}
+@section styles{
+    <style>
+        .txt_r {
+            color: red
+        }
+
+        .vm {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        [combine] {
+            box-sizing: border-box;
+            padding: 10px;
+            box-shadow: 0px 0px 1px 0px black;
+            margin-bottom: 15px;
+            clear: both;
+        }
+
+            [combine]:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+        .questionnumber {
+            font-size: 16px;
+            height: 26px;
+            padding: 0 8px;
+            line-height: 26px;
+        }
+
+        .questionnumber2 {
+            font-size: 14px;
+            height: 20px;
+            padding: 0 4px;
+            line-height: 20px;
+        }
+
+        .layui-input-wrap .layui-input-prefix.btndel, .layui-input-wrap .layui-input-split.btndel, .layui-input-wrap .layui-input-suffix.btndel {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        #questionInfo .layui-form-label {
+        }
+
+        #questionInfo .layui-input-block {
+        }
+
+        .actionbtndiv {
+            border-top: 1px solid #d1d1d1;
+            padding-top: 10px;
+        }
+
+        .layui-form-item .layui-table .layui-form-checkbox[lay-skin=primary] {
+            margin-top: 0;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+
+    </script>
 }
 
-<div class="page-header d-print-none">
-    <div class="container-fluid">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <!-- Page pre-title -->
-                @*<div class="page-pretitle">
-                        Overview
-                    </div>*@
-                <h2 class="page-title">
-                    @ViewBag.Title
-                </h2>
+<!-- Page header -->
+<div class="layui-fluid" style="margin-top:10px">
+    <h4>@ViewBag.Title</h4>
+</div>
+
+<div class="layui-container" id="container">
+    <form class="layui-form" id="form">
+        <input type="hidden" name="Id" />
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="txt_r">*</span>任务名称</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="Name" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r">*</span>任务时间</label>
+                <div class="layui-input-inline  layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-date"></i>
+                    </div>
+                    <input class="layui-input" name="StartTime" style="padding-right:0" />
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-date"></i>
+                    </div>
+                    <input class="layui-input" name="EndTime" style="padding-right:0" />
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="txt_r">*</span>任务分类</label>
+            <div class="layui-input-group">
+                <input class="layui-input" name="TemplateName" readonly />
+                <input type="hidden" name="TemplateId" />
+                <div class="layui-input-suffix">
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="$$.addTab('选择任务分类','/TestTemplate/MySelect')">... 选择</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="txt_r"></span>学员</label>
+            <div class="layui-input-block">
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-xs" type="button" id="btnDeleteUser"><i class="layui-icon layui-icon-delete"></i> 删除</button>
+                    <button class="layui-btn layui-btn-xs" type="button" onclick="$$.addTab('选择学员','/UserInfo/List')"><i class="layui-icon layui-icon-more"></i> 浏览</button>
+                </div>
+                <table id="table_user"></table>
+            </div>
+        </div>
+    </form>
+    
+    <div class="layui-form-item" style="margin-top:50px">
+        <div class="layui-inline">
+            <label class="layui-form-label"><span class="txt_r"></span></label>
+            <div class="layui-input-inline">
+                <button class="layui-btn layui-btn-lg " type="button" id="btnsave">保存</button>
+                <button class="layui-btn layui-btn-lg layui-btn-primary" type="button" onclick="$$.closeThis()">取消</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-body" style="flex:1; display:flex;flex-direction:column">
-    <div class="container-fluid" style="flex:1">
-        <form class="card" id="form">
-            <div class="card-body" id="detail">
-                
-            </div>
-            <div class="card-footer text-center">
-                <button type="submit" class="btn btn-primary">保存</button>
-                <button type="button" class="btn" onclick="$$.closeThis()">取消</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script type="text/template" id="detailtemplate">
-    <input type="hidden" name="Id" value="{{Id}}" />
-    <div class="mb-3">
-        <label class="form-label">任务名称</label>
-        <input type="text" class="form-control" placeholder="输入任务名称" name="Name" value="{{Name}}">
-    </div>
-    <div class="row mb-3">
-        <div class="col-6">
-            <label class="form-label">开始时间</label>
-            <input type="text" class="form-control" name="StartTime" placeholder="开始时间" value="{{=new Date(obj.StartTime).format()}}" />
-        </div>
-        <div class="col-6">
-            <label class="form-label">结束时间</label>
-            <input type="text" class="form-control" name="EndTime" placeholder="结束时间" value="{{=new Date(obj.EndTime).format()}}" />
-        </div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">测试模板</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="TemplateName" placeholder="测试模板" readonly value="{{Template.Title}}" />
-            <button class="btn btn-pill btn-outline-info selecttemplate" type="button">选择模板</button>
-        </div>
-
-        <input type="hidden" name="TemplateId" value="{{TemplateId}}" />
-    </div>
-    <div class="mb-3">
-        <label class="row">
-            <span class="col-auto">允许中断</span>
-            <span class="col">
-                <label class="form-check form-check-single form-switch">
-                    <input class="form-check-input" type="checkbox" name="CanPause" value="true" {{=obj.CanPause?'checked':''}}>
-                </label>
-            </span>
-        </label>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">测试学员</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="Students" placeholder="测试学员"  />
-            <button class="btn btn-pill btn-outline-info selectuserinfo" type="button">选择学员</button>
-        </div>
-
-    </div>
-</script>
-
-<script type="text/template" id="emptytemplate">
-    <input type="hidden" name="Id" />
-    <div class="mb-3">
-        <label class="form-label">任务名称</label>
-        <input type="text" class="form-control" placeholder="输入任务名称" name="Name" value="">
-    </div>
-    <div class="row mb-3">
-        <div class="col-6">
-            <label class="form-label">开始时间</label>
-            <input type="text" class="form-control" name="StartTime" placeholder="开始时间" value="" />
-        </div>
-        <div class="col-6">
-            <label class="form-label">结束时间</label>
-            <input type="text" class="form-control" name="EndTime" placeholder="结束时间" value="" />
-        </div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">测试模板</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="TemplateName" placeholder="测试模板" readonly value="" />
-            <button class="btn btn-pill btn-outline-info selecttemplate" type="button">选择模板</button>
-        </div>
-
-        <input type="hidden" name="TemplateId" value="" />
-    </div>
-    <div class="mb-3">
-        <label class="row">
-            <span class="col-auto">允许中断</span>
-            <span class="col">
-                <label class="form-check form-check-single form-switch">
-                    <input class="form-check-input" type="checkbox" name="CanPause" value="true" checked>
-                </label>
-            </span>
-        </label>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">测试学员</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="Students" placeholder="测试学员" />
-            <button class="btn btn-pill btn-outline-info selectuserinfo" type="button">选择学员</button>
-        </div>
-
-    </div>
-</script>

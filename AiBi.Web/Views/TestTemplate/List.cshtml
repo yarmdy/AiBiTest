@@ -1,4 +1,7 @@
-﻿<!-- Page header -->
+﻿@{
+    ActionDescriptor action = ViewBag.ActionInfo;
+}
+<!-- Page header -->
 <div class="layout-fluid">
     <div class="layui-row" style="margin-top:10px">
         <div class="layui-col-xs6">
@@ -23,7 +26,7 @@
                         <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
                     </div>
                     <div class="layui-inline">
-                        <a href="/TestTemplate/Edit" class="layui-btn layui-btn-sm" target="addtab">
+                        <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
                             添加任务类型
                         </a>
                     </div>
@@ -34,9 +37,19 @@
 </div>
 
 <div class="layout-fluid">
-    <table id="table" ></table>
+    <table id="table"></table>
 </div>
 
 <script type="text/template" id="actionTemplate">
-    <div class="layui-inline"><a class="layui-btn layui-btn-sm" target="addtab" title="修改任务类型-{{=d.Id}}" href="/TestTemplate/Edit/{{=d.Id}}">修改</a><button class="layui-btn layui-btn-sm" lay-event="delete">删除</button></div>
+    <div class="layui-inline"><a class="layui-btn layui-btn-sm" target="addtab" title="修改任务类型-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a><button class="layui-btn layui-btn-sm" lay-event="delete">删除</button></div>
 </script>
+<script type="text/template" id="selectActionTemplate">
+    <div class="layui-inline"><button class="layui-btn layui-btn-sm" lay-event="delete">删除</button></div>
+</script>
+
+<div class="layui-card" style="position: absolute; right: 0; bottom: 0; width: 350px;margin:0;@(action.ActionName.ToLower() == "myselect"?"":"display:none")">
+    <div class="layui-card-header layui-bg-blue"><button class="layui-btn layui-btn-xs layui-bg-red" id="minsize"><i class="layui-icon layui-icon-subtraction"></i></button><button class="layui-btn layui-btn-xs layui-bg-red" id="selectok"><i class="layui-icon layui-icon-ok"></i>确认</button></div>
+    <div class="layui-card-body" style="padding:0;overflow:hidden" id="selectH">
+        <table id="select_table"></table>
+    </div>
+</div>

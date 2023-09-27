@@ -18,6 +18,7 @@
         { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:210 },
 
     ]];
+    
     callback.templateaddok = function (json) {
         layer.success(json.msg);
         getList();
@@ -47,7 +48,7 @@
         method: "post",
         
     });
-
+    
     $("#searchForm").on("submit", function () {
         getList(1);
         return false;
@@ -68,6 +69,73 @@
         switch (e.event) {
             
         }
+    });
+
+
+
+    const cols2 = [[
+        { type: 'checkbox', fixed: "left" }, // 单选框
+        { field: 'Title', title: '标题' },
+        { field: 'Action', title: '操作', fixed: "right", templet: "#selectActionTemplate", width: 80 },
+
+    ]];
+    table.render({
+        elem: '#select_table',
+        data: [],
+        cols: cols2,
+        height: "350",
+        size: "sm",
+
+    });
+    table.on("tool(select_table)", function (e) {
+        switch (e.event) {
+            case "delete": {
+                var old = table.cache.select_table.filter(a => a.Id != e.data.Id);
+                table.reloadData("select_table", { data: old });
+                getList();
+            } break;
+        }
+    });
+
+    table.on("checkbox(table)", function (e) {
+        var arr = [];
+        if (e.type == "one") {
+            arr.push(e.data);
+        } else if (e.type == "all") {
+            arr = arr.concat(table.cache.table);
+        }
+
+        var old = table.cache.select_table;
+        if (e.checked) {
+            var oldIds = old.map(function (a) { return a.Id });
+            var newArr = arr.filter(function (a) {
+                a.LAY_CHECKED = false;
+                return oldIds.indexOf(a.Id) < 0;
+            });
+            old = old.concat(newArr);
+        } else {
+            let removeIds = arr.map(function (a) { return a.Id });
+            old = old.filter(function (a) {
+                return removeIds.indexOf(a.Id) < 0;
+            });
+        }
+        table.reloadData("select_table", { data: old });
+    });
+    let selectH = $("#selectH").height();
+    $("#minsize").on("click", function () {
+        if (this.isMin) {
+            $("#selectH").animate({ height: selectH + "px" }, function () {
+                $("#selectH").css({ height: "auto" });
+            });
+            this.isMin = false;
+        } else {
+            $("#selectH").animate({ height: "0" });
+            this.isMin = true;
+        }
+    });
+    $("#selectok").on("click", function () {
+        $$.callback("templateselectok", table.cache.select_table);
+        $$.closeThis();
     });
     
 });

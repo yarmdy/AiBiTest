@@ -7,9 +7,8 @@
     var upload = layui.upload;
 
     callback.exampleselectok = function (data) {
-        console.log(data);
         var old = table.cache.table_example;
-        var newd = data.forEach(function (a) {
+        data.forEach(function (a) {
             if (old.findIndex(function (b) { return b.Id == a.Id; }) >= 0) {
                 return;
             }
