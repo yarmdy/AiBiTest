@@ -135,26 +135,32 @@ namespace AiBi.Test.Bll
         public Response Clear() {
             var res = new Response();
             DelFilterMode = EnumDeleteFilterMode.All;
+            var ret = 0;
             GetListFilter(a => a.Where(b => b.IsDel || b.Status == (int)EnumAttachmentStatus.Create), a => a.OrderBy(b => b.Id), false).ToList().ForEach(
                 a => {
                     try
                     {
+                        Context.SysAttachments.Remove(a);
+                        var ret2 = Context.SaveChanges();
+                        if ((ret2<=0))
+                        {
+                            return;
+                        }
+                        ret += ret2;
                         if (a.FullName.Contains("/UploadTmp/"))
                         {
-                            Context.SysAttachments.Remove(a);
                             return;
                         }
                         if (!File.Exists(HttpContext.Current.Server.MapPath(a.FullName)))
                         {
-                            Context.SysAttachments.Remove(a);
                             return;
                         }
+
                         File.Delete(HttpContext.Current.Server.MapPath(a.FullName));
-                        Context.SysAttachments.Remove(a);
                     }
                     catch (Exception ex)
                     {
-
+                        Context.Entry(a).State = System.Data.Entity.EntityState.Detached;
                     }
                 }
             );
@@ -168,7 +174,7 @@ namespace AiBi.Test.Bll
 
                 }
             }
-            res.data = Context.SaveChanges();
+            res.data = ret;
 
             return res;
         }

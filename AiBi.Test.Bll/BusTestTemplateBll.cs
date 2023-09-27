@@ -97,7 +97,7 @@ namespace AiBi.Test.Bll
         {
             errorMsg = "";
 
-            if (model.ImageId != null && model.ImageId!=inModel.ImageId)
+            if (model.ImageId != null && model.ImageId!=oldModel.ImageId)
             {
                 SysAttachmentBll.Apply(model.ImageId.Value);
             }

@@ -238,7 +238,7 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "ClassifyMg",
+      "Code": "TestTemplateMg",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -249,13 +249,13 @@
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5201",
       "CascadeId": ".0.5.",
       "Name": "任务管理",
-      "Url": "/TestTemplate/List",
+      "Url": "/TestPlan/List",
       "ParentId": null,
       "ParentName": "",
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "TestTemplateMg",
+      "Code": "TestPlanMg",
       "IsEnable": true,
       "IsEnableValue": "是"
     }

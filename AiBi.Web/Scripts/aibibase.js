@@ -190,7 +190,7 @@
             if (excepts && excepts.indexOf(name) >= 0) {
                 return true;
             }
-            var setval = data[name] == null ? "" : data[name]+"";
+            var setval = data[name];
             if (setval == null && notnull) {
                 return true;
             }
