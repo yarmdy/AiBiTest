@@ -64,7 +64,7 @@
 }
 @section scripts{
     <script>
-
+        var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
     </script>
 }
 
@@ -117,13 +117,13 @@
             <div class="layui-input-block">
                 <div class="layui-inline">
                     <button class="layui-btn layui-btn-xs" type="button" id="btnDeleteUser"><i class="layui-icon layui-icon-delete"></i> 删除</button>
-                    <button class="layui-btn layui-btn-xs" type="button" onclick="$$.addTab('选择学员','/UserInfo/List')"><i class="layui-icon layui-icon-more"></i> 浏览</button>
+                    <button class="layui-btn layui-btn-xs" type="button" onclick="$$.addTab('选择学员','/UserInfo/Select')"><i class="layui-icon layui-icon-more"></i> 浏览</button>
                 </div>
                 <table id="table_user"></table>
             </div>
         </div>
     </form>
-    
+
     <div class="layui-form-item" style="margin-top:50px">
         <div class="layui-inline">
             <label class="layui-form-label"><span class="txt_r"></span></label>

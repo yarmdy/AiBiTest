@@ -67,10 +67,6 @@ namespace AiBi.Test.Bll
             
             addExamples.ForEach(a => {
                 a.Template = model;
-                a.ExampleId = a.ExampleId;
-                a.SortNo = a.SortNo;
-                a.Duration = a.Duration;
-                a.CanPause = a.CanPause;
                 a.CreateTime = DateTime.Now;
                 a.CreateUserId = CurrentUserId;
             });

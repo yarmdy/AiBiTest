@@ -11,9 +11,8 @@
         $("[name=TemplateId]").val(data[0].Id);
     }
     callback.userinfoselectok = function (data) {
-        console.log(data);
         var old = table.cache.table_user;
-        var newd = data.forEach(function (a) {
+        data.forEach(function (a) {
             if (old.findIndex(function (b) { return b.UserId == a.UserId; }) >= 0) {
                 return;
             }
@@ -30,7 +29,9 @@
             submitHandler: function (form) {
 
                 var postData = $$.getFormData("#form");
-                
+                postData.BusTestPlanUsers = table.cache.table_user.map(function (a) {
+                    return { UserId : a.UserId };
+                });
                 var callbackstr;
                 var addoreditFunc = PageInfo.KeyValueStr ? (callbackstr = "testplaneditok", $$.common.edit.req) : (callbackstr = "testplanaddok", $$.common.add.req);
                 addoreditFunc(postData).then(function (json) {
@@ -78,7 +79,7 @@
             $$.setFormData("#form", json.data);
             $("[name=TemplateName]").val(json.data.Template.Title);
             table.reloadData("table_user", {
-                data: json.data.BusTestTemplateExamples.map(function (a) { return $.extend(a.Example, a),delete a.Example.Example, a.Example; })
+                data: json.data.BusTestPlanUsers.map(function (a) { return a; })
             });
             form.render();
             return json;
@@ -92,9 +93,16 @@
 
     let cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
-        { field: 'Title', title: '标题' },
-        { field: 'Duration', title: '时长(分钟)' },
-        { field: 'QuestionNum', title: '问题数' },
+        { field: 'RealName', title: '姓名' },
+        { field: 'Mobile', title: '手机号', templet: function (d) { return d.User.Mobile; } },
+        {
+            field: 'Sex', title: '性别', templet: function (d) {
+                return EnumSex[d.Sex];
+            }
+        },
+        { field: 'UnitName', title: '单位' },
+        { field: 'IdCardNo', title: '身份证号' },
+        { field: 'Birthday', title: '生日' },
         { field: 'Action', title: '操作', templet: function (d) { return '<button type="button" class="layui-btn layui-btn-xs" lay-event="delete">删除</button>'} },
     ]];
     table.render({

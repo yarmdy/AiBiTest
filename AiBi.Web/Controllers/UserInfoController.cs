@@ -16,5 +16,10 @@ namespace AiBi.Test.Web.Controllers
         public BusUserInfoBll CurBll { get; set; }
 
         public override BaseBll<BusUserInfo, UserInfoReq.Page> Bll => CurBll;
+
+        public override ActionResult Select()
+        {
+            return View("List");
+        }
     }
 }
