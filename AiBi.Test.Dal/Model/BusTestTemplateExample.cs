@@ -24,7 +24,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 可以暂停
         /// </summary>
-        public bool CanPause { get; set; }
+        public bool? CanPause { get; set; }
         public virtual BusExample Example { get; set; }
         public virtual BusTestTemplate Template { get; set; }
     }

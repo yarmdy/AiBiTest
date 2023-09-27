@@ -1410,7 +1410,6 @@ namespace AiBi.Test.Dal.Model
                     .WithMany(p => p.BusTestTemplateSubClassifies)
                     .HasForeignKey(d => d.SubClassifyId)
                     ;
-
                 
             });
             modelBuilder.Entity<BusTestTemplateExample>(entity =>
@@ -1470,9 +1469,9 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ModifyUserId)
                     ;
 
-                entity.HasRequired(d => d.Example)
+                entity.HasRequired(d => d.Template)
                     .WithMany(p => p.BusTestTemplateExamples)
-                    .HasForeignKey(d => d.ExampleId)
+                    .HasForeignKey(d => d.TemplateId)
                                         ;
             });
 

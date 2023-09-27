@@ -69,6 +69,10 @@
 em.layui-border-red{
     border:0;
 }
+
+.layui-form-switch {
+    margin-top: 2px;
+}
 /*******************************
 
 ********************************/

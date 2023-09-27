@@ -41,7 +41,7 @@
                 Duration: {
                     required: true
                 },
-                Note: {
+                NContent: {
                     required: true
                 },
                 
@@ -57,8 +57,8 @@
                 Duration: {
                     required: "请输入时长"
                 },
-                Note: {
-                    required: "请输入注意事项"
+                NContent: {
+                    required: "请输入摘要"
                 },
             }
         });

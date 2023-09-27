@@ -1,6 +1,9 @@
 ﻿layui.config({
     base: "/js/"
 }).use(['table'], async function () {
+    let seletedData = [];
+    
+    
     const table = layui.table;
     const cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
@@ -20,6 +23,12 @@
         { field: 'Keys', title: '关键字' },
         
         { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:210 },
+
+    ]];
+    const cols2 = [[
+        { type: 'checkbox', fixed: "left" }, // 单选框
+        { field: 'Title', title: '量表名称' },
+        { field: 'Action', title: '操作', fixed: "right", templet: "#selectActionTemplate" ,width:80 },
 
     ]];
     callback.exampleaddok = function (json) {
@@ -46,13 +55,26 @@
             limitName: 'size' // 每页数据条数的参数名，默认：limit
         },
         parseData: function (json) {
+            var old = table.cache.select_table;
+            var oldIds = old.map(function (a) { return a.Id });
             json.code = json.code > 0 ? 0 : json.code;
+            json.data.forEach(function (a) {
+                a.LAY_CHECKED = (oldIds.indexOf(a.Id) >= 0);
+            });
             return json;
         },
         height: "full-60",
         size: "sm",
         method: "post",
         
+    });
+    table.render({
+        elem: '#select_table',
+        data:[],
+        cols: cols2,
+        height: "350",
+        size: "sm",
+
     });
 
     $("#searchForm").on("submit", function () {
@@ -76,5 +98,54 @@
             
         }
     });
-    
+    table.on("tool(select_table)", function (e) {
+        switch (e.event) {
+            case "delete": {
+                var old = table.cache.select_table.filter(a => a.Id != e.data.Id);
+                table.reloadData("select_table", { data: old });
+                getList();
+            } break;
+        }
+    });
+    table.on("checkbox(table)", function (e) {
+        var arr = [];
+        if (e.type == "one") {
+            arr.push(e.data);
+        } else if (e.type == "all") {
+            arr = arr.concat(table.cache.table);
+        }
+
+        var old = table.cache.select_table;
+        if (e.checked) {
+            var oldIds = old.map(function (a) { return a.Id });
+            var newArr = arr.filter(function (a) {
+                a.LAY_CHECKED = false;
+                return oldIds.indexOf(a.Id) < 0;
+            });
+            old = old.concat(newArr);
+        } else {
+            let removeIds = arr.map(function (a) { return a.Id});
+            old = old.filter(function (a) {
+                return removeIds.indexOf(a.Id)<0;
+            });
+        }
+        table.reloadData("select_table", { data: old });
+    });
+    let selectH = $("#selectH").height();
+    $("#minsize").on("click", function () {
+        if (this.isMin) {
+            $("#selectH").animate({ height: selectH + "px" }, function () {
+                $("#selectH").css({ height: "auto" });
+            });
+            this.isMin = false;
+        } else {
+            $("#selectH").animate({ height: "0" });
+            this.isMin = true;
+        }
+    });
+    $("#selectok").on("click", function () {
+        $$.callback("exampleselectok", table.cache.select_table);
+        $$.closeThis();
+    });
+
 });

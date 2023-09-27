@@ -170,6 +170,7 @@ namespace AiBi.Test.Bll
         }
         public override void AddAfter(Response<BusExample, object, object, object> res, BusExample inModel)
         {
+            if (res.code != EnumResStatus.Succ) return;
             if (res.data.Image != null)
             {
                 SysAttachmentBll.ApplyFile(res.data.Image);
@@ -310,6 +311,7 @@ namespace AiBi.Test.Bll
         }
         public override void ModifyAfter(Response<BusExample, object, object, object> res, BusExample inModel, BusExample oldModel)
         {
+            if (res.code != EnumResStatus.Succ) return;
             if (res.data.Image != null)
             {
                 SysAttachmentBll.ApplyFile(res.data.Image);

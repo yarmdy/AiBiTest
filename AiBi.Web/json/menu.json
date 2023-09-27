@@ -232,7 +232,7 @@
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5200",
       "CascadeId": ".0.4.",
       "Name": "任务类型",
-      "Url": "/Classify/List",
+      "Url": "/TestTemplate/List",
       "ParentId": null,
       "ParentName": "",
       "IconName": "&#xe620;",

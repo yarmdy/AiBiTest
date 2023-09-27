@@ -1649,6 +1649,7 @@
     <Content Include="Scripts\example\edit.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
+    <Content Include="Scripts\testtemplate\list.js" />
     <Content Include="Scripts\user\edit.js" />
     <Content Include="Scripts\user\listBak.js" />
     <Content Include="Scripts\user\list.js" />
@@ -1664,7 +1665,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\testtemplate\edit.js" />
-    <Content Include="Scripts\testtemplate\list.js" />
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="Scripts\userinfo\list.js" />
@@ -2450,7 +2450,6 @@
     <Content Include="Views\TestPlanUser\Detail.cshtml" />
     <Content Include="Views\TestTemplate\Detail.cshtml" />
     <Content Include="Views\TestTemplate\Edit.cshtml" />
-    <Content Include="Views\TestTemplate\List.cshtml" />
     <Content Include="Views\UserInfo\List.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\List.cshtml" />
@@ -2463,6 +2462,7 @@
     <Content Include="Views\Example\List.cshtml" />
     <Content Include="Views\Example\Edit.cshtml" />
     <Content Include="Views\Example\EditResult.cshtml" />
+    <Content Include="Views\TestTemplate\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,5 +30,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.SaveResults(id,model));
         }
+
+        public override ActionResult Select()
+        {
+            return View("List");
+        }
     }
 }

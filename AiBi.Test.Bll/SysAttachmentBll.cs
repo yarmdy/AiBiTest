@@ -41,6 +41,7 @@ namespace AiBi.Test.Bll
 
         public override void AddAfter(Response<SysAttachment, object, object, object> res, SysAttachment inModel)
         {
+            if (res.code != EnumResStatus.Succ) return;
             var path = HttpContext.Current.Server.MapPath(res.data.Path);
             var file = HttpContext.Current.Server.MapPath(res.data.FullName);
             if (!Directory.Exists(path))

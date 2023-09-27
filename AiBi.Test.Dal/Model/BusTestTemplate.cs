@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AiBi.Test.Dal.Model
 {
@@ -7,8 +8,7 @@ namespace AiBi.Test.Dal.Model
     {
         public BusTestTemplate()
         {
-            BusTestPlanExamples = new HashSet<BusTestPlanExample>();
-            BusTestPlanUserExamples = new HashSet<BusTestPlanUserExample>();
+            BusTestTemplateExamples = new HashSet<BusTestTemplateExample>();
             BusUserTestTemplates = new HashSet<BusUserTestTemplate>();
             BusTestPlans=new HashSet<BusTestPlan>();
         }
@@ -20,7 +20,7 @@ namespace AiBi.Test.Dal.Model
         /// <summary>
         /// 分类
         /// </summary>
-        public int ClassifyId { get; set; }
+        public int? ClassifyId { get; set; }
         /// <summary>
         /// 子类
         /// </summary>
@@ -29,6 +29,15 @@ namespace AiBi.Test.Dal.Model
         /// 关键字 | 分割
         /// </summary>
         public string Keys { get; set; }
+        [NotMapped]
+        public string ShowKeys
+        {
+            get
+            {
+                var arr = (Keys + "").Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                return string.Join("|", arr);
+            }
+        }
         /// <summary>
         /// 实例数
         /// </summary>
@@ -66,12 +75,15 @@ namespace AiBi.Test.Dal.Model
         /// 0 创建中 1 创建完成 2已上架
         /// </summary>
         public int Status { get; set; }
+        /// <summary>
+        /// 可以暂停
+        /// </summary>
+        public bool CanPause { get; set; }
 
         public virtual BusClassify Classify { get; set; }
         public virtual SysAttachment Image { get; set; }
         public virtual BusClassify SubClassify { get; set; }
-        public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
-        public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
+        public virtual ICollection<BusTestTemplateExample> BusTestTemplateExamples { get; set; }
         public virtual ICollection<BusUserTestTemplate> BusUserTestTemplates { get; set; }
         public virtual ICollection<BusTestPlan> BusTestPlans { get; set; }
     }
