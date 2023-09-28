@@ -109,6 +109,7 @@
     <Compile Include="Req\RoleFuncReq.cs" />
     <Compile Include="Req\ClassifyReq.cs" />
     <Compile Include="Req\AttachmentReq.cs" />
+    <Compile Include="Req\BusUserTestTemplateReq.cs" />
     <Compile Include="Req\UserRoleReq.cs" />
     <Compile Include="Req\UserReq.cs" />
     <Compile Include="Req\PlanReq.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="BusUserInfoBll.cs" />
     <Compile Include="BusClassifyBll.cs" />
     <Compile Include="SysAttachmentBll.cs" />
+    <Compile Include="BusUserTestTemplateBll.cs" />
     <Compile Include="SysRoleBll.cs" />
     <Compile Include="SysFuncBll.cs" />
     <Compile Include="SysRoleFuncBll.cs" />

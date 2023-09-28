@@ -78,8 +78,16 @@
         return $$.common.getDetail.req().then(function (json) {
             $$.setFormData("#form", json.data);
             $("[name=TemplateName]").val(json.data.Template.Title);
+
+            var data = json.data.BusTestPlanUsers.map(function (a) {
+                var tmpUser = {};
+                $.extend(true, tmpUser, a.User);
+                tmpUser.BusUserInfoUsers = null;
+                a.User.BusUserInfoUsers[0].User = tmpUser;
+                return a.User.BusUserInfoUsers[0];
+            });
             table.reloadData("table_user", {
-                data: json.data.BusTestPlanUsers.map(function (a) { return a; })
+                data: data
             });
             form.render();
             return json;

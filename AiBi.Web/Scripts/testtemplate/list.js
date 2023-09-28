@@ -27,7 +27,14 @@
         layer.success(json.msg);
         getList();
     }
-
+    callback.templateselectok = function (data) {
+        //layer.success(data.length);
+        //getList();
+        $$.post(BaseUrl + "/AddToIt/" + PageInfo.KeyValueStr, { ids: data.map(function (a) { return a.Id }) }).then(function (json) {
+            layer.success(json.msg);
+            getList();
+        });
+    }
     table.render({
         elem: '#table',
         url: BaseUrl+ $$.common.getPageList.url, // 此处为静态模拟数据，实际使用时需换成真实接口
@@ -67,7 +74,16 @@
     
     table.on("tool(table)", function (e) {
         switch (e.event) {
-            
+            case "remove": {
+                layer.confirm("确定要移除这条任务分类吗？<br />移除后用户将无法使用", {icon:3}, function (l) {
+                    layer.close(l);
+                    $$.post(BaseUrl + "/Remove/" + PageInfo.KeyValueStr, { ids: [e.data.Id] }).then(function (json) {
+                        layer.success(json.msg);
+                        getList();
+                    });
+                })
+                
+            } break;
         }
     });
 

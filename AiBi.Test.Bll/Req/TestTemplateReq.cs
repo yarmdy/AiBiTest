@@ -12,6 +12,9 @@ namespace AiBi.Test.Bll
             public int? SubClassifyId { get; set; }
 
             public EnumExampleStatus? Status { get; set; }
+
+            public int? Id { get; set; }
+            public int? CanUseUserId { get; set; }
         }
         
     }

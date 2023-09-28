@@ -7,6 +7,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web.UI;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 
 namespace AiBi.Test.Bll
 {
@@ -15,6 +16,7 @@ namespace AiBi.Test.Bll
         public BusUserClassifyBll BusUserClassifyBll { get; set; }
         public SysAttachmentBll SysAttachmentBll { get; set; }
         public BusExampleBll BusExampleBll { get; set; }
+        public BusUserTestTemplateBll BusUserTestTemplateBll { get; set; }
         #region 重写
         public override IQueryable<BusTestTemplate> PageWhere(TestTemplateReq.Page req, IQueryable<BusTestTemplate> query)
         {
@@ -27,11 +29,20 @@ namespace AiBi.Test.Bll
             {
                 query = query.Where(a => a.SubClassifyId == req.SubClassifyId);
             }
+            if (req.Id.HasValue)
+            {
+                query = query.Where(a => a.Id == req.Id);
+            }
             var userId = CurrentUserId;
             if (req.Tag + "" == "my")
             {
                 var classIds = BusUserClassifyBll.GetListFilter(a => a.Where(b => b.UserId == userId)).Select(a => a.ClassifyId).ToArray();
-                return query.Where(a => a.BusUserTestTemplates.Any(b => b.UserId == userId) || classIds.Contains(a.ClassifyId.Value) || classIds.Contains(a.SubClassifyId.Value));
+                query = query.Where(a => a.BusUserTestTemplates.Any(b => b.UserId == userId) || classIds.Contains(a.ClassifyId.Value) || classIds.Contains(a.SubClassifyId.Value));
+            }
+            if (req.CanUseUserId.HasValue)
+            {
+                var classIds = BusUserClassifyBll.GetListFilter(a => a.Where(b => b.UserId == req.CanUseUserId)).Select(a => a.ClassifyId).ToArray();
+                query = query.Where(a => a.BusUserTestTemplates.Any(b => b.UserId == req.CanUseUserId) || classIds.Contains(a.ClassifyId.Value) || classIds.Contains(a.SubClassifyId.Value));
             }
             query = GetIncludeQuery(query, a => new { a.Image });
             return query;
@@ -144,7 +155,72 @@ namespace AiBi.Test.Bll
             req.Tag = "my";
             return base.GetPageList(req);
         }
+        public Response<List<BusTestTemplate>, object, object, object> GetItsList(TestTemplateReq.Page req)
+        {
+            req.CanUseUserId = req.CanUseUserId ?? 0;
+            return base.GetPageList(req);
+        }
 
 
+        public Response<int> AddToIt(int id, int[] ids)
+        {
+            var res=new Response<int>();
+            if(ids==null || ids.Length <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "参数错误";
+                return res;
+            }
+            var old = BusUserTestTemplateBll.GetListFilter(a=>a.Where(b=>b.UserId==id),null,false);
+            ids.ToList().ForEach(a => {
+                if (old.Any(b => b.TemplateId == a))
+                {
+                    return;
+                }
+                Context.BusUserTestTemplates.Add(new BusUserTestTemplate { UserId=id,TemplateId=a,CreateUserId=CurrentUserId,CreateTime=DateTime.Now});
+            });
+            var ret = Context.SaveChanges();
+            if (ret < 0)
+            {
+                res.code=EnumResStatus.Fail;
+                res.msg = "添加失败";
+            }else if (ret == 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "没有添加任何数据";
+            }
+            return res;
+        }
+        public Response<int> Remove(int id, int[] ids)
+        {
+            var res = new Response<int>();
+            if (ids == null || ids.Length <= 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "参数错误";
+                return res;
+            }
+            var old = BusUserTestTemplateBll.GetListFilter(a => a.Where(b => b.UserId == id), null, false);
+            ids.ToList().ForEach(a => {
+                var oldd = old.FirstOrDefault(b => b.TemplateId == a);
+                if (oldd == null)
+                {
+                    return;
+                }
+                Context.BusUserTestTemplates.Remove(oldd);
+            });
+            var ret = Context.SaveChanges();
+            if (ret < 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "移除失败";
+            }
+            else if (ret == 0)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "没有移除任何数据";
+            }
+            return res;
+        }
     }
 }

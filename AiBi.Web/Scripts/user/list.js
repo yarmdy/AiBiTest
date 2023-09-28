@@ -16,7 +16,7 @@
         { field: 'ObjectTag.UserInfo.UnitName', title: '单位', width: 150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).UnitName||""; } },
         { field: 'ObjectTag.UserInfo.IdCardNo', title: '身份证号',width:150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).IdCardNo||""; } },
         { field: 'ObjectTag.UserInfo.Birth', title: '生日', templet: function (d) { return (d.ObjectTag.UserInfo||{}).Birthday && new Date((d.ObjectTag.UserInfo||{}).Birthday).format("yyyy-MM-dd")||""; } },
-        { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:210 },
+        { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:290 },
 
     ]];
     table.render({
@@ -83,21 +83,15 @@
     function passwordUser(e) {
         var url = BaseUrl + "/ShowPassword/" + e.data.Id;
         $$.post(url, { password: e.data.Password }).then(function (json) {
-            layer.open({
-                title: "密码", area: ["300px", "200px"], content: json.data, btn: ["确定", "重置"],
-                btn1: function (e) {
-                    layer.close(e);
-                },
-                btn2: function(){
-                    layer.prompt({ title: "请输入密码", formType: 1 }, function (pwd, index) {
-                        url = BaseUrl + "/SetPassword/" + e.data.Id;
-                        $$.post(url, { password: pwd }).then(function (json) {
-                            layer.msg(json.msg);
-                            layer.close(index);
-                            e.update({ Password: json.data }, true);
-                        });
-                    });
-                }
+            layer.prompt({
+                title: "旧密码:" + json.data, area: ["300px", "200px"], formType: 1,btn:["重置","取消"]
+            }, function (pwd, index) {
+                url = BaseUrl + "/SetPassword/" + e.data.Id;
+                $$.post(url, { password: pwd }).then(function (json) {
+                    layer.msg(json.msg);
+                    layer.close(index);
+                    e.update({ Password: json.data }, true);
+                });
             });
         });
     }
