@@ -12,6 +12,7 @@ using System.Web.Mvc.Html;
 using System.ComponentModel;
 using Autofac.Features.OwnedInstances;
 using System.Linq.Expressions;
+using System.Web.Security;
 
 namespace AiBi.Test.Bll
 {
@@ -143,34 +144,30 @@ namespace AiBi.Test.Bll
                 case EnumUserType.Agent:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 2;
                     }
                     break;
                 case EnumUserType.Testor:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 3;
                     }
                     break;
                 case EnumUserType.Tested:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 4;
                     }
                     break;
                 case EnumUserType.Visitor:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 5;
                     }
                     break;
                 case EnumUserType.Admin:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 1;
                     }
                     break;
             }
+            roleId = SysRoleBll.GetRoleIdByEnum((EnumUserType)model.ObjectTag);
             model.Status = (int)EnumEnableState.Enabled;
             model.Password = Crypt.AesEncrypt(model.Password);
             var tempuserInfo = inModel.BusUserInfoUsers.FirstOrDefault() ?? new BusUserInfo { };
@@ -197,34 +194,30 @@ namespace AiBi.Test.Bll
                 case EnumUserType.Agent:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 2;
                     }
                     break;
                 case EnumUserType.Testor:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 3;
                     }
                     break;
                 case EnumUserType.Tested:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 4;
                     }
                     break;
                 case EnumUserType.Visitor:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 5;
                     }
                     break;
                 case EnumUserType.Admin:
                     {
                         model.Type = (int)model.ObjectTag;
-                        roleId = 1;
                     }
                     break;
             }
+            roleId = SysRoleBll.GetRoleIdByEnum((EnumUserType)model.ObjectTag);
             model.SysUserRoleUsers.Clear();
             model.SysUserRoleUsers.Add(new SysUserRole { User = model, RoleId = roleId, CreateUserId = CurrentUserId, CreateTime = DateTime.Now });
             Context.Entry(model).Property(a => a.Password).IsModified = false;
@@ -413,6 +406,8 @@ namespace AiBi.Test.Bll
         {
             return user?.SysUserRoleUsers?.OrderBy(a => a.RoleId)?.Select(a => a.Role.Name)?.ToArray() ?? new string[0];
         }
+
+        
         #endregion
     }
 }

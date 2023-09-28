@@ -52,6 +52,7 @@ namespace AiBi.Test.Dal.Model
         public virtual DbSet<BusTestTemplate> BusTestTemplates { get; set; }
         public virtual DbSet<BusTestTemplateExample> BusTestTemplateExamples { get; set; }
         public virtual DbSet<BusUserTestTemplate> BusUserTestTemplates { get; set; }
+        public virtual DbSet<BusUserInfo> BusUserInfos { get; set; }
 
 
 

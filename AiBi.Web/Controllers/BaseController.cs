@@ -170,6 +170,10 @@ namespace AiBi.Test.Web.Controllers
             var ids = new int?[] {id,id2 };
             PageInfo["KeyValues"] = ids.Take(st.EntitySet.ElementType.KeyProperties.Count);
             PageInfo["KeyValueStr"] = string.Join(",", ids.Take(st.EntitySet.ElementType.KeyProperties.Count).Select(a => a + ""));
+            if (ids[0] == null)
+            {
+                PageInfo["KeyValueStr"] = "";
+            }
             var idindex = 0;
             PageInfo["KeyInfos"] = st.EntitySet.ElementType.KeyProperties.Select(a => a).ToDictionary(a => a.Name, a => new { a.Name, a.TypeName, Value = ids[idindex++] });
             PageInfo["opener"] = Request.Params["opener"];

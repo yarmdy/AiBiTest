@@ -1652,6 +1652,7 @@
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="Scripts\testtemplate\list.js" />
+    <Content Include="Scripts\userinfo\edit.js" />
     <Content Include="Scripts\userinfo\list.js" />
     <Content Include="Scripts\user\edit.js" />
     <Content Include="Scripts\user\listBak.js" />
@@ -2465,6 +2466,7 @@
     <Content Include="Views\TestPlan\Edit.cshtml" />
     <Content Include="Views\TestPlan\List.cshtml" />
     <Content Include="Views\UserInfo\List.cshtml" />
+    <Content Include="Views\UserInfo\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

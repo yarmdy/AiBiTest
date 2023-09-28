@@ -1,0 +1,124 @@
+﻿@{
+    ActionDescriptor ActionInfo = ViewBag.ActionInfo;
+    Dictionary<string, object> PageInfo = ViewBag.PageInfo;
+}
+@section styles{
+    <style>
+        .card-img, .card-img-top {
+            border-top-left-radius: var(--tblr-card-inner-border-radius);
+            border-top-right-radius: var(--tblr-card-inner-border-radius);
+            height: 12rem;
+            object-fit: cover;
+        }
+        tbody, td, tfoot, th, thead, tr {
+            overflow-wrap:anywhere;
+        }
+        .txt_r{
+            color:red
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
+        var EnumStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumEnableState)).ToDictionary(a=>a.Value,a=>a.Text));
+
+    </script>
+}
+
+<!-- Page header -->
+<div class="layui-fluid" style="margin-top:10px">
+    <h4>@ViewBag.Title</h4>
+</div>
+
+<div class="layui-container">
+    <form class="layui-form" id="form">
+        <div id="userform">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r">*</span>登录名</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Account" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>手机号</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Mobile" />
+                    </div>
+                </div>
+            </div>
+            @if (string.IsNullOrEmpty(PageInfo.G<string>("KeyValueStr")))
+            {
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="txt_r">*</span>密码</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" name="Password" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div id="infoform">
+            <input type="hidden" name="UserId" />
+            <input type="hidden" name="OwnerId" />
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="RealName" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>性别</label>
+                    <div class="layui-input-inline">
+                        @foreach (var radio in EnumConvert.ToList<EnumSex>())
+                        {
+                            <input type="radio" name="Sex" value="@radio.Value" title="@radio.Text">
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>生日</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="Birthday" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>身份证号</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="IdCardNo" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="txt_r"></span>单位名称</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="UnitName" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="txt_r"></span></label>
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-primary">保存</button>
+                    <button class="layui-btn" type="button" onclick="$$.closeThis()">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

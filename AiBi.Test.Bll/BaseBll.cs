@@ -231,10 +231,6 @@ namespace AiBi.Test.Bll
             }
             else
             {
-                if (values.Any(a => a.Value == null || a.Value.Equals(0)))
-                {
-                    throw new ArgumentNullException($"model.{string.Join(",",values.Keys)}");
-                }
                 var tmp = Find(false, values.Select(a => a.Value).ToArray());
                 if (tmp != null)
                 {

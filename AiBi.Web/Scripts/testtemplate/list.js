@@ -47,7 +47,12 @@
             limitName: 'size' // 每页数据条数的参数名，默认：limit
         },
         parseData: function (json) {
+            var old = table.cache.select_table;
+            var oldIds = old.map(function (a) { return a.Id });
             json.code = json.code > 0 ? 0 : json.code;
+            json.data.forEach(function (a) {
+                a.LAY_CHECKED = (oldIds.indexOf(a.Id) >= 0);
+            });
             return json;
         },
         height: "full-60",

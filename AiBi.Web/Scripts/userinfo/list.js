@@ -6,10 +6,10 @@
         { type: 'checkbox', fixed: "left" }, // 单选框
         { field: 'RealName', title: '姓名' },
         { field: 'Account', title: '账号', templet:function(d) { return d.User.Account; } },
-        { field: 'Mobile', title: '手机号', templet: function (d) { return d.User.Mobile; } },
+        { field: 'Mobile', title: '手机号', templet: function (d) { return d.User.Mobile||""; } },
         {
             field: 'Sex', title: '性别', templet: function (d) {
-                return EnumSex[d.Sex];
+                return EnumSex[d.Sex]||"";
             }
         },
         { field: 'UnitName', title: '单位' },
@@ -40,7 +40,12 @@
             limitName: 'size' // 每页数据条数的参数名，默认：limit
         },
         parseData: function (json) {
+            var old = table.cache.select_table;
+            var oldIds = old.map(function (a) { return a.UserId });
             json.code = json.code > 0 ? 0 : json.code;
+            json.data.forEach(function (a) {
+                a.LAY_CHECKED = (oldIds.indexOf(a.UserId) >= 0);
+            });
             return json;
         },
         height: "full-60",
@@ -90,7 +95,7 @@
     table.on("tool(select_table)", function (e) {
         switch (e.event) {
             case "delete": {
-                var old = table.cache.select_table.filter(a => a.Id != e.data.Id);
+                var old = table.cache.select_table.filter(a => a.UserId != e.data.UserId);
                 table.reloadData("select_table", { data: old });
                 getList();
             } break;
@@ -107,16 +112,16 @@
 
         var old = table.cache.select_table;
         if (e.checked) {
-            var oldIds = old.map(function (a) { return a.Id });
+            var oldIds = old.map(function (a) { return a.UserId });
             var newArr = arr.filter(function (a) {
                 a.LAY_CHECKED = false;
-                return oldIds.indexOf(a.Id) < 0;
+                return oldIds.indexOf(a.UserId) < 0;
             });
             old = old.concat(newArr);
         } else {
-            let removeIds = arr.map(function (a) { return a.Id });
+            let removeIds = arr.map(function (a) { return a.UserId });
             old = old.filter(function (a) {
-                return removeIds.indexOf(a.Id) < 0;
+                return removeIds.indexOf(a.UserId) < 0;
             });
         }
         table.reloadData("select_table", { data: old });

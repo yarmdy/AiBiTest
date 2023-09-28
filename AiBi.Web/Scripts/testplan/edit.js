@@ -121,9 +121,13 @@
         size:"sm"
     });
     table.on("tool(table_user)", function (e) {
-        table.reloadData("table_user", {
-            data: table.cache.table_user.filter(function (a) { return a.Id != e.data.Id })
-        });
+        switch (e.event) {
+            case "delete": {
+                table.reloadData("table_user", {
+                    data: table.cache.table_user.filter(function (a) { return a.UserId != e.data.UserId })
+                });
+            } break;
+        }
     });
     $("#btnDeleteUser").on("click", function () {
         table.reloadData("table_user", {
