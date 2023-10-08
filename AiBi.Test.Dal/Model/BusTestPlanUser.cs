@@ -46,6 +46,10 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public DateTime? EndTime { get; set; }
         /// <summary>
+        /// 得分 | 分割
+        /// </summary>
+        public string Score { get; set; }
+        /// <summary>
         /// 结果代码 | 分割
         /// </summary>
         public string ResultCode { get; set; }

@@ -21,6 +21,8 @@ namespace AiBi.Test.Bll
         public int CurrentUserId => SysUserBll.GetCookie()?.Id ?? 0;
         public string CurrentUserName => SysUserBll.GetCookie()?.Name;
         public string CurrentAccount => SysUserBll.GetCookie()?.Account;
+
+        public object Tag { get; set; }
         #endregion
         #region 依赖
         /// <summary>

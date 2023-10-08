@@ -10,6 +10,7 @@ namespace AiBi.Test.Dal.Model
             BusTestPlanExamples = new HashSet<BusTestPlanExample>();
             BusTestPlanUserExamples = new HashSet<BusTestPlanUserExample>();
             BusTestPlanUsers = new HashSet<BusTestPlanUser>();
+            BusTestPlanUserOptions = new HashSet<BusTestPlanUserOption>();
         }
 
         /// <summary>
@@ -52,5 +53,7 @@ namespace AiBi.Test.Dal.Model
         public virtual ICollection<BusTestPlanExample> BusTestPlanExamples { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
         public virtual ICollection<BusTestPlanUser> BusTestPlanUsers { get; set; }
+
+        public virtual ICollection<BusTestPlanUserOption> BusTestPlanUserOptions { get; set; }
     }
 }

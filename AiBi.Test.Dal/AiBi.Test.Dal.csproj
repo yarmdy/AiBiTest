@@ -75,6 +75,7 @@
     <Compile Include="Model\BusUserExample.cs" />
     <Compile Include="Model\IdEntity.cs" />
     <Compile Include="Model\SysAttachment.cs" />
+    <Compile Include="Model\BusTestPlanUserOption.cs" />
     <Compile Include="Model\SysFunc.cs" />
     <Compile Include="Model\SysRole.cs" />
     <Compile Include="Model\SysRoleFunc.cs" />

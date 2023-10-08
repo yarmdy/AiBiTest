@@ -3,6 +3,7 @@
 }).use(['form', 'ztree', 'element', 'table'], async function () {
     const table = layui.table;
     const form = layui.form;
+    const laydate = layui.laydate;
 
     var upload = layui.upload;
 
@@ -97,7 +98,14 @@
     $("#btnsave").on("click", function () {
         $("#form").submit();
     });
-    
+
+    laydate.render({
+        elem: '#laydaterange',
+        range: ['[name=StartTime]', '[name=EndTime]'],
+        rangeLinked: true, // 开启日期范围选择时的区间联动标注模式 ---  2.8+ 新增
+        type: "datetime",
+        fullPanel:true
+    });
 
     let cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框

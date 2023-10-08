@@ -54,6 +54,8 @@ namespace AiBi.Test.Dal.Model
         public virtual DbSet<BusUserTestTemplate> BusUserTestTemplates { get; set; }
         public virtual DbSet<BusUserInfo> BusUserInfos { get; set; }
 
+        public virtual DbSet<BusTestPlanUserOption> BusTestPlanUserOptions { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -1603,6 +1605,68 @@ namespace AiBi.Test.Dal.Model
                 entity.HasRequired(d => d.Owner).WithMany(p => p.BusUserInfoOwners).HasForeignKey(d => d.OwnerId);
             });
 
+            modelBuilder.Entity<BusTestPlanUserOption>(entity => {
+                entity.HasKey(e => new { e.PlanId, e.UserId,e.ExampleId,e.QuestionId,e.OptionId });
+
+                entity.ToTable("bus_TestPlan_User_Option");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusTestPlanUserOptionCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasOptional(d => d.DelUser)
+                    .WithMany(p => p.BusTestPlanUserOptionDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+                entity.HasOptional(d => d.ModifyUser)
+                    .WithMany(p => p.BusTestPlanUserOptionModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasRequired(d => d.BusTestPlan)
+                    .WithMany(p => p.BusTestPlanUserOptions)
+                    .HasForeignKey(d => d.PlanId)
+                                        ;
+                entity.HasRequired(d => d.User)
+                    .WithMany(p => p.BusTestPlanUserOptionUsers)
+                    .HasForeignKey(d => d.UserId)
+                                        ;
+                entity.HasRequired(d => d.Example)
+                    .WithMany(p => p.BusTestPlanUserOptions)
+                    .HasForeignKey(d => d.ExampleId)
+                                        ;
+                entity.HasRequired(d => d.Question)
+                    .WithMany(p => p.BusTestPlanUserOptions)
+                    .HasForeignKey(d => d.QuestionId)
+                                        ;
+                entity.HasRequired(d => d.Option)
+                    .WithMany(p => p.BusTestPlanUserOptions)
+                    .HasForeignKey(d => d.OptionId)
+                                        ;
+            });
         }
 
     }

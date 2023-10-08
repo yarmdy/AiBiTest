@@ -8,6 +8,8 @@ namespace AiBi.Test.Dal.Model
         public BusQuestionOption()
         {
             BusExampleOptions = new HashSet<BusExampleOption>();
+
+            BusTestPlanUserOptions = new HashSet<BusTestPlanUserOption>();
         }
 
         /// <summary>
@@ -28,5 +30,7 @@ namespace AiBi.Test.Dal.Model
         public string Remark { get; set; }
         public virtual BusQuestion Question { get; set; }
         public virtual ICollection<BusExampleOption> BusExampleOptions { get; set; }
+
+        public virtual ICollection<BusTestPlanUserOption> BusTestPlanUserOptions { get; set; }
     }
 }

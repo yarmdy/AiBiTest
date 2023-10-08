@@ -23,6 +23,12 @@
         .layui-nav-more{
             display:none!important;
         }
+        .layui-tab-item{
+            top:51px;
+        }
+        .layui-tab .layui-tab-title li{
+            height:40px;
+        }
     </style>
 </head>
 <body class="main_body">
@@ -68,10 +74,10 @@
             </div>
         </div>
         <!-- 右侧内容 -->
-        <div class="layui-body layui-form">
-            <div class="layui-tab layui-tab-card marg0" lay-filter="bodyTab" id="top_tabs_box">
+        <div class="layui-body layui-form" style="background:#f1f1f1">
+            <div class="layui-tab layui-tab-card marg0" lay-filter="bodyTab" id="top_tabs_box" style="background:white">
                 <ul class="layui-tab-title top_tab" id="top_tabs">
-                    <li class="layui-this" lay-id=""><i class="layui-icon layui-icon-home"></i> <cite>后台首页</cite></li>
+                    <li class="layui-this" lay-id="0"><i class="layui-icon layui-icon-home"></i> <cite>首页</cite><i data-id="0"></i></li>
                 </ul>
                 <ul class="layui-nav closeBox">
                     <li class="layui-nav-item">
@@ -85,7 +91,7 @@
                 </ul>
                 <div class="layui-tab-content clildFrame">
                     <div class="layui-tab-item layui-show">
-                        @*<iframe src="/Home/Main"></iframe>*@
+                        <iframe src="/Home/Main?title=我的测试任务" data-id="0"></iframe>
                     </div>
                 </div>
             </div>

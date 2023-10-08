@@ -16,5 +16,31 @@ namespace AiBi.Test.Web.Controllers
         public BusTestPlanBll CurBll { get; set; }
 
         public override BaseBll<BusTestPlan,PlanReq.Page> Bll => CurBll;
+
+        public ActionResult GetMyList(PlanReq.Page req)
+        {
+            return Json(CurBll.GetMyList(req));
+        }
+        public ActionResult Test(int id) {
+            return View();
+        }
+        public ActionResult GetTest(int id)
+        {
+            return Json(CurBll.GetTest(id));
+        }
+
+        public ActionResult Answer(int id,List<BusTestPlanUserOption> list)
+        {
+            return Json(CurBll.Answer(id,list));
+        }
+
+        public ActionResult StartAnswer(int id)
+        {
+            return Json(CurBll.StartAnswer(id));
+        }
+        public ActionResult EndAnswer(int id)
+        {
+            return Json(CurBll.EndAnswer(id));
+        }
     }
 }

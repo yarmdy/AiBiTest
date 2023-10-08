@@ -34,6 +34,10 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public int Duration { get; set; }
         /// <summary>
+        /// 得分
+        /// </summary>
+        public int Score { get; set; }
+        /// <summary>
         /// 结果代码
         /// </summary>
         public string ResultCode { get; set; }

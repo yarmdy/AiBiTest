@@ -69,8 +69,8 @@
 }
 
 <!-- Page header -->
-<div class="layui-fluid" style="margin-top:10px">
-    <h4>@ViewBag.Title</h4>
+<div class="layui-fluid" style="margin-top:0px">
+    @*<h4>@ViewBag.Title</h4>*@
 </div>
 
 <div class="layui-container" id="container">
@@ -153,7 +153,7 @@
     <div class="layui-form-item" style="margin-top:50px">
         <div class="layui-inline">
             <label class="layui-form-label"><span class="txt_r"></span></label>
-            <div class="layui-input-inline">
+            <div class="layui-footer">
                 <button class="layui-btn layui-btn-lg " type="button" id="btnsave">保存</button>
                 <button class="layui-btn layui-btn-lg layui-btn-primary" type="button" onclick="$$.closeThis()">取消</button>
             </div>

@@ -2,6 +2,7 @@
     ActionDescriptor action = ViewBag.ActionInfo;
     AiBi.Test.Dal.Model.SysUser CurrentUser = ViewBag.CurrentUser;
     Dictionary<string, object> PageInfo = ViewBag.PageInfo;
+    var noCard = ViewBag.NoCard ?? false;
 }
 <!doctype html>
 <!--
@@ -39,7 +40,22 @@
     @RenderSection("styles", false)
 </head>
 <body>
-    @RenderBody()
+    @if (noCard)
+    {
+        @RenderBody()
+    }
+    else
+    {
+        <div class="layui-fluid" style="">
+            <div class="layui-card">
+                <div class="layui-card-header">@ViewBag.Title</div>
+                <div class="layui-card-body">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    }
+
     <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/jquery.validate.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
