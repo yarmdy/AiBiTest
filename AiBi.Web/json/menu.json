@@ -175,6 +175,39 @@
               "Id": "b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a"
             }
           ],
+          "Id": "37bb9414-19a0-4223-9056-71f8c758a930",
+          "CascadeId": ".0.2.6.",
+          "Name": "我的会员",
+          "Url": "/UserInfo/List",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "我的会员",
+          "IconName": "&#xe610;",
+          "Checked": false,
+          "SortNo": 3,
+          "Code": "FlowInstanceDisposed",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnDetail",
+              "Name": "查看详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 0,
+              "ModuleId": "37bb9414-19a0-4223-9056-71f8c758a930",
+              "TypeName": "",
+              "TypeId": "",
+              "Id": "b3e23ebc-0ff2-41b3-bff0-fd5e93f6828a"
+            }
+          ],
           "Id": "37bb9414-19a0-4223-9056-71f8c758a931",
           "CascadeId": ".0.2.7.",
           "Name": "访客管理",
