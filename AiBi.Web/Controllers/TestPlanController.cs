@@ -38,6 +38,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.StartAnswer(id));
         }
+        public ActionResult PauseAnswer(int id)
+        {
+            return Json(CurBll.PauseAnswer(id));
+        }
         public ActionResult EndAnswer(int id)
         {
             return Json(CurBll.EndAnswer(id));

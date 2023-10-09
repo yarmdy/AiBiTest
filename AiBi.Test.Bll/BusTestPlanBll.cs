@@ -152,6 +152,27 @@ namespace AiBi.Test.Bll
                 res.msg = "您已经答完了";
                 return res;
             }
+            if (planUser.Status != (int)EnumPlanUserStatus.Answer)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "非法操作";
+                return res;
+            }
+            if (plan.CanPause)
+            {
+                planUser.Duration = planUser.Duration + (int)(DateTime.Now - planUser.ModifyTime.Value).TotalSeconds;
+            }else if (!plan.CanPause)
+            {
+                planUser.Duration = (int)(DateTime.Now - planUser.BeginTime.Value).TotalSeconds;
+            }
+            if (planUser.Duration >= plan.Template.Duration*60)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "已超时，无法继续测试";
+                planUser.Status = (int)EnumPlanUserStatus.Finish;
+                Context.SaveChanges();
+                return res;
+            }
             var optionDic = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleOptions).ToDictionary(a=>a.OptionId);
             var myExam = plan.BusTestPlanUserExamples.Where(a=>a.UserId==CurrentUserId).ToList();
             var questions = plan.Template.BusTestTemplateExamples.OrderBy(a=>a.SortNo).SelectMany(a => a.Example.BusExampleQuestions.OrderBy(b=>b.SortNo).ThenBy(b=>b.SortNo2)).ToList();
@@ -172,7 +193,7 @@ namespace AiBi.Test.Bll
             
             planUser.CurrentExample = list.LastOrDefault()?.ExampleId?? planUser.CurrentExample;
             planUser.CurrentQuestion = list.LastOrDefault()?.QuestionId?? planUser.CurrentQuestion;
-            planUser.Duration = planUser.Duration + (int)(DateTime.Now-planUser.ModifyTime.Value).TotalSeconds;
+            
             if(planUser.CurrentExample!=null && planUser.CurrentQuestion != null)
             {
                 planUser.FinishQuestion = questions.FindIndex(a=>a.QuestionId==planUser.CurrentQuestion)+1;
@@ -245,9 +266,62 @@ namespace AiBi.Test.Bll
                 res.msg = "您已经答完了";
                 return res;
             }
-            planUser.BeginTime = DateTime.Now;
+            if (planUser.BeginTime == null)
+            {
+                planUser.BeginTime = DateTime.Now;
+            }
+            if (!plan.CanPause)
+            {
+                planUser.Duration = (int)(DateTime.Now - planUser.BeginTime.Value).TotalSeconds;
+            }
+
+
             planUser.ModifyTime = DateTime.Now;
             planUser.ModifyUserId= CurrentUserId;
+            planUser.Status = (int)EnumPlanUserStatus.Answer;
+
+            if (planUser.Duration >= plan.Template.Duration*60)
+            {
+                planUser.Status = (int)EnumPlanUserStatus.Finish;
+                res.code= EnumResStatus.Fail;
+                res.msg = "您已超时，无法继续测试";
+            }
+            Context.SaveChanges();
+            res.data = planUser.Duration;
+            return res;
+        }
+        public Response<int, object, object, object> PauseAnswer(int id)
+        {
+            var res = new Response<int, object, object, object>();
+            var plan = Find(false, id);
+            if (plan == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "未找到测试任务";
+                return res;
+            }
+            var planUser = plan.BusTestPlanUsers.FirstOrDefault(a => a.UserId == CurrentUserId);
+            if (planUser == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您无法参加此次测试";
+                return res;
+            }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经答完了";
+                return res;
+            }
+            if (!plan.CanPause)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "本场测试不允许中途离开，关闭后计时仍然会继续";
+                return res;
+            }
+            planUser.ModifyTime = DateTime.Now;
+            planUser.ModifyUserId = CurrentUserId;
+            planUser.Status = (int)EnumPlanUserStatus.Leave;
             Context.SaveChanges();
             res.data = planUser.Duration;
             return res;

@@ -21,6 +21,7 @@
             top:20px;
             right:20px;
             color:red;
+            pointer-events:none;
         }
         .flash{
             animation:flashmovie 0.3s ease 1 normal;
@@ -40,7 +41,8 @@
 <div class="layui-fluid" id="page">
     
 </div>
-<div class="duration"></div>
+<div class="duration" id="durationdiv"></div>
+<div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>
 
 <script type="text/template" id="noteTemplate">
     <h2 style="box-sizing:border-box;padding:50px;text-align:center">{{=d.Name}}</h2>

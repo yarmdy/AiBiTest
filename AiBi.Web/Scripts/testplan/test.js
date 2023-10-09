@@ -10,29 +10,35 @@
     let curQuestion = null;
 
     let startTime;
+    let timer;
 
     function startTimer() {
         startTime = new Date();
-        setInterval(function () {
+        timer = setInterval(function () {
             let curTime = new Date();
+            if (curTime.getSeconds() == 0) {
+                $$.post("/TestPlan/Answer/" + PageInfo.KeyValueStr, {},true).then(function (json) {
+                    plan.BusTestPlanUsers[0].Duration = json.data;
+                    startTime = new Date();
+                });
+            }
             var total = plan.Template.Duration * 60 - plan.BusTestPlanUsers[0].Duration;
             total = (total - (curTime - startTime) / 1000) * 1000;
             var newDate = new Date(total);
             newDate.setHours(newDate.getHours()-8);
-            $(".duration").removeClass("flash").hval(newDate.format("HH:mm:ss"));
-            setTimeout(function () {
-                $(".duration").addClass("flash")
-            }, 0);
+            $("#durationdiv").removeClass("flash").hval(newDate.format("HH:mm:ss"));
+            //setTimeout(function () {
+            //    $("#durationdiv").addClass("flash")
+            //}, 0);
         }, 1000);
     }
-    function init() {
-        $$.get(BaseUrl + "/GetTest/" + PageInfo.KeyValueStr).then(function (json) {
-            const html = laytpl($("#noteTemplate").html()).render(json.data);
-            $("#page").html(html);
-            plan = json.data;
-            carousel.render({
-                elem: '.layui-carousel'
-            });
+    async function init() {
+        var json = await $$.get(BaseUrl + "/GetTest/" + PageInfo.KeyValueStr);
+        const html = laytpl($("#noteTemplate").html()).render(json.data);
+        $("#page").html(html);
+        plan = json.data;
+        carousel.render({
+            elem: '.layui-carousel'
         });
         
     }
@@ -53,6 +59,7 @@
                 layer.success("完成测试", {shade:0.5}, function () {
                     $$.closeThis();
                 });
+                clearInterval(timer);
             });
             
             return;
@@ -105,18 +112,25 @@
             currentQuestion = plan.Questions.find(function (a) { return a.ExampleId == currentExample; }).QuestionId;
             next = false;
         }
-        if (next) {
-            nextQuestion(currentExample, currentQuestion);
-        } else {
-            toQuestion(currentExample, currentQuestion);
-        }
-        startTimer();
+        
 
         $$.post("/TestPlan/StartAnswer/" + PageInfo.KeyValueStr, {}).fail(function (json) {
             layer.error("开始失败："+json.msg, {}, function () {
                 $$.closeThis();
             });
-            
+
+        }).then(function (json) {
+            plan.BusTestPlanUsers[0].Duration = json.data;
+            startTime = new Date();
+            if (next) {
+                nextQuestion(currentExample, currentQuestion);
+            } else {
+                toQuestion(currentExample, currentQuestion);
+            }
+            startTimer();
+            if (plan.CanPause) {
+                $("#pausediv").show();
+            }
         });
     }
 
@@ -161,13 +175,17 @@
             });
         }
         var json = await $$.post("/TestPlan/Answer/" + PageInfo.KeyValueStr, options);
-        if (json.code > 0) {
-            plan.BusTestPlanUsers[0].Duration = json.data;
-            return true;
-        }
-        return false;
+        plan.BusTestPlanUsers[0].Duration = json.data;
+        startTime = new Date();
+        return true;
     }
     async function option(e) {
+        if (!$(e.elem).is("[multiple]")) {
+            $("input[name=" + $(e.elem).attr("name") + "]").prop("checked", false);
+            $(e.elem).prop("checked", true);
+            form.render();
+        }
+
         if (curQuestion.Question.Type == 2 || curQuestion.isMultiple) {
             return;
         }
@@ -182,13 +200,22 @@
         }
     }
 
+    async function pause() {
+        var json = await $$.post("/TestPlan/Pause/" + PageInfo.KeyValueStr, {});
+        clearInterval(timer);
+        layer.success("暂停成功", {}, function () {
+            $$this.closeThis();
+        });
+    }
+
     util.on("layon", {
         start: start,
         image: image,
         confirm: confirm,
+        pause:pause
     });
     form.on("checkbox", function (e) {
         option.call(this, e);
     })
-    init();
+    await init();
 });

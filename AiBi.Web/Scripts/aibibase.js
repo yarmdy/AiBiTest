@@ -1,7 +1,7 @@
 ﻿const obj = {
     //#region 基础功能
     loadingType:2,//0: 关闭 1: layer自带load 2: loadEx(2) 
-    ajax: function (type, url, data, success, dataType) {
+    ajax: function (type, url, data, success, dataType, silent) {
         if (typeof data === "function") {
             dataType = dataType || success;
             success = data;
@@ -15,6 +15,7 @@
             data: sendData,
             type: type,
             beforeSend: function () {
+                if (silent) return;
                 //loadlayer = layer.load(0,{shade:0.3});
                 layer.closeAll("loading");
                 //loadlayer = layer.loadEx();
@@ -25,6 +26,7 @@
                 }
             },
             complete: function () {
+                if (silent) return;
                 layer.close(loadlayer);
             },
             success: success,
@@ -218,9 +220,9 @@
         });
     },
     //#endregion
-    request: function (type, url, data) {
+    request: function (type, url, data, silent) {
         var def = $.Deferred();
-        obj.ajax(type, url, data).then(function (json) {
+        obj.ajax(type, url, data, null, null, silent).then(function (json) {
             if (json.code >= 0) {
 
                 def.resolve(json);
@@ -233,11 +235,11 @@
         });
         return def.promise();
     },
-    post: function (url, data) {
-        return this.request("POST", url, data);
+    post: function (url, data, silent) {
+        return this.request("POST", url, data, silent);
     },
-    get: function (url, data) {
-        return this.request("GET", url, data);
+    get: function (url, data, silent) {
+        return this.request("GET", url, data, silent);
     },
     common: {
         getPageList: {
