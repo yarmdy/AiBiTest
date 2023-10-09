@@ -34,9 +34,17 @@
 </div>
 
 <div class="layui-fluid">
-    <table id="table"></table>
+    <table id="table" ></table>
 </div>
 
 <script type="text/template" id="actionTemplate">
-    <div class="layui-inline"><a class="layui-btn layui-btn-sm starttest" target="addtab" title="开始测试" href="/TestPlan/Test/{{=d.Id}}">开始测试</a></div>
+    <div class="layui-inline"><a target="addtab" class="layui-btn layui-btn-sm" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Report/{{=d.Id}}" title="查看详情-{{=d.Id}}">查看详情</a></div>
 </script>
+
+<script type="text/template" id="progressTemplate">
+    <div class="layui-progress layui-progress-big" lay-showpercent="true">
+        {{# let finish=d.BusTestPlanUsers.sum(function(i,a){return a.Status==4?1:0;});let all = d.BusTestPlanUsers.length;}}
+        <div class="layui-progress-bar" lay-percent="{{finish}} / {{all}}"></div>
+    </div>
+</script>
+

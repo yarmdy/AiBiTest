@@ -1,0 +1,66 @@
+﻿@{ 
+    ViewBag.NoCard = true;
+}
+@section scripts{
+    <script src="~/Scripts/echarts.min.js?@MvcApplication.Version"></script>
+}
+@section styles{
+    <style>
+        html, body{
+            height: 100%;
+            overflow: hidden;
+        }
+        .bfzb{
+            height:100%;
+        }
+        .layui-card{
+            margin:0 5px;
+        }
+        .layui-row{
+            margin:5px 0;
+        }
+    </style>
+}
+<div class="layui-fluid" style="height: 100%; display: flex; flex-flow: column nowrap">
+    <div class="layui-row" style="flex:1">
+        <div class="layui-col-md6 bfzb" style="display: flex; flex-flow: column nowrap">
+            <div class="layui-row" style="flex:1">
+                <div class="layui-card bfzb" style="display:flex; flex-flow:column nowrap">
+                    <div class="layui-card-header">测试完成情况排名</div>
+                    <div class="layui-card-body bfzb">
+                        <div id="tiaoChart" class="bfzb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row" style="flex:1">
+                <div class="layui-card bfzb" style="display:flex; flex-flow:column nowrap">
+                    <div class="layui-card-header">答题情况汇总</div>
+                    <div class="layui-card-body bfzb">
+                        <div id="bingChart" class="bfzb"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6 bfzb" style="display: flex; flex-flow: column nowrap">
+            <div class="layui-row" style="flex:1">
+                <div class="layui-card bfzb" style="display:flex; flex-flow:column nowrap">
+                    <div class="layui-card-header">学员明细</div>
+                    <div class="layui-card-body bfzb">
+                        <table id="table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="actionTemplate">
+    <div class="layui-inline"><a target="addtab" class="layui-btn layui-btn-xs" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/UserReport/{{=d.UserId}}" title="报告-{{=d.Id}}">报告</a></div>
+</script>
+
+<script type="text/template" id="progressTemplate">
+    <div class="layui-progress layui-progress-big" lay-showpercent="true">
+        {{# let finish=d.FinishQuestion;let all = plan.QuestionNum;}}
+        <div class="layui-progress-bar" lay-percent="{{finish}} / {{all}}"></div>
+    </div>
+</script>

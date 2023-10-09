@@ -1645,11 +1645,14 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\classify\edit.js" />
     <Content Include="Scripts\classify\list.js" />
+    <Content Include="Scripts\echarts.min.js" />
     <Content Include="Scripts\example\editresult.js" />
     <Content Include="Scripts\example\edit.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
     <Content Include="Scripts\testplan\edit.js" />
+    <Content Include="Scripts\testplan\report.js" />
+    <Content Include="Scripts\testplan\reportlist.js" />
     <Content Include="Scripts\testplan\test.js" />
     <Content Include="Scripts\testplan\list.js" />
     <Content Include="Scripts\testtemplate\list.js" />
@@ -2469,6 +2472,8 @@
     <Content Include="Views\UserInfo\List.cshtml" />
     <Content Include="Views\UserInfo\Edit.cshtml" />
     <Content Include="Views\TestPlan\Test.cshtml" />
+    <Content Include="Views\TestPlan\ReportList.cshtml" />
+    <Content Include="Views\TestPlan\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

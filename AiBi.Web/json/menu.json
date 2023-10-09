@@ -299,7 +299,7 @@
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5202",
       "CascadeId": ".0.6.",
       "Name": "测评报告",
-      "Url": " /TestPlan/List",
+      "Url": " /TestPlan/ReportList",
       "ParentId": null,
       "ParentName": "",
       "IconName": "&#xe620;",

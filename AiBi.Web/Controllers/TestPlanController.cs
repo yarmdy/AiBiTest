@@ -28,7 +28,22 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.GetTest(id));
         }
-
+        public ActionResult ReportList()
+        {
+            return View();
+        }
+        public ActionResult GetReports(PlanReq.Page req)
+        {
+            return Json(CurBll.GetReports(req));
+        }
+        public ActionResult Report(int id)
+        {
+            return View();
+        }
+        public ActionResult GetReport(int id)
+        {
+            return Json(CurBll.GetReport(id));
+        }
         public ActionResult Answer(int id,List<BusTestPlanUserOption> list)
         {
             return Json(CurBll.Answer(id,list));

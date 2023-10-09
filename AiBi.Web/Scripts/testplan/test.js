@@ -24,6 +24,16 @@
             }
             var total = plan.Template.Duration * 60 - plan.BusTestPlanUsers[0].Duration;
             total = (total - (curTime - startTime) / 1000) * 1000;
+            if (total <= 0) {
+                clearInterval(timer);
+                $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
+                    layer.success("时间到", { shade: 0.5 }, function () {
+                        $$.closeThis();
+                    });
+                });
+
+                return;
+            }
             var newDate = new Date(total);
             newDate.setHours(newDate.getHours()-8);
             $("#durationdiv").removeClass("flash").hval(newDate.format("HH:mm:ss"));
@@ -217,5 +227,18 @@
     form.on("checkbox", function (e) {
         option.call(this, e);
     })
-    await init();
+    //$(document).on("click", function () {
+    //    if (window.fullScreen) return;
+
+    //    window.fullScreen = true;
+
+    //    $$.fullScreen();
+    //});
+    top.$(".layui-layout-admin").eq(0).addClass("showMenu");
+    //if (top.$(window.frameElement).parent()[0].tagName != "BODY") {
+    //    top.$(window.frameElement).appendTo("body").css({ position: "fixed", top: 0, left: 0, zIndex: 999999 }).animate({width:"100%",height:"100%"});
+    //    return;
+    //}
+    
+    init();
 });

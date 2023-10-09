@@ -16,10 +16,16 @@ namespace AiBi.Test.Bll
         public BusTestTemplateBll BusTestTemplateBll { get; set; }
         public override IQueryable<BusTestPlan> PageWhere(PlanReq.Page req, IQueryable<BusTestPlan> query)
         {
-            query = GetIncludeQuery(query, a => new { a.Template,a.CreateUser});
+            query = GetIncludeQuery(query, a => new { a.Template, a.CreateUser });
+            if (req.Tag + "" == "report")
+            {
+                query = query.Include("BusTestPlanUsers");
+            }
+            
             if(req.Tag+""=="my")
             {
-                query = query.Where(a=>a.BusTestPlanUsers.Any(b=>b.UserId==CurrentUserId));
+                var now = DateTime.Now;
+                query = query.Where(a=>a.BusTestPlanUsers.Any(b=>b.UserId==CurrentUserId) && a.StartTime<= now && a.EndTime>= now);
             }
             return base.PageWhere(req, query);
         }
@@ -33,6 +39,14 @@ namespace AiBi.Test.Bll
             {
                 res.data.LoadChild(a => new { a.Template.Image ,Image2 = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.Select(c=>c.Question.Image)).ToList(),options = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.SelectMany(c=>c.Question.BusQuestionOptions)).ToList()});
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.Where(a => a.UserId == CurrentUserId).ToList();
+            }
+            else if (Tag + "" == "report")
+            {
+                res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example), Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == res.data.CreateUserId).FirstOrDefault()).ToList() });
+                res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.OrderBy(a => a.EndTime ?? DateTime.Parse("2099-12-31")).ThenBy(a => a.FinishQuestion).ToList();
+                var ids = res.data.BusTestPlanUsers.Select(a => a.UserId).ToArray();
+                var userinfos = Context.BusUserInfos.Where(a=>ids.Contains(a.UserId) && a.OwnerId==CurrentUserId).ToList();
+                res.data.BusTestPlanUsers.ToList().ForEach(a => a.User.BusUserInfoUsers = new List<BusUserInfo> { userinfos.FirstOrDefault(b => b.UserId == a.UserId) });
             }
             else
             {
@@ -118,7 +132,16 @@ namespace AiBi.Test.Bll
             req.Tag = "my";
             return GetPageList(req);
         }
-
+        public Response<List<BusTestPlan>, object, object, object> GetReports(PlanReq.Page req)
+        {
+            req.Tag = "report";
+            return GetPageList(req);
+        }
+        public Response<BusTestPlan, object, object, object> GetReport(int id)
+        {
+            Tag = "report";
+            return GetDetail(id, null);
+        }
         public Response<BusTestPlan, object, object, object> GetTest(int id)
         {
             Tag = "test";
@@ -190,7 +213,12 @@ namespace AiBi.Test.Bll
                     a.CreateTime = DateTime.Now;
                     plan.BusTestPlanUserOptions.Add(a);
                 });
-            
+            var newOptions = oldOptions
+                .Where(a => !list.Any(b => a.ExampleId == b.ExampleId && a.QuestionId == b.QuestionId))
+                .ToList();
+            newOptions.AddRange(list.Where(a => !oldOptions.Any(b => a.ExampleId == b.ExampleId && a.QuestionId == b.QuestionId && a.OptionId == b.OptionId))
+                .ToList());
+
             planUser.CurrentExample = list.LastOrDefault()?.ExampleId?? planUser.CurrentExample;
             planUser.CurrentQuestion = list.LastOrDefault()?.QuestionId?? planUser.CurrentQuestion;
             
@@ -233,7 +261,7 @@ namespace AiBi.Test.Bll
                 if (exam.CurrentQuestion != null && planUser.CurrentExample!=null) {
                     exam.FinishQuestion = questionsDic.G(planUser.CurrentExample.Value).FindIndex(a=>a.QuestionId== planUser.CurrentQuestion)+1;
                 } 
-                exam.Score += list.Sum(a=>optionDic.G(a.OptionId)?.Score??0);
+                exam.Score = newOptions.Sum(a=>optionDic.G(a.OptionId)?.Score??0);
                 
             }
             planUser.Score = string.Join("|", myExam.OrderBy(a=>a.BeginTime).Select(a => a.Score));
@@ -353,6 +381,20 @@ namespace AiBi.Test.Bll
             planUser.Status = (int)EnumPlanUserStatus.Finish;
             planUser.ModifyTime = DateTime.Now;
             planUser.ModifyUserId = CurrentUserId;
+
+            var myExam = plan.BusTestPlanUserExamples.Where(a => a.UserId == CurrentUserId).OrderBy(a=>a.BeginTime).ToList();
+            var resultDic = myExam.SelectMany(a => a.Example.BusExampleResults).GroupBy(a=>a.ExampleId).ToDictionary(a => a.Key,a=>a.ToList());
+            
+            myExam.ForEach(a => {
+                a.Result = resultDic.G(a.ExampleId)?.OrderBy(b=>b.SortNo)?.FirstOrDefault(b => {
+                    return a.Score >= b.MinScore && a.Score <= b.MaxScore;
+                });
+                a.ResultCode = a.Result?.Code;
+                a.ModifyTime = DateTime.Now;
+                a.ModifyUserId = CurrentUserId;
+            });
+            planUser.ResultCode = string.Join("|",myExam.Select(a=>a.ResultCode));
+
             Context.SaveChanges();
             return res;
         }

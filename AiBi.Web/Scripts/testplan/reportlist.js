@@ -14,18 +14,20 @@
         },
         {
             field: 'CanPause', title: '可中断', templet: function (d) {
-                return d.CanPause ? "可以" : "不可以"
-            }, width: 90
+                return d.CanPause?"可以":"不可以"
+            },width:90
         },
         {
             field: 'Duration', title: '时长(分钟)', templet: function (d) {
                 return d.Template.Duration
             }, width: 90
         },
-        /*{ field: 'ExampleNum', title: '量表数量', width: 90 },*/
+        { field: 'ExampleNum', title: '量表数量', width: 90 },
         { field: 'QuestionNum', title: '问题数', width: 90 },
-        /*{ field: 'UserNum', title: '学员数', width: 90 },*/
-        { field: 'Action', title: '操作', fixed: "right", templet: "#actionTemplate", width: 150 },
+        {
+            field: 'UserNum', title: '完成进度', width: 150, templet: "#progressTemplate"
+        },
+        { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:90 },
 
     ]];
     callback.testplanaddok = function (json) {
@@ -39,7 +41,7 @@
 
     table.render({
         elem: '#table',
-        url: "/TestPlan/GetMyList", // 此处为静态模拟数据，实际使用时需换成真实接口
+        url: BaseUrl + "/GetReports", // 此处为静态模拟数据，实际使用时需换成真实接口
         cols: cols,
         page: true,
         limits: [10, 50, 1000],
@@ -52,10 +54,13 @@
             json.code = json.code > 0 ? 0 : json.code;
             return json;
         },
+        done: function (res, curr, count, origin) {
+            layui.element.render('progress')
+        },
         height: "full-125",
         size: "sm",
         method: "post",
-
+        
     });
 
     $("#searchForm").on("submit", function () {
@@ -63,7 +68,7 @@
         return false;
     });
 
-    function getList(page, size) {
+    function getList(page,size) {
         var postdata = $$.getFormData("#searchForm");
         table.reloadData("table", {
             where: postdata,
@@ -73,19 +78,11 @@
             } : {}
         });
     }
-
+    
     table.on("tool(table)", function (e) {
         switch (e.event) {
-
+            
         }
     });
-    //$(document).off("click.addtab", "a[target=addtab]").on("click", ".starttest", function (e) {
-    //    e.preventDefault();
-    //    layer.open({
-    //        content: $(this).attr("href"),
-    //        type: 2,
-    //        area: ["100%", "100%"],
-    //        title:null
-    //    });
-    //})
+    
 });

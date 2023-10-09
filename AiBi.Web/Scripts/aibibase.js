@@ -390,6 +390,18 @@
                 });
             }
         })
+    },
+    fullScreen: function () {
+        let element = document.documentElement;
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {   // 兼容火狐
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {    // 兼容谷歌
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {   // 兼容IE
+            element.msRequestFullscreen();
+        }
     }
 }
 
