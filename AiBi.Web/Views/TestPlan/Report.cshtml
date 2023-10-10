@@ -55,7 +55,8 @@
 </div>
 
 <script type="text/template" id="actionTemplate">
-    <div class="layui-inline"><a target="addtab" class="layui-btn layui-btn-xs" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/UserReport/{{=d.UserId}}" title="报告-{{=d.Id}}">报告</a></div>
+    {{# let name = d.User.BusUserInfoUsers[0].RealName || d.User.Name; }}
+    <div class="layui-inline"><a target="addtab" class="layui-btn layui-btn-xs" href="/TestPlanUser/Detail/{{d.PlanId}},{{=d.UserId}}" title="{{name}}的测评报告">报告</a></div>
 </script>
 
 <script type="text/template" id="progressTemplate">

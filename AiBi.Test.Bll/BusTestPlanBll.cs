@@ -35,7 +35,8 @@ namespace AiBi.Test.Bll
         }
         public override void DetailAfter(int id, int? id2, Response<BusTestPlan, object, object, object> res)
         {
-            if(Tag+""== "test")
+            var uid = res.data.CreateUserId;
+            if (Tag+""== "test")
             {
                 res.data.LoadChild(a => new { a.Template.Image ,Image2 = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.Select(c=>c.Question.Image)).ToList(),options = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.SelectMany(c=>c.Question.BusQuestionOptions)).ToList()});
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.Where(a => a.UserId == CurrentUserId).ToList();
@@ -45,7 +46,8 @@ namespace AiBi.Test.Bll
                 res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example), Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == res.data.CreateUserId).FirstOrDefault()).ToList() });
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.OrderBy(a => a.EndTime ?? DateTime.Parse("2099-12-31")).ThenBy(a => a.FinishQuestion).ToList();
                 var ids = res.data.BusTestPlanUsers.Select(a => a.UserId).ToArray();
-                var userinfos = Context.BusUserInfos.Where(a=>ids.Contains(a.UserId) && a.OwnerId==CurrentUserId).ToList();
+                
+                var userinfos = Context.BusUserInfos.Where(a=>ids.Contains(a.UserId) && a.OwnerId== uid).ToList();
                 res.data.BusTestPlanUsers.ToList().ForEach(a => a.User.BusUserInfoUsers = new List<BusUserInfo> { userinfos.FirstOrDefault(b => b.UserId == a.UserId) });
             }
             else

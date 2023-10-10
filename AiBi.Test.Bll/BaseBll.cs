@@ -709,6 +709,10 @@ namespace AiBi.Test.Bll
                     var memExpr = (last as MemberExpression);
                     path = "." + memExpr.Member.Name + path;
                     exprList.Add(memExpr.Expression);
+                }else if (last is MethodCallExpression)
+                {
+                    var methodCallExpr = (last as MethodCallExpression);
+                    exprList.Add(methodCallExpr.Arguments[0]);
                 }
                 else
                 {

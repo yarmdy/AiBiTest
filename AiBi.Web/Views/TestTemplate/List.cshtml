@@ -69,7 +69,7 @@
         @if (action.ActionName.ToLower() == "list")
         {
             <a class="layui-btn layui-btn-sm" target="addtab" title="修改任务类型-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a>
-            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+            <button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button>
         }
         @if (action.ActionName.ToLower().StartsWith("my"))
         {
@@ -82,7 +82,7 @@
     </div>
 </script>
 <script type="text/template" id="selectActionTemplate">
-    <div class="layui-inline"><button class="layui-btn layui-btn-sm" lay-event="delete">删除</button></div>
+    <div class="layui-inline"><button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button></div>
 </script>
 
 <div class="layui-card" style="position: absolute; right: 0; bottom: 0; width: 350px;margin:0;@(action.ActionName.ToLower() == "myselect"||action.ActionName.ToLower() == "select"?"":"display:none")">

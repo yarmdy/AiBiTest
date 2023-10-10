@@ -1650,6 +1650,7 @@
     <Content Include="Scripts\example\edit.js" />
     <Content Include="Scripts\example\list.js" />
     <Content Include="Scripts\home\main.js" />
+    <Content Include="Scripts\testplanuser\detail.js" />
     <Content Include="Scripts\testplan\edit.js" />
     <Content Include="Scripts\testplan\report.js" />
     <Content Include="Scripts\testplan\reportlist.js" />
