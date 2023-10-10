@@ -102,7 +102,7 @@
                     <b>测试结果</b>
                 </div>
                 <div class="layui-card-body">
-                    {{# if(d.Plan.BusTestPlanUserExamples.length<=0){ }}
+                    {{# if(d.Plan.BusTestPlanUserExamples.filter(function(a){return a.ResultCode!=null;}).length<=0){ }}
                     <div style="padding:50px;color:#888;text-align:center">暂无结果</div>
                     {{# } }}
                     {{# layui.each(d.Plan.BusTestPlanUserExamples,function(i,a){ }}
