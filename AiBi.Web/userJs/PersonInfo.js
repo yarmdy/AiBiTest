@@ -3,7 +3,7 @@ var personInfoLayerIndex;
 
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'jquery', 'openauth', 'utils'], function() {
+}).use(['form',  'ztree', 'layer', 'jquery', 'openauth', 'utils'], function() {
     var layer = layui.layer,
         $ = layui.jquery;
 

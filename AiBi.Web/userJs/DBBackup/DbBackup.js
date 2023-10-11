@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'laydate', 'vue', 'layer', 'jquery', 'table', 'openauth', 'utils'], function() {
+}).use(['form', 'laydate',  'layer', 'jquery', 'table', 'openauth', 'utils'], function() {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery;

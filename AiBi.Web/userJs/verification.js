@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'slimscroll', 'jquery', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form',  'ztree', 'layer', 'utils', 'element', 'slimscroll', 'jquery', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
 		layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;

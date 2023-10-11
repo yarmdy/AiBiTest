@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'jquery', 'table', 'droptree', 'openauth', 'element'], function () {
+}).use(['form',  'ztree', 'layer', 'utils', 'jquery', 'table', 'droptree', 'openauth', 'element'], function () {
     var form = layui.form,
         element = layui.element,
 		layer =  layui.layer ,

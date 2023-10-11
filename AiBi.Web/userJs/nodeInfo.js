@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'element', 'jquery', 'utils'], function () {
+}).use(['form',  'ztree', 'layer', 'element', 'jquery', 'utils'], function () {
     var layer = layui.layer,
         $ = layui.jquery;
     var form = layui.form;

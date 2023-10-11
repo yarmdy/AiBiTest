@@ -41,11 +41,10 @@
             </text>
         }
     </style>
-    <script>
-    </script>
+    
 </head>
 <body class="main_body">
-    <div class="layui-layout layui-layout-admin">
+    <div class="layui-layout layui-layout-admin showMenu">
         <!-- 顶部 -->
         <div class="layui-header header">
             <div class="layui-main">
@@ -77,7 +76,7 @@
         </div>
         <!-- 左侧导航 -->
         <div class="layui-side layui-bg-black">
-            
+
             <div class="navBar layui-side-scroll"></div>
             <div class="" style="text-align:center">
                 <div class="footer-tool">
@@ -108,9 +107,17 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
+    <script>
+        @if(funcCodes.Length>0)
+        {
+            <text>
+        document.querySelector(".showMenu").classList.remove("showMenu");
+            </text>
+        }
+    </script>
     <!-- 移动导航 -->
     <div class="site-tree-mobile layui-hide"><i class="layui-icon">&#xe602;</i></div>
     <div class="site-mobile-shade"></div>
@@ -130,10 +137,10 @@
             url = $$.toOpenUrl(url, name);
             tab.addTab(name, url);
             return;
-            
+
         }
         function findTab(name) {
-            var tab, page,layid;
+            var tab, page, layid;
             if (typeof name == "string") {
                 name = name == null ? null : $.trim(name);
                 layid = window.tab.getLayId(name);

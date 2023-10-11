@@ -1,7 +1,7 @@
 ﻿/// <reference path="flowInstanceOp.js" />
 layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
+}).use(['form',  'ztree', 'layer', 'utils', 'element', 'jquery', 'table', 'droptree', 'openauth', 'flow/gooflow', 'flowlayout'], function () {
     var form = layui.form, element = layui.element,
         layer = layui.layer,
         $ = layui.jquery;

@@ -1,6 +1,6 @@
 layui.config({
     base: "/js/"
-}).use(['form','vue', 'ztree', 'layer', 'jquery','utils','table'], function () {
+}).use(['form', 'ztree', 'layer', 'jquery','utils','table'], function () {
     var layer = (top == undefined || top.layer === undefined )? layui.layer : top.layer,
         $ = layui.jquery;
     var table = layui.table;

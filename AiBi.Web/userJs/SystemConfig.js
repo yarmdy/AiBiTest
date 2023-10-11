@@ -1,6 +1,6 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['form', 'vue', 'upload', 'layer', 'jquery'], function() {
+}).use(['form',  'upload', 'layer', 'jquery'], function() {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.jquery,
