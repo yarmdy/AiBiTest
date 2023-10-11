@@ -22,13 +22,45 @@
     <!-- CSS files -->
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="../../css/login.css" media="all" />
+    <style>
+        
+        @@keyframes moveright {
+            from {
+                background-position-x: -500px;
+            }
+
+            to {
+                background-position-x: 2000px;
+            }
+        }
+        @@keyframes moveleft {
+            from {
+                background-position-x: 2000px;
+            }
+
+            to {
+                background-position-x: -2000px;
+            }
+        }
+        .cloudright {
+            animation: moveright 10s linear infinite normal;
+        }
+        .cloudrightafter {
+            animation: moveright 6s linear infinite normal;
+            animation-delay: 2s
+        }
+        .cloudleft {
+            animation: moveleft 20s linear infinite normal;
+        }
+        
+    </style>
 
 </head>
-<body class="main" style="background-position: -280.8px 0px;">
+<body class="main cloudleft" style="background-position: -280.8px 0px;">
 
     <div id="mainBody">
-        <div id="cloud1" class="cloud" style="background-position: 891.1px 100px;"></div>
-        <div id="cloud2" class="cloud" style="background-position: 401px 460px;"></div>
+        <div id="cloud1" class="cloud cloudright" style="background-position: 891.1px 100px;"></div>
+        <div id="cloud2" class="cloud cloudrightafter" style="background-position: 401px 460px;"></div>
     </div>
 
     <div class="logintop">
