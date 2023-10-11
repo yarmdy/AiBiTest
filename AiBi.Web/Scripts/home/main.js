@@ -2,16 +2,17 @@
     base: "/js/"
 }).use(['table'], async function () {
     const table = layui.table;
+    const element = layui.element;
     const cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
         { field: 'Name', title: '任务名称' },
         { field: 'StartTime', title: '开始时间', width: 150 },
         { field: 'EndTime', title: '结束时间', width: 150 },
-        {
-            field: 'Template', title: '任务类型', templet: function (d) {
-                return d.Template.Title;
-            }
-        },
+        //{
+        //    field: 'Template', title: '任务类型', templet: function (d) {
+        //        return d.Template.Title;
+        //    }
+        //},
         {
             field: 'CanPause', title: '可中断', templet: function (d) {
                 return d.CanPause ? "可以" : "不可以"
@@ -23,7 +24,14 @@
             }, width: 90
         },
         /*{ field: 'ExampleNum', title: '量表数量', width: 90 },*/
-        { field: 'QuestionNum', title: '问题数', width: 90 },
+        {
+            field: 'QuestionNum', title: '问题数', width: 150, templet: "#progressTemplate"
+        },
+        {
+            field: 'Status', title: '状态', width: 90 ,templet: function (d) {
+                return EnumPlanUserStatus[d.BusTestPlanUsers[0].Status];
+            }
+        },
         /*{ field: 'UserNum', title: '学员数', width: 90 },*/
         { field: 'Action', title: '操作', fixed: "right", templet: "#actionTemplate", width: 150 },
 
@@ -55,7 +63,9 @@
         height: "full-125",
         size: "sm",
         method: "post",
-
+        done: function () {
+            element.render("progress");
+        }
     });
 
     $("#searchForm").on("submit", function () {

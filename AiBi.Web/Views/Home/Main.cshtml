@@ -1,4 +1,9 @@
-﻿<!-- Page header -->
+﻿@section scripts{
+    <script>
+        var EnumPlanUserStatus = @JsonHelper.ToJson(EnumConvert.ToList<EnumPlanUserStatus>().ToDictionary(a => a.Value, a => a.Text));
+    </script>
+}
+<!-- Page header -->
 <div class="layui-fluid">
     <div class="layui-row" style="margin-top:0px">
         <div class="layui-col-xs6">
@@ -38,5 +43,15 @@
 </div>
 
 <script type="text/template" id="actionTemplate">
-    <div class="layui-inline"><a class="layui-btn layui-btn-sm starttest" target="addtab" title="开始测试" href="/TestPlan/Test/{{=d.Id}}">开始测试</a></div>
+    <div class="layui-inline">
+        {{# if(d.BusTestPlanUsers[0].Status!=4){ }}
+        <a class="layui-btn layui-btn-sm starttest " target="addtab" title="开始测试" href="/TestPlan/Test/{{=d.Id}}">开始测试</a>
+        {{# } }}
+    </div>
+</script>
+
+<script type="text/template" id="progressTemplate">
+    <div class="layui-progress layui-progress-big" lay-showpercent="true">
+        <div class="layui-progress-bar" lay-percent="{{d.BusTestPlanUsers[0].FinishQuestion}} / {{d.QuestionNum}}"></div>
+    </div>
 </script>

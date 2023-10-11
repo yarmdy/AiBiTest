@@ -190,7 +190,7 @@ namespace AiBi.Test.Dal.Enum
         /// <summary>
         /// 创建
         /// </summary>
-        [Display(Name = "创建")]
+        [Display(Name = "新建")]
         Create = 0,
         /// <summary>
         ///进入系统

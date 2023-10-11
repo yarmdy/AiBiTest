@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 using System.Web.Mvc;
+using System.Web;
 
 namespace AiBi.Test.Bll
 {
@@ -39,7 +40,15 @@ namespace AiBi.Test.Bll
         }
         public override void PageAfter(PlanReq.Page req, Response<List<BusTestPlan>, object, object, object> res)
         {
-            res.data.ForEach(a=>a.LoadChild(b=>new { CreateUserName = b.CreateUser.Name}));
+            var planUserBll = AutofacExt.GetService<BusTestPlanUserBll>();
+            if (req.Tag + "" == "my")
+            {
+                var planIds = res.data.Select(a => a.Id).ToArray();
+                var planUserDic = planUserBll.GetListFilter(a => a.Where(b => planIds.Contains(b.PlanId) && b.UserId == CurrentUserId)).GroupBy(a=>a.PlanId).ToDictionary(a=>a.Key,a=>a.ToList());
+                res.data.ForEach(a => {
+                    a.BusTestPlanUsers = planUserDic.G(a.Id,new List<BusTestPlanUser>());
+                });
+            }
         }
         public override void DetailAfter(int id, int? id2, Response<BusTestPlan, object, object, object> res)
         {
