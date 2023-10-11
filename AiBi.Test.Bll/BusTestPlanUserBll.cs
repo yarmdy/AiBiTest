@@ -19,7 +19,7 @@ namespace AiBi.Test.Bll
                 UserInfo = a.User.BusUserInfoUsers.ToList(),
             });
             
-            res.data.User.BusUserInfoUsers = res.data.User.BusUserInfoUsers.Where(a=>a.OwnerId==id2).ToList();
+            
             Context.Configuration.LazyLoadingEnabled = false;
             var plan = BusTestPlanBll.GetFirstOrDefault(a => {
                 
@@ -35,7 +35,7 @@ namespace AiBi.Test.Bll
             plan.BusTestPlanUserExamples = plan.BusTestPlanUserExamples.Where(b => b.UserId == id2).OrderBy(a=>a.BeginTime).ToList();
             plan.Template.BusTestTemplateExamples = plan.Template.BusTestTemplateExamples.OrderBy(a=>a.SortNo).ToList();
             plan.Template.BusTestTemplateExamples.ToList().ForEach(a => a.Example.BusExampleQuestions = a.Example.BusExampleQuestions.OrderBy(b => b.SortNo).ThenBy(b => b.SortNo2).ToList());
-            
+            res.data.User.BusUserInfoUsers = res.data.User.BusUserInfoUsers.Where(a => a.OwnerId == plan.CreateUserId).ToList();
             res.data.Plan = plan;
             Context.Configuration.LazyLoadingEnabled = true;
         }

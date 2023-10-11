@@ -1,4 +1,12 @@
-﻿<!-- Page header -->
+﻿
+@section scripts{
+    <script>
+        if (ActionInfo.Action.toLowerCase() == "ownlist") {
+            $$.common.getPageList.url = "/GetOwnList";
+        }
+    </script>
+    }
+<!-- Page header -->
 <div class="layui-fluid">
     <div class="layui-row" style="margin-top:0px">
         <div class="layui-col-xs6">

@@ -1,4 +1,14 @@
-﻿<!-- Page header -->
+﻿@section scripts{
+    <script>
+        if (ActionInfo.Action.toLowerCase() == "reportlist") {
+            $$.common.getPageList.url = "/GetReports";
+        }
+        if (ActionInfo.Action.toLowerCase() == "ownreportlist") {
+            $$.common.getPageList.url = "/GetOwnReports";
+        }
+    </script>
+}
+<!-- Page header -->
 <div class="layui-fluid">
     <div class="layui-row" style="margin-top:0px">
         <div class="layui-col-xs6">
@@ -24,8 +34,8 @@
                     </div>
                     <div class="layui-inline">
                         @*<a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
-                            添加任务
-                        </a>*@
+                                添加任务
+                            </a>*@
                     </div>
                 </div>
             </div>
@@ -34,7 +44,7 @@
 </div>
 
 <div class="layui-fluid">
-    <table id="table" ></table>
+    <table id="table"></table>
 </div>
 
 <script type="text/template" id="actionTemplate">

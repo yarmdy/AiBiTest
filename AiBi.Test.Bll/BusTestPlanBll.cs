@@ -21,7 +21,15 @@ namespace AiBi.Test.Bll
             {
                 query = query.Include("BusTestPlanUsers");
             }
-            
+            if(req.Tag+""== "ownreport")
+            {
+                query = query.Include("BusTestPlanUsers");
+                query = query.Where(a => a.CreateUserId == CurrentUserId);
+            }
+            if (req.Tag + "" == "own")
+            {
+                query = query.Where(a=>a.CreateUserId==CurrentUserId);
+            }
             if(req.Tag+""=="my")
             {
                 var now = DateTime.Now;
@@ -43,7 +51,7 @@ namespace AiBi.Test.Bll
             }
             else if (Tag + "" == "report")
             {
-                res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example), Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == res.data.CreateUserId).FirstOrDefault()).ToList() });
+                res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example), Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == uid).FirstOrDefault()).ToList() });
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.OrderBy(a => a.EndTime ?? DateTime.Parse("2099-12-31")).ThenBy(a => a.FinishQuestion).ToList();
                 var ids = res.data.BusTestPlanUsers.Select(a => a.UserId).ToArray();
                 
@@ -52,7 +60,7 @@ namespace AiBi.Test.Bll
             }
             else
             {
-                res.data.LoadChild(a => new { a.Template.Image, Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == res.data.CreateUserId).FirstOrDefault()).ToList() });
+                res.data.LoadChild(a => new { a.Template.Image, Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == uid).FirstOrDefault()).ToList() });
             }
             
         }
@@ -63,7 +71,7 @@ namespace AiBi.Test.Bll
         public override bool AddValidate(out string errorMsg, BusTestPlan model)
         {
             errorMsg = "";
-            var temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page {Id=model.Id }).data.FirstOrDefault();
+            var temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page {Id=model.TemplateId }).data.FirstOrDefault();
             if (temp == null)
             {
                 errorMsg = "未找到任务分类";
@@ -139,6 +147,18 @@ namespace AiBi.Test.Bll
             req.Tag = "report";
             return GetPageList(req);
         }
+
+        public Response<List<BusTestPlan>, object, object, object> GetOwnList(PlanReq.Page req)
+        {
+            req.Tag = "own";
+            return GetPageList(req);
+        }
+        public Response<List<BusTestPlan>, object, object, object> GetOwnReports(PlanReq.Page req)
+        {
+            req.Tag = "ownreport";
+            return GetPageList(req);
+        }
+
         public Response<BusTestPlan, object, object, object> GetReport(int id)
         {
             Tag = "report";

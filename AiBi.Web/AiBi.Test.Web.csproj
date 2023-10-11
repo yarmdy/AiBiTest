@@ -156,7 +156,6 @@
     <Compile Include="js\ueditor\net\App_Code\NotSupportedHandler.cs" />
     <Compile Include="js\ueditor\net\App_Code\PathFormater.cs" />
     <Compile Include="js\ueditor\net\App_Code\UploadHandler.cs" />
-    <Compile Include="js\umeditor\net\Uploader.cs" />
     <Compile Include="Models\EmptyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

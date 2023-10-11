@@ -289,16 +289,16 @@ layui.config({
                 else {
                     if (hasChildren &&
                         data[i].Item.Id == $("input#hidLeftParentId").val()) {
-                        ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
+                        ulHtml += '<li class="layui-nav-item layui-nav-itemed" func="' + data[i].Item.Code +'">';
                     }
                     else if (!hasChildren &&
                         hasUrl &&
                         $.trim(data[i].Item.Url) != "/" &&
                         data[i].Item.Id == $("input#hidLeftModuleId").val()) {
-                        ulHtml += '<li class="layui-nav-item layui-this">';
+                        ulHtml += '<li class="layui-nav-item layui-this" func="' + data[i].Item.Code +'">';
                     }
                     else {
-                        ulHtml += '<li class="layui-nav-item">';
+                        ulHtml += '<li class="layui-nav-item" func="' + data[i].Item.Code +'">';
                     }
                 }
 
@@ -321,10 +321,10 @@ layui.config({
                             }
 
                             if (data[i].Children[j].Item.Id == $("input#hidLeftModuleId").val()) {
-                                ulHtml += '<dd class="layui-this">';
+                                ulHtml += '<dd class="layui-this" func="' + data[i].Children[j].Item.Code +'">';
                             }
                             else {
-                                ulHtml += '<dd>';
+                                ulHtml += '<dd func="' + data[i].Children[j].Item.Code +'">';
                             }
 
                             hasChildren = data[i].Children[j].Children != undefined &&

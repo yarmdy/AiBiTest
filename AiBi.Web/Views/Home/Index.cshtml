@@ -1,6 +1,8 @@
 ﻿@{
     Layout = null;
     var CurrentUser = (SysUser)ViewBag.CurrentUser;
+
+    var funcCodes = CurrentUser.ObjectTag.GetPropertyValue<List<SysFunc>>("Funcs").Select(a => a.Code).ToArray();
 }
 
 <!DOCTYPE html>
@@ -29,7 +31,18 @@
         .layui-tab .layui-tab-title li{
             height:40px;
         }
+        [func]{
+            display:none!important
+        }
+        @if(funcCodes.Length>0)
+        {
+            <text>
+            @Html.Raw(string.Join(",",funcCodes.Select(a=>$"[func={a}]"))){display: inherit!important;}
+            </text>
+        }
     </style>
+    <script>
+    </script>
 </head>
 <body class="main_body">
     <div class="layui-layout layui-layout-admin">
@@ -69,7 +82,6 @@
             <div class="" style="text-align:center">
                 <div class="footer-tool">
                     v@(MvcApplication.Version)&nbsp;&nbsp;Copyright ©<br>爱拜尔（北京）科技有限公司
-                    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js?id=JgaIVF1ZZ1sU9lWv&amp;ck=JgaIVF1ZZ1sU9lWv&amp;autoTrack=true&amp;hashMode=true"></script>
                 </div>
             </div>
         </div>

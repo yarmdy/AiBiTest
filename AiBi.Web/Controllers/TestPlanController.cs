@@ -61,5 +61,21 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.EndAnswer(id));
         }
+
+        public ActionResult OwnList() {
+            return View("List");
+        }
+        public ActionResult OwnReportList()
+        {
+            return View("ReportList");
+        }
+        public ActionResult GetOwnList(PlanReq.Page req)
+        {
+            return Json(CurBll.GetOwnList(req));
+        }
+        public ActionResult GetOwnReports(PlanReq.Page req)
+        {
+            return Json(CurBll.GetOwnReports(req));
+        }
     }
 }

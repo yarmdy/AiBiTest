@@ -3,6 +3,7 @@
 }).use(['form', 'ztree', 'element', 'table'], async function () {
     const table = layui.table;
     const form = layui.form;
+    const laydate = layui.laydate;
 
     function initValidate() {
         $("#form").validate({
@@ -45,7 +46,11 @@
             form.render();
         });
     }
-
+    laydate.render({
+        elem: 'input[name=Birthday]',
+        type: "date",
+        fullPanel: true
+    });
     if (PageInfo.KeyValueStr) {
         renderDetail(PageInfo.KeyValueStr);
     }

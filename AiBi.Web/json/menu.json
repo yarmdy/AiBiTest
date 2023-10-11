@@ -11,7 +11,7 @@
       "IconName": "&#xe638;",
       "Checked": false,
       "SortNo": 0,
-      "Code": null,
+      "Code": "membermanager",
       "IsEnable": true,
       "IsEnableValue": "是"
     },
@@ -71,7 +71,7 @@
           "IconName": "&#xe618;",
           "Checked": false,
           "SortNo": 1,
-          "Code": "FlowInstance",
+          "Code": "bussness",
           "IsEnable": true,
           "IsEnableValue": "是"
         },
@@ -118,7 +118,7 @@
           "IconName": "&#xe641;",
           "Checked": false,
           "SortNo": 2,
-          "Code": "FlowInstanceWait",
+          "Code": "teachers",
           "IsEnable": true,
           "IsEnableValue": "是"
         },
@@ -151,7 +151,7 @@
           "IconName": "&#xe610;",
           "Checked": false,
           "SortNo": 3,
-          "Code": "FlowInstanceDisposed",
+          "Code": "members",
           "IsEnable": true,
           "IsEnableValue": "是"
         },
@@ -184,7 +184,7 @@
           "IconName": "&#xe610;",
           "Checked": false,
           "SortNo": 3,
-          "Code": "FlowInstanceDisposed",
+          "Code": "mymembers",
           "IsEnable": true,
           "IsEnableValue": "是"
         },
@@ -217,7 +217,7 @@
           "IconName": "&#xe610;",
           "Checked": false,
           "SortNo": 3,
-          "Code": "FlowInstanceDisposed",
+          "Code": "visitors",
           "IsEnable": true,
           "IsEnableValue": "是"
         },
@@ -237,7 +237,7 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "ExampleMg",
+      "Code": "classifies",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -254,7 +254,7 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "ExampleMg",
+      "Code": "examples",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -271,7 +271,7 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "TestTemplateMg",
+      "Code": "templates",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -288,7 +288,24 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "TestPlanMg",
+      "Code": "plans",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5201",
+      "CascadeId": ".0.5.",
+      "Name": "任务管理",
+      "Url": "/TestPlan/OwnList",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "ownplans",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -305,7 +322,24 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "TestPlanMg",
+      "Code": "reports",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    }
+  },
+  {
+    "Item": {
+      "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5202",
+      "CascadeId": ".0.6.",
+      "Name": "测评报告",
+      "Url": " /TestPlan/OwnReportList",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe620;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "ownreports",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -315,14 +349,14 @@
       "Elements": [],
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5203",
       "CascadeId": ".0.7.",
-      "Name": "财务管理",
+      "Name": "财务管理*",
       "Url": "/Financial/List",
       "ParentId": null,
       "ParentName": "",
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "FinancialMg",
+      "Code": "finance",
       "IsEnable": true,
       "IsEnableValue": "是"
     }
@@ -339,7 +373,7 @@
       "IconName": "&#xe620;",
       "Checked": false,
       "SortNo": 99,
-      "Code": "SystemMg",
+      "Code": "systemsettings",
       "IsEnable": true,
       "IsEnableValue": "是"
     }

@@ -41,7 +41,7 @@
 
     table.render({
         elem: '#table',
-        url: BaseUrl + "/GetReports", // 此处为静态模拟数据，实际使用时需换成真实接口
+        url: BaseUrl + $$.common.getPageList.url, // 此处为静态模拟数据，实际使用时需换成真实接口
         cols: cols,
         page: true,
         limits: [10, 50, 1000],
