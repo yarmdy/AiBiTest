@@ -17,7 +17,6 @@
         }, []);
         let html = laytpl($("#pageTemplate").html()).render(json.data);
         $("#page").html(html);
-        console.log(json.data);
     }
     let cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框

@@ -107,9 +107,10 @@
                     {{# } }}
                     {{# layui.each(d.Plan.BusTestPlanUserExamples,function(i,a){ }}
                     {{# if(a.Result){ }}
-                    {{# let example=d.Plan.Template.BusTestTemplateExamples.find(function(b){return a.ExampleId==b.ExampleId}); }}
+                    {{# let example=d.Plan.Template.BusTestTemplateExamples.find(function(b){return a.ExampleId==b.ExampleId});}}
                     <h3>{{i+1}}.{{example.Example.Title}}</h3>
                     <h1 class="layui-font-red" style="text-align:center;margin:20px 0">{{a.ResultCode}}</h1>
+                    <div style="text-align:center;">得分：{{a.Score}}({{a.Result.MinScore}}—{{a.Result.MaxScore}})</div>
                     {{# if(a.Result.Image){ }}
                     {{# let img=(a.Result.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
                     <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
