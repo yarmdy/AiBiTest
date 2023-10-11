@@ -52,13 +52,18 @@ layui.config({
 
         var chartData = [['score', '答题数', '姓名']]
         chartData = chartData.concat(plan.BusTestPlanUsers.map(function (a, i) {
-            return [i+1, a.FinishQuestion, a.User.BusUserInfoUsers[0].RealName || a.User.Name];
+            return [i+1, a.FinishQuestion, i+1+"."+a.User.BusUserInfoUsers[0].RealName || a.User.Name];
         }).reverse().slice(0, 10));
+        
         option = {
             dataset: {
                 source: chartData
             },
-            grid: { containLabel: true },
+            grid: {
+                containLabel: false,
+                top: "0%",
+
+            },
             xAxis: { name: '答题数', max :plan.Template.QuestionNum},
             yAxis: {
                 type: 'category',
@@ -70,7 +75,7 @@ layui.config({
                     interval: 0,
                     showMinLabel: true,
                     showMaxLabel: true,
-                    hideOverlap: false,
+                    hideOverlap: false
                 }
             },
             visualMap: {
