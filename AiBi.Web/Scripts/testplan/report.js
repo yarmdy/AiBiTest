@@ -59,8 +59,20 @@ layui.config({
                 source: chartData
             },
             grid: { containLabel: true },
-            xAxis: { name: '答题数' },
-            yAxis: { type: 'category' },
+            xAxis: { name: '答题数', max :plan.Template.QuestionNum},
+            yAxis: {
+                type: 'category',
+                axisTick: {
+                    interval: 0
+                },
+                axisLabel: {
+                    show: true,
+                    interval: 0,
+                    showMinLabel: true,
+                    showMaxLabel: true,
+                    hideOverlap: false,
+                }
+            },
             visualMap: {
                 orient: 'horizontal',
                 left: 'center',
@@ -83,7 +95,11 @@ layui.config({
                         y: '姓名'
                     }
                 }
-            ]
+            ],
+            label: {
+                show: true,
+                position: 'right'
+            },
         };
 
         option && myChart.setOption(option);
