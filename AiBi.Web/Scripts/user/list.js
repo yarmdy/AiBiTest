@@ -16,7 +16,7 @@
         { field: 'ObjectTag.UserInfo.UnitName', title: '单位', width: 150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).UnitName||""; } },
         { field: 'ObjectTag.UserInfo.IdCardNo', title: '身份证号',width:150, templet: function (d) { return (d.ObjectTag.UserInfo||{}).IdCardNo||""; } },
         { field: 'ObjectTag.UserInfo.Birth', title: '生日', templet: function (d) { return (d.ObjectTag.UserInfo||{}).Birthday && new Date((d.ObjectTag.UserInfo||{}).Birthday).format("yyyy-MM-dd")||""; } },
-        { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:290 },
+        { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:350 },
 
     ]];
     table.render({
@@ -70,6 +70,15 @@
             case "password":
                 passwordUser(e);
                 break;
+            case "delete": {
+                layer.confirm("确定要删除吗？此操作不可恢复", {icon:2}, function (r) {
+                    layer.close(r);
+                    $$.common.delete.req([[e.data.Id]]).then(function (json) {
+                        getList(1);
+                        layer.msg(json.msg);
+                    });
+                })
+            }
         }
     });
 

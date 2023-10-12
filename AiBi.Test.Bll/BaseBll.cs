@@ -473,7 +473,7 @@ namespace AiBi.Test.Bll
                 names.ToList().ForEach(b => TypeHelper.SetPropertyValue(model, b, a[i++]));
                 return model;
             }).ToList();
-            if (DeleteValidate(out string errorMsg, models, ids))
+            if (!DeleteValidate(out string errorMsg, models, ids))
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = errorMsg;
@@ -481,7 +481,10 @@ namespace AiBi.Test.Bll
             }
             models.ForEach(model => {
                 Context.Set<T>().Attach(model);
-                Context.Entry(model).State = EntityState.Deleted;
+                //Context.Entry(model).State = EntityState.Deleted;
+                model.IsDel = true;
+                model.DelUserId = CurrentUserId;
+                model.DelTime= DateTime.Now;
             });
             var ret = Context.SaveChanges();
             if (ret <= 0)

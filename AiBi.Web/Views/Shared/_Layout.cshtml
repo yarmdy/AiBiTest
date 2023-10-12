@@ -36,8 +36,15 @@
             Action: "@action.ActionName",
             Controller: "@action.ControllerDescriptor.ControllerName",
         };
+        window.FuncCodes = top.FuncCodes;
+        
     </script>
     @RenderSection("styles", false)
+    <style>
+        [func] {
+            display: none !important
+        }
+    </style>
 </head>
 <body>
     @if (noCard)
@@ -104,6 +111,10 @@
                     return tmptab.page.find("iframe")[0].contentWindow;
                 },
             });
+
+            if (window.FuncCodes.length > 0) {
+                $("head").append('<style>' + (window.FuncCodes.map(function (a) { return '[func=' + a + ']' }).join(",")) + '{display: inherit!important;}</style>');
+            }
         })($$);
     </script>
     @RenderSection("scripts", false)

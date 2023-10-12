@@ -257,17 +257,26 @@
             }
         },
         add: {
-            url: "/add",
+            url: "/Add",
             method: "POST",
             req: function (data) {
                 return obj.post(BaseUrl + obj.common.add.url, data);
             }
         },
         edit: {
-            url: "/modify",
+            url: "/Modify",
             method: "POST",
             req: function (data) {
                 return obj.post(BaseUrl + obj.common.edit.url + "/" + (PageInfo && PageInfo.KeyValueStr), data);
+            }
+        },
+        delete: {
+            url: "/Delete",
+            method: "POST",
+            req: function (ids) {
+                let data = {};
+                data.ids = ids;
+                return obj.post(BaseUrl + obj.common.delete.url, data);
             }
         },
     },

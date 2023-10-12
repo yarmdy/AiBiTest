@@ -1678,7 +1678,6 @@
     <Content Include="Scripts\userinfo\edit.js" />
     <Content Include="Scripts\userinfo\list.js" />
     <Content Include="Scripts\user\edit.js" />
-    <Content Include="Scripts\user\listBak.js" />
     <Content Include="Scripts\user\list.js" />
     <Content Include="Scripts\user\login.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
