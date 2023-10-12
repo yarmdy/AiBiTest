@@ -1,5 +1,4 @@
-USE [AiBi_Test]
-GO
+
 /****** Object:  Table [test].[bus_Classify]    Script Date: 2023/10/12 17:33:29 ******/
 SET ANSI_NULLS ON
 GO
