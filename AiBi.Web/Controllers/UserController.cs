@@ -179,5 +179,31 @@ namespace AiBi.Test.Web.Controllers
             }
             return Json(res);
         }
+        public ActionResult ChangePassword(string password,string oldPassword)
+        {
+            var res = new Response<string>();
+            var old = Crypt.AesDecrypt( CurBll.Find(CurrentUserId).Password);
+            if (oldPassword != old)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "旧密码错误";
+                return Json(res);
+            }
+            if (password.Length < 6)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "密码长度不能少于6位";
+                return Json(res);
+            }
+            var pwd = Crypt.AesEncrypt(password);
+            var ret = CurBll.EditProperties(CurrentUserId, null, new { Password = pwd });
+            res.CopyFrom(ret);
+            if (res.code == EnumResStatus.Succ)
+            {
+                res.data = pwd;
+                res.msg = "密码修改成功";
+            }
+            return Json(res);
+        }
     }
 }

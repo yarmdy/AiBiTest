@@ -38,13 +38,13 @@ layui.config({
             return;
         }
         $.ajax({
-            url: "/Home/PassChange",
-            data: { oldPass: $("#oldPass").val(), newPass: $("#newPass").val(), checkPass: $("#checkPass").val() },
+            url: "/User/ChangePassword",
+            data: { oldPassword: $("#oldPass").val(), password: $("#newPass").val() },
             type: 'post',
             dataType: 'json',
             success: function (result) {
-                layer.msg(result.Message, { time: 500 }, function () {
-                    if (result.Code == 200) {
+                layer.msg(result.msg, { time: 500 }, function () {
+                    if (result.code == 200) {
                         layer.close(changePasswordLayerIndex);
                     }
                 });
