@@ -55,10 +55,6 @@ layui.config({
             return [i+1, a.FinishQuestion, i+1+"."+a.User.BusUserInfoUsers[0].RealName || a.User.Name];
         }).reverse().slice(0, 10));
 
-        for (var i = 2; i < 11; i++) {
-            chartData.push([i, Math.abs(22 - i), "学员" + (i)]);
-        }
-        
         
         option = {
             dataset: {
