@@ -1,7 +1,7 @@
 ﻿layui.config({
     base: "/js/"
 }).use(['form', 'ztree', 'element', 'table'], async function () {
-    
+    let ztree;
     const table = layui.table;
     const form = layui.form;
     const cols = [[
@@ -44,6 +44,19 @@
 
     function getList(page,size) {
         var postdata = $$.getFormData("#searchForm");
+        if (ztree) {
+            var nodes = ztree.getSelectedNodes();
+            var node = {};
+            if (nodes.length > 0) {
+                node = nodes[0];
+            }
+            if (node.ParentId) {
+                postdata.where = { Id:node.Id };
+            }
+            if (!node.ParentId && node.Id) {
+                postdata.where = { ParentId: node.Id };
+            }
+        }
         table.reloadData("table", {
             where: postdata,
             page: page ? {
@@ -60,43 +73,52 @@
         layer.success(json.msg);
         getList(1, 10);
     }
-    table.on("tool(table)", function (e) {
-        switch (e.event) {
-            case "enable":
-                enableUser(e);
-                break;
-            case "password":
-                passwordUser(e);
-                break;
-        }
-    });
-
-    function enableUser(e) {
-        var url = BaseUrl + "/EnableUser/" + e.data.Id;
-        var tarStatus = e.data.Status == 0 ? 1 : 0;
-        $$.post(url, { status: tarStatus }).then(function (json) {
-            e.update({ Status: tarStatus },true);
-        });
-    }
-    function passwordUser(e) {
-        var url = BaseUrl + "/ShowPassword/" + e.data.Id;
-        $$.post(url, { password: e.data.Password }).then(function (json) {
-            layer.open({
-                title: "密码", area: ["300px", "200px"], content: json.data, btn: ["确定", "重置"],
-                btn1: function (e) {
-                    layer.close(e);
-                },
-                btn2: function(){
-                    layer.prompt({ title: "请输入密码", formType: 1 }, function (pwd, index) {
-                        url = BaseUrl + "/SetPassword/" + e.data.Id;
-                        $$.post(url, { password: pwd }).then(function (json) {
-                            layer.msg(json.msg);
-                            layer.close(index);
-                            e.update({ Password: json.data }, true);
-                        });
-                    });
-                }
+    function treeInit() {
+        $("#tree").height($(document).outerHeight() - 125 - 12);
+        function dataFilter(treeId, parentNode, responseData) {
+            responseData.data.forEach(function (a) {
+                a.isParent = a.ParentId == null;
             });
-        });
+            return responseData.data;
+        }
+        var setting = {
+            async: {
+                enable: true,
+                url: "/Classify/GetPageList",
+                otherParam: function (treeId, treeNode) {
+                    res = {
+                        page: 1,
+                        size: 10000,
+                        where: {
+                            ParentId: (treeNode || {}).Id || null,
+                        }
+                    };
+                    return res;
+                },
+                dataFilter: dataFilter
+            },
+            data: {
+                key: {
+                    name: "Name"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "Id",
+                    pIdKey: "ParentId",
+                }
+            },
+            view: {
+                selectedMulti: false
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    getList(1);
+                }
+            }
+        };
+        var nodes = [{ Name: "全部", isParent: true, Id: null, ParentId: null }];
+
+        return $.fn.zTree.init($("#tree"), setting, nodes);
     }
+    ztree = treeInit();
 });

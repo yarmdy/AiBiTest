@@ -1,8 +1,8 @@
 ﻿layui.config({
     base: "/js/"
-}).use(['table'], async function () {
+}).use(['ztree','table'], async function () {
     let seletedData = [];
-    
+    let ztree;
     
     const table = layui.table;
     const cols = [[
@@ -84,6 +84,19 @@
 
     function getList(page,size) {
         var postdata = $$.getFormData("#searchForm");
+        if (ztree) {
+            var nodes = ztree.getSelectedNodes();
+            var node = {};
+            if (nodes.length > 0) {
+                node = nodes[0];
+            }
+            if (node.ParentId) {
+                postdata.SubClassifyId = node.Id;
+            }
+            if (!node.ParentId && node.Id) {
+                postdata.ClassifyId = node.Id;
+            }
+        }
         table.reloadData("table", {
             where: postdata,
             page: page ? {
@@ -147,5 +160,52 @@
         $$.callback("exampleselectok", table.cache.select_table);
         $$.closeThis();
     });
+    function treeInit() {
+        $("#tree").height($(document).outerHeight() - 125-12);
+        function dataFilter(treeId, parentNode, responseData) {
+            responseData.data.forEach(function (a) {
+                a.isParent = a.ParentId == null;
+            });
+            return responseData.data;
+        }
+        var setting = {
+            async: {
+                enable: true,
+                url: "/Classify/GetPageList",
+                otherParam: function (treeId, treeNode) {
+                    res = {
+                        page: 1,
+                        size: 10000,
+                        where: {
+                            ParentId: (treeNode || {}).Id || null,
+                        }
+                    };
+                    return res;
+                },
+                dataFilter: dataFilter
+            },
+            data: {
+                key: {
+                    name: "Name"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "Id",
+                    pIdKey: "ParentId",
+                }
+            },
+            view: {
+                selectedMulti: false
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    getList(1);
+                }
+            }
+        };
+        var nodes = [{ Name: "全部", isParent: true, Id: null, ParentId: null }];
 
+        return $.fn.zTree.init($("#tree"), setting, nodes);
+    }
+    ztree = treeInit();
 });
