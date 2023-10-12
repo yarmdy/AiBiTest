@@ -57,7 +57,7 @@ namespace AiBi.Test.Bll
                 return false;
             }
             var SysUserBll = AutofacExt.GetService<SysUserBll>();
-            var users = SysUserBll.GetListFilter(a => a.Where(b => b.Id != model.UserId && (b.Account == model.User.Account || b.Mobile == model.User.Mobile && b.Mobile != null)));
+            var users = SysUserBll.GetListFilter(a => a.Where(b => b.Id != model.UserId && (b.Account == model.User.Account || b.Mobile == model.User.Mobile && b.Mobile != null)),null,false);
             if (users.Count >1)
             {
                 errorMsg = "登录名和手机号对应多个现有用户，添加失败";
