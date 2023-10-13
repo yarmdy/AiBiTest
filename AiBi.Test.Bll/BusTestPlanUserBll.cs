@@ -26,8 +26,10 @@ namespace AiBi.Test.Bll
                 return BusTestPlanBll.GetIncludeQuery(a, b => new {
                     Image3 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,
                     b.BusTestPlanUserOptions.First().Option,
+                    b.BusTestPlanUserExamples,
                     b.BusTestPlanUserExamples.First().Result.Image,
                     Options = b.Template.BusTestTemplateExamples.First().Example.BusExampleOptions,
+                    Image4 = b.Template.BusTestTemplateExamples.First().Example.BusExampleResults.First().Image,
                     Image2 =b.Template.Image
                 }).Where(b => b.Id == id);
             },true);

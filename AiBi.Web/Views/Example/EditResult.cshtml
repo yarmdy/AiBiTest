@@ -6,6 +6,10 @@
         .txt_r{
             color:red
         }
+        #btnUpload, .upbtn {
+            width: 97.6px;
+            height: 97.6px;
+        }
     </style>
 }
 @section scripts{
@@ -24,8 +28,8 @@
 <div class="layui-container" id="container">
     <div id="resultInfo">
         <div class="layui-form-item resultbtn">
-            <label class="layui-form-label"><span class="txt_r"></span></label>
-            <div class="layui-input-block">
+            @*<label class="layui-form-label"><span class="txt_r"></span></label>*@
+            <div class="layui-input-block" style="margin:0">
                 <button class="layui-btn layui-btn-primary layui-border-blue layui-btn-radius layui-btn-sm" addresult type="button" ><i class="layui-icon layui-icon-add-1"></i> 添加结果 </button>
             </div>
         </div>
@@ -53,32 +57,44 @@
                 <input type="hidden" name="SortNo" />
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="txt_r">*</span>结果代码</label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-block" style="width:250px">
                         <input class="layui-input" name="Code" />
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="txt_r">*</span>结果标题</label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-block" style="width:250px">
                         <input class="layui-input" name="Title" />
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="txt_r">*</span>分值范围</label>
-                    <div class="layui-input-inline">
-                        <input class="layui-input" name="MinScore" placeholder="最小分值（含）" />
+                    <label class="layui-form-label"><span class="txt_r"></span>题号范围</label>
+                    <div class="layui-input-inline" style="width:50px">
+                        <input class="layui-input" name="MinQuestionNo" placeholder="起" />
                     </div>
                     <div class="layui-form-mid">-</div>
-                    <div class="layui-input-inline">
-                        <input class="layui-input" name="MaxScore" placeholder="最大分值（含）" />
+                    <div class="layui-input-inline" style="width:50px">
+                        <input class="layui-input" name="MaxQuestionNo" placeholder="止" />
                     </div>
+                    <div class="layui-form-mid">（含）</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="txt_r">*</span>分值范围</label>
+                    <div class="layui-input-inline" style="width:50px">
+                        <input class="layui-input" name="MinScore" placeholder="起" />
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width:50px">
+                        <input class="layui-input" name="MaxScore" placeholder="止" />
+                    </div>
+                    <div class="layui-form-mid">（含）</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="txt_r"></span>结果图片</label>
                     <div class="layui-input-block">
                         <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-blue upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                            <i class="layui-icon layui-icon-add-1"></i> 
                         </button>
                         <input type="hidden" name="ImageId" />
                     </div>
@@ -91,11 +107,11 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">操作</label>
-                    <div class="layui-input-block option">
-                        <button class="layui-btn layui-bg-orange  layui-btn-xs" resultaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                        <button class="layui-btn layui-bg-red  layui-btn-xs" resultaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                        <button class="layui-btn  layui-bg-purple layui-btn-xs" resultaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                        <button class="layui-btn layui-bg-purple  layui-btn-xs" resultaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                    <div class="layui-input-block option" style="text-align:right">
+                        <button class="layui-btn layui-bg-orange  layui-btn-sm" resultaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                        <button class="layui-btn layui-bg-red  layui-btn-sm" resultaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                        <button class="layui-btn  layui-bg-purple layui-btn-sm" resultaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                        <button class="layui-btn layui-bg-purple  layui-btn-sm" resultaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                     </div>
                 </div>
             </form>

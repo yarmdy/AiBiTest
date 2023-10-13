@@ -93,7 +93,7 @@ namespace AiBi.Test.Bll
                         SysAttachmentBll.Apply(newr.ImageId??0);
                     }
                 }
-                if (a.DiffCopy(newr, b => new {b.ImageId,b.Title,b.NContent,b.Code,b.SortNo,b.MaxScore,b.MinScore }))
+                if (a.DiffCopy(newr, b => new {b.ImageId,b.Title,b.NContent,b.Code,b.SortNo,b.MaxScore,b.MinScore,b.MaxQuestionNo,b.MinQuestionNo }))
                 {
                     a.ModifyTime = DateTime.Now;
                     a.ModifyUserId = CurrentUserId;

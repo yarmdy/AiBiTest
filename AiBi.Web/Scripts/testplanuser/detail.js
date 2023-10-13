@@ -15,7 +15,12 @@
         json.data.Questions = json.data.Plan.Template.BusTestTemplateExamples.reduce(function (last, cur) {
             return last.concat(cur.Example.BusExampleQuestions);
         }, []);
+        json.data.Results = json.data.Plan.Template.BusTestTemplateExamples.reduce(function (last, cur) {
+            return last.concat(cur.Example.BusExampleResults);
+        }, []);
+
         let html = laytpl($("#pageTemplate").html()).render(json.data);
+        window.PageData = json.data;
         $("#page").html(html);
     }
     let cols = [[

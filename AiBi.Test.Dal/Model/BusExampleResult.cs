@@ -41,6 +41,14 @@ namespace AiBi.Test.Dal.Model
         /// 排序号
         /// </summary>
         public int SortNo { get; set; }
+        /// <summary>
+        /// 最小题号
+        /// </summary>
+        public int? MinQuestionNo { get; set; }
+        /// <summary>
+        /// 最大题号
+        /// </summary>
+        public int? MaxQuestionNo { get; set; }
         public virtual BusExample Example { get; set; }
         public virtual ICollection<BusTestPlanUserExample> BusTestPlanUserExamples { get; set; }
         public SysAttachment Image { get; set; }

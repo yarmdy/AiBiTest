@@ -162,6 +162,52 @@
             }
             return { tab: tab, page: page };
         }
+
+        function WaterMarker() {
+            var str1 = "爱拜尔PSY心理测评系统";
+            var str2 = "@(CurrentUser.Name) @(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"))";
+            var str = str1 + " " + str2;
+            var can = document.createElement('canvas');
+            //var body = document.body;
+            //body.appendChild(can);
+            can.width = 400; //画布的宽
+            can.height = 350;//画布的高度
+            can.style.display = 'none';
+            var cans = can.getContext('2d');
+            //cans.strokeRect(0, 0, can.width, can.height);
+            //cans.translate(275, 190);
+            cans.rotate(-20 * Math.PI / 180); //画布里面文字的旋转角度
+            cans.translate(-100, 40);
+
+
+            //cans.translate(275,190);
+            cans.font = "14px Microsoft JhengHei"; //画布里面文字的字体
+            cans.fillStyle = "rgba(0,0,0,0.2)";//画布里面文字的颜色
+            cans.textAlign = 'left'; //画布里面文字的水平位置
+            cans.textBaseline = 'Middle'; //画布里面文字的垂直位置
+            cans.fillText(str1, 90, 28); //画布里面文字的间距比例
+            cans.fillText(str, 90, 112); //画布里面文字的间距比例
+            cans.fillText(str, 60, 197); //画布里面文字的间距比例
+            cans.fillText(str, 30, 282); //画布里面文字的间距比例
+            cans.fillText(str2, 180, 348); //画布里面文字的间距比例
+            //cans.fillText(str, 100, 330); //画布里面文字的间距比例
+            //body.style.backgroundImage = "url(" + can.toDataURL("image/png") + ")"; //把画布插入到body中
+
+
+            //cans.rotate(-20 * Math.PI / 180); //画布里面文字的旋转角度
+            var div = $("<div></div>").css({
+                "background": "url(" + can.toDataURL("image/png") + ")",
+                width: ($(window).width()) + "px",
+                height: ($(window).height()) + "px",
+                "z-index": 9999999,
+                position: "fixed",
+                left: 0,
+                top: 0,
+                "pointer-events": "none"
+            });
+            $("body").append(div);
+        }
+        WaterMarker();
     </script>
     @Html.Partial("ChangePass")
     @Html.Partial("PersonInfo")

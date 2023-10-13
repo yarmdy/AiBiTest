@@ -112,7 +112,7 @@
                 },
             });
 
-            if (window.FuncCodes.length > 0) {
+            if (window.FuncCodes && window.FuncCodes.length > 0) {
                 $("head").append('<style>' + (window.FuncCodes.map(function (a) { return '[func=' + a + ']' }).join(",")) + '{display: inherit!important;}</style>');
             }
         })($$);

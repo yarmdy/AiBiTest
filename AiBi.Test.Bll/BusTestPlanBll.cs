@@ -15,6 +15,7 @@ namespace AiBi.Test.Bll
     public partial class BusTestPlanBll : BaseBll<BusTestPlan,PlanReq.Page>
     {
         public BusTestTemplateBll BusTestTemplateBll { get; set; }
+        public BusExampleBll BusExampleBll { get; set; }
         public override IQueryable<BusTestPlan> PageWhere(PlanReq.Page req, IQueryable<BusTestPlan> query)
         {
             query = GetIncludeQuery(query, a => new { a.Template, a.CreateUser });
@@ -415,12 +416,51 @@ namespace AiBi.Test.Bll
 
             var myExam = plan.BusTestPlanUserExamples.Where(a => a.UserId == CurrentUserId).OrderBy(a=>a.BeginTime).ToList();
             var resultDic = myExam.SelectMany(a => a.Example.BusExampleResults).GroupBy(a=>a.ExampleId).ToDictionary(a => a.Key,a=>a.ToList());
+            var myOptions = plan.BusTestPlanUserOptions.Where(a => a.UserId == CurrentUserId).ToList();
+            var examIds = myExam.Select(a=>a.ExampleId).Distinct().ToArray();
+            var exams = BusExampleBll.GetListFilter(a=> a.Include(b=>b.BusExampleOptions).Include(b=>b.BusExampleQuestions).Where(b=> examIds.Contains(b.Id))).ToDictionary(a=>a.Id);
             
             myExam.ForEach(a => {
-                a.Result = resultDic.G(a.ExampleId)?.OrderBy(b=>b.SortNo)?.FirstOrDefault(b => {
-                    return a.Score >= b.MinScore && a.Score <= b.MaxScore;
-                });
-                a.ResultCode = a.Result?.Code;
+                var scores = new List<int>();
+                var results = resultDic.G(a.ExampleId)?.OrderBy(b=>b.SortNo)?.Where(b => {
+                    if(b.MinQuestionNo==null && b.MaxQuestionNo == null)
+                    {
+                        
+                        var rt1 = a.Score >= b.MinScore && a.Score <= b.MaxScore;
+                        if (rt1)
+                        {
+                            scores.Add(a.Score);
+                        }
+                        return rt1;
+                    }
+                    var query = b.Example.BusExampleQuestions.AsQueryable();
+                    if (b.MinQuestionNo != null)
+                    {
+                        query = query.Where(c => c.SortNo >= b.MinQuestionNo);
+                    }
+                    if (b.MaxQuestionNo != null)
+                    {
+                        query = query.Where(c => c.SortNo <= b.MaxQuestionNo);
+                    }
+                    var questionIds = query.Select(c => c.QuestionId).ToArray();
+                    var optionIds = myOptions.Where(c => questionIds.Contains(c.QuestionId)).Select(c=>c.OptionId).ToArray();
+                    var score = exams.G(b.ExampleId).BusExampleOptions.Where(c => optionIds.Contains(c.OptionId)).Sum(c => c.Score);
+                    
+                    var rt2 = score >= b.MinScore && score <= b.MaxScore;
+                    if (rt2)
+                    {
+                        scores.Add(score);
+                    }
+                    return rt2;
+                }).ToList();
+                a.Scores = string.Join(",", scores);
+                //a.Result
+                if (results.Count == 1)
+                {
+                    a.Result = results[0];
+                }
+                a.ResultIds = string.Join(",", results.Select(c => c.Id));
+                a.ResultCode = string.Join("->",results.Select(c=>c.Code));
                 a.ModifyTime = DateTime.Now;
                 a.ModifyUserId = CurrentUserId;
             });

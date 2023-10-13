@@ -51,6 +51,10 @@
             border-top: 1px solid #d1d1d1;
             padding-top: 10px;
         }
+        #btnUpload,.upbtn {
+            width: 97.6px;
+            height: 97.6px;
+        }
     </style>
 }
 @section scripts{
@@ -71,8 +75,8 @@
             <label class="layui-form-label"><span class="txt_r"></span>量表图标</label>
             <div class="layui-input-block">
                 <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                <button type="button" class="layui-btn layui-btn-danger" id="btnUpload" style="position: absolute; bottom: 0; left: 128px;">
-                    <i class="layui-icon layui-icon-upload"></i> 上传图片
+                <button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="btnUpload" style="position: absolute; bottom: 0; left: 128px;">
+                    <i class="layui-icon layui-icon-add-1"></i> 
                 </button>
                 <input type="hidden" name="ImageId" />
             </div>
@@ -134,8 +138,8 @@
     </form>
         <div id="questionInfo">
             <div class="layui-form-item questionbtn">
-                <label class="layui-form-label"><span class="txt_r"></span></label>
-                <div class="layui-input-block">
+                @*<label class="layui-form-label"><span class="txt_r"></span></label>*@
+                <div class="layui-input-block" style="margin-left:0">
                     <button class="layui-btn layui-btn-primary layui-border-blue layui-btn-radius layui-btn-sm" addquestion="1" type="button" id=""><i class="layui-icon layui-icon-add-1"></i> 单选题 </button>
                     <button class="layui-btn layui-btn-primary layui-border-orange layui-btn-radius layui-btn-sm" addquestion="2" type="button"><i class="layui-icon layui-icon-add-1"></i> 多选题 </button>
                     <button class="layui-btn layui-btn-primary layui-border-red layui-btn-radius layui-btn-sm" addquestion="3" type="button"><i class="layui-icon layui-icon-add-1"></i> 判断题 </button>
@@ -154,7 +158,7 @@
         </div>
 </div>
 
-
+<div style="height:64px;"></div>
 <script type="text/template" id="questionTemplate1">
     <div class="layui-card" combine>
         <div class="layui-card-header"><span type="text" class="layui-badge layui-bg-green questionnumber">1</span> 单选题</div>
@@ -174,8 +178,8 @@
                     <label class="layui-form-label">图片</label>
                     <div class="layui-input-block">
                         <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-blue upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                            <i class="layui-icon layui-icon-add-1"></i> 
                         </button>
                         <input type="hidden" name="ImageId" />
                     </div>
@@ -191,11 +195,11 @@
             </div>
             <div class="layui-form-item actionbtndiv">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-sm" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-sm" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-sm" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-sm" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -220,8 +224,8 @@
                     <label class="layui-form-label">图片</label>
                     <div class="layui-input-block">
                         <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-blue upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                            <i class="layui-icon layui-icon-add-1"></i> 
                         </button>
                         <input type="hidden" name="ImageId" />
                     </div>
@@ -237,11 +241,11 @@
             </div>
             <div class="layui-form-item actionbtndiv">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-sm" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-sm" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-sm" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-sm" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -266,8 +270,8 @@
                     <label class="layui-form-label">图片</label>
                     <div class="layui-input-block">
                         <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-blue upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                            <i class="layui-icon layui-icon-add-1"></i> 
                         </button>
                         <input type="hidden" name="ImageId" />
                     </div>
@@ -286,7 +290,7 @@
                                     <input type="text" placeholder="选项" class="layui-input" name="Code" value="对">
                                 </div>
                             </div>
-                            <div class="layui-input-inline" style="width:100px">
+                            <div class="layui-input-inline" style="width:75px">
                                 <div class="layui-input-wrap">
                                     <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
                                     <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
@@ -307,7 +311,7 @@
                                     <input type="text" placeholder="选项" class="layui-input" name="Code" value="错">
                                 </div>
                             </div>
-                            <div class="layui-input-inline" style="width:100px">
+                            <div class="layui-input-inline" style="width:75px">
                                 <div class="layui-input-wrap">
                                     <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
                                     <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
@@ -325,11 +329,11 @@
             </div>
             <div class="layui-form-item actionbtndiv">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-sm" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-sm" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-sm" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-sm" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -352,8 +356,8 @@
                     <label class="layui-form-label">图片</label>
                     <div class="layui-input-block">
                         <img width="96" height="96" name="ImageFullName" style="object-fit: contain;border:1px dashed gray" />
-                        <button type="button" class="layui-btn layui-btn-danger upbtn" style="position: absolute; bottom: 0; left: 128px;">
-                            <i class="layui-icon layui-icon-upload"></i> 上传图片
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-blue upbtn" style="position: absolute; bottom: 0; left: 128px;">
+                            <i class="layui-icon layui-icon-add-1"></i> 
                         </button>
                         <input type="hidden" name="ImageId" />
                     </div>
@@ -375,11 +379,11 @@
             </div>
             <div class="layui-form-item actionbtndiv">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-sm" optionaction="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-sm" optionaction="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-sm" optionaction="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-sm" optionaction="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -399,7 +403,7 @@
                     <input type="text" placeholder="选项" class="layui-input" name="Code">
                 </div>
             </div>
-            <div class="layui-input-inline" style="width:100px">
+            <div class="layui-input-inline" style="width:75px">
                 <div class="layui-input-wrap">
                     <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
                     <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
@@ -440,11 +444,11 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -476,11 +480,11 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right">
+                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>
@@ -515,7 +519,7 @@
                                     <input type="text" placeholder="选项" class="layui-input" name="Code" value="对">
                                 </div>
                             </div>
-                            <div class="layui-input-inline" style="width:100px">
+                            <div class="layui-input-inline" style="width:75px">
                                 <div class="layui-input-wrap">
                                     <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
                                     <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
@@ -536,7 +540,7 @@
                                     <input type="text" placeholder="选项" class="layui-input" name="Code" value="错">
                                 </div>
                             </div>
-                            <div class="layui-input-inline" style="width:100px">
+                            <div class="layui-input-inline" style="width:75px">
                                 <div class="layui-input-wrap">
                                     <input type="number" placeholder="分值" autocomplete="off" name="Score" class="layui-input" min="0" step="1" lay-affix="number">
                                     <div class="layui-input-affix layui-input-split layui-input-number layui-input-suffix">
@@ -554,11 +558,11 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">操作</label>
-                <div class="layui-input-block option">
-                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  </button>
-                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  </button>
-                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  </button>
-                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  </button>
+                <div class="layui-input-block option" style="text-align:right;">
+                    <button class="layui-btn layui-bg-orange  layui-btn-xs" optionaction2="2" type="button" title="复制"><i class="layui-icon layui-icon-file"></i>  复制</button>
+                    <button class="layui-btn layui-bg-red  layui-btn-xs" optionaction2="3" type="button" title="删除"><i class="layui-icon layui-icon-delete"></i>  删除</button>
+                    <button class="layui-btn  layui-bg-purple layui-btn-xs" optionaction2="-1" type="button" title="上移"><i class="layui-icon layui-icon-up"></i>  上移</button>
+                    <button class="layui-btn layui-bg-purple  layui-btn-xs" optionaction2="1" type="button" title="下移"><i class="layui-icon layui-icon-down"></i>  下移</button>
                 </div>
             </div>
         </div>

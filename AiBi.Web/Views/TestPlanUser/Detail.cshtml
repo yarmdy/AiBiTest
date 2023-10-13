@@ -106,20 +106,35 @@
                     <div style="padding:50px;color:#888;text-align:center">暂无结果</div>
                     {{# } }}
                     {{# layui.each(d.Plan.BusTestPlanUserExamples,function(i,a){ }}
+                    {{# let results = []; }}
+                    {{# let scores = []; }}
                     {{# if(a.Result){ }}
+                    {{# results.push(a.Result) }}
+                    {{# scores.push(a.Score) }}
+                    {{# } }}
+                    {{# if(a.ResultIds){ }}
+                    {{# results=a.ResultIds.split(",").map(function(b){return d.Results.find(function(c){return c.Id==b})}); }}
+                    {{# scores=a.Scores.split(","); }}
+                    {{# } }}
+                    {{# layui.each(results,function(j,result){ }}
+
                     {{# let example=d.Plan.Template.BusTestTemplateExamples.find(function(b){return a.ExampleId==b.ExampleId});}}
+                    {{# if(j==0){ }}
                     <h3>{{i+1}}.{{example.Example.Title}}</h3>
-                    <h1 class="layui-font-red" style="text-align:center;margin:20px 0">{{a.ResultCode}}</h1>
-                    <div style="text-align:center;">得分：{{a.Score}}({{a.Result.MinScore}}—{{a.Result.MaxScore}})</div>
-                    {{# if(a.Result.Image){ }}
-                    {{# let img=(a.Result.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
+                    {{# } }}
+                    <h1 class="layui-font-red" style="text-align:center;margin:20px 0">{{result.Code}}</h1>
+                    <div style="text-align:center;">{{result.Title}}</div>
+                    <div style="text-align:center;">得分：{{scores[j]}}({{result.MinScore}}—{{result.MaxScore}})</div>
+                    {{# if(result.Image){ }}
+                    {{# let img=(result.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
                     <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
                     {{# } }}
                     <div style="display: flex; margin-bottom: 50px;margin-top:25px">
                         <div>解析：</div>
-                        <pre style="display:block;font-family:inherit;flex:1">{{=a.Result.NContent}}</pre>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=result.NContent}}</pre>
                     </div>
-                    {{# } }}
+
+                    {{# }); }}
                     {{# }); }}
                 </div>
             </div>

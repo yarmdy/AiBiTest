@@ -46,6 +46,15 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public int? ResultId { get; set; }
         /// <summary>
+        /// 结果ids
+        /// </summary>
+        public string ResultIds { get; set; }
+        /// <summary>
+        /// 得分
+        /// </summary>
+        public string Scores { get; set; }
+
+        /// <summary>
         /// 开始时间
         /// </summary>
         public DateTime? BeginTime { get; set; }
