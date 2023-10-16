@@ -28,6 +28,7 @@
                 clearInterval(timer);
                 $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
                     layer.success("时间到", { shade: 0.5 }, function () {
+                        $$.callback("testover", {});
                         $$.closeThis();
                     });
                 });
@@ -47,6 +48,7 @@
         const html = laytpl($("#noteTemplate").html()).render(json.data);
         $("#page").html(html);
         plan = json.data;
+        window.plan = plan;
         carousel.render({
             elem: '.layui-carousel'
         });
@@ -66,7 +68,8 @@
         if (index >= plan.Questions.length) {
 
             $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
-                layer.success("完成测试", {shade:0.5}, function () {
+                layer.success("完成测试", { shade: 0.5 }, function () {
+                    $$.callback("testover", {});
                     $$.closeThis();
                 });
                 clearInterval(timer);
@@ -125,7 +128,8 @@
         
 
         $$.post("/TestPlan/StartAnswer/" + PageInfo.KeyValueStr, {}).fail(function (json) {
-            layer.error("开始失败："+json.msg, {}, function () {
+            layer.error("开始失败：" + json.msg, {}, function () {
+                $$.callback("testover", {});
                 $$.closeThis();
             });
 
@@ -211,10 +215,11 @@
     }
 
     async function pause() {
-        var json = await $$.post("/TestPlan/Pause/" + PageInfo.KeyValueStr, {});
+        var json = await $$.post("/TestPlan/PauseAnswer/" + PageInfo.KeyValueStr, {});
         clearInterval(timer);
         layer.success("暂停成功", {}, function () {
-            $$this.closeThis();
+            $$.callback("testover", {});
+            $$.closeThis();
         });
     }
 

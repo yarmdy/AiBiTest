@@ -36,12 +36,7 @@
         { field: 'Action', title: '操作', fixed: "right", templet: "#actionTemplate", width: 150 },
 
     ]];
-    callback.testplanaddok = function (json) {
-        layer.success(json.msg);
-        getList();
-    }
-    callback.testplaneditok = function (json) {
-        layer.success(json.msg);
+    callback.testover = function (json) {
         getList();
     }
 

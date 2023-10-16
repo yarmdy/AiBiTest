@@ -419,7 +419,7 @@ namespace AiBi.Test.Bll
             var myOptions = plan.BusTestPlanUserOptions.Where(a => a.UserId == CurrentUserId).ToList();
             var examIds = myExam.Select(a=>a.ExampleId).Distinct().ToArray();
             var exams = BusExampleBll.GetListFilter(a=> a.Include(b=>b.BusExampleOptions).Include(b=>b.BusExampleQuestions).Where(b=> examIds.Contains(b.Id))).ToDictionary(a=>a.Id);
-            
+            Context.Configuration.LazyLoadingEnabled = false;
             myExam.ForEach(a => {
                 var scores = new List<int>();
                 var results = resultDic.G(a.ExampleId)?.OrderBy(b=>b.SortNo)?.Where(b => {
@@ -433,7 +433,7 @@ namespace AiBi.Test.Bll
                         }
                         return rt1;
                     }
-                    var query = b.Example.BusExampleQuestions.AsQueryable();
+                    var query = b.Example.BusExampleQuestions.ToList().AsQueryable();
                     if (b.MinQuestionNo != null)
                     {
                         query = query.Where(c => c.SortNo >= b.MinQuestionNo);
@@ -465,7 +465,7 @@ namespace AiBi.Test.Bll
                 a.ModifyUserId = CurrentUserId;
             });
             planUser.ResultCode = string.Join("|",myExam.Select(a=>a.ResultCode));
-
+            Context.Configuration.LazyLoadingEnabled = false;
             Context.SaveChanges();
             return res;
         }
