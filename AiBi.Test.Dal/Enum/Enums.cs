@@ -210,7 +210,7 @@ namespace AiBi.Test.Dal.Enum
         /// <summary>
         /// 答题完
         /// </summary>
-        [Display(Name = "答题完")]
+        [Display(Name = "答题完成")]
         Finish = 4,
     }
     /// <summary>

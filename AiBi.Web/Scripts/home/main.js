@@ -5,14 +5,31 @@
     const element = layui.element;
     const cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
-        { field: 'Name', title: '任务名称' },
+        { field: 'Name', title: '任务名称', width: 200 },
         { field: 'StartTime', title: '开始时间', width: 150 },
         { field: 'EndTime', title: '结束时间', width: 150 },
+        {
+            field: 'mStartTime', title: '答题时间', width: 150, templet: function (d) {
+                return d.BusTestPlanUsers[0].BeginTime||"-";
+            }
+        },
+        {
+            field: 'mEndTime', title: '答完时间', width: 150, templet: function (d) {
+                return d.BusTestPlanUsers[0].EndTime||"-";
+            } },
         //{
         //    field: 'Template', title: '任务类型', templet: function (d) {
         //        return d.Template.Title;
         //    }
         //},
+        {
+            field: 'QuestionNum', title: '问题数', width: 150, templet: "#progressTemplate"
+        },
+        {
+            field: 'Status', title: '状态', width: 90, templet: function (d) {
+                return EnumPlanUserStatus[d.BusTestPlanUsers[0].Status];
+            }
+        },
         {
             field: 'CanPause', title: '可中断', templet: function (d) {
                 return d.CanPause ? "可以" : "不可以"
@@ -24,14 +41,7 @@
             }, width: 90
         },
         /*{ field: 'ExampleNum', title: '量表数量', width: 90 },*/
-        {
-            field: 'QuestionNum', title: '问题数', width: 150, templet: "#progressTemplate"
-        },
-        {
-            field: 'Status', title: '状态', width: 90 ,templet: function (d) {
-                return EnumPlanUserStatus[d.BusTestPlanUsers[0].Status];
-            }
-        },
+        
         /*{ field: 'UserNum', title: '学员数', width: 90 },*/
         { field: 'Action', title: '操作', fixed: "right", templet: "#actionTemplate", width: 150 },
 
