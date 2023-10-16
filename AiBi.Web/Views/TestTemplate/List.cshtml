@@ -1,5 +1,6 @@
 ﻿@{
     ActionDescriptor action = ViewBag.ActionInfo;
+    var isadmin = ViewBag.isadmin ?? false;
 }
 @section scripts{
     <script>
@@ -8,6 +9,9 @@
         }
         if (ActionInfo.Action.toLowerCase().indexOf("its") == 0) {
             $$.common.getPageList.url = "/GetItsList?CanUseUserId=" + PageInfo.KeyValueStr;
+        }
+        if (@JsonHelper.ToJson(isadmin)) {
+            $$.common.getPageList.url = "/GetPageList";
         }
     </script>
 }

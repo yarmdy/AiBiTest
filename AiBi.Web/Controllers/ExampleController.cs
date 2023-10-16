@@ -33,6 +33,7 @@ namespace AiBi.Test.Web.Controllers
 
         public override ActionResult Select()
         {
+            
             return View("List");
         }
     }

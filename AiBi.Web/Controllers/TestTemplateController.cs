@@ -29,6 +29,7 @@ namespace AiBi.Test.Web.Controllers
 
         public ActionResult MySelect()
         {
+            ViewBag.isadmin = AutofacExt.GetService<SysFuncBll>().UserHasFunc(CurrentUserId, "admin");
             return View("List");
         }
 
