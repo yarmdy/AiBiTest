@@ -274,7 +274,7 @@ namespace AiBi.Test.Bll
                     a.Question.BusQuestionOptions.Add(b);
                 });
                 modifyOptions.ForEach(b => {
-                    var newOption = a.Question.BusQuestionOptions.First(c=>c.Id==b.Id);
+                    var newOption = newdata.Question.BusQuestionOptions.First(c=>c.Id==b.Id);
                     if (b.DiffCopy(newOption, c => new { c.Code, c.SortNo }))
                     {
                         b.ModifyUserId = CurrentUserId;

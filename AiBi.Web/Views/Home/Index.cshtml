@@ -163,7 +163,7 @@
             return { tab: tab, page: page };
         }
 
-        function WaterMarker() {
+        @*function WaterMarker() {
             var str1 = "爱拜尔PSY心理测评系统";
             var str2 = "@(CurrentUser.Name) @(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"))";
             var str = str1 + " " + str2;
@@ -207,7 +207,7 @@
             });
             $("body").append(div);
         }
-        WaterMarker();
+        WaterMarker();*@
     </script>
     @Html.Partial("ChangePass")
     @Html.Partial("PersonInfo")
