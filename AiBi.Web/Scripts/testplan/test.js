@@ -214,13 +214,21 @@
         }
     }
 
-    async function pause() {
-        var json = await $$.post("/TestPlan/PauseAnswer/" + PageInfo.KeyValueStr, {});
-        clearInterval(timer);
-        layer.success("暂停成功", {}, function () {
-            $$.callback("testover", {});
-            $$.closeThis();
-        });
+    async function pause(e) {
+        if (e.text().indexOf("暂停") >= 0) {
+            var json = await $$.post("/TestPlan/PauseAnswer/" + PageInfo.KeyValueStr, {});
+            clearInterval(timer);
+            layer.success("暂停成功", {}, function () {
+                $$.callback("testover", {});
+
+            });
+            e.html('<i class="layui-icon layui-icon-play"></i> 继续答题');
+        } else {
+            var json = await $$.post("/TestPlan/StartAnswer/" + PageInfo.KeyValueStr, {});
+            startTimer();
+            e.html('<i class="layui-icon layui-icon-pause"></i> 暂停答题');
+        }
+        
     }
 
     util.on("layon", {

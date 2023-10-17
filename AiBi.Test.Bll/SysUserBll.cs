@@ -26,7 +26,7 @@ namespace AiBi.Test.Bll
         public override IQueryable<SysUser> PageWhere(UserReq.Page req, IQueryable<SysUser> query)
         {
             query = base.PageWhere(req, query).Include("SysUserRoleUsers.Role");
-
+            const EnumUserType MyTestor = EnumUserType.Testor | (EnumUserType)(256 * 256);
             switch (req.Tag)
             {
                 case EnumUserType.Agent:
@@ -47,6 +47,10 @@ namespace AiBi.Test.Bll
                 case EnumUserType.Visitor:
                     {
                         query = query.Where(a => a.Type == (int)req.Tag);
+                    }
+                    break;
+                case MyTestor: {
+                        query = query.Where(a => a.Type == (int)EnumUserType.Testor && a.CreateUserId==CurrentUserId);
                     }
                     break;
             }
@@ -74,7 +78,8 @@ namespace AiBi.Test.Bll
             {
                 return;
             }
-            res.data.LoadChild(a => new { BusUserInfoUser = a.BusUserInfoUsers.Where(b => b.UserId == a.Id && b.OwnerId == a.Id).ToList() });
+            //res.data.LoadChild(a => new { BusUserInfoUser = a.BusUserInfoUsers.ToList() });
+            res.data.BusUserInfoUsers = res.data.BusUserInfoUsers.Where(a=>a.UserId==a.OwnerId).ToList();
         }
         public override bool AddValidate(out string errorMsg, SysUser model)
         {
@@ -254,6 +259,11 @@ namespace AiBi.Test.Bll
         public Response<List<SysUser>, object, object, object> GetTestorList(UserReq.Page req)
         {
             req.Tag = EnumUserType.Testor;
+            return GetPageList(req);
+        }
+        public Response<List<SysUser>, object, object, object> GetMyTestorList(UserReq.Page req)
+        {
+            req.Tag = EnumUserType.Testor|(EnumUserType)(256*256);
             return GetPageList(req);
         }
         public Response<List<SysUser>, object, object, object> GetTestedList(UserReq.Page req)

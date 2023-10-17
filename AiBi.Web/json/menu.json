@@ -129,6 +129,54 @@
           "Elements": [
             {
               "DomId": "btnDetail",
+              "Name": "进度详情",
+              "Attr": "",
+              "Script": "",
+              "Icon": "&#xe60a;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 4,
+              "ModuleId": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "826b12b3-e916-446d-a2fa-329cfd13c831"
+            },
+            {
+              "DomId": "btnVerification",
+              "Name": "处理",
+              "Attr": "",
+              "Script": "verificationForm()",
+              "Icon": "&#xe610;",
+              "Class": "layui-btn-normal",
+              "Remark": "",
+              "Sort": 5,
+              "ModuleId": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+              "TypeName": null,
+              "TypeId": null,
+              "Id": "79dcd3eb-3aaf-4e08-83c9-713d8ff446fe"
+            }
+          ],
+          "Id": "4abafc83-c8f5-452f-9882-e113a86e7a3e",
+          "CascadeId": ".0.2.5.",
+          "Name": "教师管理",
+          "Url": "/User/MyTestorList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "会员管理",
+          "IconName": "&#xe641;",
+          "Checked": false,
+          "SortNo": 2,
+          "Code": "myteachers",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+
+      {
+        "Item": {
+          "Elements": [
+            {
+              "DomId": "btnDetail",
               "Name": "查看详情",
               "Attr": "",
               "Script": "",
@@ -217,7 +265,7 @@
           "IconName": "&#xe610;",
           "Checked": false,
           "SortNo": 3,
-          "Code": "visitors",
+          "Code": "?visitors",
           "IsEnable": true,
           "IsEnableValue": "是"
         },

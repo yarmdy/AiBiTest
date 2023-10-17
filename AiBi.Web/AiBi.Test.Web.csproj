@@ -1922,6 +1922,8 @@
     <Content Include="static\browsers\opera.svg" />
     <Content Include="static\browsers\safari.svg" />
     <Content Include="static\browsers\vivaldi.svg" />
+    <Content Include="static\cao\bg.jpg" />
+    <Content Include="static\cao\logo.png" />
     <Content Include="static\components\card-buttons.png" />
     <Content Include="static\components\card-comments.png" />
     <Content Include="static\components\card-ribbon.png" />
@@ -2492,6 +2494,7 @@
     <Content Include="Views\TestPlan\Test.cshtml" />
     <Content Include="Views\TestPlan\ReportList.cshtml" />
     <Content Include="Views\TestPlan\Report.cshtml" />
+    <Content Include="Views\TestPlanUser\Detail_bak.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,90 +21,67 @@
 
     <!-- CSS files -->
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="../../css/login.css" media="all" />
     <style>
-        
-        @@keyframes moveright {
-            from {
-                background-position-x: -500px;
-            }
-
-            to {
-                background-position-x: 2000px;
-            }
+        html,body,.bgfull{
+            height:100%;
         }
-        @@keyframes moveleft {
-            from {
-                background-position-x: 2000px;
-            }
-
-            to {
-                background-position-x: -2000px;
-            }
+        .bgfull {
+            background: url(/static/cao/bg.jpg);
+            background-size: cover;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
         }
-        .cloudright {
-            animation: moveright 10s linear infinite normal;
+        input:-webkit-autofill {
+            background-color: white;
+            transition: background-color 50000s ease-in-out 0s;
         }
-        .cloudrightafter {
-            animation: moveright 6s linear infinite normal;
-            animation-delay: 2s
-        }
-        .cloudleft {
-            animation: moveleft 20s linear infinite normal;
-        }
-        
     </style>
 
 </head>
-<body class="main cloudleft" style="background-position: -280.8px 0px;">
-
-    <div id="mainBody">
-        <div id="cloud1" class="cloud cloudright" style="background-position: 891.1px 100px;"></div>
-        <div id="cloud2" class="cloud cloudrightafter" style="background-position: 401px 460px;"></div>
-    </div>
-
-    <div class="logintop">
-        <span style="font-size: 20px;">
-            <img src="@Url.Content("~/images/login1.png")" width="32" height="32" style="width: 32px; height: 32px;" alt="" title="" />
-            @MvcApplication.Title
-        </span>
-    </div>
-
-    <div class="loginbody">
-
-        <span class="systemlogo"></span>
-
-        <div class="loginbox" style="position: absolute; left: calc(50% - 347px); ">
-            <div style="width:165px; height:96px; position:absolute;top:8px;left:-70px">
-                <div class="tou"></div>
-                <div class="initial_left_hand" id="left_hand"></div>
-                <div class="initial_right_hand" id="right_hand"></div>
+<body>
+    <div class="bgfull">
+        <div class="layui-row" style="width:1190px;height:590px;border-radius:10px;display:flex;flex-flow:row nowrap;overflow:hidden;backdrop-filter:blur(15px)">
+            <div style="flex: 1; background: #608EDCb8; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
+                <div style="text-align:center;">
+                    <img src="~/static/cao/logo.png" style="width:90px;height:90px" />
+                    <p style="color:white;font-size:33px;margin-top:40px">@(MvcApplication.Title)</p>
+                </div>
             </div>
-            <input type="hidden" name="Error" value="@ViewBag.Error" />
-            <form class="layui-form" method="post">
-                <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-                <ul>
-                    <li>
-                        <input name="account" type="text" class="loginuser"
-                               placeholder="请输入用户名" lay-verify="required">
-                    </li>
-                    <li>
-                        <input name="password" type="password" id="password"
-                               class="loginpwd ipt" placeholder="请输入密码" lay-verify="required">
-                    </li>
-                    <li>
-                        <button class="layui-btn loginbtn" lay-submit lay-filter="login">登录</button>
-                    </li>
-                </ul>
-            </form>
+            <div style="flex: 1; background: #ffffffb8; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
+                <div>
+                    <p style="font-size:35px;font-weight:500;text-align:center">欢迎登录</p>
+                    <div style="margin-top:50px">
+                        <input type="hidden" name="Error" value="@(ViewBag.Error)" />
+                        <form class="layui-form" method="post">
+                            <div class="layui-form-item">
+                                <div class="layui-input-wrap" style="width:360px">
+                                    <div class="layui-input-prefix">
+                                        <i class="layui-icon layui-icon-username"></i>
+                                    </div>
+                                    <input type="text" name="account" value="" lay-verify="required" placeholder="用户名" lay-reqtext="请填写用户名" autocomplete="off" class="layui-input" lay-affix="clear">
+                                    <input type="hidden" name="Error" value="@(ViewBag.ReturnUrl)" />
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-wrap" style="width:360px">
+                                    <div class="layui-input-prefix">
+                                        <i class="layui-icon layui-icon-password"></i>
+                                    </div>
+                                    <input type="password" name="password" value="" lay-verify="required" placeholder="密   码" lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
+                                </div>
+                            </div>
+                            <div class="layui-form-item" style="width:360px;margin-top:36px">
+                                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-login" style="background: #608EDC">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-
-    <div class="loginbm">
-        Copyright &copy; 爱拜尔科技有限公司有限公司 2020
-    </div>
-
+    
     <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>

@@ -70,6 +70,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return View("List");
         }
+        public ActionResult MyTestorList()
+        {
+            return View("List");
+        }
         public ActionResult TestedList()
         {
             return View("List");
@@ -87,6 +91,10 @@ namespace AiBi.Test.Web.Controllers
         public ActionResult GetTestorList(UserReq.Page req)
         {
             return Json(CurBll.GetTestorList(req));
+        }
+        public ActionResult GetMyTestorList(UserReq.Page req)
+        {
+            return Json(CurBll.GetMyTestorList(req));
         }
         public ActionResult GetTestedList(UserReq.Page req)
         {

@@ -1,31 +1,36 @@
-﻿@{ 
+﻿@{
     ViewBag.NoCard = true;
 }
 @section styles{
     <style>
         html, body, #page {
             height: 100%;
-            font-size:18px;
-            color:#222;
-            overflow-x:hidden
+            font-size: 18px;
+            color: #222;
+            overflow-x: hidden
         }
-        #page{
-            display:flex;
-            flex-direction:column;
+
+        #page {
+            display: flex;
+            flex-direction: column;
         }
-        pre{
-            font-family:inherit
+
+        pre {
+            font-family: inherit
         }
-        .duration{
-            position:absolute;
-            top:20px;
-            right:20px;
-            color:red;
-            pointer-events:none;
+
+        .duration {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: red;
+            pointer-events: none;
         }
-        .flash{
-            animation:flashmovie 0.3s ease 1 normal;
+
+        .flash {
+            animation: flashmovie 0.3s ease 1 normal;
         }
+
         @@keyframes flashmovie {
             0% {
                 transform: scale(3);
@@ -35,23 +40,34 @@
                 transform: scale(1);
             }
         }
+
         .layui-form-checkbox:hover > div {
+            background-color: #16d177
+        }
+        .layui-form-checkbox > div {
             background-color: #16b777
         }
-        .red{
+        .layui-form-checkbox:hover > i{
+            color:red
+        }
+        .layui-form-checked:hover > i, .layui-form-checked > i{
             color:red;
         }
+        .red {
+            color: red;
+        }
+
         .ul {
-            text-decoration:underline
+            text-decoration: underline
         }
     </style>
 }
 <!-- Page header -->
 <div class="layui-fluid" id="page">
-    
+
 </div>
 @*<div class="duration" id="durationdiv"></div>
-<div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>*@
+    <div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>*@
 
 <script type="text/template" id="noteTemplate">
     <div style="padding:50px;border-radius:15px;width:1150px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:22px">
@@ -64,6 +80,93 @@
         <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="start" style="width: 375px; height: 60px; font-size: 24px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">知道了，开始测试</button>
     </div>
 </script>
+
+<script type="text/template" id="singleQuestionTemplate">
+    <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
+    {{# if(plan.CanPause){ }}
+    <div class="layui-container" style="text-align:center">
+        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
+    </div>
+    {{# } }}
+    <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
+    <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d.Index}}</span><span class="layui-font-red">/{{=d.Count}})</span></div>
+
+
+    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
+        <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
+        <div style="min-height:150px">
+            {{# if(d.Question.Image){ }}
+            <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+            {{# } }}
+        </div>
+
+    </div>
+
+    <form class="layui-form layui-container" style="text-align:center;margin-bottom:50px">
+        <input type="hidden" name="ExampleId" value="{{=d.ExampleId}}" />
+        <div class="layui-inline" style="text-align:center">
+            <div class="">
+                {{# layui.each(d.Question.BusQuestionOptions,function(i,a){ }}
+                <input type="checkbox" {{=(d.Question.Type==2?"multiple":"")}} name="{{a.QuestionId}}" value="{{a.Id}}" title="{{=a.Code}}" lay-skin="tag">
+                {{# }) }}
+                {{# if(d.Question.Type==2){ }}
+                <button class="layui-btn layui-btn-primary layui-bg-red" layon="confirm" type="button">确认</button>
+                {{# } }}
+            </div>
+        </div>
+    </form>
+
+</script>
+
+<script type="text/template" id="multipleQuestionTemplate">
+    <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
+    {{# if(plan.CanPause){ }}
+    <div class="layui-container" style="text-align:center">
+        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
+    </div>
+    {{# } }}
+    <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
+    <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
+
+    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
+        <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
+        {{# if(d[0].Question.Image){ }}
+        <img src="{{=d[0].Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+        {{# } }}
+        <form class="layui-form">
+            <input type="hidden" name="ExampleId" value="{{=d[0].ExampleId}}" />
+            {{# layui.each(d,function(i,a){ }}
+            <div class="layui-container" style="display:flex;width:750px">
+                <div style="padding: 20px; line-height: 27px">{{=a.SortNo2}}</div>
+                <pre style="display: block; flex: 1; padding: 20px 0;text-align:left">{{=(a.Question.Type==2?"【多选】":"")}}{{=a.Question.Title}}</pre>
+            </div>
+
+            <div class="layui-container" style="width:750px;text-align:left">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-inline">
+                        {{# layui.each(a.Question.BusQuestionOptions,function(i,b){ }}
+                        <input type="checkbox" {{=(a.Question.Type==2?"multiple":"")}} name="{{b.QuestionId}}" value="{{b.Id}}" title="{{=b.Code}}" lay-skin="tag">
+                        {{# }) }}
+                    </div>
+                </div>
+
+            </div>
+            {{# }); }}
+        </form>
+    </div>
+
+
+    <div class="layui-container" style="text-align:center;padding-bottom:50px">
+        <button class="layui-btn layui-btn-primary layui-bg-red layui-btn-lg" type="button" layon="confirm">确认</button>
+    </div>
+
+
+</script>
+
+
+
+
 <script type="text/template" id="noteTemplate3">
     <h2 style="text-align:center;padding:30px">{{=d.Name}}</h2>
     {{# let dur = new Date((d.Template.Duration*60+ d.BusTestPlanUsers[0].Duration)*1000); }}
@@ -80,45 +183,10 @@
     <h2 style="padding:50px;box-sizing:border-box;padding:50px;text-align:center">{{=d.Name}}</h2>
     <div class="layui-container" style="padding:20px">注意事项：</div>
     <div class="layui-container" style="padding:20px"><pre style="font-family:inherit">{{=d.Template.Note}}</pre></div>
-    
+
     <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
         <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg layui-btn-radius" layon="start">知道了，开始测试</button>
     </div>
-</script>
-<script type="text/template" id="singleQuestionTemplate">
-    <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
-    <div style="text-align:center;padding:10px">时间：<span style="color:red" id="durationdiv"></span></div>
-    <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d.Index}}</span><span class="layui-font-red">/{{=d.Count}})</span></div>
-
-
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
-        <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
-        <div style="min-height:150px">
-            {{# if(d.Question.Image){ }}
-            <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
-            {{# } }}
-        </div>
-        
-    </div>
-
-    <form class="layui-form layui-container" style="text-align:center">
-        <input type="hidden" name="ExampleId" value="{{=d.ExampleId}}" />
-        <div class="layui-inline" style="text-align:center">
-            <div class="">
-                {{# layui.each(d.Question.BusQuestionOptions,function(i,a){ }}
-                <input type="checkbox" {{=(d.Question.Type==2?"multiple":"")}} name="{{a.QuestionId}}" value="{{a.Id}}" title="{{=a.Code}}" lay-skin="tag">
-                {{# }) }}
-                {{# if(d.Question.Type==2){ }}
-                <button class="layui-btn layui-btn-primary layui-bg-red" layon="confirm" type="button">确认</button>
-                {{# } }}
-            </div>
-        </div>
-    </form>
-    {{# if(plan.CanPause){ }}
-    <div class="layui-container" style="text-align:center;padding:40px">
-        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
-    </div>
-    {{# } }}
 </script>
 <script type="text/template" id="singleQuestionTemplate2">
     <h2 style="padding:50px;box-sizing:border-box;padding:50px;text-align:center">{{=d.Name}}</h2>
@@ -157,50 +225,7 @@
         </div>
     </form>
 </script>
-<script type="text/template" id="multipleQuestionTemplate">
-    <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
-    <div style="text-align:center;padding:10px">时间：<span style="color:red" id="durationdiv"></span></div>
-    <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
 
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
-        <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
-        {{# if(d[0].Question.Image){ }}
-        <img src="{{=d[0].Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
-        {{# } }}
-        <form class="layui-form">
-            <input type="hidden" name="ExampleId" value="{{=d[0].ExampleId}}" />
-            {{# layui.each(d,function(i,a){ }}
-            <div class="layui-container" style="display:flex;width:750px">
-                <div style="padding: 20px; line-height: 27px">{{=a.SortNo2}}</div>
-                <pre style="display: block; flex: 1; padding: 20px 0;text-align:left">{{=(a.Question.Type==2?"【多选】":"")}}{{=a.Question.Title}}</pre>
-            </div>
-
-            <div class="layui-container" style="width:750px;text-align:left">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"></label>
-                    <div class="layui-inline">
-                        {{# layui.each(a.Question.BusQuestionOptions,function(i,b){ }}
-                        <input type="checkbox" {{=(a.Question.Type==2?"multiple":"")}} name="{{b.QuestionId}}" value="{{b.Id}}" title="{{=b.Code}}" lay-skin="tag">
-                        {{# }) }}
-                    </div>
-                </div>
-
-            </div>
-            {{# }); }}
-        </form>
-    </div>
-
-
-    <div class="layui-container" style="text-align:center;padding-bottom:50px">
-        <button class="layui-btn layui-btn-primary layui-bg-red layui-btn-lg" type="button" layon="confirm">确认</button>
-    </div>
-    {{# if(plan.CanPause){ }}
-    <div class="layui-container" style="text-align:center;padding-bottom:50px">
-        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
-    </div>
-    {{# } }}
-
-</script>
 <script type="text/template" id="multipleQuestionTemplate2">
     <div class="layui-container" style="display:flex;">
         <div style="padding:20px;line-height:27px"><span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
@@ -219,8 +244,8 @@
             <div style="padding: 20px; line-height: 27px">{{=a.SortNo2}}</div>
             <pre style="display: block; flex: 1; padding: 20px;">{{=(a.Question.Type==2?"【多选】":"")}}{{=a.Question.Title}}</pre>
         </div>
-        
-        <div class="layui-container" >
+
+        <div class="layui-container">
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-inline">
@@ -229,9 +254,9 @@
                     {{# }) }}
                 </div>
             </div>
-            
+
         </div>
-    {{# }); }}
+        {{# }); }}
     </form>
     <div class="layui-container" style="text-align:center;padding-bottom:50px">
         <button class="layui-btn layui-btn-primary layui-bg-red layui-btn-lg" type="button" layon="confirm">确认</button>

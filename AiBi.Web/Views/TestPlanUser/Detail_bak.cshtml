@@ -1,0 +1,211 @@
+﻿@{
+    ViewBag.NoCard = true;
+}
+@section styles{
+    <style>
+        .propname{
+            font-weight:400;
+            text-align:right;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        var EnumSex=@JsonHelper.ToJson(EnumConvert.ToList<EnumSex>().ToDictionary(a=>a.Value,a=>a.Text));
+    </script>
+}
+<div></div>
+<div class="layui-fluid" id="page">
+    
+</div>
+<script type="text/template" id="pageTemplate">
+    <div class="layui-row" style="margin-top:15px">
+        <div class="layui-col-md3" style="padding:0 5px">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <b>学员信息</b>
+                </div>
+                <div class="layui-card-body">
+                    {{# let img=(d.User.Avatar||{}).FullName||d.User.AvatarName||"/static/avatars/defaultavatar.png" }}
+                    <img style="width:96px;height:96px;margin:10px auto;display:block;border-radius:50%;object-fit:cover" src="{{img}}" />
+                    <div class="layui-row" style="margin-top:30px">
+                        <div class="layui-col-xs3 propname">姓名：</div>
+                        <div class="layui-col-xs9">{{d.User.BusUserInfoUsers[0].RealName||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">姓别：</div>
+                        <div class="layui-col-xs9">{{EnumSex[(d.User.BusUserInfoUsers[0].Sex)]||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">生日：</div>
+                        <div class="layui-col-xs9">{{d.User.BusUserInfoUsers[0].Birthday||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">身份证号：</div>
+                        <div class="layui-col-xs9">{{d.User.BusUserInfoUsers[0].IdCardNo||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">单位名称：</div>
+                        <div class="layui-col-xs9">{{d.User.BusUserInfoUsers[0].UnitName||"未知"}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <b>测试任务信息</b>
+                </div>
+                <div class="layui-card-body">
+                    {{# img=(d.Plan.Template.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg" }}
+                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
+                    <div class="layui-row" style="margin-top:30px">
+                        <div class="layui-col-xs3 propname">任务名称：</div>
+                        <div class="layui-col-xs9">{{d.Plan.Name||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">任务分类：</div>
+                        <div class="layui-col-xs9">{{d.Plan.Template.Title||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">量表数量：</div>
+                        <div class="layui-col-xs9">{{d.Plan.ExampleNum||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">问题数量：</div>
+                        <div class="layui-col-xs9">{{d.Plan.QuestionNum||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">可以暂停：</div>
+                        <div class="layui-col-xs9">{{d.Plan.Template.CanPause?"是":"否"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">开始时间：</div>
+                        <div class="layui-col-xs9">{{d.Plan.StartTime||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">测试时间：</div>
+                        <div class="layui-col-xs9">{{d.BeginTime||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">结束时间：</div>
+                        <div class="layui-col-xs9">{{d.Plan.EndTime||"未知"}}</div>
+                    </div>
+                    <div class="layui-row" style="margin-top:10px">
+                        <div class="layui-col-xs3 propname">完成时间：</div>
+                        <div class="layui-col-xs9">{{d.EndTime||"未知"}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="padding:0 5px">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <b>测试结果</b>
+                </div>
+                <div class="layui-card-body">
+                    {{# if(d.Plan.BusTestPlanUserExamples.filter(function(a){return a.ResultCode!=null;}).length<=0){ }}
+                    <div style="padding:50px;color:#888;text-align:center">暂无结果</div>
+                    {{# } }}
+                    {{# layui.each(d.Plan.BusTestPlanUserExamples,function(i,a){ }}
+                    {{# let results = []; }}
+                    {{# let scores = []; }}
+                    {{# if(a.Result){ }}
+                    {{# results.push(a.Result) }}
+                    {{# scores.push(a.Score) }}
+                    {{# } }}
+                    {{# if(a.ResultIds){ }}
+                    {{# results=a.ResultIds.split(",").map(function(b){return d.Results.find(function(c){return c.Id==b})}); }}
+                    {{# scores=a.Scores.split(","); }}
+                    {{# } }}
+                    {{# layui.each(results,function(j,result){ }}
+
+                    {{# let example=d.Plan.Template.BusTestTemplateExamples.find(function(b){return a.ExampleId==b.ExampleId});}}
+                    {{# if(j==0){ }}
+                    <h3>{{i+1}}.{{example.Example.Title}}</h3>
+                    {{# } }}
+                    <h1 class="layui-font-red" style="text-align:center;margin:20px 0">{{result.Code}}</h1>
+                    <div style="text-align:center;">{{result.Title}}</div>
+                    <div style="text-align:center;">得分：{{scores[j]}}({{result.MinScore}}—{{result.MaxScore}})</div>
+                    {{# if(result.Image){ }}
+                    {{# let img=(result.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
+                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
+                    {{# } }}
+                    <div style="display: flex; margin-bottom: 50px;margin-top:25px">
+                        <div>解析：</div>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=result.NContent}}</pre>
+                    </div>
+
+                    {{# }); }}
+                    {{# }); }}
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <b>答题明细</b>
+                </div>
+                <div class="layui-card-body">
+                    {{# layui.each(d.Questions,function(i,a){ }}
+                    {{# if(!a.SortNo2){ }}
+
+                    <div style="display: flex; ">
+                        <div>{{(i+1)}}.</div>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.Title}}</pre>
+                    </div>
+                    {{# if(a.Question.Image){ }}
+                    {{# let img=(a.Question.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
+                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
+                    {{# } }}
+                    <div class="layui-inline" style="margin-bottom: 50px;">
+                        <b>学员答案：</b>
+                        {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
+                        {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
+                        {{# if(mycode){ }}
+                        <span class="layui-bg-green" style="font-size:14px;display:inline-block;padding:8px 20px">{{mycode}}</span>
+                        {{# } }}
+                    </div>
+
+                    {{# }else if(a.SortNo2==1){ }}
+
+                    <div style="display: flex; ">
+                        <div>{{(i+1)}}.</div>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.NContent}}</pre>
+                    </div>
+                    {{# if(a.Question.Image){ }}
+                    {{# let img=(a.Question.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
+                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
+                    {{# } }}
+                    <div style="display: flex; ">
+                        <div>{{(a.SortNo2)}})</div>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.Title}}</pre>
+                    </div>
+                    <div class="layui-inline" style="margin-bottom: 50px;">
+                        <b>学员答案：</b>
+                        {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
+                        {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
+                        {{# if(mycode){ }}
+                        <span class="layui-bg-green" style="font-size:14px;display:inline-block;padding:8px 20px">{{mycode}}</span>
+                        {{# } }}
+                    </div>
+
+                    {{# }else{ }}
+
+                    <div style="display: flex; ">
+                        <div>{{(a.SortNo2)}})</div>
+                        <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.Title}}</pre>
+                    </div>
+                    <div class="layui-inline" style="margin-bottom: 50px;">
+                        <b>学员答案：</b>
+                        {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
+                        {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
+                        {{# if(mycode){ }}
+                        <span class="layui-bg-green" style="font-size:14px;display:inline-block;padding:8px 20px">{{mycode}}</span>
+                        {{# } }}
+                    </div>
+
+                    {{# } }}
+                    {{# }); }}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
