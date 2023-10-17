@@ -81,7 +81,16 @@ namespace AiBi.Test.Bll
         public override bool AddValidate(out string errorMsg, BusTestPlan model)
         {
             errorMsg = "";
-            var temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page {Id=model.TemplateId }).data.FirstOrDefault();
+            BusTestTemplate temp;
+            var funcBll = AutofacExt.GetService<SysFuncBll>();
+            if (funcBll.UserHasFunc(CurrentUserId,"admin"))
+            {
+                temp = BusTestTemplateBll.GetPageList(new TestTemplateReq.Page { Id = model.TemplateId }).data.FirstOrDefault();
+            }
+            else
+            {
+                temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page { Id = model.TemplateId }).data.FirstOrDefault();
+            }
             if (temp == null)
             {
                 errorMsg = "未找到任务分类";
@@ -106,7 +115,16 @@ namespace AiBi.Test.Bll
         public override bool ModifyValidate(out string errorMsg, BusTestPlan model)
         {
             errorMsg = "";
-            var temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page { Id = model.TemplateId }).data.FirstOrDefault();
+            BusTestTemplate temp;
+            var funcBll = AutofacExt.GetService<SysFuncBll>();
+            if (funcBll.UserHasFunc(CurrentUserId, "admin"))
+            {
+                temp = BusTestTemplateBll.GetPageList(new TestTemplateReq.Page { Id = model.TemplateId }).data.FirstOrDefault();
+            }
+            else
+            {
+                temp = BusTestTemplateBll.GetMyList(new TestTemplateReq.Page { Id = model.TemplateId }).data.FirstOrDefault();
+            }
             if (temp == null)
             {
                 errorMsg = "未找到任务分类";
