@@ -65,13 +65,13 @@
                     <td>测评对象</td>
                     <td>{{d.User.BusUserInfoUsers[0].RealName||d.User.Name||d.User.Account||"未知"}}</td>
                     <td>测评人员</td>
-                    <td></td>
+                    <td>{{d.Plan.ObjectTag.BusUserInfoUsers[0].RealName||d.Plan.ObjectTag.Name||d.Plan.ObjectTag.Account||"未知"}}</td>
                 </tr>
                 <tr>
                     <td>实际用时</td>
                     <td>{{Math.round(d.Duration/60)}}分钟</td>
                     <td>页    次</td>
-                    <td></td>
+                    <td id="pagenum"></td>
                     <td>评价日期</td>
                     <td>{{d.EndTime?new Date(d.EndTime).format("yyyy.MM.dd"):"-"}}</td>
                 </tr>

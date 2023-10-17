@@ -22,6 +22,7 @@
         let html = laytpl($("#pageTemplate").html()).render(json.data);
         window.PageData = json.data;
         $("#page").html(html);
+        $("#pagenum").html(Math.ceil($(document).height() / 794));
     }
     let cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
