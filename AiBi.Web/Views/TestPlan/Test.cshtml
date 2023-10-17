@@ -38,6 +38,12 @@
         .layui-form-checkbox:hover > div {
             background-color: #16b777
         }
+        .red{
+            color:red;
+        }
+        .ul {
+            text-decoration:underline
+        }
     </style>
 }
 <!-- Page header -->
@@ -48,6 +54,17 @@
 <div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>*@
 
 <script type="text/template" id="noteTemplate">
+    <div style="padding:50px;border-radius:15px;width:1150px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:22px">
+        <h2 style="text-align:center;font-size:32px">{{=d.Name}}</h2>
+        <p style="text-align:center;margin-top:40px">本次测试共<span class="red ul">{{d.QuestionNum}}</span>个问题，测试时长：<span class="red ul">{{d.Template.Duration}}</span>分钟，测试过程中<span class="red ul">{{d.CanPause?"可以":"不可以"}}</span>中断</p>
+        <p style="text-align:center;margin-top:10px">本次测试有效期：<span class="red"> {{new Date(d.StartTime).format("yyyy年M月d日")}} - {{new Date(d.EndTime).format("yyyy年M月d日")}} </span>截止</p>
+        <pre style="margin-top:20px;line-height:45px;min-height:350px">{{=d.Template.Note}}</pre>
+    </div>
+    <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
+        <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="start" style="width: 375px; height: 60px; font-size: 24px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">知道了，开始测试</button>
+    </div>
+</script>
+<script type="text/template" id="noteTemplate3">
     <h2 style="text-align:center;padding:30px">{{=d.Name}}</h2>
     {{# let dur = new Date((d.Template.Duration*60+ d.BusTestPlanUsers[0].Duration)*1000); }}
     {{# dur.setHours(dur.getHours()-8); }}
@@ -74,11 +91,14 @@
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d.Index}}</span><span class="layui-font-red">/{{=d.Count}})</span></div>
 
 
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:30px;padding-bottom:50px;min-height:300px">
-        <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d.Question.Title}}</pre>
-        {{# if(d.Question.Image){ }}
-        <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
-        {{# } }}
+    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
+        <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
+        <div style="min-height:150px">
+            {{# if(d.Question.Image){ }}
+            <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+            {{# } }}
+        </div>
+        
     </div>
 
     <form class="layui-form layui-container" style="text-align:center">
@@ -142,7 +162,7 @@
     <div style="text-align:center;padding:10px">时间：<span style="color:red" id="durationdiv"></span></div>
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
 
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:30px">
+    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
         {{# if(d[0].Question.Image){ }}
         <img src="{{=d[0].Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />

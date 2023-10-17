@@ -93,7 +93,7 @@
         var url = BaseUrl + "/ShowPassword/" + e.data.Id;
         $$.post(url, { password: e.data.Password }).then(function (json) {
             layer.prompt({
-                title: "旧密码:" + json.data, area: ["300px", "200px"], formType: 1,btn:["重置","取消"]
+                title: "旧密码:" + json.data, area: ["300px", "200px"], formType: 0,btn:["重置","取消"]
             }, function (pwd, index) {
                 url = BaseUrl + "/SetPassword/" + e.data.Id;
                 $$.post(url, { password: pwd }).then(function (json) {
