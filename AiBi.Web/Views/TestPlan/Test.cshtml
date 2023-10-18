@@ -83,11 +83,7 @@
 
 <script type="text/template" id="singleQuestionTemplate">
     <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
-    {{# if(plan.CanPause){ }}
-    <div class="layui-container" style="text-align:center">
-        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
-    </div>
-    {{# } }}
+
     <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d.Index}}</span><span class="layui-font-red">/{{=d.Count}})</span></div>
 
@@ -115,16 +111,16 @@
             </div>
         </div>
     </form>
-
+    {{# if(plan.CanPause){ }}
+    <div class="layui-container" style="text-align: center; margin-bottom: 50px">
+        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
+    </div>
+    {{# } }}
 </script>
 
 <script type="text/template" id="multipleQuestionTemplate">
     <h2 style="text-align:center;padding:30px">{{=plan.Name}}</h2>
-    {{# if(plan.CanPause){ }}
-    <div class="layui-container" style="text-align:center">
-        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
-    </div>
-    {{# } }}
+
     <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
 
@@ -161,7 +157,11 @@
         <button class="layui-btn layui-btn-primary layui-bg-red layui-btn-lg" type="button" layon="confirm">确认</button>
     </div>
 
-
+    {{# if(plan.CanPause){ }}
+    <div class="layui-container" style="text-align:center;margin-bottom:50px">
+        <button type="button" class="layui-btn layui-btn-lg layui-btn-primary layui-bg-blue" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停答题</button>
+    </div>
+    {{# } }}
 </script>
 
 

@@ -72,7 +72,7 @@
                     <td>{{Math.round(d.Duration/60)}}分钟</td>
                     <td>页    次</td>
                     <td id="pagenum"></td>
-                    <td>评价日期</td>
+                    <td>报告日期</td>
                     <td>{{d.EndTime?new Date(d.EndTime).format("yyyy.MM.dd"):"-"}}</td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                         {{# let img=(a.Question.Image||{}).FullName||"/static/photos/cup-of-coffee-on-table-in-cafe-2.jpg"; }}
                         <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="{{img}}" />
                         {{# } }}
-                        <div class="layui-inline" style="margin-bottom: 50px;">
+                        <div class="layui-inline" style="margin-bottom: 0;">
 
                             {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
                             {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
@@ -125,7 +125,7 @@
                             <div>{{(a.SortNo2)}})</div>
                             <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.Title}}</pre>
                         </div>
-                        <div class="layui-inline" style="margin-bottom: 50px;">
+                        <div class="layui-inline" style="margin-bottom: 0;">
 
                             {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
                             {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
@@ -140,7 +140,7 @@
                             <div>{{(a.SortNo2)}})</div>
                             <pre style="display:block;font-family:inherit;flex:1">{{=a.Question.Title}}</pre>
                         </div>
-                        <div class="layui-inline" style="margin-bottom: 50px;">
+                        <div class="layui-inline" style="margin-bottom: 0;">
                             {{# let myop = d.Plan.BusTestPlanUserOptions.filter(function(b){return b.QuestionId==a.QuestionId;}); }}
                             {{# let mycode=myop.map(function(b){return b.Option.Code;}).join(","); }}
                             {{# if(mycode){ }}

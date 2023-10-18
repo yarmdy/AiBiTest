@@ -33,10 +33,35 @@
             justify-content: center;
             align-items: center;
         }
+        .layui-input {
+            background-color: transparent;
+            border-color: #aaa
+        }
+
+            .layui-input:hover {
+                border-color: #888 !important
+            }
+
         input:-webkit-autofill {
-            background-color: white;
+            background-color: transparent;
             transition: background-color 50000s ease-in-out 0s;
         }
+
+        .layui-input-prefix .layui-icon, .layui-input-split .layui-icon, .layui-input-suffix .layui-icon {
+            color: #888
+        }
+
+        .copyright {
+            width: 100%;
+            position: fixed;
+            bottom: 20px;
+        }
+
+            .copyright, .copyright a {
+                color: white;
+                font-size: 12px;
+                text-align: center
+            }
     </style>
 
 </head>
@@ -81,7 +106,10 @@
             </div>
         </div>
     </div>
-    
+    <div class="copyright">
+        <p>爱拜尔（北京）科技有限公司</p>
+        <p><a href="https://beian.miit.gov.cn/">京ICP备2022001836号-3</a></p>
+    </div>
     <script src="~/Scripts/jquery-3.4.1.min.js?@MvcApplication.Version"></script>
     <script src="~/layui/layui.js?@MvcApplication.Version"></script>
     <script src="~/Scripts/aibibase.js?@MvcApplication.Version"></script>
