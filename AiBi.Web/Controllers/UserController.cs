@@ -50,7 +50,16 @@ namespace AiBi.Test.Web.Controllers
                 }
                 var cookie = $"{res.data.Id}|{res.data.Account}|{res.data.Name}";
                 FormsAuthentication.SetAuthCookie(cookie, false);
-                return Redirect(string.IsNullOrWhiteSpace(req.ReturnUrl) ? "/Home/Index" : req.ReturnUrl);
+                var url = "/Home/Index";
+                if (!string.IsNullOrWhiteSpace(req.ReturnUrl))
+                {
+                    url = req.ReturnUrl.Trim();
+                }
+                if (req.LoginType == Dal.Enum.EnumUserType.Tested)
+                {
+                    url = "/Home/Main";
+                }
+                return Redirect(url);
 
             }
 

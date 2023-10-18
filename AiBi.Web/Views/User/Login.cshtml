@@ -50,6 +50,9 @@
         .layui-input-prefix .layui-icon, .layui-input-split .layui-icon, .layui-input-suffix .layui-icon {
             color: #888
         }
+        .layui-form-radio:hover > *, .layui-form-radioed, .layui-form-radioed > i {
+            color: #608EDC;
+        }
 
         .copyright {
             width: 100%;
@@ -97,6 +100,10 @@
                                     <input type="password" name="password" value="" lay-verify="required" placeholder="密   码" lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
                                 </div>
                             </div>
+                            @*<div class="layui-form-item">
+                                <input type="radio" name="loginType" lay-skin="primary" title="答题" value="Tested" checked>
+                                <input type="radio" name="loginType" lay-skin="primary" title="管理">
+                            </div>*@
                             <div class="layui-form-item" style="width: 270px; margin-top: 21px">
                                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-login" style="background: #608EDC">登录</button>
                             </div>

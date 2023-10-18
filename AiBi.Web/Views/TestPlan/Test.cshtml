@@ -70,14 +70,14 @@
     <div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>*@
 
 <script type="text/template" id="noteTemplate">
-    <div style="padding:50px;border-radius:15px;width:1150px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:22px">
+    <div style="padding:50px;border-radius:15px;width:1150px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:18px">
         <h2 style="text-align:center;font-size:32px">{{=d.Name}}</h2>
         <p style="text-align:center;margin-top:40px">本次测试共<span class="red ul">{{d.QuestionNum}}</span>个问题，测试时长：<span class="red ul">{{d.Template.Duration}}</span>分钟，测试过程中<span class="red ul">{{d.CanPause?"可以":"不可以"}}</span>中断</p>
         <p style="text-align:center;margin-top:10px">本次测试有效期：<span class="red"> {{new Date(d.StartTime).format("yyyy年M月d日")}} - {{new Date(d.EndTime).format("yyyy年M月d日")}} </span>截止</p>
         <pre style="margin-top:20px;line-height:45px;min-height:350px">{{=d.Template.Note}}</pre>
     </div>
     <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
-        <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="start" style="width: 375px; height: 60px; font-size: 24px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">知道了，开始测试</button>
+        <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="start" style="width: 250px; height: 40px; font-size: 18px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">知道了，开始测试</button>
     </div>
 </script>
 

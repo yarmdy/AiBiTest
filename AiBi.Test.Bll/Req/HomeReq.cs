@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AiBi.Test.Dal.Enum;
 using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Bll
@@ -13,7 +14,7 @@ namespace AiBi.Test.Bll
 
             public string ReturnUrl { get; set; }
 
-            
+            public EnumUserType LoginType { get; set; }
         }
         
     }
