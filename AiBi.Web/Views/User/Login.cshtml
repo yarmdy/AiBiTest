@@ -67,21 +67,21 @@
 </head>
 <body>
     <div class="bgfull">
-        <div class="layui-row" style="width:1190px;height:590px;border-radius:10px;display:flex;flex-flow:row nowrap;overflow:hidden;backdrop-filter:blur(15px)">
-            <div style="flex: 1; background: #608EDCb8; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
+        <div class="layui-row" style="width: 892px; height: 354px; border-radius: 10px; display: flex; flex-flow: row nowrap; overflow: hidden; backdrop-filter: blur(5px) ">
+            <div style="flex: 1; background: #608EDCa0; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
                 <div style="text-align:center;">
-                    <img src="~/static/cao/logo.png" style="width:90px;height:90px" />
-                    <p style="color:white;font-size:33px;margin-top:40px">@(MvcApplication.Title)</p>
+                    <img src="~/static/cao/logo.png" style="width:54px;height:54px" />
+                    <p style="color:white;font-size:20px;margin-top:24px">@(MvcApplication.Title)</p>
                 </div>
             </div>
-            <div style="flex: 1; background: #ffffffb8; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
+            <div style="flex: 1; background: #ffffffa0; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center">
                 <div>
-                    <p style="font-size:35px;font-weight:500;text-align:center">欢迎登录</p>
-                    <div style="margin-top:50px">
+                    <p style="font-size:21px;font-weight:500;text-align:center">欢迎登录</p>
+                    <div style="margin-top:30px">
                         <input type="hidden" name="Error" value="@(ViewBag.Error)" />
                         <form class="layui-form" method="post">
                             <div class="layui-form-item">
-                                <div class="layui-input-wrap" style="width:360px">
+                                <div class="layui-input-wrap" style="width:270px">
                                     <div class="layui-input-prefix">
                                         <i class="layui-icon layui-icon-username"></i>
                                     </div>
@@ -90,14 +90,14 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <div class="layui-input-wrap" style="width:360px">
+                                <div class="layui-input-wrap" style="width: 270px">
                                     <div class="layui-input-prefix">
                                         <i class="layui-icon layui-icon-password"></i>
                                     </div>
                                     <input type="password" name="password" value="" lay-verify="required" placeholder="密   码" lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
                                 </div>
                             </div>
-                            <div class="layui-form-item" style="width:360px;margin-top:36px">
+                            <div class="layui-form-item" style="width: 270px; margin-top: 21px">
                                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-login" style="background: #608EDC">登录</button>
                             </div>
                         </form>
