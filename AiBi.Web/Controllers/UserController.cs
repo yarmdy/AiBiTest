@@ -57,7 +57,7 @@ namespace AiBi.Test.Web.Controllers
                 }
                 if (req.LoginType == Dal.Enum.EnumUserType.Tested)
                 {
-                    url = "/Home/Main";
+                    url = "/Home/Main?title=我的测试任务";
                 }
                 return Redirect(url);
 
