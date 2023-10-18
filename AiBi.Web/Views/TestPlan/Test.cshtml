@@ -163,7 +163,16 @@
     </div>
     {{# } }}
 </script>
-
+<script type="text/template" id="overTemplate">
+    <div style="padding:50px;border-radius:15px;width:1150px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:18px;height:300px">
+        <h2 style="text-align:center;font-size:32px">{{=d.Name}}</h2>
+        <p style="text-align:center;margin-top:40px">本次测试已完成，点击下方按钮，关闭页面。</p>
+        
+    </div>
+    <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
+        <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="close" style="width: 250px; height: 40px; font-size: 18px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">退出测试</button>
+    </div>
+</script>
 
 
 

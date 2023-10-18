@@ -61,6 +61,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.EndAnswer(id));
         }
+        public ActionResult ExpireAnswer(int id)
+        {
+            return Json(CurBll.ExpireAnswer(id));
+        }
 
         public ActionResult OwnList() {
             return View("List");

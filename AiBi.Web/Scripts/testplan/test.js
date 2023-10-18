@@ -25,8 +25,9 @@
             var total = plan.Template.Duration * 60 - plan.BusTestPlanUsers[0].Duration;
             total = (total - (curTime - startTime) / 1000) * 1000;
             if (total <= 0) {
+                ///超时
                 clearInterval(timer);
-                $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
+                $$.post('/TestPlan/ExpireAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
                     layer.success("时间到", { shade: 0.5 }, function () {
                         $$.callback("testover", {});
                         $$.closeThis();
@@ -66,13 +67,13 @@
     }
     function toIndex(index) {
         if (index >= plan.Questions.length) {
-
+            //完成
             $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
-                layer.success("完成测试", { shade: 0.5 }, function () {
-                    $$.callback("testover", {});
-                    $$.closeThis();
-                });
                 clearInterval(timer);
+                $$.callback("testover", {});
+                let html = $("#overTemplate").html();
+                html = laytpl(html).render(plan);
+                $("#page").html(html);
             });
             
             return;
@@ -128,6 +129,7 @@
         
 
         $$.post("/TestPlan/StartAnswer/" + PageInfo.KeyValueStr, {}).fail(function (json) {
+            //开始失败
             layer.error("开始失败：" + json.msg, {}, function () {
                 $$.callback("testover", {});
                 $$.closeThis();
@@ -230,12 +232,16 @@
         }
         
     }
-
+    function close() {
+        
+        $$.closeThis();
+    }
     util.on("layon", {
         start: start,
         image: image,
         confirm: confirm,
-        pause:pause
+        pause: pause,
+        close:close
     });
     form.on("checkbox", function (e) {
         option.call(this, e);

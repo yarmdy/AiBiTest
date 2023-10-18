@@ -1,0 +1,57 @@
+﻿@section scripts{
+    <script>
+        var EnumPlanUserStatus = @JsonHelper.ToJson(EnumConvert.ToList<EnumPlanUserStatus>().ToDictionary(a => a.Value, a => a.Text));
+    </script>
+}
+<!-- Page header -->
+<div class="layui-fluid">
+    <div class="layui-row" style="margin-top:0px">
+        <div class="layui-col-xs6">
+            <form class="layui-form" id="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:auto">搜索</label>
+                        <div class="layui-input-inline">
+                            <input type="text" value="" class="layui-input" placeholder="搜索…" name="keyword" id="keyword" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal">搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-xs6" style="text-align: right; ">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
+                    </div>
+                    <div class="layui-inline">
+                        @*<a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
+                            添加任务
+                        </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <table id="table"></table>
+</div>
+
+<script type="text/template" id="actionTemplate">
+    <div class="layui-inline">
+        {{# if(d.BusTestPlanUsers[0].Status!=4){ }}
+        <a class="layui-btn layui-btn-sm starttest " target="addtab" title="开始测试" href="/TestPlan/Test/{{=d.Id}}">开始测试</a>
+        {{# } }}
+    </div>
+</script>
+
+<script type="text/template" id="progressTemplate">
+    <div class="layui-progress layui-progress-big" lay-showpercent="true">
+        <div class="layui-progress-bar" lay-percent="{{d.BusTestPlanUsers[0].FinishQuestion}} / {{d.QuestionNum}}"></div>
+    </div>
+</script>

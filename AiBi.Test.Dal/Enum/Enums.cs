@@ -212,6 +212,12 @@ namespace AiBi.Test.Dal.Enum
         /// </summary>
         [Display(Name = "答题完成")]
         Finish = 4,
+        /// <summary>
+        /// 失效
+        /// </summary>
+        [Display(Name = "失效")]
+        Expire = -1,
+
     }
     /// <summary>
     /// 学员答题状态 0 未答 1 正在答题 2 答完

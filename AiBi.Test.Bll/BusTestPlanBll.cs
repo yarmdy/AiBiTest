@@ -39,6 +39,34 @@ namespace AiBi.Test.Bll
             }
             return base.PageWhere(req, query);
         }
+        public void ProcessUserStatus(IEnumerable<BusTestPlan> list)
+        {
+            foreach(var plan in list)
+            {
+                foreach(var user in plan.BusTestPlanUsers)
+                {
+                    if (user.Duration > plan.Template.Duration * 60)
+                    {
+                        user.Status = (int)EnumPlanUserStatus.Expire;
+                        continue;
+                    }
+                    if (user.Status == (int)EnumPlanUserStatus.Finish)
+                    {
+                        continue;
+                    }
+                    if (DateTime.Now > plan.EndTime)
+                    {
+                        user.Status = (int)EnumPlanUserStatus.Expire;
+                        continue;
+                    }
+                    if(!plan.CanPause && user.BeginTime.HasValue && (DateTime.Now - user.BeginTime.Value).TotalSeconds > plan.Template.Duration * 60)
+                    {
+                        user.Status = (int)EnumPlanUserStatus.Expire;
+                        continue;
+                    }
+                }
+            }
+        }
         public override void PageAfter(PlanReq.Page req, Response<List<BusTestPlan>, object, object, object> res)
         {
             var planUserBll = AutofacExt.GetService<BusTestPlanUserBll>();
@@ -225,6 +253,12 @@ namespace AiBi.Test.Bll
                 res.msg = "您已经答完了";
                 return res;
             }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经超时了,无法再答题了";
+                return res;
+            }
             if (planUser.Status != (int)EnumPlanUserStatus.Answer)
             {
                 res.code = EnumResStatus.Fail;
@@ -344,6 +378,12 @@ namespace AiBi.Test.Bll
                 res.msg = "您已经答完了";
                 return res;
             }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经超时了,无法再答题了";
+                return res;
+            }
             if (planUser.BeginTime == null)
             {
                 planUser.BeginTime = DateTime.Now;
@@ -391,6 +431,12 @@ namespace AiBi.Test.Bll
                 res.msg = "您已经答完了";
                 return res;
             }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经超时了,无法再答题了";
+                return res;
+            }
             if (!plan.CanPause)
             {
                 res.code = EnumResStatus.Fail;
@@ -425,6 +471,12 @@ namespace AiBi.Test.Bll
             {
                 res.code = EnumResStatus.Fail;
                 res.msg = "您已经答完了";
+                return res;
+            }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经超时了,无法再答题了";
                 return res;
             }
             planUser.EndTime = DateTime.Now;
@@ -484,6 +536,42 @@ namespace AiBi.Test.Bll
             });
             planUser.ResultCode = string.Join("|",myExam.Select(a=>a.ResultCode));
             Context.Configuration.LazyLoadingEnabled = false;
+            Context.SaveChanges();
+            return res;
+        }
+        public Response<int, object, object, object> ExpireAnswer(int id)
+        {
+            var res = new Response<int, object, object, object>();
+            var plan = Find(false, id);
+            if (plan == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "未找到测试任务";
+                return res;
+            }
+            var planUser = plan.BusTestPlanUsers.FirstOrDefault(a => a.UserId == CurrentUserId);
+            if (planUser == null)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您无法参加此次测试";
+                return res;
+            }
+            if (planUser.Status == (int)EnumPlanUserStatus.Finish)
+            {
+                res.code = EnumResStatus.Fail;
+                res.msg = "您已经答完了";
+                return res;
+            }
+            if (planUser.Status == (int)EnumPlanUserStatus.Expire)
+            {
+                
+                return res;
+            }
+            planUser.EndTime = DateTime.Now;
+            planUser.Status = (int)EnumPlanUserStatus.Expire;
+            planUser.ModifyTime = DateTime.Now;
+            planUser.ModifyUserId = CurrentUserId;
+
             Context.SaveChanges();
             return res;
         }
