@@ -4,10 +4,10 @@ using AiBi.Test.Dal.Model;
 
 namespace AiBi.Test.Bll
 {
-    public partial class UserInfoReq
+    public partial class GroupReq
     {
         public class Page :PageReq{ 
-            public int? GroupId { get; set; }
+            
         }
         
     }

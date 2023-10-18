@@ -17,11 +17,16 @@ namespace AiBi.Test.Bll
     {
         public override IQueryable<BusUserInfo> PageWhere(UserInfoReq.Page req, IQueryable<BusUserInfo> query)
         {
-            return GetIncludeQuery( 
+            query = GetIncludeQuery( 
                 base.PageWhere(req, query)
                     .Where(a => a.OwnerId == CurrentUserId)
                 , a => new { a.User,a.User.Avatar}
                 );
+            if (req.GroupId != null)
+            {
+                query = query.Where(a=>a.GroupId==req.GroupId);
+            }
+            return query;
         }
         public override Expression<Func<BusUserInfo, bool>> PageWhereKeyword(UserInfoReq.Page req)
         {

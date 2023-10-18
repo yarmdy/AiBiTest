@@ -55,7 +55,7 @@ namespace AiBi.Test.Dal.Model
         public virtual DbSet<BusUserInfo> BusUserInfos { get; set; }
 
         public virtual DbSet<BusTestPlanUserOption> BusTestPlanUserOptions { get; set; }
-
+        public virtual DbSet<BusUserGroup> BusUserGroups { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -1603,6 +1603,11 @@ namespace AiBi.Test.Dal.Model
 
                 entity.HasRequired(d => d.User).WithMany(p => p.BusUserInfoUsers).HasForeignKey(d => d.UserId);
                 entity.HasRequired(d => d.Owner).WithMany(p => p.BusUserInfoOwners).HasForeignKey(d => d.OwnerId);
+
+                entity.HasOptional(d => d.UserGroup)
+                    .WithMany(p => p.BusUserInfos)
+                    .HasForeignKey(d => d.GroupId)
+                                        ;
             });
 
             modelBuilder.Entity<BusTestPlanUserOption>(entity => {
@@ -1667,6 +1672,63 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.OptionId)
                                         ;
             });
+
+            modelBuilder.Entity<BusUserGroup>(entity =>
+            {
+                entity.ToTable("bus_UserGroup");
+
+                entity.Property(e => e.Id).HasComment("Id");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.CreateUserId).HasComment("创建人");
+
+                entity.Property(e => e.DelTime)
+                    .HasColumnType("datetime")
+                    .HasComment("删除时间");
+
+                entity.Property(e => e.DelUserId).HasComment("删除人");
+
+                entity.Property(e => e.IsDel).HasComment("是否删除");
+
+                entity.Property(e => e.ModifyTime)
+                    .HasColumnType("datetime")
+                    .HasComment("修改时间");
+
+                entity.Property(e => e.ModifyUserId).HasComment("修改人");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasComment("名称");
+
+                entity.Property(e => e.ParentId).HasComment("上级分组");
+
+                entity.Property(e => e.SortNo).HasComment("排序");
+
+                entity.HasRequired(d => d.CreateUser)
+                    .WithMany(p => p.BusUserGroupCreateUsers)
+                    .HasForeignKey(d => d.CreateUserId)
+                                        ;
+
+                entity.HasOptional(d => d.DelUser)
+                    .WithMany(p => p.BusUserGroupDelUsers)
+                    .HasForeignKey(d => d.DelUserId)
+                    ;
+
+                entity.HasOptional(d => d.ModifyUser)
+                    .WithMany(p => p.BusUserGroupModifyUsers)
+                    .HasForeignKey(d => d.ModifyUserId)
+                    ;
+
+                entity.HasOptional(d => d.Parent)
+                    .WithMany(p => p.InverseParent)
+                    .HasForeignKey(d => d.ParentId)
+                    ;
+            });
+
         }
 
     }

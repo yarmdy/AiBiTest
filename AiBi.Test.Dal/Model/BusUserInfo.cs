@@ -38,8 +38,11 @@ namespace AiBi.Test.Dal.Model
         /// 单位
         /// </summary>
         public string UnitName { get; set; }
+        public int? GroupId { get; set; }
         
         public virtual SysUser User { get; set; }
         public virtual SysUser Owner { get; set; }
+
+        public virtual BusUserGroup UserGroup { get; set; }
     }
 }

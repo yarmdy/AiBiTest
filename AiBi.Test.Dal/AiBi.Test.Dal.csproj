@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Enum\Enums.cs" />
     <Compile Include="Model\BaseEntity.cs" />
+    <Compile Include="Model\BusUserGroup.cs" />
     <Compile Include="Model\BusClassify.cs" />
     <Compile Include="Model\BusTestTemplateExample.cs" />
     <Compile Include="Model\BusTestTemplate.cs" />
