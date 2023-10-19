@@ -73,7 +73,7 @@
                 <p>答题时间：{{Math.ceil(a.BusTestPlanUsers[0].Duration/60)}}分钟</p>
                 {{# if(a.BusTestPlanUsers[0].Status==4){ }}
                 <p>完成时间：{{new Date(a.BusTestPlanUsers[0].EndTime).format("yyyy年MM月dd日 HH:mm")}}</p>
-                {{# }else if(a.BusTestPlanUsers[0].Status==3){ }}
+                {{# }else if(a.BusTestPlanUsers[0].Status==3 || a.BusTestPlanUsers[0].BeginTime){ }}
                 <p style="color:yellow">暂停时间：{{new Date(a.BusTestPlanUsers[0].ModifyTime).format("yyyy年MM月dd日 HH:mm")}}</p>
                 {{# }else{ }}
                 <p style="visibility:hidden">占位</p>
