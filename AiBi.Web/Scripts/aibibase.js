@@ -678,6 +678,23 @@ layer.image = function (title, ...srcs) {
         }
     });
 }
+layer.confirmAsync = async function (msg, opt) {
+    var options = {
+        icon: 3,
+        //shade: 0.01,
+        shift: 5,
+        title:"提示",
+    };
+    $.extend(options, opt);
+    let def = $.Deferred();
+    layer.confirm(msg, options, function (l) {
+        def.resolve(l);
+    }, function (l) {
+        def.reject(l);
+    });
+    var promise = def.promise();
+    return promise;
+}
 $.fn.hideEx = function () {
     let display = this.css("display");
     this.attr("display", display);

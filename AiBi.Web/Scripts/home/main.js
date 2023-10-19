@@ -6,7 +6,7 @@
     }
     let pager = {
         page: 1,
-        size:10,
+        size:9,
     }
     function getList(page, size) {
         let data = $.extend({}, pager);
@@ -17,5 +17,5 @@
             $("#page").html(html);
         });
     }
-    getList(1,10);
+    getList();
 });

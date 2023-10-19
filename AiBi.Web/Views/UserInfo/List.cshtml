@@ -6,6 +6,17 @@
         var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
     </script>
 }
+@section styles{
+    <style>
+        .ztree li span.button.add {
+            margin-left: 2px;
+            margin-right: 2px;
+            background-position: -144px 0;
+            vertical-align: top;
+            *vertical-align: middle;
+        }
+    </style>
+    }
 <!-- Page header -->
 <div class="layui-fluid">
     <div class="layui-row" style="margin-top:0px">

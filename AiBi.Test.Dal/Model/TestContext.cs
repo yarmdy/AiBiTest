@@ -4,18 +4,14 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Web;
 
 namespace AiBi.Test.Dal.Model
 {
     public partial class TestContext : DbContext
     {
-        static TestContext()
-        {
+        private void init() {
             Database.SetInitializer<TestContext>(null);
-        }
-        public TestContext()
-            : base("Name=TestEntities")
-        {
             // 关闭语义可空判断
             Configuration.UseDatabaseNullSemantics = true;
 
@@ -24,10 +20,18 @@ namespace AiBi.Test.Dal.Model
             (this as IObjectContextAdapter).ObjectContext.ContextOptions.UseCSharpNullComparisonBehavior = true;
             Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
+        public TestContext()
+            : base("Name=TestEntities")
+        {
+            
+            init();
+        }
 
         public TestContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
-        { }
+        {
+            init();
+        }
 
         public virtual DbSet<BusClassify> BusClassifies { get; set; }
         public virtual DbSet<BusExample> BusExamples { get; set; }
@@ -1675,7 +1679,13 @@ namespace AiBi.Test.Dal.Model
 
             modelBuilder.Entity<BusUserGroup>(entity =>
             {
-                entity.ToTable("bus_UserGroup");
+                var tableName = "bus_UserGroup";
+                //var arr = (HttpContext.Current?.User?.Identity?.Name + "").Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                //if (arr != null && arr.Length >= 3)
+                //{
+                //    tableName = tableName + "_" + arr[0];
+                //}
+                entity.ToTable(tableName);
 
                 entity.Property(e => e.Id).HasComment("Id");
 
@@ -1728,7 +1738,7 @@ namespace AiBi.Test.Dal.Model
                     .HasForeignKey(d => d.ParentId)
                     ;
             });
-
+            base.OnModelCreating(modelBuilder);
         }
 
     }

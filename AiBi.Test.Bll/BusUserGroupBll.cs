@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.SqlClient;
 
 namespace AiBi.Test.Bll
 {
@@ -14,7 +15,15 @@ namespace AiBi.Test.Bll
     {
         public override IQueryable<BusUserGroup> PageWhere(GroupReq.Page req, IQueryable<BusUserGroup> query)
         {
-            return GetIncludeQuery(base.PageWhere(req, query), a => new { a.Parent});
+            query = GetIncludeQuery(base.PageWhere(req, query), a => new { a.Parent});
+            query = query.Where(a => a.CreateUserId == CurrentUserId);
+            return query;
+        }
+        public override void PageAfter(GroupReq.Page req, Response<List<BusUserGroup>, object, object, object> res)
+        {
+            var ids = res.data.Select(a => a.Id).ToArray();
+            var list = Context.BusUserGroups.AsNoTracking().Where(a => ids.Contains(a.Id)).Select(a => new { a.Id, isParent = a.InverseParent.Any() }).ToDictionary(a=>a.Id,a=>a.isParent);
+            res.data.ForEach(a => a.ObjectTag = new { IsParent = list.G(a.Id,false)});
         }
 
         public override IQueryable<BusUserGroup> PageWhereCustom(GroupReq.Page req, IQueryable<BusUserGroup> query, KeyValuePair<string, string> where)
@@ -68,6 +77,21 @@ namespace AiBi.Test.Bll
         public override IQueryable<BusUserGroup> PageOrder(GroupReq.Page req, IQueryable<BusUserGroup> query)
         {
             return query.OrderBy(a=>a.ParentId).ThenBy(a=>a.SortNo);
+        }
+
+        public override bool DirectDel => true;
+
+
+        public int[] GetChildrenIds(int id)
+        {
+            var sql = @"with cte as(
+select Id,ParentId,0 lvl from bus_UserGroup where Id=@id
+union all
+select b.Id,b.ParentId,a.lvl+1 lvl from cte a
+join bus_UserGroup b on a.Id=b.ParentId and a.lvl<20
+)select distinct Id from cte";
+            var ids = Context.Database.SqlQuery<int>(sql,new SqlParameter("@id",id)).ToArray();
+            return ids;
         }
     }
 }

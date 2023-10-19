@@ -15,6 +15,7 @@ namespace AiBi.Test.Bll
 {
     public partial class BusUserInfoBll : BaseBll<BusUserInfo, UserInfoReq.Page>
     {
+        public BusUserGroupBll BusUserGroupBll { get; set; }
         public override IQueryable<BusUserInfo> PageWhere(UserInfoReq.Page req, IQueryable<BusUserInfo> query)
         {
             query = GetIncludeQuery( 
@@ -24,7 +25,8 @@ namespace AiBi.Test.Bll
                 );
             if (req.GroupId != null)
             {
-                query = query.Where(a=>a.GroupId==req.GroupId);
+                var groupIds = BusUserGroupBll.GetChildrenIds(req.GroupId.Value);
+                query = query.Where(a=> groupIds.Contains(a.GroupId.Value));
             }
             return query;
         }
@@ -45,7 +47,7 @@ namespace AiBi.Test.Bll
 
         public override void DetailAfter(int id, int? id2, Response<BusUserInfo, object, object, object> res)
         {
-            res.data.LoadChild(a => new { a.User.Avatar});
+            res.data.LoadChild(a => new { a.User.Avatar,a.UserGroup});
         }
 
         public override bool AddValidate(out string errorMsg, BusUserInfo model)

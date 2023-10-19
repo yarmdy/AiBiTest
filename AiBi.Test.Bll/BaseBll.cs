@@ -448,6 +448,7 @@ namespace AiBi.Test.Bll
         #endregion
 
         #region 删除
+        public virtual bool DirectDel => false;
         public virtual bool DeleteValidate(out string errorMsg, List<T> models, int[][] ids)
         {
             errorMsg = "";
@@ -479,13 +480,24 @@ namespace AiBi.Test.Bll
                 res.msg = errorMsg;
                 return res;
             }
-            models.ForEach(model => {
-                Context.Set<T>().Attach(model);
-                //Context.Entry(model).State = EntityState.Deleted;
-                model.IsDel = true;
-                model.DelUserId = CurrentUserId;
-                model.DelTime= DateTime.Now;
-            });
+            if (DirectDel)
+            {
+                models.ForEach(model => {
+                    Context.Set<T>().Attach(model);
+                    Context.Set<T>().Remove(model);
+                });
+            }
+            else
+            {
+                models.ForEach(model => {
+                    Context.Set<T>().Attach(model);
+                    //Context.Entry(model).State = EntityState.Deleted;
+                    model.IsDel = true;
+                    model.DelUserId = CurrentUserId;
+                    model.DelTime = DateTime.Now;
+                });
+            }
+            
             var ret = Context.SaveChanges();
             if (ret <= 0)
             {
