@@ -13,7 +13,13 @@
         data.page = page || data.page;
         data.size = size || data.size;
         $$.post("/TestPlan/GetMyList", data).then(function (json) {
-            var html = layui.laytpl($("#itemTemplate").html()).render(json.data);
+            var html;
+            if (json.data.length <= 0) {
+
+                html = layui.laytpl($("#emptyTemplate").html()).render(json.data);
+            } else {
+                html = layui.laytpl($("#itemTemplate").html()).render(json.data);
+            }
             $("#page").html(html);
         });
     }
