@@ -2,6 +2,7 @@
     var pageurl = (string)null;
     var editurl = (string)"/User/AgentEdit";
     var name = "用户";
+    var upModel = new UserReq.Upload { };
 
     ActionDescriptor ActionInfo = ViewBag.ActionInfo;
     if (ActionInfo.ActionName.ToLower() == "agentlist")
@@ -9,31 +10,38 @@
         pageurl = "/GetAgentList";
         editurl = "/User/AgentEdit";
         name = "代理商";
+        upModel.UserType = EnumUserType.Agent;
     }
     if (ActionInfo.ActionName.ToLower() == "testorlist")
     {
         pageurl = "/GetTestorList";
         editurl = "/User/TestorEdit";
         name = "教师";
+        upModel.UserType = EnumUserType.Testor;
     }
     if (ActionInfo.ActionName.ToLower() == "testedlist")
     {
         pageurl = "/GetTestedList";
         editurl = "/User/TestedEdit";
         name = "会员";
+        upModel.UserType = EnumUserType.Tested;
     }
     if (ActionInfo.ActionName.ToLower() == "visitorlist")
     {
         pageurl = "/GetVisitorList";
         editurl = "/User/VisitorEdit";
         name = "访客";
+        upModel.UserType = EnumUserType.Visitor;
     }
     if (ActionInfo.ActionName.ToLower() == "mytestorlist")
     {
         pageurl = "/GetMyTestorList";
         editurl = "/User/TestorEdit";
         name = "教师";
+        upModel.UserType = EnumUserType.Testor;
+        upModel.IsMine = true;
     }
+
 }
 @section styles{
     <style>
@@ -50,8 +58,8 @@
 }
 @section scripts{
     <script>
-        var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
-        var EnumStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumEnableState)).ToDictionary(a=>a.Value,a=>a.Text));
+        var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a => a.Value, a => a.Text));
+        var EnumStatus = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumEnableState)).ToDictionary(a => a.Value, a => a.Text));
         
     @if (!string.IsNullOrEmpty(pageurl))
     {
@@ -88,6 +96,11 @@
                         <a href="@Url.Content(editurl)" class="layui-btn layui-btn-sm" target="addtab">
                             添加@(name)
                         </a>
+                    </div>
+                    <div class="layui-inline">
+                        <button type="button" class="layui-btn layui-btn-sm" lay-on="import">
+                            导入@(name)
+                        </button>
                     </div>
                 </div>
             </div>
@@ -144,3 +157,7 @@
         {{# } }}
     </div>
 </script>
+
+@{
+    Html.RenderPartial("ImportDialog",new ImportDialogModel { Name="导入"+name,TemplateUrl=Url.Content("~/Template/用户导入模板.xlsx"), UploadUrl=Url.Content("~/User/Import"),Accept="file",Exts="xlsx",ParamList= upModel.Obj2Dic()});
+}

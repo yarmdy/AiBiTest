@@ -678,19 +678,35 @@ layer.image = function (title, ...srcs) {
         }
     });
 }
-layer.confirmAsync = async function (msg, opt) {
+layer.confirmAsync = function (msg, opt, yes, cancel) {
     var options = {
         icon: 3,
         //shade: 0.01,
         shift: 5,
-        title:"提示",
+        title: "提示",
     };
     $.extend(options, opt);
     let def = $.Deferred();
     layer.confirm(msg, options, function (l) {
+        yes && yes();
         def.resolve(l);
     }, function (l) {
+        cancel && cancel();
         def.reject(l);
+    });
+    var promise = def.promise();
+    return promise;
+}
+layer.promptAsync = function (opt, yes) {
+    var options = {
+        title: "请输入",
+        formType: 0,
+    };
+    $.extend(options, opt);
+    let def = $.Deferred();
+    layer.prompt(options, function (value, index, elem) {
+        yes && yes();
+        def.resolve({ value: value, index: index, elem: elem });
     });
     var promise = def.promise();
     return promise;

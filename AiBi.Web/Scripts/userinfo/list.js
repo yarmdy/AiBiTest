@@ -19,7 +19,12 @@
         { field: 'Action', title: '操作',fixed:"right", templet: "#actionTemplate",width:210 },
 
     ]];
-    
+    ImportDialog.init(layui);
+    layui.util.on("lay-on", {
+        import: function () {
+            ImportDialog.show();
+        }
+    });
     callback.userinfoaddok = function (json) {
         layer.success(json.msg);
         getList();
@@ -27,6 +32,10 @@
     callback.userinfoeditok = function (json) {
         layer.success(json.msg);
         getList();
+    }
+    callback.uploadSuccess = function (json) {
+        getList(1, 10);
+        layer.success(json.msg);
     }
 
     table.render({

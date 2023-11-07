@@ -7,7 +7,7 @@ namespace AiBi.Test.Dal.Model
     {
         public BusUserGroup()
         {
-            InverseParent = new HashSet<BusUserGroup>();
+            Children = new HashSet<BusUserGroup>();
             BusUserInfos = new HashSet<BusUserInfo>();
         }
 
@@ -24,7 +24,7 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public int SortNo { get; set; }
         public virtual BusUserGroup Parent { get; set; }
-        public virtual ICollection<BusUserGroup> InverseParent { get; set; }
+        public virtual ICollection<BusUserGroup> Children { get; set; }
         public virtual ICollection<BusUserInfo> BusUserInfos { get; set; }
     }
 }

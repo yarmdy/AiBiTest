@@ -157,6 +157,7 @@
     <Compile Include="js\ueditor\net\App_Code\NotSupportedHandler.cs" />
     <Compile Include="js\ueditor\net\App_Code\PathFormater.cs" />
     <Compile Include="js\ueditor\net\App_Code\UploadHandler.cs" />
+    <Compile Include="Models\ImportDialogModel.cs" />
     <Compile Include="Models\EmptyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1530,6 +1531,7 @@
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\font\iconfont.svg" />
     <Content Include="layui\layui.js" />
+    <Content Include="Scripts\importdialog.js" />
     <Content Include="Scripts\aibibase.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -2498,6 +2500,9 @@
     <Content Include="Views\TestPlan\Report.cshtml" />
     <Content Include="Views\TestPlanUser\Detail_bak.cshtml" />
     <Content Include="Views\Home\Main_bak.cshtml" />
+    <Content Include="Template\用户导入模板.xlsx" />
+    <Content Include="Views\Shared\ImportDialog.cshtml" />
+    <Content Include="Template\我的会员导入模板.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

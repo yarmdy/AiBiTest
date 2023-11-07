@@ -1,5 +1,6 @@
 ﻿@{
     ActionDescriptor action = ViewBag.ActionInfo;
+    var upModel = new UserReq.Upload { };
 }
 @section scripts{
     <script>
@@ -16,7 +17,7 @@
             *vertical-align: middle;
         }
     </style>
-    }
+}
 <!-- Page header -->
 <div class="layui-fluid">
     <div class="layui-row" style="margin-top:0px">
@@ -45,6 +46,11 @@
                         <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
                             添加学员
                         </a>
+                    </div>
+                    <div class="layui-inline">
+                        <button type="button" class="layui-btn layui-btn-sm" lay-on="import">
+                            导入学员
+                        </button>
                     </div>
                 </div>
             </div>
@@ -76,3 +82,7 @@
         <table id="select_table"></table>
     </div>
 </div>
+
+@{
+    Html.RenderPartial("ImportDialog", new ImportDialogModel { Name = "导入学员", TemplateUrl = Url.Content("~/Template/我的会员导入模板.xlsx"), UploadUrl = Url.Content("~/UserInfo/Import"), Accept = "file", Exts = "xlsx", ParamList = upModel.Obj2Dic() });
+}

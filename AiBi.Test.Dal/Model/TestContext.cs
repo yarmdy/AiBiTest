@@ -1734,7 +1734,7 @@ namespace AiBi.Test.Dal.Model
                     ;
 
                 entity.HasOptional(d => d.Parent)
-                    .WithMany(p => p.InverseParent)
+                    .WithMany(p => p.Children)
                     .HasForeignKey(d => d.ParentId)
                     ;
             });

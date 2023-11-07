@@ -1,0 +1,28 @@
+﻿@model ImportDialogModel
+<div id="divImport" style="display:none">
+    <style>
+            .layui-upload-choose {
+                display: none !important;
+            }
+        </style>
+    <form class="layui-form">
+        <div class="layui-form-item" style="border-width: 1px; border-style: solid; border-color: #e6e6e6; ">
+            <label style="display: block; padding: 9px 15px; width: 350px;  font-weight: 300; line-height: 20px; ">第一步：点击下载excel模板，然后在模板中录入数据</label>
+            <div class="layui-input-block" style="margin: 11px 190px;">
+                <a href="@(Model.TemplateUrl)" target="_blank" class="layui-btn" id="downExcel"><i class="layui-icon"></i>下载模板</a>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form" style="border-width: 1px; border-style: solid; border-color: #e6e6e6;">
+            <label style="display: block; padding: 9px 15px; width: 350px;  font-weight:300; line-height: 20px; ">第二步：点击导入按钮，选择上述准备好的文件</label>
+            <div class="layui-input-block" style="margin: 11px 100px;">
+                <button type="button" id="btnUploadImportFile" class="layui-btn " style=" margin-right: 20px; "><i class="layui-icon">&#xe67c;</i>选择导入文件</button>
+                <input type="hidden" id="hidImportFilePath" name="hidImportFilePath" />
+                <button type="button" lay-filter="formImport" class="layui-btn" id="formImport"><i class="layui-icon"></i>确认上传</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var ImportDialogModel = @JsonHelper.ToJson(Model);
+</script>
+<script src="~/Scripts/importdialog.js?v=@MvcApplication.Version"></script>

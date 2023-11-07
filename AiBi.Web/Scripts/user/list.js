@@ -54,11 +54,21 @@
             } : {}
         });
     }
+    ImportDialog.init(layui);
+    layui.util.on("lay-on", {
+        import: function () {
+            ImportDialog.show();
+        }
+    });
     callback.useraddok = function (json) {
         getList(1, 10);
         layer.success(json.msg);
     }
     callback.usereditok = function (json) {
+        getList(1, 10);
+        layer.success(json.msg);
+    }
+    callback.uploadSuccess = function (json) {
         getList(1, 10);
         layer.success(json.msg);
     }

@@ -22,7 +22,7 @@ namespace AiBi.Test.Bll
         public override void PageAfter(GroupReq.Page req, Response<List<BusUserGroup>, object, object, object> res)
         {
             var ids = res.data.Select(a => a.Id).ToArray();
-            var list = Context.BusUserGroups.AsNoTracking().Where(a => ids.Contains(a.Id)).Select(a => new { a.Id, isParent = a.InverseParent.Any() }).ToDictionary(a=>a.Id,a=>a.isParent);
+            var list = Context.BusUserGroups.AsNoTracking().Where(a => ids.Contains(a.Id)).Select(a => new { a.Id, isParent = a.Children.Any() }).ToDictionary(a=>a.Id,a=>a.isParent);
             res.data.ForEach(a => a.ObjectTag = new { IsParent = list.G(a.Id,false)});
         }
 

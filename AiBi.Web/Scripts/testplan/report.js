@@ -150,7 +150,7 @@ layui.config({
         plan = json.data;
         
         bingChartInit();
-        tiaoChartInit();
+        //tiaoChartInit();
         tableInit();
     }
     init();
