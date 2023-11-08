@@ -32,6 +32,20 @@ namespace AiBi.Test.Bll
             }
             return query;
         }
+        public override void PageAfter(UserInfoReq.Page req, Response<List<BusUserInfo>, object, object, object> res)
+        {
+            Context.Configuration.LazyLoadingEnabled = false;
+            res.data.ForEach(a => {
+                a.Owner = null;
+                a.CreateUser = null;
+                a.ModifyUser = null;
+                a.DelUser = null;
+                a.User.CreateUser = null;
+                a.User.DelUser = null;
+                a.User.ModifyUser = null;
+                a.User.BusUserInfoUsers = null;
+            });
+        }
         public override Expression<Func<BusUserInfo, bool>> PageWhereKeyword(UserInfoReq.Page req)
         {
             var query = base.PageWhereKeyword(req);
