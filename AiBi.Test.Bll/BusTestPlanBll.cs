@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 using System.Web.Mvc;
 using System.Web;
+using System.Collections;
 
 namespace AiBi.Test.Bll
 {
@@ -78,7 +79,19 @@ namespace AiBi.Test.Bll
                     a.BusTestPlanUsers = planUserDic.G(a.Id,new List<BusTestPlanUser>());
                 });
             }
+            Context.Configuration.LazyLoadingEnabled = false;
+            if (req.Tag + "" == "report" || req.Tag + "" == "ownreport")
+            {
+                res.data.ForEach(b =>
+                {
+                    b.BusTestPlanUsers.ForEach((a,i) => {
+                        a.Plan = null;
+                    });
+                });
+            }
+            
         }
+        
         public override void DetailAfter(int id, int? id2, Response<BusTestPlan, object, object, object> res)
         {
             var uid = res.data.CreateUserId;
@@ -89,16 +102,32 @@ namespace AiBi.Test.Bll
             }
             else if (Tag + "" == "report")
             {
-                res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example), Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == uid).FirstOrDefault()).ToList() });
+                res.data.LoadChild(a => new { a.Template.Image,Examples = a.Template.BusTestTemplateExamples.Select(b=>b.Example) });
+                Context.Configuration.LazyLoadingEnabled = false;
+                var puserbll = AutofacExt.GetService<BusTestPlanUserBll>();
+                res.data.BusTestPlanUsers = puserbll.GetListFilter(a => a.Include(b => b.User.BusUserInfoUsers).Where(b => b.PlanId == res.data.Id)).OrderBy(a => a.EndTime ?? DateTime.Parse("2099-12-31")).ThenBy(a => a.FinishQuestion).ToList();
+                res.data.BusTestPlanUsers.ForEach((a, i) => {
+                    a.User.BusUserInfoUsers = a.User.BusUserInfoUsers.Where(b => b.OwnerId == uid).ToList();
+                    a.User.BusUserInfoUsers.ForEach((b, j) => b.User = null);
+                });
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.OrderBy(a => a.EndTime ?? DateTime.Parse("2099-12-31")).ThenBy(a => a.FinishQuestion).ToList();
                 var ids = res.data.BusTestPlanUsers.Select(a => a.UserId).ToArray();
                 
                 var userinfos = Context.BusUserInfos.Where(a=>ids.Contains(a.UserId) && a.OwnerId== uid).ToList();
                 res.data.BusTestPlanUsers.ToList().ForEach(a => a.User.BusUserInfoUsers = new List<BusUserInfo> { userinfos.FirstOrDefault(b => b.UserId == a.UserId) });
+
+                res.data2 = AutofacExt.GetService<BusUserGroupBll>().GetGroupTree(uid,true).data;
             }
             else
             {
-                res.data.LoadChild(a => new { a.Template.Image, Avatars = a.BusTestPlanUsers.Select(b => b.User.BusUserInfoUsers.Where(c => c.OwnerId == uid).FirstOrDefault()).ToList() });
+                res.data.LoadChild(a => new { a.Template.Image });
+                Context.Configuration.LazyLoadingEnabled = false;
+                var puserbll = AutofacExt.GetService<BusTestPlanUserBll>();
+                res.data.BusTestPlanUsers = puserbll.GetListFilter(a=>a.Include(b=>b.User.BusUserInfoUsers).Where(b=>b.PlanId==res.data.Id));
+                res.data.BusTestPlanUsers.ForEach((a, i) => {
+                    a.User.BusUserInfoUsers = a.User.BusUserInfoUsers.Where(b=>b.OwnerId==uid).ToList();
+                    a.User.BusUserInfoUsers.ForEach((b,j) => b.User = null);
+                });
             }
             
         }

@@ -346,12 +346,7 @@ namespace AiBi.Test.Bll
             }
             Context.Configuration.LazyLoadingEnabled = false;
             var groupBll = AutofacExt.GetService<BusUserGroupBll>();
-            var groupList = groupBll.GetListFilter(a => a.Where(b => b.CreateUserId == CurrentUserId), null, false);
-            groupList.ForEach(a => {
-                a.Parent = groupList.FirstOrDefault(b => b.Id == a.ParentId);
-                a.Children = groupList.Where(b => b.ParentId == a.Id).OrderBy(b=>b.SortNo).ToList();
-            });
-            groupList = groupList.Where(a=>a.ParentId==null).OrderBy(a=>a.SortNo).ToList();
+            var groupList = groupBll.GetGroupTree(CurrentUserId).data;
             using (var trans = Context.Database.BeginTransaction())
             {
                 userList.ForEach((userInfo, index) =>

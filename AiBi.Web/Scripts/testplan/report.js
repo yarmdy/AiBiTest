@@ -1,7 +1,9 @@
 ﻿var plan;
+var tree;
+var ztree;
 layui.config({
     base: "/js/"
-}).use(['table'], async function () {
+}).use(['table', 'ztree'], async function () {
     const table = layui.table;
     
     function bingChartInit(){
@@ -138,20 +140,102 @@ layui.config({
             elem: '#table',
             data: plan.BusTestPlanUsers,
             cols: cols,
-            //height: "full-0",
+            height: "full-150",
             size: "sm",
             done: function (res, curr, count, origin) {
                 layui.element.render('progress')
             },
         });
     }
+    $("#searchForm").on("submit", function () {
+        filterTable();
+        return false;
+    });
+    function filterTable() {
+        var data = plan.BusTestPlanUsers.filter(function (a) {
+            var keyword = $("#keyword").val().toLowerCase();
+            var res = (a.User.BusUserInfoUsers[0].RealName + "").toLowerCase().indexOf(keyword) >= 0 || (a.User.Name + "").toLowerCase().indexOf(keyword) >= 0;
+            var sel = ztree.getSelectedNodes();
+            if (sel && sel[0].Id) {
+                var arr = [sel[0].Id];
+                if (sel[0].ObjectTag) {
+                    arr = arr.concat(sel[0].ObjectTag);
+                }
+                res = res & (arr.indexOf(a.User.BusUserInfoUsers[0].GroupId) >= 0);
+            }
+            return res;
+        });
+        table.reloadData("table",{
+            data: data
+        });
+    }
     async function init() {
         let json = await $$.get("/TestPlan/GetReport/"+PageInfo.KeyValueStr, {});
         plan = json.data;
+        tree = json.data2;
         
         bingChartInit();
         //tiaoChartInit();
         tableInit();
     }
-    init();
+    
+
+    function treeInit() {
+        //$("#tree").height($(document).outerHeight() - 125 - 12);
+        var setting = {
+            data: {
+                key: {
+                    name: "Name",
+                    children:"Children"
+                },
+                simpleData: {
+                    enable: false,
+                    idKey: "Id",
+                    pIdKey: "ParentId",
+                }
+            },
+            view: {
+                selectedMulti: false
+            },
+            callback: {
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    $("#tree").hide(100);
+                    //选中
+                    if (treeNode.Id == null) {
+                        $("[name=GroupName]").val("");
+                        return;
+                    }
+                    $("[name=GroupName]").val(treeNode.Name);
+                },
+
+            },
+            edit: {
+                enable: false
+            }
+        };
+
+        $("[name=GroupName]").on("focus click", function (e) {
+            //var offset = $("#tree").closest(".layui-card-body").offset();
+            var offset = {top:0,left:0};
+            $("#tree").css({
+                top: $(this).offset().top - offset.top + $(this).outerHeight(),
+                left: $(this).offset().left - offset.left
+            }).show(100);
+        });
+        $(document).on("click.tree", function () {
+            $("#tree").hide(100);
+        });
+        $("#tree,[name=GroupName]").on("click", function (e) {
+            e.stopPropagation();
+        });
+
+        var nodes = [{ Name: "全部", isParent: true, Id: null, ParentId: null, Children: tree, expandFlag: true }];
+        
+
+        var ztreeObj = $.fn.zTree.init($("#tree"), setting, nodes);
+        ztreeObj.expandAll(true);
+        return ztreeObj;
+    }
+    await init();
+    ztree = treeInit();
 });

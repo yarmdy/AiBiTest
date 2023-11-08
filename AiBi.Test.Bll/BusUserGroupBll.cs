@@ -93,5 +93,41 @@ join bus_UserGroup b on a.Id=b.ParentId and a.lvl<20
             var ids = Context.Database.SqlQuery<int>(sql,new SqlParameter("@id",id)).ToArray();
             return ids;
         }
+
+        public Response<List<BusUserGroup>,object> GetGroupTree(int userId,bool includeChildrenIds=false)
+        {
+            var res = GetListFilter(a => a.Where(b => b.CreateUserId == userId), null, false);
+            res.ForEach(a => {
+                a.Parent = res.FirstOrDefault(b => b.Id == a.ParentId);
+                a.Children = res.Where(b => b.ParentId == a.Id).OrderBy(b => b.SortNo).ToList();
+            });
+            res = res.Where(a => a.ParentId == null).OrderBy(a => a.SortNo).ToList();
+            if (includeChildrenIds)
+            {
+                var dgList = res.ToList();
+                while (dgList.Count > 0)
+                {
+                    var one = dgList.Last();
+                    dgList.Remove(one);
+                    dgList.AddRange(one.Children);
+
+                    if (one.Children.Count <= 0)
+                    {
+                        continue;
+                    }
+                    var dg2List = one.Children.ToList();
+                    var oneChildren = one.Children.Select(a=>a.Id).ToList();
+                    one.ObjectTag = oneChildren;
+                    while (dg2List.Count > 0)
+                    {
+                        var two = dg2List.Last();
+                        dg2List.Remove(two);
+                        dg2List.AddRange(two.Children);
+                        oneChildren.AddRange(two.Children.Select(a => a.Id));
+                    }
+                }
+            }
+            return new Response<List<BusUserGroup>, object> { data=res};
+        }
     }
 }
