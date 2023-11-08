@@ -156,7 +156,7 @@ layui.config({
             var keyword = $("#keyword").val().toLowerCase();
             var res = (a.User.BusUserInfoUsers[0].RealName + "").toLowerCase().indexOf(keyword) >= 0 || (a.User.Name + "").toLowerCase().indexOf(keyword) >= 0;
             var sel = ztree.getSelectedNodes();
-            if (sel && sel[0].Id) {
+            if (sel.length>0 && sel[0].Id) {
                 var arr = [sel[0].Id];
                 if (sel[0].ObjectTag) {
                     arr = arr.concat(sel[0].ObjectTag);
