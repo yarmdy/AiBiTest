@@ -16,5 +16,11 @@ namespace AiBi.Test.Web.Controllers
         public BusTestPlanUserBll CurBll { get; set; }
 
         public override BaseBll<BusTestPlanUser, PlanUserReq.Page> Bll => CurBll;
+
+        public ActionResult Export(int planId, int[] userIds)
+        {
+            var stream = CurBll.Export(out string fileName,planId, userIds);
+            return File(stream, "application/pdf",fileName);
+        }
     }
 }

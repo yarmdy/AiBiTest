@@ -151,6 +151,13 @@ layui.config({
         filterTable();
         return false;
     });
+    $("iframe[name=downframe]").on("load error", function (e) {
+        layer.closeAll("loading");
+        var errorp = this.contentWindow.document.querySelector("p.empty-subtitle.text-secondary");
+        if (errorp) {
+            layer.error(errorp.innerHTML);
+        }
+    });
     layui.util.on("lay-on", {
         export: function () {
             var data = filterTable().map(function (a) {
