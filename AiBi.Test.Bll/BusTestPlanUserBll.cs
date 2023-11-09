@@ -57,7 +57,7 @@ namespace AiBi.Test.Bll
             var plan = BusTestPlanBll.GetFirstOrDefault(a => {
 
                 return BusTestPlanBll.GetIncludeQuery(a, b => new {
-                    b.BusTestPlanUsers,
+                    PlanuserInfo = b.BusTestPlanUsers.First().User.BusUserInfoUsers,
                     Image3 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,
                     b.BusTestPlanUserOptions.First().Option,
                     b.BusTestPlanUserExamples,
@@ -83,6 +83,11 @@ namespace AiBi.Test.Bll
             {
                 throw new Exception("要导出的学员不存在");
             }
+            return planToPdf(plan);
+        }
+
+        private Stream planToPdf(BusTestPlan plan)
+        {
             return null;
         }
     }
