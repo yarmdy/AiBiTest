@@ -151,6 +151,23 @@ layui.config({
         filterTable();
         return false;
     });
+    layui.util.on("lay-on", {
+        export: function () {
+            var data = filterTable().map(function (a) {
+                return a.UserId;
+            });
+            if (data.length <= 0) {
+                layer.error("没有任何数据要导出");
+                return;
+            }
+            $("#UserIds").html("");
+            data.forEach(function (a, i) {
+                $("#UserIds").append('<input name="UserIds[' + i + ']" value="' + a + '" />');
+            });
+            $("#downform").submit();
+            layer.load(2);
+        }
+    });
     function filterTable() {
         var data = plan.BusTestPlanUsers.filter(function (a) {
             var keyword = $("#keyword").val().toLowerCase();
@@ -168,6 +185,7 @@ layui.config({
         table.reloadData("table",{
             data: data
         });
+        return data;
     }
     async function init() {
         let json = await $$.get("/TestPlan/GetReport/"+PageInfo.KeyValueStr, {});
