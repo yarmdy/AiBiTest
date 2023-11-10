@@ -151,12 +151,15 @@ layui.config({
         filterTable();
         return false;
     });
-    $("iframe[name=downframe]").on("load error", function (e) {
-        layer.closeAll("loading");
-        var errorp = this.contentWindow.document.querySelector("p.empty-subtitle.text-secondary");
-        if (errorp) {
-            layer.error(errorp.innerHTML);
+    $("iframe[name=downframe]").on("load error unload message", function (e) {
+        try {
+            var errorp = this.contentWindow.document.querySelector("p.empty-subtitle.text-secondary");
+            if (errorp) {
+                layer.error(errorp.innerHTML);
+            }
+        } catch  {
         }
+        
     });
     layui.util.on("lay-on", {
         export: function () {
@@ -172,7 +175,11 @@ layui.config({
                 $("#UserIds").append('<input name="UserIds[' + i + ']" value="' + a + '" />');
             });
             $("#downform").submit();
-            layer.load(2);
+            layer.msg("已发送导出请求，不要关闭此页，等待下载结束", {
+                title: "注意", icon: 1, btn: ["确认"], yes: function (r) {
+                    layer.close(r);
+                },time:0,shade:0.5
+            });
         }
     });
     function filterTable() {
@@ -199,7 +206,7 @@ layui.config({
         plan = json.data;
         tree = json.data2;
         
-        bingChartInit();
+        //bingChartInit();
         //tiaoChartInit();
         tableInit();
     }

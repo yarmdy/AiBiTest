@@ -157,7 +157,7 @@
                             {{# if(d.Plan.BusTestPlanUserExamples.filter(function(a){return a.ResultCode!=null;}).length<=0){ }}
                             <div style="padding:50px;color:#888;text-align:center">暂无结果</div>
                             {{# } }}
-                            {{# let resultArr=[];}}
+                            {{# let resultArr=[]; }}
                             {{# layui.each(d.Plan.BusTestPlanUserExamples,function(i,a){ }}
                             {{# let results = []; }}
                             {{# let scores = []; }}

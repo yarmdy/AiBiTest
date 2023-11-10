@@ -7,6 +7,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.IO.Compression;
 
 namespace AiBi.Test.Bll
 {
@@ -72,6 +73,7 @@ namespace AiBi.Test.Bll
             {
                 throw new Exception("测评任务不存在");
             }
+            fileName = $"{plan.Name}得测评报告.pdf";
             plan.BusTestPlanUserOptions = plan.BusTestPlanUserOptions.Where(b => userIds.Contains(b.UserId)).ToList();
             plan.BusTestPlanUserExamples = plan.BusTestPlanUserExamples.Where(b => userIds.Contains(b.UserId)).OrderBy(a => a.BeginTime).ToList();
             plan.Template.BusTestTemplateExamples = plan.Template.BusTestTemplateExamples.OrderBy(a => a.SortNo).ToList();
@@ -83,12 +85,11 @@ namespace AiBi.Test.Bll
             {
                 throw new Exception("要导出的学员不存在");
             }
-            return planToPdf(plan);
+            var stream = planToPdf(plan);
+
+            return stream;
         }
 
-        private Stream planToPdf(BusTestPlan plan)
-        {
-            return null;
-        }
+        
     }
 }
