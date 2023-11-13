@@ -168,7 +168,7 @@ namespace AiBi.Test.Web.Controllers
             var id = (filterContext.ActionParameters as IDictionary).G<int?>("id");
             var id2 = (filterContext.ActionParameters as IDictionary).G<int?>("id2");
             var ids = new int?[] {id,id2 };
-            PageInfo["KeyValues"] = ids.Take(st.EntitySet.ElementType.KeyProperties.Count);
+            PageInfo["KeyValues"] = ids.Take(st.EntitySet.ElementType.KeyProperties.Count).ToArray();
             PageInfo["KeyValueStr"] = string.Join(",", ids.Take(st.EntitySet.ElementType.KeyProperties.Count).Select(a => a + ""));
             if (ids[0] == null)
             {

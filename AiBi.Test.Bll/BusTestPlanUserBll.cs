@@ -47,10 +47,9 @@ namespace AiBi.Test.Bll
             Context.Configuration.LazyLoadingEnabled = true;
         }
 
-        public Stream Export(out string fileName,int planId, int[] userIds)
+        private BusTestPlan getExportPlan(int planId, int[] userIds)
         {
-            fileName = "测评报告.pdf";
-            if(userIds==null || userIds.Length <= 0)
+            if (userIds == null || userIds.Length <= 0)
             {
                 throw new Exception("没有任何学员被导入");
             }
@@ -73,23 +72,39 @@ namespace AiBi.Test.Bll
             {
                 throw new Exception("测评任务不存在");
             }
-            fileName = $"{plan.Name}得测评报告.pdf";
+            
             plan.BusTestPlanUserOptions = plan.BusTestPlanUserOptions.Where(b => userIds.Contains(b.UserId)).ToList();
             plan.BusTestPlanUserExamples = plan.BusTestPlanUserExamples.Where(b => userIds.Contains(b.UserId)).OrderBy(a => a.BeginTime).ToList();
             plan.Template.BusTestTemplateExamples = plan.Template.BusTestTemplateExamples.OrderBy(a => a.SortNo).ToList();
             plan.Template.BusTestTemplateExamples.ToList().ForEach(a => a.Example.BusExampleQuestions = a.Example.BusExampleQuestions.OrderBy(b => b.SortNo).ThenBy(b => b.SortNo2).ToList());
             plan.CreateUser.BusUserInfoUsers = plan.CreateUser.BusUserInfoUsers.Where(a => a.OwnerId == a.UserId).ToList();
             plan.ObjectTag = plan.CreateUser;
-            plan.BusTestPlanUsers = plan.BusTestPlanUsers.Where(a=>userIds.Contains(a.UserId)).ToList();
+            plan.BusTestPlanUsers = plan.BusTestPlanUsers.Where(a => userIds.Contains(a.UserId)).ToList();
             if (userIds.Any(a => !plan.BusTestPlanUsers.Any(b => a == b.UserId)))
             {
                 throw new Exception("要导出的学员不存在");
             }
+            return plan;
+        }
+        public Stream Export(out string fileName,int planId, int[] userIds)
+        {
+            fileName = "测评报告.pdf";
+            var plan = getExportPlan(planId,userIds);
+            fileName = $"{plan.Name}得测评报告.pdf";
             var stream = planToPdf(plan);
 
             return stream;
         }
+        public Stream ExportDetails(out string fileName, int planId, int[] userIds)
+        {
+            fileName = "测评报告.pdf";
+            var plan = getExportPlan(planId, userIds);
+            fileName = $"{plan.Name}得测评报告明细.pdf";
+            var stream = planToPdfDetails(plan);
 
-        
+            return stream;
+        }
+
+
     }
 }

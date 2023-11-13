@@ -9,7 +9,16 @@
 
     var laytpl = layui.laytpl
 
-    
+    layui.util.on("lay-on", {
+        export: function () {
+            $("#downform").submit();
+            layer.msg("已发送导出请求，不要关闭此页，等待下载结束", {
+                title: "注意", icon: 1, btn: ["确认"], yes: function (r) {
+                    layer.close(r);
+                }, time: 0, shade: 0.5
+            });
+        }
+    });
     async function renderDetail() {
         let json = await $$.common.getDetail.req();
         json.data.Questions = json.data.Plan.Template.BusTestTemplateExamples.reduce(function (last, cur) {

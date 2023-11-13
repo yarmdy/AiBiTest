@@ -1,33 +1,40 @@
 ﻿@{
     ViewBag.NoCard = true;
+    Dictionary<string, object> PageInfo = ViewBag.PageInfo;
 }
 @section styles{
     <style>
-        .propname{
-            font-weight:400;
-            text-align:right;
+        .propname {
+            font-weight: 400;
+            text-align: right;
         }
+
         #page {
             background: white;
             width: 980px;
             border: 1px solid #cfcfcf;
             margin-top: 20px;
-            box-sizing:content-box;
+            box-sizing: content-box;
         }
-        .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-mend, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row]{
-            border-color:black
+
+        .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-mend, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+            border-color: black
         }
-        .strongt{
-            margin-top:15px;
-            display:block;
+
+        .strongt {
+            margin-top: 15px;
+            display: block;
         }
-        .red{
-            color:red;
+
+        .red {
+            color: red;
         }
-        .redu{
-            color:red;
-            text-decoration:underline;
+
+        .redu {
+            color: red;
+            text-decoration: underline;
         }
+
         .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
             background-color: transparent;
         }
@@ -38,10 +45,20 @@
         var EnumSex=@JsonHelper.ToJson(EnumConvert.ToList<EnumSex>().ToDictionary(a=>a.Value,a=>a.Text));
     </script>
 }
-<div></div>
-<div class="layui-container" id="page">
-    
+<div class="layui-inline" style="position:fixed;right:100px;top:30px;">
+    <button type="button" class="layui-btn layui-btn-lg" lay-on="export">导出</button>
 </div>
+<div class="layui-container" id="page">
+
+</div>
+
+<form id="downform" target="downframe" action="/TestPlanUser/ExportDetails" method="post" style="display:none">
+    <input type="hidden" name="PlanId" value="@(((int?[])PageInfo.G("KeyValues"))[0])" />
+    <input type="hidden" name="UserIds[0]" value="@(((int?[])PageInfo.G("KeyValues"))[1])" />
+    <button>提交</button>
+</form>
+<iframe name="downframe" style="display:none"></iframe>
+
 <script type="text/template" id="pageTemplate">
     <div style="padding:20px;line-height:26px">
         <h1 style="text-align:center;padding:35px 0">爱拜尔PSY心理测评报告</h1>
@@ -218,7 +235,7 @@
                 </tr>
             </tbody>
         </table>
-        
+
     </div>
-    
+
 </script>

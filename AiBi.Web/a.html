@@ -21,9 +21,11 @@
     .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-mend, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row]{
         border-color:black
     }
+    strong{font-weight: bold;}
     .strongt{
         margin-top:15px;
         display:block;
+        font-weight: bold;
     }
     .red{
         color:red;
@@ -43,108 +45,67 @@
     <table class="layui-table" style="color:black">
         <tbody>
             <tr>
-                <td>测试名称</td>
-                <td colspan="5"></td>
-            </tr>
-            <tr>
-                <td>题目数</td>
-                <td></td>
-                <td>完成题数</td>
-                <td></td>
-                <td>版  本</td>
-                <td>V1.0</td>
-            </tr>
-            <tr>
-                <td>规定时长</td>
-                <td>分钟</td>
-                <td>测评对象</td>
-                <td></td>
-                <td>测评人员</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>实际用时</td>
-                <td>分钟</td>
-                <td>页    次</td>
-                <td id="pagenum"></td>
-                <td>报告日期</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>测试时间</td>
-                <td></td>
-                <td>结束时间</td>
-                <td></td>
-                <td>完成时间</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="line-height:26px">
-                    <div></div>
-                    <strong class="strongt">说明</strong>
-                    <pre style="font-family: inherit; "></pre>
-                    <strong class="strongt">评价方法</strong>
-                    <pre style="font-family: inherit; "></pre>
-                    <strong class="strongt">测试题</strong>
-                    <div style="display: flex; ">
-                        <div>.</div>
-                        <pre style="display:block;font-family:inherit;flex:1"></pre>
-                    </div>
-                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="" />
-                    <div class="layui-inline" style="margin-bottom: 0;">
-                        <strong style="color:red">（）</strong>
-                    </div>
-                    <div style="display: flex; ">
-                        <div>.</div>
-                        <pre style="display:block;font-family:inherit;flex:1"></pre>
-                    </div>
-                    <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="" />
-                    <div style="display: flex; ">
-                        <div>)</div>
-                        <pre style="display:block;font-family:inherit;flex:1"></pre>
-                    </div>
-                    <div class="layui-inline" style="margin-bottom: 0;">
-                        <strong style="color:red">（)</strong>
-                    </div>
-                    <div style="display: flex; ">
-                        <div>)</div>
-                        <pre style="display:block;font-family:inherit;flex:1"></pre>
-                    </div>
-                    <div class="layui-inline" style="margin-bottom: 0;">
-                        <strong style="color:red">（)</strong>
-                    </div>
-                    <strong class="strongt">评价结果</strong>
-                    <div>
-                        答题：<span class="red"></span>
-                        <div style="padding:50px;color:#888;text-align:center">暂无结果</div>
-                        &nbsp;分数：<span class="redu"></span>
-                        <pre style="font-family:inherit">
-                        ：
-                        <img style="height:100px;margin:10px auto;display:block;object-fit:cover" src="" />
-                        </pre>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>相关说明</td>
-                <td colspan="5"></td>
-            </tr>
-            <tr>
-                <td>编制人员</td>
-                <td></td>
-                <td>审核人员</td>
-                <td></td>
-                <td>批准人员</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>编制日期</td>
-                <td></td>
-                <td>审核日期</td>
-                <td></td>
-                <td>批准日期</td>
-                <td></td>
-            </tr>
+    <td>测试名称</td>
+    <td colspan="5">阿富汗国际体能测试</td>
+</tr>
+<tr>
+    <td>题目数</td>
+    <td>22</td>
+    <td>规定时长</td>
+    <td>300分钟</td>
+    <td>版  本</td>
+    <td>V1.0</td>
+</tr>
+<tr>
+    <td>完成人数</td>
+    <td>1</td>
+    <td>总人数</td>
+    <td>1</td>
+    <td>测评人员</td>
+    <td>高晓春</td>
+</tr>
+<tr>
+    <td>报告日期</td>
+    <td>2023.11.13</td>
+    <td>开始日期</td>
+    <td>2023.10.11 00:00:00</td>
+    <td>结束日期</td>
+    <td>2023.11.30 23:59:59</td>
+</tr>
+<tr>
+</tr>
+<tr><table class="layui-table" style="color:black">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>得分情况</th>
+            <th>结果代码</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>宗师的学员1</td><td>1|2|2|17|25</td><td>A|A|A|A|A</td></tr>
+    </tbody>
+</table></tr>
+<tr>
+    <td>相关说明</td>
+    <td colspan="5"></td>
+</tr>
+<tr>
+    <td>编制人员</td>
+    <td></td>
+    <td>审核人员</td>
+    <td></td>
+    <td>批准人员</td>
+    <td></td>
+</tr>
+<tr>
+    <td>编制日期</td>
+    <td></td>
+    <td>审核日期</td>
+    <td></td>
+    <td>批准日期</td>
+    <td></td>
+</tr>
         </tbody>
     </table>
 </div>

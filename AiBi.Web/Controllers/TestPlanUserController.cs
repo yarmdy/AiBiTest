@@ -22,5 +22,10 @@ namespace AiBi.Test.Web.Controllers
             var stream = CurBll.Export(out string fileName,planId, userIds);
             return File(stream, "application/pdf",fileName);
         }
+        public ActionResult ExportDetails(int planId, int[] userIds)
+        {
+            var stream = CurBll.ExportDetails(out string fileName, planId, userIds);
+            return File(stream, "application/pdf", fileName);
+        }
     }
 }

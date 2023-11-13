@@ -76,6 +76,65 @@ namespace AiBi.Test.Bll
 </body>
 </html>
 ";
+        const string _htmlTotal = @"<!doctype html>
+<html lang=""zh-cn"">
+<head>
+<meta charset=""utf-8"" />
+<meta name=""viewport"" content=""width=device-width, initial-scale=1, viewport-fit=cover"" />
+<meta http-equiv=""X-UA-Compatible"" content=""ie=edge"" />
+<link href=""layui/css/layui.css"" rel=""stylesheet"" />
+<link href=""Styles/aibibase.css"" rel=""stylesheet"" />
+<style>
+    .propname{{
+        font-weight:400;
+        text-align:right;
+    }}
+    #page {{
+        background: white;
+        width: 980px;
+        border: 1px solid #cfcfcf;
+        margin-top: 20px;
+        box-sizing:content-box;
+    }}
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-mend, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row]{{
+        border-color:black
+    }}
+    strong{{font-weight: bold;}}
+    .strongt{{
+        margin-top:15px;
+        display:block;
+        font-weight: bold;
+    }}
+    .red{{
+        color:red;
+    }}
+    .redu{{
+        color:red;
+        text-decoration:underline;
+    }}
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {{
+        background-color: transparent;
+    }}
+</style>
+</head>
+<body>
+<div style=""padding:20px;line-height:26px"">
+    <h1 style=""text-align:center;padding:35px 0"">爱拜尔PSY心理测评报告</h1>
+    <table class=""layui-table"" style=""color:black"">
+        <tbody>
+            {0}
+        </tbody>
+    </table>
+    {1}{2}
+    <table class=""layui-table"" style=""color:black"">
+        <tbody>
+            {3}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+";
         const string _header = @"<tr>
     <td>测试名称</td>
     <td colspan=""5"">{0}</td>
@@ -113,6 +172,35 @@ namespace AiBi.Test.Bll
     <td>{11}</td>
 </tr>
 ";
+        const string _headerTotal = @"<tr>
+    <td>测试名称</td>
+    <td colspan=""5"">{0}</td>
+</tr>
+<tr>
+    <td>题目数</td>
+    <td>{1}</td>
+    <td>规定时长</td>
+    <td>{2}分钟</td>
+    <td>版  本</td>
+    <td>V1.0</td>
+</tr>
+<tr>
+    <td>完成人数</td>
+    <td>{3}</td>
+    <td>总人数</td>
+    <td>{4}</td>
+    <td>测评人员</td>
+    <td>{5}</td>
+</tr>
+<tr>
+    <td>报告日期</td>
+    <td>{6}</td>
+    <td>开始日期</td>
+    <td>{7}</td>
+    <td>结束日期</td>
+    <td>{8}</td>
+</tr>
+";
         const string _detail = @"<tr>
 <td colspan=""6"" style=""line-height:26px"">
     <div></div>
@@ -134,19 +222,19 @@ namespace AiBi.Test.Bll
 </tr>
 <tr>
     <td>编制人员</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
     <td>审核人员</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
     <td>批准人员</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
 </tr>
 <tr>
     <td>编制日期</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
     <td>审核日期</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
     <td>批准日期</td>
-    <td></td>
+    <td><span style=""visibility: hidden;color:white;"">占位占位</span></td>
 </tr>";
         const string _questionTitle = @"<div>
     <div style=""float:left; line-height:26px;"">{0}.</div>
@@ -164,8 +252,118 @@ namespace AiBi.Test.Bll
 {0}：{1}
 {2}
 </pre>";
+
+        const string _tableTotal = @"<table class=""layui-table"" style=""color:black"">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>得分情况</th>
+            <th>结果代码</th>
+        </tr>
+    </thead>
+    <tbody>
+        {0}
+    </tbody>
+</table>
+";
+        const string _tableTotalDetail = @"<table class=""layui-table"" style=""color:black"">
+    <tbody>
+        <tr><td>{0}</td></tr>
+    </tbody>
+</table>
+";
+        const string _tabletr = @"<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>";
         #endregion
+
         private Stream planToPdf(BusTestPlan plan)
+        {
+            var questions = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleQuestions).ToList();
+            var results = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleResults).ToList();
+            var stream = new MemoryStream();
+            using (var writer = new PdfWriter(stream))
+            using (var pdf = new PdfDocument(writer.SetSmartMode(true)))
+            using (var doc = new Document(pdf, PageSize.A3))
+            {
+                var fontpd = new DefaultFontProvider(true, true, true, "SimHei");
+                var seletor = fontpd.GetFontSelector(new[] { "微软雅黑" }, new iText.Layout.Font.FontCharacteristics());
+                var font = seletor.GetFonts().Where(a => a + "" == "SimHei").FirstOrDefault();
+                doc.SetFontProvider(fontpd);
+                var pfont = PdfFontFactory.CreateFont(font.GetFontName());
+                doc.SetFont(pfont);
+                var properties = new ConverterProperties();
+                properties.SetFontProvider(fontpd);
+                properties.SetBaseUri(AppDomain.CurrentDomain.BaseDirectory);
+                //var css = new DefaultCssApplierFactory();
+                #region 标题表格表头
+                var header = string.Format(_headerTotal, plan.Name, plan.QuestionNum
+                    , plan.Template.Duration
+                    , plan.BusTestPlanUsers.Count(a => a.Status == 4)
+                    , plan.BusTestPlanUsers.Count
+                    , (plan.CreateUser?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (plan.CreateUser?.Name)
+                    , DateTime.Now.ToString("yyyy.MM.dd")
+                    , plan.StartTime.ToString("yyyy.MM.dd HH:mm:ss")
+                    , plan.EndTime.ToString("yyyy.MM.dd HH:mm:ss")
+                    );
+                #endregion
+                var detailsb = new StringBuilder();
+                plan.BusTestPlanUsers.ForEach((planUser, index) =>
+                {
+                    detailsb.AppendFormat(_tabletr,(planUser.User?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.User?.Name),planUser.Score,planUser.ResultCode);
+                });
+                var detailsb2 = new StringBuilder();
+                plan.BusTestPlanUsers.ForEach((planUser, index) =>
+                {
+                    var questionsb = new StringBuilder();
+                    questionsb.Append("<div>");
+                    questionsb.AppendFormat("<div>{0} 的回答和得分明细：</div>", (planUser.User?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.User?.Name));
+                    var lastSortNo = 0;
+                    questions.ForEach((a, i) => {
+                        var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId; });
+                        var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
+                        
+                        if (a.SortNo2 == null)
+                        {
+                            questionsb.Append($"{i+1}、");
+                        }
+                        else if(a.SortNo2==1)
+                        {
+                            questionsb.Append($"{i + 1}-{a.SortNo2}、");
+                            lastSortNo = i + 1;
+                        }
+                        else
+                        {
+                            questionsb.Append($"{lastSortNo}-{a.SortNo2}、");
+                        }
+                        
+                        questionsb.AppendFormat(@"<span style=""color:red"">{0}</span>",mycode);
+
+                        var sumScore = a?.Example?.BusExampleOptions?.Where(b=>myop.Any(c=>c.OptionId==b.OptionId))?.Sum(b=>b.Score)??0;
+                        questionsb.AppendFormat(@" ( 得分：{0} );    ", sumScore);
+                    });
+                    questionsb.Append("</div>");
+                    detailsb2.Append(questionsb.ToString());
+                });
+                #region 结尾表格
+                var tail = string.Format(_tail);
+                #endregion
+
+                var detail  = string.Format(_tableTotal, detailsb.ToString());
+                var detail2  = string.Format(_tableTotalDetail, detailsb2.ToString());
+                var html = string.Format(_htmlTotal, header, detail,detail2, tail);
+                var eles = HtmlConverter.ConvertToElements(html, properties);
+                eles.ForEach((ele, i) => doc.Add((IBlockElement)ele));
+
+
+                writer.SetCloseStream(false);
+
+                doc.Close();
+                pdf.Close();
+                writer.Close();
+            }
+            stream.Position = 0;
+            return stream;
+        }
+        private Stream planToPdfDetails(BusTestPlan plan)
         {
             var questions = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleQuestions).ToList();
             var results = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleResults).ToList();
@@ -197,7 +395,7 @@ namespace AiBi.Test.Bll
                         , planUser.FinishQuestion
                         , plan.Template.Duration
                         , (planUser.User?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.User?.Name)
-                        , (planUser.CreateUser?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.CreateUser?.Name)
+                        , (plan.CreateUser?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.CreateUser?.Name)
                         , Math.Round(planUser.Duration / 60.0)
                         , ""
                         , planUser.EndTime?.ToString("yyyy.MM.dd")
@@ -213,10 +411,10 @@ namespace AiBi.Test.Bll
                         if (a.SortNo2 == null)
                         {
                             questionsb.AppendFormat(_questionTitle,i+1, a.Question.Title);
-                            if (a.Question.Image != null)
-                            {
-                                questionsb.AppendFormat(_questionImg,a.Question.Image.FullName.Substring(1));
-                            }
+                            //if (a.Question.Image != null)
+                            //{
+                            //    questionsb.AppendFormat(_questionImg,a.Question.Image.FullName.Substring(1));
+                            //}
                             var myop = plan.BusTestPlanUserOptions.Where(b=>{return b.QuestionId==a.QuestionId;});
                             var mycode = string.Join(",",myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
@@ -224,10 +422,10 @@ namespace AiBi.Test.Bll
                         else if (a.SortNo2 == 1)
                         {
                             questionsb.AppendFormat(_questionTitle, i + 1, a.Question.NContent);
-                            if (a.Question.Image != null)
-                            {
-                                questionsb.AppendFormat(_questionImg, a.Question.Image.FullName.Substring(1));
-                            }
+                            //if (a.Question.Image != null)
+                            //{
+                            //    questionsb.AppendFormat(_questionImg, a.Question.Image.FullName.Substring(1));
+                            //}
                             questionsb.AppendFormat(_questionTitle, a.SortNo2, a.Question.Title);
                             var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId; });
                             var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
@@ -261,8 +459,12 @@ namespace AiBi.Test.Bll
                             }
                             else
                             {
-                                var srcs = a.Scores.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Where(b=>int.TryParse(b,out int intt)).Select(int.Parse).ToArray();
+                                var srcs = a.Scores == null ? new[] { a.Score } : (a.Scores.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Where(b=>int.TryParse(b,out int intt)).Select(int.Parse).ToArray());
                                 int j = 0;
+                                if (a.ResultIds == null)
+                                {
+                                    return new List<KeyValuePair<int, BusExampleResult>>() { new KeyValuePair<int, BusExampleResult>(a.Score,a.Result) };
+                                }
                                 var rlts = a.ResultIds.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Where(b=>int.TryParse(b,out int intt)).Select(int.Parse).Select(b => {
                                     return new KeyValuePair<int, BusExampleResult>(srcs[j++], results.FirstOrDefault(c => c.Id == b));
                                 });
@@ -275,10 +477,10 @@ namespace AiBi.Test.Bll
                         });
                         resultArr.ForEach((a, i) => {
                             var imghtml = "";
-                            if (a.Value.Image != null)
-                            {
-                                imghtml = string.Format(_questionImg,a.Value.Image.FullName.Substring(1));
-                            }
+                            //if (a.Value.Image != null)
+                            //{
+                            //    imghtml = string.Format(_questionImg,a.Value.Image.FullName.Substring(1));
+                            //}
                             resultsb.AppendFormat(_resultDesc, a.Value.Title,a.Value.NContent, imghtml);
                         });
                     }
