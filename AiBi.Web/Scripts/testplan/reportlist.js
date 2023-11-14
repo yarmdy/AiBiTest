@@ -8,7 +8,7 @@
         { field: 'StartTime', title: '开始时间', width: 150 },
         { field: 'EndTime', title: '结束时间', width: 150 },
         {
-            field: 'Template', title: '任务类型', templet: function (d) {
+            field: 'Template', title: '量表组合', templet: function (d) {
                 return d.Template.Title;
             }
         },

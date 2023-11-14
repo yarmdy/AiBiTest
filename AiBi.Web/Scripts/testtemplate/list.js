@@ -80,7 +80,7 @@
     table.on("tool(table)", function (e) {
         switch (e.event) {
             case "remove": {
-                layer.confirm("确定要移除这条任务分类吗？<br />移除后用户将无法使用", {icon:3}, function (l) {
+                layer.confirm("确定要移除这条量表组合吗？<br />移除后用户将无法使用", {icon:3}, function (l) {
                     layer.close(l);
                     $$.post(BaseUrl + "/Remove/" + PageInfo.KeyValueStr, { ids: [e.data.Id] }).then(function (json) {
                         layer.success(json.msg);

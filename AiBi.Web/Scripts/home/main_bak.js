@@ -18,7 +18,7 @@
                 return d.BusTestPlanUsers[0].EndTime||"-";
             } },
         //{
-        //    field: 'Template', title: '任务类型', templet: function (d) {
+        //    field: 'Template', title: '量表组合', templet: function (d) {
         //        return d.Template.Title;
         //    }
         //},

@@ -43,7 +43,7 @@
                         @if (action.ActionName.ToLower() == "list")
                         {
                             <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
-                                添加任务类型
+                                添加量表组合
                             </a>
                         }
                         @if (action.ActionName.ToLower().StartsWith("my"))
@@ -53,7 +53,7 @@
                         @if (action.ActionName.ToLower().StartsWith("its"))
                         {
                             <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Select" class="layui-btn layui-btn-sm" target="addtab">
-                                添加任务类型
+                                添加量表组合
                             </a>
                         }
                         
@@ -72,7 +72,7 @@
     <div class="layui-inline">
         @if (action.ActionName.ToLower() == "list")
         {
-            <a class="layui-btn layui-btn-sm" target="addtab" title="修改任务类型-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a>
+            <a class="layui-btn layui-btn-sm" target="addtab" title="修改量表组合-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a>
             <button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button>
         }
         @if (action.ActionName.ToLower().StartsWith("my"))

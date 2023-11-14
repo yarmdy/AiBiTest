@@ -69,7 +69,7 @@
                     required: "请输入结束时间"
                 },
                 TemplateName: {
-                    required: "请选择任务分类"
+                    required: "请选择量表组合"
                 },
                 
             }
