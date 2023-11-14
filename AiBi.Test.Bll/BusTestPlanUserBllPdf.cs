@@ -318,7 +318,7 @@ namespace AiBi.Test.Bll
                     questionsb.AppendFormat("<div>{0} 的回答和得分明细：</div>", (planUser.User?.BusUserInfoUsers?.FirstOrDefault()?.RealName) ?? (planUser.User?.Name));
                     var lastSortNo = 0;
                     questions.ForEach((a, i) => {
-                        var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId; });
+                        var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId==planUser.UserId; });
                         var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
                         
                         if (a.SortNo2 == null)
@@ -415,7 +415,7 @@ namespace AiBi.Test.Bll
                             //{
                             //    questionsb.AppendFormat(_questionImg,a.Question.Image.FullName.Substring(1));
                             //}
-                            var myop = plan.BusTestPlanUserOptions.Where(b=>{return b.QuestionId==a.QuestionId;});
+                            var myop = plan.BusTestPlanUserOptions.Where(b=>{return b.QuestionId==a.QuestionId && b.UserId == planUser.UserId; });
                             var mycode = string.Join(",",myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
                         }
@@ -427,14 +427,14 @@ namespace AiBi.Test.Bll
                             //    questionsb.AppendFormat(_questionImg, a.Question.Image.FullName.Substring(1));
                             //}
                             questionsb.AppendFormat(_questionTitle, a.SortNo2, a.Question.Title);
-                            var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId; });
+                            var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId == planUser.UserId; });
                             var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
                         }
                         else
                         {
                             questionsb.AppendFormat(_questionTitle, a.SortNo2, a.Question.Title);
-                            var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId; });
+                            var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId == planUser.UserId; });
                             var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
                         }
