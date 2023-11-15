@@ -97,8 +97,9 @@ namespace AiBi.Test.Bll
             var uid = res.data.CreateUserId;
             if (Tag+""== "test")
             {
-                res.data.LoadChild(a => new { a.Template.Image ,Image2 = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.Select(c=>c.Question.Image)).ToList(),options = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.SelectMany(c=>c.Question.BusQuestionOptions)).ToList()});
+                res.data = GetFirstOrDefault(a => GetIncludeQuery(a, b => new { b.Template.Image,image2 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions}).Where(b=>b.Id==id),false);
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.Where(a => a.UserId == CurrentUserId).ToList();
+                //res.data.LoadChild(a => new { a.Template.Image ,Image2 = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.Select(c=>c.Question.Image)).ToList(),options = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.SelectMany(c=>c.Question.BusQuestionOptions)).ToList()});
             }
             else if (Tag + "" == "report")
             {
@@ -309,6 +310,8 @@ namespace AiBi.Test.Bll
                 Context.SaveChanges();
                 return res;
             }
+            var inList = list.ToList();
+            list = list.Where(a => a.OptionId > 0).ToList();
             var optionDic = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleOptions).ToDictionary(a=>a.OptionId);
             var myExam = plan.BusTestPlanUserExamples.Where(a=>a.UserId==CurrentUserId).ToList();
             var questions = plan.Template.BusTestTemplateExamples.OrderBy(a=>a.SortNo).SelectMany(a => a.Example.BusExampleQuestions.OrderBy(b=>b.SortNo).ThenBy(b=>b.SortNo2)).ToList();
@@ -332,8 +335,8 @@ namespace AiBi.Test.Bll
             newOptions.AddRange(list.Where(a => !oldOptions.Any(b => a.ExampleId == b.ExampleId && a.QuestionId == b.QuestionId && a.OptionId == b.OptionId))
                 .ToList());
 
-            planUser.CurrentExample = list.LastOrDefault()?.ExampleId?? planUser.CurrentExample;
-            planUser.CurrentQuestion = list.LastOrDefault()?.QuestionId?? planUser.CurrentQuestion;
+            planUser.CurrentExample = inList.LastOrDefault()?.ExampleId?? planUser.CurrentExample;
+            planUser.CurrentQuestion = inList.LastOrDefault()?.QuestionId?? planUser.CurrentQuestion;
             
             if(planUser.CurrentExample!=null && planUser.CurrentQuestion != null)
             {

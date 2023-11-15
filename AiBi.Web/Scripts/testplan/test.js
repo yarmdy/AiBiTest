@@ -1,4 +1,6 @@
-﻿layui.config({
+﻿var localTimer;
+var startLocalTimer;
+layui.config({
     base: "/js/"
 }).use(['table'], async function () {
     const laytpl = layui.laytpl;
@@ -44,6 +46,23 @@
             //}, 0);
         }, 1000);
     }
+
+    startLocalTimer = function (dur) {
+        if (localTimer) {
+            clearInterval(localTimer);
+        }
+        let total = dur;
+        localTimer = setInterval(function () {
+            var ldur = --total;
+            if (ldur < 0) {
+                clearInterval(localTimer);
+                localTimer = null;
+                confirm(null,true);
+                return;
+            }
+            $("#localdurationdiv").hval(ldur+"秒");
+        }, 1000);
+    }
     async function init() {
         var json = await $$.get(BaseUrl + "/GetTest/" + PageInfo.KeyValueStr);
         const html = laytpl($("#noteTemplate").html()).render(json.data);
@@ -66,6 +85,10 @@
         toIndex(index);
     }
     function toIndex(index) {
+        if (localTimer) {
+            clearInterval(localTimer);
+            localTimer = null;
+        }
         if (index >= plan.Questions.length) {
             //完成
             $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
@@ -156,7 +179,7 @@
 
         layer.image("预览", src);
     }
-    function getOptions() {
+    function getOptions(igore) {
         let formData = $$.getFormData("form");
         let options = $("input[type=checkbox]:checked").map(function (i, a) {
                 return { ExampleId: formData.ExampleId, QuestionId:$(a).attr("name"),OptionId:$(a).val() };
@@ -175,6 +198,18 @@
             source.push(cur.QuestionId);
             return source;
         }, []);
+        if (igore) {
+            let reslist = all.reduce(function (r, cur) {
+                var larr = options.filter(function (a, i) {
+                    return a.QuestionId == cur;
+                });
+                if (larr.length <= 0) {
+                    larr = [{ ExampleId: formData.ExampleId, QuestionId: cur, OptionId:0 }];
+                }
+                return r.concat(larr);
+            }, []);
+            return { list: reslist };
+        }
         if (my.length != all.length) {
             return "请完整答题";
         }
@@ -182,8 +217,8 @@
     }
     window.getOptions = getOptions;
 
-    async function answer() {
-        var options = getOptions();
+    async function answer(igore) {
+        var options = getOptions(igore);
         if (typeof options == "string") {
             layer.error(options);
             return new Promise(function (succ, err) {
@@ -210,8 +245,8 @@
         }
         
     }
-    async function confirm() {
-        if (await answer()) {
+    async function confirm(ele,igore) {
+        if (await answer(igore)) {
             toIndex(curQuestion.Index);
         }
     }

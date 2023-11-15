@@ -141,6 +141,7 @@
             exampleQuestion.Question = $$.getFormData(questionForm);
             if (exampleQuestion.SortNo2 == 1) {
                 $.extend(exampleQuestion.Question, $$.getFormData($(questionForm).closest(".layui-card-body").find("form").eq(0)));
+                $.extend(exampleQuestion, $$.getFormData($(questionForm).closest(".layui-card-body").find("form").eq(0)));
             }
             exampleQuestion.Question.BusQuestionOptions = optionForms.map(function (i, a) {
                 let option = $$.getFormData(a);

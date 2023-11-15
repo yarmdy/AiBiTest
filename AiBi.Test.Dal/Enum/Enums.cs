@@ -282,4 +282,61 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "男")]
         Male = 2
     }
+    /// <summary>
+    /// 特殊题类型
+    /// </summary>
+    public enum EnumSpecialType
+    {
+        /// <summary>
+        /// 词汇测验
+        /// </summary>
+        [Display(Name = "词汇测验")]
+        Vocabulary = 1,
+        /// <summary>
+        /// 类同测验
+        /// </summary>
+        [Display(Name = "类同测验")]
+        Similar = 2,
+        /// <summary>
+        /// 折纸测验
+        /// </summary>
+        [Display(Name = "折纸测验")]
+        Origami = 11,
+        /// <summary>
+        /// 魔方旋转
+        /// </summary>
+        [Display(Name = "魔方旋转")]
+        MagicCube = 12,
+        /// <summary>
+        /// 人像记忆
+        /// </summary>
+        [Display(Name = "人像记忆")]
+        Portrait = 21,
+        /// <summary>
+        /// 词对记忆
+        /// </summary>
+        [Display(Name = "词对记忆")]
+        WordPair = 22,
+        /// <summary>
+        /// 操作广度
+        /// </summary>
+        [Display(Name = "操作广度")]
+        Operation = 31,
+        /// <summary>
+        /// 对称广度
+        /// </summary>
+        [Display(Name = "对称广度")]
+        Symmetry = 32,
+        /// <summary>
+        /// 符号搜索
+        /// </summary>
+        [Display(Name = "符号搜索")]
+        Symbol = 41,
+        /// <summary>
+        /// 数字符号
+        /// </summary>
+        [Display(Name = "数字符号")]
+        Digit = 42,
+    }
+
 }

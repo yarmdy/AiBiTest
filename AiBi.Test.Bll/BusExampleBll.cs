@@ -242,7 +242,7 @@ namespace AiBi.Test.Bll
             exampleQuestionsEdits.ForEach(a =>
             {
                 var newdata = exampleQuestions.First(b=>b.Question.Id==a.QuestionId);
-                if (a.DiffCopy(newdata, b => new { b.SortNo,b.SortNo2}))
+                if (a.DiffCopy(newdata, b => new { b.SortNo,b.SortNo2,b.Duration}))
                 {
                     a.ModifyUserId = CurrentUserId;
                     a.ModifyTime = DateTime.Now;

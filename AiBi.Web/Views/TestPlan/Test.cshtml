@@ -87,7 +87,10 @@
     <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d.Index}}</span><span class="layui-font-red">/{{=d.Count}})</span></div>
 
-
+    {{# if(d.Duration>0){ }}
+    {{# startLocalTimer(d.Duration) }}
+    <div style="text-align:center;padding:10px">本题限时：<span style="color:red;font-size:27px" id="localdurationdiv">{{=d.Duration}}秒</span></div>
+    {{# } }}
     <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
         <div style="min-height:150px">
@@ -123,6 +126,11 @@
 
     <div style="text-align:center;padding:10px">时间：<span style="color:red;font-size:27px" id="durationdiv"></span></div>
     <div style="text-align: center; padding: 10px">问题：<span class="layui-font-green">({{=d[0].Index}}</span><span class="layui-font-red">/{{=d[0].Count}})</span></div>
+
+    {{# if(d[0].Duration>0){ }}
+    {{# startLocalTimer(d[0].Duration) }}
+    <div style="text-align:center;padding:10px">本题限时：<span style="color:red;font-size:27px" id="localdurationdiv">{{=d[0].Duration}}秒</span></div>
+    {{# } }}
 
     <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
