@@ -25,6 +25,10 @@ namespace AiBi.Test.Dal.Model
         /// 可以暂停
         /// </summary>
         public bool? CanPause { get; set; }
+        /// <summary>
+        /// 默认启用
+        /// </summary>
+        public bool Enabled { get; set; } = true;
         public virtual BusExample Example { get; set; }
         public virtual BusTestTemplate Template { get; set; }
     }

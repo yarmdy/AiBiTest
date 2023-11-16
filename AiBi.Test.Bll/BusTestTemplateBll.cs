@@ -118,11 +118,11 @@ namespace AiBi.Test.Bll
             var editExamples = model.BusTestTemplateExamples.Where(a => inModel.BusTestTemplateExamples.Any(b => b.ExampleId == a.ExampleId)).ToList();
             var deleteExamples = model.BusTestTemplateExamples.Where(a => !inModel.BusTestTemplateExamples.Any(b => b.ExampleId == a.ExampleId)).ToList();
             addExamples.ForEach(a => { 
-                model.BusTestTemplateExamples.Add(new BusTestTemplateExample { Template=model,ExampleId=a.ExampleId,SortNo=a.SortNo,Duration=a.Duration,CanPause=a.CanPause,CreateTime=DateTime.Now,CreateUserId=CurrentUserId});
+                model.BusTestTemplateExamples.Add(new BusTestTemplateExample { Template=model,ExampleId=a.ExampleId,SortNo=a.SortNo,Duration=a.Duration,CanPause=a.CanPause,Enabled = a.Enabled,CreateTime=DateTime.Now,CreateUserId=CurrentUserId});
             });
             editExamples.ForEach(a => {
                 var newt = inModel.BusTestTemplateExamples.First(b=>b.ExampleId==a.ExampleId);
-                if (a.DiffCopy(newt, b => new {b.Duration, b.SortNo, b.CanPause }))
+                if (a.DiffCopy(newt, b => new {b.Duration, b.SortNo, b.CanPause,b.Enabled }))
                 {
                     a.ModifyTime = DateTime.Now;
                     a.ModifyUserId = CurrentUserId;

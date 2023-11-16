@@ -115,7 +115,7 @@
             <div class="layui-input-inline">
                 <input type="checkbox" name="CanPause" value="true" lay-skin="switch" title="可以|不可以" />
             </div>
-            
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="txt_r"></span>关键字</label>
@@ -144,12 +144,13 @@
                 <div class="layui-inline">
                     <button class="layui-btn layui-btn-xs" type="button" id="btnDeleteExample"><i class="layui-icon layui-icon-delete"></i> 删除</button>
                     <button class="layui-btn layui-btn-xs" type="button" onclick="$$.addTab('选择量表','/Example/Select')"><i class="layui-icon layui-icon-more"></i> 浏览</button>
+                    <button class="layui-btn layui-btn-xs" type="button" lay-on="sorttemp"><i class="layui-icon layui-icon-more"></i> 排序</button>
                 </div>
                 <table id="table_example"></table>
             </div>
         </div>
     </form>
-    
+
     <div class="layui-form-item" style="margin-top:50px">
         <div class="layui-inline">
             <label class="layui-form-label"><span class="txt_r"></span></label>
@@ -161,3 +162,4 @@
     </div>
 </div>
 
+@Html.Partial("SortItemsH")

@@ -12,6 +12,7 @@
             if (old.findIndex(function (b) { return b.Id == a.Id; }) >= 0) {
                 return;
             }
+            a.Enabled = true;
             old.push(a);
         });
         setTimeout(function () {
@@ -77,6 +78,24 @@
         });
     }
 
+    layui.util.on("lay-on", {
+        sorttemp: async function (a) {
+            var arr = table.cache.table_example.map(function (a) {
+                return { id: a.Id, name: a.Title };
+            });
+            var res = await SortItems.sort(arr);
+            var data = res.map(function (a,i) {
+                var obj = table.cache.table_example.find(function (b) {
+                    return b.Id == a;
+                });
+                obj.SortNo = (i + 1);
+                return obj;
+            });
+            table.reloadData("table_example", {
+                data: data
+            });
+        }
+    });
     function initUpload(elem, module = 200) {
         $(elem).each(function (i, a) {
             upload.render({
@@ -109,6 +128,11 @@
     let cols = [[
         { type: 'checkbox', fixed: "left" }, // 单选框
         { field: 'Title', title: '标题' },
+        {
+            field: 'Enabled', title: '默认启用', templet: function (d) {
+                return '<input type="checkbox" name="Enabled" value="'+d.Id+'" title="启用|禁用" lay-skin="switch" lay-filter="changeEnabled" '+(d.Enabled?"checked":"")+' />';
+            }
+        },
         { field: 'Duration', title: '时长(分钟)' },
         { field: 'QuestionNum', title: '问题数' },
         { field: 'Action', title: '操作', templet: function (d) { return '<button type="button" class="layui-btn layui-btn-xs" lay-event="delete">删除</button>'} },
@@ -117,13 +141,19 @@
         elem: '#table_example',
         data: [],
         cols: cols,
-        height: 155,
+        //height: 155,
         size:"sm"
     });
     table.on("tool(table_example)", function (e) {
         table.reloadData("table_example", {
             data: table.cache.table_example.filter(function (a) { return a.Id != e.data.Id })
         });
+    });
+    form.on("switch(changeEnabled)", function (e) {
+        var checked = e.elem.checked;
+        var id = e.value;
+        table.cache.table_example.find(a => a.Id == id).Enabled = checked;
+        table.reloadData("table_example", { data: table.cache.table_example });
     });
     $("#btnDeleteExample").on("click", function () {
         table.reloadData("table_example", {

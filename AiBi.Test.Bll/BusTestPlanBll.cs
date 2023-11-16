@@ -95,6 +95,7 @@ namespace AiBi.Test.Bll
         public override void DetailAfter(int id, int? id2, Response<BusTestPlan, object, object, object> res)
         {
             var uid = res.data.CreateUserId;
+            res.data.BusTestPlanExamples = res.data.BusTestPlanExamples.OrderBy(a=>a.SortNo).ToList();
             if (Tag+""== "test")
             {
                 res.data = GetFirstOrDefault(a => GetIncludeQuery(a, b => new { b.Template.Image,image2 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions}).Where(b=>b.Id==id),false);
@@ -161,12 +162,19 @@ namespace AiBi.Test.Bll
                 a.CreateTime = DateTime.Now;
                 a.CreateUserId = CurrentUserId;
             });
+            model.BusTestPlanExamples.ForEach((a,i) => {
+                a.Plan = model;
+                a.CreateTime = DateTime.Now;
+                a.CreateUserId= CurrentUserId;
+                a.SortNo = i + 1;
+            });
 
             model.UserNum = model.BusTestPlanUsers.Count;
             
             model.CanPause = temp.CanPause;
-            model.ExampleNum = temp.ExampleNum;
-            model.QuestionNum = temp.QuestionNum;
+            model.ExampleNum = model.BusTestPlanExamples.Count();
+            var exids = model.BusTestPlanExamples.Select(a => a.ExampleId).ToArray();
+            model.QuestionNum = Context.BusExamples.Where(a=> exids.Contains(a.Id)).Sum(a=>a.QuestionNum);
 
             return true;
         }
@@ -214,11 +222,37 @@ namespace AiBi.Test.Bll
                 Context.BusTestPlanUsers.Remove(a);
             });
 
+            inModel.BusTestPlanExamples.ForEach((a, i) => { 
+                a.SortNo= i+1;
+            });
+            var examples = model.BusTestPlanExamples.ToList();
+            var addExamples = inModel.BusTestPlanExamples.Where(a => !examples.Any(b => b.ExampleId == a.ExampleId)).ToList();
+            var editExamples = model.BusTestPlanExamples.Where(a => inModel.BusTestPlanExamples.Any(b => b.ExampleId == a.ExampleId)).ToList();
+            var deleteExamples = model.BusTestPlanExamples.Where(a => !inModel.BusTestPlanExamples.Any(b => b.ExampleId == a.ExampleId)).ToList();
+            addExamples.ForEach(a => {
+                model.BusTestPlanExamples.Add(new BusTestPlanExample { Plan = model, ExampleId = a.ExampleId, CreateTime = DateTime.Now, CreateUserId = CurrentUserId,SortNo=a.SortNo });
+            });
+            editExamples.ForEach(a => {
+                var newt = inModel.BusTestPlanExamples.First(b => b.ExampleId == a.ExampleId);
+                if (a.DiffCopy(newt, b => new { b.ExampleId,b.SortNo }))
+                {
+                    a.ModifyTime = DateTime.Now;
+                    a.ModifyUserId = CurrentUserId;
+                }
+            });
+            deleteExamples.ForEach(a =>
+            {
+                Context.BusTestPlanExamples.Remove(a);
+            });
+
+
+
             model.UserNum = inModel.BusTestPlanUsers.Count;
             var temp = BusTestTemplateBll.Find(model.TemplateId);
             model.CanPause = temp.CanPause;
-            model.ExampleNum = temp.ExampleNum;
-            model.QuestionNum = temp.QuestionNum;
+            model.ExampleNum = inModel.BusTestPlanExamples.Count;
+            var exids = inModel.BusTestPlanExamples.Select(a => a.ExampleId).ToArray();
+            model.QuestionNum = Context.BusExamples.Where(a => exids.Contains(a.Id)).Sum(a => a.QuestionNum);
 
             return true;
         }

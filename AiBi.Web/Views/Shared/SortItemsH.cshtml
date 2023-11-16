@@ -1,0 +1,24 @@
+﻿<style>
+    .divSortitems .layui-card, .divSortitems .layui-card-body {
+        transition: all ease 0.2s;
+        cursor: pointer;
+        user-select:none
+    }
+    .divSortitems .layui-card div{
+        pointer-events:none;
+    }
+</style>
+<script id="divSortitemsTemplate" type="text/template">
+    <div class="divSortitems" style="position:relative;display:none1;padding: 50px; box-sizing:border-box">
+        
+    </div>
+</script>
+<script id="divSortitemsItemTemplate" type="text/template">
+    <div class="layui-card" dataid="{{=d.id}}">
+        <div class="layui-card-body layui-bg-blue  layui-btn-radius">
+            <p><i class="layui-icon layui-icon-slider"></i> {{=d.name}}</p>
+        </div>
+    </div>
+</script>
+
+<script src="~/Scripts/sortitems.js?v=@MvcApplication.Version"></script>

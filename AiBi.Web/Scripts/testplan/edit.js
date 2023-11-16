@@ -4,12 +4,21 @@
     const table = layui.table;
     const form = layui.form;
     const laydate = layui.laydate;
+    const transfer = layui.transfer;
 
     var upload = layui.upload;
 
-    callback.templateselectok = function (data) {
+    async function getTemplate(id,value) {
+        var json = await $.get("/TestTemplate/GetDetail/" + id);
+        //console.log(json);
+        var list = json.data.BusTestTemplateExamples;
+        reloadExample(value == null ? list.map(a => a.Enabled ? a.ExampleId : null) : value, list.map(a => { return { value: a.Example.Id, title: a.Example.Title }; }));
+    }
+
+    callback.templateselectok = async function (data) {
         $("[name=TemplateName]").val(data[0].Title);
         $("[name=TemplateId]").val(data[0].Id);
+        getTemplate(data[0].Id);
     }
     callback.userinfoselectok = function (data) {
         var old = table.cache.table_user;
@@ -33,6 +42,7 @@
                 postData.BusTestPlanUsers = table.cache.table_user.map(function (a) {
                     return { UserId : a.UserId };
                 });
+                postData.BusTestPlanExamples = transfer.getData("examples").map(a => { return { ExampleId: a.value }; });
                 var callbackstr;
                 var addoreditFunc = PageInfo.KeyValueStr ? (callbackstr = "testplaneditok", $$.common.edit.req) : (callbackstr = "testplanaddok", $$.common.add.req);
                 addoreditFunc(postData).then(function (json) {
@@ -94,7 +104,42 @@
             return json;
         });
     }
+    function renderExample() {
+        // 渲染
+        transfer.render({
+            elem: '#examples',
+            id:"examples",
+            data: [],
+            height: 250,
+            title: ["未选择","已选择"]
+        });
+    }
+    function reloadExample(value,data) {
+        transfer.reload("examples", {
+            value: value,
+            data: data
+        });
+        if (data) {
+            transfer.examples = data;
+        }
+    }
 
+    layui.util.on("lay-on", {
+        sortExample:async function (ele) {
+            var selected = transfer.getData("examples");
+            console.log(selected);
+            if (selected.length <= 0) {
+                layer.error("没有选择任何量表，请先选择量表");
+                return;
+            }
+            var arr = selected.map(a => { return { id: a.value, name: a.title }; });
+
+            var res = await SortItems.sort(arr);
+
+            reloadExample(res);
+        }
+    });
+    renderExample();
     $("#btnsave").on("click", function () {
         $("#form").submit();
     });
@@ -144,7 +189,8 @@
     });
     
     if (PageInfo.KeyValueStr) {
-        renderDetail();
+        let detailData = await renderDetail();
+        await getTemplate(detailData.data.TemplateId, detailData.data.BusTestPlanExamples.map(a => a.ExampleId));
     }
     initValidate();
 });

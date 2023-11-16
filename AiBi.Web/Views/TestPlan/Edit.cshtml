@@ -109,7 +109,14 @@
                 <input type="hidden" name="TemplateId" />
                 <div class="layui-input-suffix">
                     <button type="button" class="layui-btn layui-btn-primary" onclick="$$.addTab('选择量表组合','/TestTemplate/MySelect')">... 选择</button>
+                    <button type="button" class="layui-btn layui-btn-normal" lay-on="sortExample">排序</button>
                 </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="txt_r">*</span>量表选择</label>
+            <div class="layui-input-block">
+                <div id="examples"></div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -135,3 +142,4 @@
     </div>
 </div>
 
+@Html.Partial("SortItemsH")

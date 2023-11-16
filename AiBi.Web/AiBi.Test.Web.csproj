@@ -1531,6 +1531,7 @@
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\font\iconfont.svg" />
     <Content Include="layui\layui.js" />
+    <Content Include="Scripts\sortitems.js" />
     <Content Include="Scripts\importdialog.js" />
     <Content Include="Scripts\aibibase.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -2503,6 +2504,7 @@
     <Content Include="Template\用户导入模板.xlsx" />
     <Content Include="Views\Shared\ImportDialog.cshtml" />
     <Content Include="Template\我的会员导入模板.xlsx" />
+    <Content Include="Views\Shared\SortItemsH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
