@@ -1,0 +1,5 @@
+Weight	Equation	Result	Answer	EquationLev
+1	2+7-4=	5	1	1
+1	3+5-7=	2	2	1
+1	14+2-8=	8	1	2
+1	11+7-3=	14	2	2
