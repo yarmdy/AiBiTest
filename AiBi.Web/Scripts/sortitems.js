@@ -36,31 +36,42 @@
         $(".divSortitems").parent().off("scroll.SortItems").on("scroll.SortItems", scrollmoveevent);
         $(document).on("mousedown.SortItems", ".divSortitems .layui-card", function (e) {
             e.stopPropagation();
-            localdiv = this;
             var $this = $(this);
-
+            if ($this.hasClass("fly")) {
+                return;
+            }
+            localdiv = this;
             fly = $this.clone();
-            fly.find(".layui-card-body").removeClass("layui-bg-blue");
+            fly.addClass("fly");
             ex = $this.position().left;
             ey = $this.position().top;
-            fly.css({ position: "absolute", left: ex, top: ey, width: $this.width(), height: $this.height, transition:"none" });
-            fly.find(".layui-card-body").addClass("layui-bg-orange");
+            fly.css({ position: "absolute", left: ex, top: ey, width: $this.width(), height: $this.height });
             $(".divSortitems").append(fly);
+            setTimeout(function () {
+                fly.find(".layui-card-body").removeClass("layui-bg-blue").addClass("layui-bg-orange");
+            })
 
             lx=x = e.clientX; ly=y = e.clientY;
             sx = $(".divSortitems").parent().scrollLeft();
             sy = $(".divSortitems").parent().scrollTop();
 
-            $this.css("opacity", 0);
+            $this.css({ "opacity": 0 }).find(".layui-card-body").removeClass("layui-bg-blue").addClass("layui-bg-orange");
 
             //console.log(x, y, sx, sy, ex, ey);
         }).on("mouseup.SortItems", function () {
             if (!localdiv) return;
-            fly.remove();
+            var $fly = fly;
             fly = null;
             var $this = $(localdiv);
             localdiv = null;
-            $this.css("opacity", 1);
+
+            $fly.animate({
+                left: $this.position().left,
+                top: $this.position().top
+            }, 200, function () {
+                $fly.remove();
+                $this.css("opacity", 1).find(".layui-card-body").addClass("layui-bg-blue").removeClass("layui-bg-orange");
+            });
         }).on("mousemove.SortItems", scrollmoveevent);
     }
     function Sort(data) {

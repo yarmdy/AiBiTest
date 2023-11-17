@@ -135,7 +135,7 @@ namespace AiBi.Test.Bll
         }
         public override Expression<Func<BusTestPlan, object>> ModifyExcepts(BusTestPlan model)
         {
-            return a => new { a.Status,a.CanPause,a.UserNum,a.ExampleNum,a.QuestionNum};
+            return a => new { a.Status,a.UserNum,a.ExampleNum,a.QuestionNum};
         }
         public override bool AddValidate(out string errorMsg, BusTestPlan model)
         {
@@ -171,10 +171,10 @@ namespace AiBi.Test.Bll
 
             model.UserNum = model.BusTestPlanUsers.Count;
             
-            model.CanPause = temp.CanPause;
+            //model.CanPause = temp.CanPause;
             model.ExampleNum = model.BusTestPlanExamples.Count();
             var exids = model.BusTestPlanExamples.Select(a => a.ExampleId).ToArray();
-            model.QuestionNum = Context.BusExamples.Where(a=> exids.Contains(a.Id)).Sum(a=>a.QuestionNum);
+            model.QuestionNum = Context.BusExamples.Where(a=> exids.Contains(a.Id)).Sum(a=>(int?)a.QuestionNum)??0;
 
             return true;
         }
@@ -249,10 +249,10 @@ namespace AiBi.Test.Bll
 
             model.UserNum = inModel.BusTestPlanUsers.Count;
             var temp = BusTestTemplateBll.Find(model.TemplateId);
-            model.CanPause = temp.CanPause;
+            //model.CanPause = temp.CanPause;
             model.ExampleNum = inModel.BusTestPlanExamples.Count;
             var exids = inModel.BusTestPlanExamples.Select(a => a.ExampleId).ToArray();
-            model.QuestionNum = Context.BusExamples.Where(a => exids.Contains(a.Id)).Sum(a => a.QuestionNum);
+            model.QuestionNum = Context.BusExamples.Where(a => exids.Contains(a.Id)).Select(a=>a.QuestionNum).DefaultIfEmpty().Sum();
 
             return true;
         }
