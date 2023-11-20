@@ -277,8 +277,9 @@ namespace AiBi.Test.Bll
 
         private Stream planToPdf(BusTestPlan plan)
         {
-            var questions = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleQuestions).ToList();
-            var results = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleResults).ToList();
+            var exDic = plan.BusTestPlanExamples.ToDictionary(a => a.ExampleId);
+            var questions = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleQuestions).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
+            var results = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleResults).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
             var stream = new MemoryStream();
             using (var writer = new PdfWriter(stream))
             using (var pdf = new PdfDocument(writer.SetSmartMode(true)))
@@ -365,8 +366,9 @@ namespace AiBi.Test.Bll
         }
         private Stream planToPdfDetails(BusTestPlan plan)
         {
-            var questions = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleQuestions).ToList();
-            var results = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleResults).ToList();
+            var exDic = plan.BusTestPlanExamples.ToDictionary(a=>a.ExampleId);
+            var questions = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleQuestions).Where(a=>exDic.ContainsKey(a.ExampleId)).OrderBy(a=>exDic.G(a.ExampleId).SortNo).ToList();
+            var results = plan.Template.BusTestTemplateExamples.SelectMany(a=>a.Example.BusExampleResults).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ThenBy(a=>a.SortNo).ToList();
             var stream = new MemoryStream();
             using (var writer = new PdfWriter(stream))
             using (var pdf = new PdfDocument(writer.SetSmartMode(true)))
@@ -426,14 +428,14 @@ namespace AiBi.Test.Bll
                             //{
                             //    questionsb.AppendFormat(_questionImg, a.Question.Image.FullName.Substring(1));
                             //}
-                            questionsb.AppendFormat(_questionTitle, a.SortNo2, a.Question.Title);
+                            questionsb.AppendFormat(_questionTitle, $"{a.SortNo2})", a.Question.Title);
                             var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId == planUser.UserId; });
                             var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
                         }
                         else
                         {
-                            questionsb.AppendFormat(_questionTitle, a.SortNo2, a.Question.Title);
+                            questionsb.AppendFormat(_questionTitle, $"{a.SortNo2})", a.Question.Title);
                             var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId == planUser.UserId; });
                             var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
                             questionsb.AppendFormat(_questionAnswer, mycode, string.IsNullOrWhiteSpace(mycode) ? "display:none" : "");
@@ -452,7 +454,7 @@ namespace AiBi.Test.Bll
                     }
                     else
                     {
-                        var resultArr = plan.BusTestPlanUserExamples.SelectMany((a, i) => {
+                        var resultArr = plan.BusTestPlanUserExamples.Where(a=> exDic.ContainsKey(a.ExampleId)).OrderBy(a=>exDic.G(a.ExampleId).SortNo).SelectMany((a, i) => {
                             if (a.Result == null)
                             {
                                 return new List<KeyValuePair<int, BusExampleResult>> { new KeyValuePair<int, BusExampleResult>(a.Score,a.Result) };

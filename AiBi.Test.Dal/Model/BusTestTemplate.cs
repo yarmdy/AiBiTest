@@ -80,6 +80,11 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public bool CanPause { get; set; }
 
+        /// <summary>
+        /// 0 普通 1 基础认知
+        /// </summary>
+        public int ExampleType { get; set; } = 0;
+
         public virtual BusClassify Classify { get; set; }
         public virtual SysAttachment Image { get; set; }
         public virtual BusClassify SubClassify { get; set; }

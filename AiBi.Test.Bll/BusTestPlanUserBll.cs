@@ -26,6 +26,7 @@ namespace AiBi.Test.Bll
             var plan = BusTestPlanBll.GetFirstOrDefault(a => {
                 
                 return BusTestPlanBll.GetIncludeQuery(a, b => new {
+                    b.BusTestPlanExamples,
                     Image3 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,
                     b.BusTestPlanUserOptions.First().Option,
                     b.BusTestPlanUserExamples,
@@ -57,6 +58,7 @@ namespace AiBi.Test.Bll
             var plan = BusTestPlanBll.GetFirstOrDefault(a => {
 
                 return BusTestPlanBll.GetIncludeQuery(a, b => new {
+                    b.BusTestPlanExamples,
                     PlanuserInfo = b.BusTestPlanUsers.First().User.BusUserInfoUsers,
                     Image3 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,
                     b.BusTestPlanUserOptions.First().Option,

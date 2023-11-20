@@ -21,10 +21,17 @@
     });
     async function renderDetail() {
         let json = await $$.common.getDetail.req();
-        json.data.Questions = json.data.Plan.Template.BusTestTemplateExamples.reduce(function (last, cur) {
+
+        let plan = json.data.Plan;
+        var exDic = plan.BusTestPlanExamples.reduce((r, a, i) => {
+            return r[a.ExampleId] = a, r;
+        }, {});
+        let tmpExamples = plan.Template.BusTestTemplateExamples.filter(a => exDic[a.ExampleId]).sort(function (a, b) { return exDic[a.ExampleId].SortNo - exDic[b.ExampleId].SortNo; });
+
+        json.data.Questions = tmpExamples.reduce(function (last, cur) {
             return last.concat(cur.Example.BusExampleQuestions);
         }, []);
-        json.data.Results = json.data.Plan.Template.BusTestTemplateExamples.reduce(function (last, cur) {
+        json.data.Results = tmpExamples.reduce(function (last, cur) {
             return last.concat(cur.Example.BusExampleResults);
         }, []);
 

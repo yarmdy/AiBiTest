@@ -3,3 +3,6 @@ bus_Example SpecialType 1´Ê»ã²âÑé 2ÀàÍ¬²âÑé 11ÕÛÖ½²âÑé 12Ä£·ÂĞı×ª 21ÈËÏñ¼ÇÒä 22´
 bus_Example_Question Duration Ãë
 
 bus_TestTemplate_Example  Enabled  Ä¬ÈÏÆôÓÃ
+
+bus_TestTemplate ExampleType 0 ÆÕÍ¨ 1 »ù´¡ÈÏÖª
+

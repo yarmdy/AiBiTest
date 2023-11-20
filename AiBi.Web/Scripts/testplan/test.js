@@ -126,7 +126,10 @@ layui.config({
         curQuestion = question;
     }
     function start() {
-        plan.Template.BusTestTemplateExamples = plan.Template.BusTestTemplateExamples.sort(function (a, b) { return a.SortNo - b.SortNo; });
+        var exDic = plan.BusTestPlanExamples.reduce((r, a, i) => {
+            return r[a.ExampleId] = a, r;
+        }, {});
+        plan.Template.BusTestTemplateExamples = plan.Template.BusTestTemplateExamples.filter(a => exDic[a.ExampleId]).sort(function (a, b) { return exDic[a.ExampleId].SortNo - exDic[b.ExampleId].SortNo; });
         plan.Template.BusTestTemplateExamples.forEach(function (data) {
             data.Example.BusExampleQuestions = data.Example.BusExampleQuestions.sort(function (a, b) { return (a.SortNo - b.SortNo) * 1000 + (a.SortNo2 - b.SortNo2); });
             data.Example.BusExampleQuestions.forEach(function (data2) {

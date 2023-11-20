@@ -338,5 +338,20 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "数字符号")]
         Digit = 42,
     }
+    /// <summary>
+    /// 量表组合内的量表类型
+    /// </summary>
+    public enum ExampleType {
+        /// <summary>
+        /// 词汇测验
+        /// </summary>
+        [Display(Name = "普通")]
+        Normal = 0,
+        /// <summary>
+        /// 基础认知
+        /// </summary>
+        [Display(Name = "基础认知")]
+        BasicCognition = 1
+    }
 
 }

@@ -187,7 +187,7 @@
                             {{# scores=a.Scores.split(","); }}
                             {{# } }}
                             {{# layui.each(results,function(j,result){ }}
-
+                            {{# if(!result) return true; }}
                             {{# let example=d.Plan.Template.BusTestTemplateExamples.find(function(b){return a.ExampleId==b.ExampleId});}}
                             {{# resultArr.push({score:scores[j],result:result}) }}
                             {{# }); }}
