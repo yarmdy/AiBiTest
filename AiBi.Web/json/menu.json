@@ -395,6 +395,79 @@
   {
     "Item": {
       "Elements": [],
+      "Id": "7580672f-a390-4bb6-982d-9a4570cb5202",
+      "CascadeId": ".0.9.",
+      "Name": "基础认知测试",
+      "Url": " /",
+      "ParentId": null,
+      "ParentName": "",
+      "IconName": "&#xe638;",
+      "Checked": false,
+      "SortNo": 99,
+      "Code": "basiccognition",
+      "IsEnable": true,
+      "IsEnableValue": "是"
+    },
+    "Children": [
+      {
+        "Item": {
+          "Elements": [],
+          "Id": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+          "CascadeId": ".0.2.4.",
+          "Name": "基础认知任务管理",
+          "Url": "/TestPlan/SpecialList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "基础认知测试",
+          "IconName": "&#xe618;",
+          "Checked": false,
+          "SortNo": 1,
+          "Code": "basiccognitionplans",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [],
+          "Id": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+          "CascadeId": ".0.2.4.",
+          "Name": "基础认知量表管理",
+          "Url": "/TestTemplate/SpecialList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "基础认知测试",
+          "IconName": "&#xe618;",
+          "Checked": false,
+          "SortNo": 1,
+          "Code": "basiccognitiontemplate",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      },
+      {
+        "Item": {
+          "Elements": [],
+          "Id": "9486ff22-b696-4d7f-8093-8a3e53c45453",
+          "CascadeId": ".0.2.4.",
+          "Name": "基础认知任务管理",
+          "Url": "/TestPlan/MySpecialList",
+          "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
+          "ParentName": "基础认知测试",
+          "IconName": "&#xe618;",
+          "Checked": false,
+          "SortNo": 1,
+          "Code": "basiccognitionownplans",
+          "IsEnable": true,
+          "IsEnableValue": "是"
+        },
+        "Children": []
+      }
+    ]
+  },
+  {
+    "Item": {
+      "Elements": [],
       "Id": "7580672f-a390-4bb6-982d-9a4570cb5203",
       "CascadeId": ".0.7.",
       "Name": "财务管理*",

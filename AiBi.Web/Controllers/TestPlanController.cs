@@ -17,6 +17,10 @@ namespace AiBi.Test.Web.Controllers
 
         public override BaseBll<BusTestPlan,PlanReq.Page> Bll => CurBll;
 
+        public ActionResult SpecialEdit(int? id, int? id2 = null) {
+            return View("Edit");
+        }
+
         public ActionResult GetMyList(PlanReq.Page req)
         {
             return Json(CurBll.GetMyList(req));
@@ -67,6 +71,10 @@ namespace AiBi.Test.Web.Controllers
         }
 
         public ActionResult OwnList() {
+            return View("List");
+        }
+        public ActionResult SpecialList()
+        {
             return View("List");
         }
         public ActionResult OwnReportList()

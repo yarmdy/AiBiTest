@@ -288,25 +288,25 @@ namespace AiBi.Test.Dal.Enum
     public enum EnumSpecialType
     {
         /// <summary>
-        /// 词汇测验
+        /// 符号搜索
         /// </summary>
-        [Display(Name = "词汇测验")]
-        Vocabulary = 1,
+        [Display(Name = "符号搜索")]
+        Symbol = 1,
         /// <summary>
-        /// 类同测验
+        /// 数字符号
         /// </summary>
-        [Display(Name = "类同测验")]
-        Similar = 2,
+        [Display(Name = "数字符号")]
+        Digit = 2,
         /// <summary>
-        /// 折纸测验
+        /// 操作广度
         /// </summary>
-        [Display(Name = "折纸测验")]
-        Origami = 11,
+        [Display(Name = "操作广度")]
+        Operation = 11,
         /// <summary>
-        /// 魔方旋转
+        /// 对称广度
         /// </summary>
-        [Display(Name = "魔方旋转")]
-        MagicCube = 12,
+        [Display(Name = "对称广度")]
+        Symmetry = 12,
         /// <summary>
         /// 人像记忆
         /// </summary>
@@ -318,30 +318,30 @@ namespace AiBi.Test.Dal.Enum
         [Display(Name = "词对记忆")]
         WordPair = 22,
         /// <summary>
-        /// 操作广度
+        /// 折纸测验
         /// </summary>
-        [Display(Name = "操作广度")]
-        Operation = 31,
+        [Display(Name = "折纸测验")]
+        Origami = 31,
         /// <summary>
-        /// 对称广度
+        /// 魔方旋转
         /// </summary>
-        [Display(Name = "对称广度")]
-        Symmetry = 32,
+        [Display(Name = "魔方旋转")]
+        MagicCube = 32,
         /// <summary>
-        /// 符号搜索
+        /// 词汇测验
         /// </summary>
-        [Display(Name = "符号搜索")]
-        Symbol = 41,
+        [Display(Name = "词汇测验")]
+        Vocabulary = 41,
         /// <summary>
-        /// 数字符号
+        /// 类同测验
         /// </summary>
-        [Display(Name = "数字符号")]
-        Digit = 42,
+        [Display(Name = "类同测验")]
+        Similar = 42,
     }
     /// <summary>
     /// 量表组合内的量表类型
     /// </summary>
-    public enum ExampleType {
+    public enum EnumExampleType {
         /// <summary>
         /// 词汇测验
         /// </summary>

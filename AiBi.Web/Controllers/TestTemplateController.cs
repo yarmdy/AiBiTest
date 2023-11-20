@@ -21,6 +21,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return View("List");
         }
+        public ActionResult SpecialList()
+        {
+            return View("List");
+        }
         public ActionResult GetMyList(TestTemplateReq.Page req)
         {
             var res = CurBll.GetMyList(req);
@@ -33,11 +37,21 @@ namespace AiBi.Test.Web.Controllers
             return View("List");
         }
 
-        public override ActionResult Select() {
+        public ActionResult MySpecialSelect()
+        {
+            ViewBag.isadmin = AutofacExt.GetService<SysFuncBll>().UserHasFunc(CurrentUserId, "admin");
             return View("List");
         }
 
-        public ActionResult ItsList(int id)
+        public override ActionResult Select() {
+            return View("List");
+        }
+        public ActionResult SelectAll()
+        {
+            return View("List");
+        }
+
+        public ActionResult ItsAllList(int id)
         {
             return View("List");
         }

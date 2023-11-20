@@ -151,7 +151,7 @@
         <button class="layui-btn layui-btn-sm" type="button" lay-event="enable">{{=EnumStatus[(d.Status?0:1)]}}</button>
         <a class="layui-btn layui-btn-sm" target="addtab" title="修改@(name)-{{=d.Id}}" href="@Url.Content(editurl)/{{=d.Id}}">修改</a>
         <button class="layui-btn layui-btn-sm" lay-event="password">密码</button>
-        <a class="layui-btn layui-btn-sm" target="addtab" href="/TestTemplate/ItsList/{{=d.Id}}" >量表组合</a>
+        <a class="layui-btn layui-btn-sm" target="addtab" href="/TestTemplate/ItsAllList/{{=d.Id}}"  title="{{=d.Name}}的量表分配">量表分配</a>
         {{# if(d.Id!=1){ }}
         <button class="layui-btn layui-btn-sm" lay-event="delete" func="deluser">删除</button>
         {{# } }}

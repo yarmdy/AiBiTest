@@ -34,6 +34,15 @@ namespace AiBi.Test.Bll
                 query = query.Where(a => a.SubClassifyId == req.SubClassifyId);
             }
             query = GetIncludeQuery(query, a => new { a.Image, a.SubClassify, a.Classify });
+
+            if (!req.IsSpecial)
+            {
+                query = query.Where(a => a.SpecialType == null);
+            }
+            else
+            {
+                query = query.Where(a => a.SpecialType != null);
+            }
             return query;
         }
 

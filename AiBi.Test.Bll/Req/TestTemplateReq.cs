@@ -15,6 +15,8 @@ namespace AiBi.Test.Bll
 
             public int? Id { get; set; }
             public int? CanUseUserId { get; set; }
+
+            public EnumExampleType? ExampleType { get; set; }
         }
         
     }

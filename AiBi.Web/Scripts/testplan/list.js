@@ -52,6 +52,7 @@
             json.code = json.code > 0 ? 0 : json.code;
             return json;
         },
+        where: $$.common.getPageList.paramArr,
         height: "full-125",
         size: "sm",
         method: "post",
@@ -65,6 +66,7 @@
 
     function getList(page,size) {
         var postdata = $$.getFormData("#searchForm");
+        postdata = $.extend(postdata, $$.common.getPageList.paramArr);
         table.reloadData("table", {
             where: postdata,
             page: page ? {

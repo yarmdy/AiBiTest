@@ -12,6 +12,8 @@ namespace AiBi.Test.Bll
             public int? SubClassifyId { get; set; }
 
             public EnumExampleStatus? Status { get; set; }
+
+            public bool IsSpecial { get; set; } = false;
         }
         
     }

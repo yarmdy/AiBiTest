@@ -46,6 +46,7 @@
             pageName: 'page', // 页码的参数名称，默认：page
             limitName: 'size' // 每页数据条数的参数名，默认：limit
         },
+        where: $$.common.getPageList.paramArr,
         parseData: function (json) {
             var old = table.cache.select_table;
             var oldIds = old.map(function (a) { return a.Id });
@@ -68,6 +69,7 @@
 
     function getList(page,size) {
         var postdata = $$.getFormData("#searchForm");
+        postdata = $.extend(postdata, $$.common.getPageList.paramArr);
         table.reloadData("table", {
             where: postdata,
             page: page ? {

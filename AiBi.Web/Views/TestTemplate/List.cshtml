@@ -1,9 +1,12 @@
 ﻿@{
     ActionDescriptor action = ViewBag.ActionInfo;
     var isadmin = ViewBag.isadmin ?? false;
+
+    var isList = action.ActionName.ToLower() == "list" || action.ActionName.ToLower() == "speciallist";
 }
 @section scripts{
     <script>
+        $$.common.getPageList.paramArr = {};
         if (ActionInfo.Action.toLowerCase().indexOf("my") == 0) {
             $$.common.getPageList.url = "/GetMyList";
         }
@@ -13,6 +16,13 @@
         if (@JsonHelper.ToJson(isadmin)) {
             $$.common.getPageList.url = "/GetPageList";
         }
+        $$.common.getPageList.paramArr.ExampleType = 0;
+        if (ActionInfo.Action.toLowerCase().indexOf("special") >= 0) {
+            $$.common.getPageList.paramArr.ExampleType = 1;
+        } else if (ActionInfo.Action.toLowerCase().indexOf("all") >= 0) {
+            $$.common.getPageList.paramArr.ExampleType = null;
+        }
+        
     </script>
 }
 <!-- Page header -->
@@ -40,7 +50,7 @@
                         <label class="layui-form-label" style="visibility:hidden;width:auto">按钮</label>
                     </div>
                     <div class="layui-inline">
-                        @if (action.ActionName.ToLower() == "list")
+                        @if (isList)
                         {
                             <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
                                 添加量表组合
@@ -52,7 +62,7 @@
                         }
                         @if (action.ActionName.ToLower().StartsWith("its"))
                         {
-                            <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Select" class="layui-btn layui-btn-sm" target="addtab">
+                            <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/SelectAll" class="layui-btn layui-btn-sm" target="addtab">
                                 添加量表组合
                             </a>
                         }
@@ -70,7 +80,7 @@
 
 <script type="text/template" id="actionTemplate">
     <div class="layui-inline">
-        @if (action.ActionName.ToLower() == "list")
+        @if (isList)
         {
             <a class="layui-btn layui-btn-sm" target="addtab" title="修改量表组合-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a>
             <button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button>
@@ -89,7 +99,7 @@
     <div class="layui-inline"><button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button></div>
 </script>
 
-<div class="layui-card" style="position: absolute; right: 0; bottom: 0; width: 350px;margin:0;@(action.ActionName.ToLower() == "myselect"||action.ActionName.ToLower() == "select"?"":"display:none")">
+<div class="layui-card" style="position: absolute; right: 0; bottom: 0; width: 350px;margin:0;@(action.ActionName.ToLower().Contains("select")?"":"display:none")">
     <div class="layui-card-header layui-bg-blue"><button class="layui-btn layui-btn-xs layui-bg-red" id="minsize"><i class="layui-icon layui-icon-subtraction"></i></button><button class="layui-btn layui-btn-xs layui-bg-red" id="selectok"><i class="layui-icon layui-icon-ok"></i>确认</button></div>
     <div class="layui-card-body" style="padding:0;overflow:hidden" id="selectH">
         <table id="select_table"></table>

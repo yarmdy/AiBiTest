@@ -45,6 +45,11 @@ namespace AiBi.Test.Bll
                 query = query.Where(a => a.BusUserTestTemplates.Any(b => b.UserId == req.CanUseUserId) || classIds.Contains(a.ClassifyId.Value) || classIds.Contains(a.SubClassifyId.Value));
             }
             query = GetIncludeQuery(query, a => new { a.Image });
+            if (req.ExampleType != null)
+            {
+                query = query.Where(a => a.ExampleType == (int)req.ExampleType);
+            }
+            
             return query;
         }
         public override void PageAfter(TestTemplateReq.Page req, Response<List<BusTestTemplate>, object, object, object> res)

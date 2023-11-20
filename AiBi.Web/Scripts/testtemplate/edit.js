@@ -26,7 +26,7 @@
             submitHandler: function (form) {
                 
                 var postData = $$.getFormData("#form");
-                postData.BusTestTemplateExamples = table.cache.table_example.map(function (a, i) { return a.SortNo = (i + 1), a.ExampleId=a.Id, a; });
+                postData.BusTestTemplateExamples = table.cache.table_example.map(function (a, i) { return a.SortNo = (i + 1), a.ExampleId = a.Id, a.Classify = null, a.SubClassify = null, a; });
                 var callbackstr;
                 var addoreditFunc = PageInfo.KeyValueStr ? (callbackstr = "templateeditok", $$.common.edit.req) : (callbackstr = "templateaddok", $$.common.add.req);
                 addoreditFunc(postData).then(function (json) {

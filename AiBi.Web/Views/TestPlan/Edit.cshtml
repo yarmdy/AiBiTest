@@ -1,5 +1,7 @@
 ﻿@{
+    ActionDescriptor action = ViewBag.ActionInfo;
 
+    var isSpecial = action.ActionName.ToLower().Contains("special");
 }
 @section styles{
     <style>
@@ -65,6 +67,7 @@
 @section scripts{
     <script>
         var EnumSex = @JsonHelper.ToJson(EnumHelper.GetSelectList(typeof(EnumSex)).ToDictionary(a=>a.Value,a=>a.Text));
+        
     </script>
 }
 
@@ -115,7 +118,15 @@
                 <input class="layui-input" name="TemplateName" readonly />
                 <input type="hidden" name="TemplateId" />
                 <div class="layui-input-suffix">
-                    <button type="button" class="layui-btn layui-btn-primary" onclick="$$.addTab('选择量表组合','/TestTemplate/MySelect')">... 选择</button>
+                    @if (isSpecial)
+                    {
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="$$.addTab('选择量表组合','/TestTemplate/MySpecialSelect')">... 选择</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="$$.addTab('选择量表组合','/TestTemplate/MySelect')">... 选择</button>
+                    }
+
                     <button type="button" class="layui-btn layui-btn-normal" lay-on="sortExample">排序</button>
                 </div>
             </div>
