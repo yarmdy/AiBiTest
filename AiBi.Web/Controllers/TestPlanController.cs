@@ -28,6 +28,10 @@ namespace AiBi.Test.Web.Controllers
         public ActionResult Test(int id) {
             return View();
         }
+        public ActionResult TestSpecial(int id)
+        {
+            return View();
+        }
         public ActionResult GetTest(int id)
         {
             return Json(CurBll.GetTest(id));
@@ -71,6 +75,10 @@ namespace AiBi.Test.Web.Controllers
         }
 
         public ActionResult OwnList() {
+            return View("List");
+        }
+        public ActionResult OwnSpecialList()
+        {
             return View("List");
         }
         public ActionResult SpecialList()

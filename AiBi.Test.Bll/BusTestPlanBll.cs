@@ -38,7 +38,11 @@ namespace AiBi.Test.Bll
                 var now = DateTime.Now;
                 query = query.Where(a=>a.BusTestPlanUsers.Any(b=>b.UserId==CurrentUserId) && a.StartTime<= now && a.EndTime>= now);
             }
-            query = query.Where(a=>a.Template.ExampleType ==(int)req.ExampleType);
+            else
+            {
+                query = query.Where(a => a.Template.ExampleType == (int)req.ExampleType);
+            }
+            
             return base.PageWhere(req, query);
         }
         public void ProcessUserStatus(IEnumerable<BusTestPlan> list)

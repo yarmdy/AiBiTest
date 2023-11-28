@@ -451,7 +451,7 @@
           "Id": "9486ff22-b696-4d7f-8093-8a3e53c45453",
           "CascadeId": ".0.2.4.",
           "Name": "基础认知任务管理",
-          "Url": "/TestPlan/MySpecialList",
+          "Url": "/TestPlan/OwnSpecialList",
           "ParentId": "069475e3-c997-487a-9f29-e6a864c5c1d4",
           "ParentName": "基础认知测试",
           "IconName": "&#xe618;",

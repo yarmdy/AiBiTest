@@ -55,6 +55,8 @@
 <script type="text/template" id="itemTemplate">
     <h1 style="font-size:32px;margin-bottom:24px;width:100%;text-align:center">@ViewBag.Title</h1>
     {{# layui.each(d,function(i,a){ }}
+    {{# let testUrl = "/TestPlan/Test/"; }}
+    {{# if(a.Template.ExampleType)  testUrl = "/TestPlan/TestSpecial/"; }}
     {{# let bg="layui-bg-green"; }}
     {{# if(a.BusTestPlanUsers[0].Status==4){ }}
     {{# bg="layui-bg-blue"; }}
@@ -81,13 +83,13 @@
             </div>
         </div>
         {{# if(a.BusTestPlanUsers[0].Status==0){ }}
-        <div style="text-align:right"><a class="layui-btn layui-btn-sm starttest " target="addtab" title="开始测试" href="/TestPlan/Test/{{=a.Id}}">开始测试</a></div>
+        <div style="text-align:right"><a class="layui-btn layui-btn-sm starttest " target="addtab" title="开始测试" href="{{testUrl}}{{=a.Id}}">开始测试</a></div>
         {{# }else if(a.BusTestPlanUsers[0].Status==4){ }}
         <div style="text-align:right"><button type="button" class="layui-btn layui-btn-sm starttest layui-bg-dgray" style="cursor: not-allowed" title="完成测试">完成测试</button></div>
         {{# }else if(a.BusTestPlanUsers[0].Status==-1){ }}
         <div style="text-align:right"><button type="button" class="layui-btn layui-btn-sm starttest layui-bg-dgray" style="cursor: not-allowed" title="已经失效">已经失效</button></div>
         {{# }else{ }}
-        <div style="text-align:right"><a class="layui-btn layui-btn-sm starttest layui-bg-red " target="addtab" title="继续测试" href="/TestPlan/Test/{{=a.Id}}">继续测试</a></div>
+        <div style="text-align:right"><a class="layui-btn layui-btn-sm starttest layui-bg-red " target="addtab" title="继续测试" href="{{testUrl}}{{=a.Id}}">继续测试</a></div>
         {{# } }}
 
     </div>

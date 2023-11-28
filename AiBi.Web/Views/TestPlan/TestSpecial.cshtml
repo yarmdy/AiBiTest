@@ -1,0 +1,483 @@
+﻿@{
+    ViewBag.NoCard = true;
+}
+@section styles{
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-size: 100px;
+            font-family: KaiTi;
+            height: 100%;
+            background: black;
+            color: white;
+            box-sizing: border-box
+        }
+
+        body {
+            line-height: 1.5
+        }
+
+        .page {
+            height: 100%
+        }
+    </style>
+}
+
+<div class="page" id="welcome" style="display:none" v-on:click="toNext">
+    <div class="page" style="text-align:center">
+        <div style=" padding-top: 9%; font-size: .58rem; font-weight: 700;">基本认知能力测验</div>
+        <div style="font-size: .26rem;">Primary Cognitive Abilities Test</div>
+        <div style="font-size: .36rem;">（3.2 版）</div>
+        <div style=" margin-top: 12.35%; font-size: .4rem;">爱拜尔（北京）科技有限公司</div>
+        <div style=" font-size: .29rem;">Aibaier Technology Co.，Ltd</div>
+        <div style=" margin-top: 1.4%; font-size: .4rem;">中国科学院心理研究所</div>
+        <div style="font-size: .29rem; }">Institute of Psychology Chinese Academic Ssiences</div>
+    </div>
+</div>
+
+<div class="page" id="first_1" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent">
+            <div class="title-Description">符号搜索</div>
+            <div class="title-translation">Symbol Search</div>
+            <p class="title-text" style="text-indent: 2em;"> 横线上将呈现两个图形，请判断横线</p>
+            <p class="title-text"> 下面的五个图形中，是否有横线上的两个</p>
+            <p class="title-text"> 图形之一。</p>
+            <p class="title-text" style="margin-top: 100px;text-align:center">（按空格键看实例说明）</p>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="desc_1" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <img src="~/Res/1/symsrh1.png" style=" height: auto; width: 90%; margin-top: 4%;" />
+        </div>
+    </div>
+</div>
+
+<div class="page" id="question_1" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container" style="display: block; padding-top: 40px;">
+                                <div>
+                                    <center>
+                                        <table class="centerTenEight">
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t0url" style="width: 100%; height: auto"></span></td>
+                                                    <td width="51.833333333333336px"></td>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t1url" style="width: 100%; height: auto"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center><br><center><img src="/Res/1/line.png" style="width: 100%; height: auto"></center><br><center>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t2url" style="width: 100%; height: auto"></span></td>
+                                                    <td width="51.833333333333336px"></td>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t3url" style="width: 100%; height: auto"></span></td>
+                                                    <td width="51.833333333333336px"></td>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t4url" style="width: 100%; height: auto"></span></td>
+                                                    <td width="51.833333333333336px"></td>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t5url" style="width: 100%; height: auto"></span></td>
+                                                    <td width="51.833333333333336px"></td>
+                                                    <td><span class="btn btn-default" style="height:51.833333333333336px; width: 51.833333333333336px; padding: 0; background-size: 100%;  background-size: 20px auto; border:none"> <img v-bind:src="question.t6url" style="width: 100%; height: auto"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center><br>
+                                </div><div class="msgDiv" style="text-align: center;font-size: xx-large;color: red; display: none; ">错误</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="xoDiv" style="display: block;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">
+                            <p id="timerDiv" style="display: block;"><p class="timeroutEnd"><font class="timerfont" v-if="!istest" style="color: red; font-size: x-large; font-weight: 600; font-family: system-ui;">剩余时间:{{BalanceSeconds}}秒</font></p></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="page" id="testEnd_1" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container" style="display: block;">
+                                <div>
+                                    <center>
+                                        <div>
+                                            <p>
+                                                <font v-if="parseFloat(succrate)<100" style="color: red; font-size: x-large;">练习正确率({{ succrate }}%)较低</font>
+                                            </p>
+                                        </div>
+                                    </center><center class="symPcenter"><div style="margin-top:18%;"> <p> 请又好又快地完成任务，</p> <p style="margin-bottom: 49px;">  如果按错键，不能修改，继续往下做。</p> </div></center><center><table class="ipadPcWidth"><tbody><tr><td><div class="btnPrev Previouspage"><button class=" btn-default btnnext" style="border:none; outline:none" v-on:click="onprev">上一页</button></div></td><td><div class="btnNext nextpage"><button class="btn-default btnnext" style="border:none; outline:none" v-on:click="onnext">下一页</button></div></td></tr></tbody></table></center>
+                                </div><div class="msgDiv" style="text-align: center; font-size: xx-large; color: red; display: none;">错误</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="xoDiv" style="display: none;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">
+                            <div class="timerDiv" style="border:none; color:red">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="page" id="answerStart_1" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container" style="display: block;"><div class="msgDiv" style="text-align: center; font-size: xx-large; color: red; display: none;">错误</div><div style="vertical-align: middle;"><center class="centerImg"><img src="~/Res/1/SymbolSearch_3.png" style="width: 80%; height: auto"></center></div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="xoDiv" style="display: none;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">
+                            <div class="timerDiv" style="border:none; color:red">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page" id="finishOver" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container" style="display: block;"><div class="msgDiv" style="text-align: center; font-size: xx-large; color: red; display: none;"><p class="error"><font style="color:red; font-size:x-large">错误</font></p></div><div style="vertical-align: middle; color: white;"><center><div style="position: fixed;top: 50%;margin: 0 auto;left: 0;right: 0; color: #FFFFFF;  font-size:xx-large">本项任务结束</div></center></div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="xoDiv" style="display: none;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">
+                            <div class="timerDiv" style="border:none; color:red">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page" id="first_2" style="display: none;">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="width:unset">
+            <div class="title-Description">数字符号</div>
+            <div class="title-translation">Digit Symbol</div>
+            <p class="title-text" style="text-indent: 2em;"> 屏幕上方将呈现一些“数字-符号”</p>
+            <p class="title-text"> 对，请在数字下的空格内填入对应的符号。</p>
+            <p class="title-text" style="text-align: center; margin-top: 5%;"> （按空格键开始看实例、做练习）</p>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="test_2" style="display: none;">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container"><div style="vertical-align: middle;"><div><table style="width:90%; text-align:center; margin-top:10%" class="tableclass"><tbody> <tr> <td colspan="2">1</td> <td style="width:12px;border:none;"></td> <td colspan="2">2</td> <td style="width:12px;border:none;"></td>  <td colspan="2">3</td>  <td style="width:12px;border:none;"></td> <td colspan="2">4</td> <td style="width:12px;border:none;"></td> <td colspan="2">5</td> <td style="width:12px;border:none;"></td> <td colspan="2">6</td> <td style="width:12px;border:none;"></td> <td colspan="2">7</td> <td style="width:12px;border:none;"></td> <td colspan="2">8</td> <td style="width:12px;border:none;"></td> <td colspan="2">9</td></tr><tr> <td style="height:50px"><img src="/Res/2/space.png"></td> <td><img src="/Res/2/space.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="/Res/2/X.png"></td>  <td><img src="/Res/2/space.png"></td>   <td style="width:12px;border:none;"></td> <td><img src="/Res/2/O.png"></td>   <td><img src="/Res/2/X.png"></td>   <td style="width:12px;border:none;"></td> <td><img src="/Res/2/space.png"></td> <td><img src="/Res/2/X.png"></td> <td style="width:12px;border:none;"></td> <td><img src="/Res/2/X.png"></td>   <td><img src="/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="/Res/2/space.png"></td>  <td><img src="/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="/Res/2/X.png"></td>   <td><img src="/Res/2/X.png"></td> <td style="width:12px;border:none;"></td> <td><img src="/Res/2/O.png"></td>  <td><img src="/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="/Res/2/O.png"></td>   <td><img src="/Res/2/space.png"></td></tr></tbody></table></div><div class="errDiv" style="margin-top:50px; visibility:hidden;  text-align:center"><p><font style="color: red; font-size: x-large;">错误</font></p></div><div style="margin-top:100px"><p style="margin-bottom: 5px"><font style="color: #00CC00; font-size: x-large;">两个实例</font></p></div><div><table style="width:100%; text-align:center" class="tableclass" cellspacing="10"><tbody><tr> <td colspan="2">4</td> <td style="width:12px;border:none;"></td> <td colspan="2">2</td>  <td style="width:12px;border:none;"></td> <td colspan="2">9</td>  <td style="width:12px;border:none;"></td> <td colspan="2">6</td> <td style="width:12px;border:none;"></td> <td colspan="2">1</td> <td style="width:12px;border:none;"></td> <td colspan="2">3</td> <td style="width:12px;border:none;"></td> <td colspan="2">7</td> <td style="width:12px;border:none;"></td> <td colspan="2">8</td> <td style="width:12px;border:none;"></td> <td colspan="2">5</td> <td style="width:12px;border:none;"></td><td colspan="2">3</td></tr><tr><td style="height:50px"><img src="/Res/2/space.png"></td> <td><img src="/Res/2/X.png"></td> <td style="width:12px;border:none;"></td><td><img src="/Res/2/X.png"></td><td><img src="/Res/2/space.png"></td><td style="width:12px;border:none;"> </td><td class="s1"></td><td class="s2"></td> <td style="width:12px;border:none;"></td> <td class="s3"></td><td class="s4"></td> <td style="width:12px;border:none;"></td> <td class="s5"></td> <td class="s6"></td> <td style="width:12px;border:none;"></td> <td class="s7"></td><td class="s8"></td> <td style="width:12px;border:none;"></td> <td class="s9"></td><td class="s10"></td> <td style="width:12px;border:none;"></td> <td class="s11"></td> <td class="s12"></td> <td style="width:12px;border:none;"></td> <td class="s13"></td><td class="s14"></td> <td style="width:12px;border:none;"></td> <td class="s15"></td><td class="s16"></td></tr></tbody></table></div><div class="idPointer" style="margin-left: 0px;"><img src="/Res/2/pointer.png" width="20px"></div><div class="idPointerTxt" style="margin-left: 0px;"><p><font style="color: #00CC00; font-size: x-large;">从这里<br>开始练习</font></p></div></div></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="testEnd_2" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container">
+                                <div style="vertical-align: middle;">
+                                    <center>
+                                        <div class="centerImg">
+                                            <p>
+                                                <font v-if="parseFloat(succrate)<90" style="color: red; font-size: x-large;">练习正确率({{ succrate }}%)较低，请点击“上一页”返回练习</font>
+                                            </p>
+                                        </div>
+                                    </center><center class="symPcenter"><div style="margin-top:18%;"> <p> 请又好又快地完成任务，</p> <p style="margin-bottom: 49px;">  如果按错键，不能修改，继续往下做。</p> </div></center><center><table class="ipadPcWidth"><tbody><tr><td><div class="btnPrev Previouspage"><button class=" btn-default btnnext" style="border:none; outline:none" v-on:click="onprev">上一页</button></div></td><td><div class="btnNext nextpage"><button class="btn-default btnnext" style="border:none; outline:none" v-on:click="onnext">下一页</button></div></td></tr></tbody></table></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page" id="answerStart_2" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container">
+                                <div style="vertical-align: middle;">
+                                    <center>
+                                        <div class="centerImg DigitSymbol_2">
+                                            <div class="DigitSymbol_2">
+                                                <img src="~/Res/2/DigitSymbol_2.png" style="width:70%; height:auto">
+                                                <p class="title-text-noindent" style="margin-top:5%;">请将手放在“F”,“J”,“空格”键上</p>
+
+                                                <p class="title-text-noindent" style="text-align:center;margin-top:5%;">（按空格键开始正式测验）</p>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="page" id="question_2" style="display: none; font-size: 14px">
+    <div style="display:flex;justify-content:center;height:100%;line-height:normal">
+        <div class="mainCoutent" style="text-align:center;padding-top:40px">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container"><div style="vertical-align: middle;"><div><table style="width:90%; text-align:center; margin-top:5px;" class="tableclass"><tbody> <tr> <td colspan="2">1</td> <td style="width:12px;border:none;"></td> <td colspan="2">2</td>  <td style="width:12px;border:none;"></td> <td colspan="2">3</td>  <td style="width:12px;border:none;"></td> <td colspan="2">4</td> <td style="width:12px;border:none;"></td> <td colspan="2">5</td> <td style="width:12px;border:none;"></td> <td colspan="2">6</td> <td style="width:12px;border:none;"></td> <td colspan="2">7</td> <td style="width:12px;border:none;"></td> <td colspan="2">8</td> <td style="width:12px;border:none;"></td><td colspan="2">9</td></tr><tr> <td style="height:50px"><img src="~/Res/2/space.png"></td> <td><img src="~/Res/2/space.png"></td> <td style="width:12px;border:none;"></td>  <td><img src="~/Res/2/X.png"></td>  <td><img src="~/Res/2/space.png"></td>  <td style="width:12px;border:none;"></td>  <td><img src="~/Res/2/O.png"></td>   <td><img src="~/Res/2/X.png"></td>  <td style="width:12px;border:none;"></td>  <td><img src="~/Res/2/space.png"></td> <td><img src="~/Res/2/X.png"></td> <td style="width:12px;border:none;"></td> <td><img src="~/Res/2/X.png"></td>   <td><img src="~/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="~/Res/2/space.png"></td>  <td><img src="~/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="~/Res/2/X.png"></td>   <td><img src="~/Res/2/X.png"></td> <td style="width:12px;border:none;"></td> <td><img src="~/Res/2/O.png"></td>  <td><img src="~/Res/2/O.png"></td>  <td style="width:12px;border:none;"></td> <td><img src="~/Res/2/O.png"></td>   <td><img src="~/Res/2/space.png"></td></tr></tbody></table></div><div class="errDiv" style="margin-top: 50px; text-align: center; visibility: hidden;"><p><font style="color: red; font-size: x-large;">错误</font></p></div><div style="margin-top:50px"><table style="width:100%; text-align:center" class="tableclass" cellspacing="10"><tbody><tr><td colspan="2"></td><td class="0_1_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_3_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_5_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_7_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_9_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_11_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_13_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_15_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_17_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="0_19_74" style="width:12px;border:none;"> </td></tr><tr><td class="s0" style="height:50px"></td><td class="s1" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s2" style="height:50px"></td><td class="s3" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s4" style="height:50px"></td><td class="s5" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s6" style="height:50px"></td><td class="s7" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s8" style="height:50px"></td><td class="s9" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s10" style="height:50px"></td><td class="s11" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s12" style="height:50px"></td><td class="s13" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s14" style="height:50px"></td><td class="s15" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s16" style="height:50px"></td><td class="s17" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s18" style="height:50px"></td><td class="s19" style="height:50px"></td><td style="width:12px;border:none;"> </td></tr></tbody></table></div><div class="idPointer0" style="margin-left: 11px; margin-top: 0px; visibility: visible;"><img src="~/Res/2/pointer.png" width="20px"></div><div style="margin-top:50px"><table style="width:100%; text-align:center" class="tableclass" cellspacing="10"><tbody><tr><td colspan="2"></td><td class="1_1_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_3_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_5_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_7_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_9_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_11_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_13_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_15_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_17_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="1_19_32" style="width:12px;border:none;"> </td></tr><tr><td class="s20" style="height:50px"></td><td class="s21" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s22" style="height:50px"></td><td class="s23" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s24" style="height:50px"></td><td class="s25" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s26" style="height:50px"></td><td class="s27" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s28" style="height:50px"></td><td class="s29" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s30" style="height:50px"></td><td class="s31" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s32" style="height:50px"></td><td class="s33" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s34" style="height:50px"></td><td class="s35" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s36" style="height:50px"></td><td class="s37" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s38" style="height:50px"></td><td class="s39" style="height:50px"></td><td style="width:12px;border:none;"> </td></tr></tbody></table></div><div class="idPointer1" style="margin-left: 0px; margin-top: 0px; visibility: hidden;"><img src="~/Res/2/pointer.png" width="20px"></div><div style="margin-top:50px"><table style="width:100%; text-align:center" class="tableclass" cellspacing="10"><tbody><tr><td colspan="2"></td><td class="2_1_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_3_74" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_5_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_7_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_9_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_11_32" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_13_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_15_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_17_70" style="width:12px;border:none;"> </td><td colspan="2"></td><td class="2_19_32" style="width:12px;border:none;"> </td></tr><tr><td class="s40" style="height:50px"></td><td class="s41" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s42" style="height:50px"></td><td class="s43" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s44" style="height:50px"></td><td class="s45" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s46" style="height:50px"></td><td class="s47" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s48" style="height:50px"></td><td class="s49" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s50" style="height:50px"></td><td class="s51" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s52" style="height:50px"></td><td class="s53" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s54" style="height:50px"></td><td class="s55" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s56" style="height:50px"></td><td class="s57" style="height:50px"></td><td style="width:12px;border:none;"> </td><td class="s58" style="height:50px"></td><td class="s59" style="height:50px"></td><td style="width:12px;border:none;"> </td></tr></tbody></table></div><div class="idPointer2" style="margin-left: 0px; margin-top: 0px; visibility: hidden;"><img src="~/Res/2/pointer.png" width="20px"></div><div class="timerDiv" style="margin-bottom: 20px; text-align: center; display: block;"><p><font style="color:red;font-size:x-large; ">剩余时间:{{BalanceSeconds}}秒</font></p></div></div></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="page" id="first_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div>
+                    <center>
+                        <div class="OperationSpan_0">
+                            <div class="OperationSpan_0 fontFamilySizeDiv">
+                                <div class="title-Description">操作广度</div>
+                                <div class="title-translation">Operation Span</div>
+                                <p class="title-text" style="text-indent: 2em;">请在做心算题的同时，记住随后出现</p>
+                                <p class="title-text title-under" style="margin-bottom: 10px;"> 的属相（十二生肖）。</p>
+                                <p class="title-text" style="text-indent: 2em;text-align:left">下面先来练习记忆属相。</p>
+                            </div>
+                        </div>
+                    </center><center><div style="width:162px;"> <button class="btn-start" v-on:click="start">开始练习</button></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="greenword_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div class="RecordZodiac">{{title}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="animalsShow_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div class="ZodiacAnmation">{{title}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="animalsAnswer_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div>
+                    <center><p style="text-align:center; margin-top:10%; font-size:xx-large; color:limegreen;font-family: kaiTi;">请按顺序回忆属相</p></center>
+                    <br>
+                    <center>
+                        <input class="span_0 span_que" style="width:41.7px; height:41.7px;  border: 1.5px solid #FFFFFF;  text-align:center;  font-size:x-large;   background-color: black;  color:white" type="text" readonly="">
+
+                    </center>
+                    <br>
+                    <center><input class="char_0 que" v-on:click="setvalue" que="鼠" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 鼠 "> <input class="char_1 que" v-on:click="setvalue" que="牛" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 牛 "> <input class="char_2 que" v-on:click="setvalue" que="虎" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 虎 "> <input class="char_3 que" v-on:click="setvalue" que="兔" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 兔 "> <input class="char_4 que" v-on:click="setvalue" que="龙" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 龙 "> <input class="char_5 que" v-on:click="setvalue" que="蛇" style="width:41.7px; height:41.7px;   background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 蛇 "> </center>
+                    <br>
+                    <center><input class="char_6 que" v-on:click="setvalue" que="马" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 马 "> <input class="char_7 que" v-on:click="setvalue" que="羊" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 羊 "> <input class="char_8 que" v-on:click="setvalue" que="猴" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 猴 "> <input class="char_9 que" v-on:click="setvalue" que="鸡" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 鸡 "> <input class="char_10 que" v-on:click="setvalue" que="狗" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 狗 "> <input class="char_11 que" v-on:click="setvalue" que="猪" style="width:41.7px; height:41.7px;    background-color: black;  color:white;  text-align:center;  font-size:x-large " type="button" value=" 猪 "> </center>
+                    <br>
+                    <center><table><tbody><tr><td><div style="width: 100px"><button class="btn btn-default" style="border:none; outline:none" disabled="true" v-on:click="clearBox">清除</button></div></td><td width="128px"></td><td></td><td><div style="width: 100px"><button class="btn btn-default" style="border:none; outline:none" disabled="true" v-on:click="checkBox">确认</button></div></td></tr></tbody></table></center>
+
+                    <center v-if="showtimer"><div class="timerDiv_lb" style="display: block;"><p><font style="color:red; font-size:x-large; ">剩余时间:{{BalanceSeconds}}秒</font></p></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="heartTip_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div style="display: block;">
+                    <center>
+                        <div class="OperationSpan_1">
+                            <div class="OperationSpan_1 fontFamilySizeDiv topCenter">
+                                <p class="title-text" style="text-indent: -8em">下面再来练习心算</p>
+                                <p class="title-text" style="margin-bottom: 10px;">请尽快判断给出的心算答案是否正确</p>
+                            </div>
+                        </div>
+                    </center><center><div style="width:162px;"> <button class="btn-start" v-on:click="start">开始练习</button></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="heartTest_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent" style="margin: unset;">
+            <div class="container">
+                <div style="margin-top: 358.333px;"><center><p style="font-size:48px; color:white"><table><tbody><tr class="fontSizesh">
+                    <td style="border:0px solid white; min-width:20px; text-align:center" class="timian"></td>
+                    </tr></tbody></table></p></center><br><center><table><tbody><tr><td><div style="width: 162px"><button class=" btn-default btn-right" style="border:none; outline:none" v-on:click="callRight">对</button></div></td><td width="100px"><center><p class="p_id"></p></center></td><td><div style="width: 162px"><button class=" btn-default btn-wrong" style="border:none; outline:none" v-on:click="callWrong">错</button></div></td></tr></tbody></table></center>
+                <center>
+                    <div class="timerDiv" style="display: block;visibility:hidden">
+                        <p><font style="color:red; font-size:x-large; ">超时</font></p>
+                    </div>
+                </center></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="bothTestTip_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent" style="margin: unset;">
+            <div class="container">
+                <div style="margin-top: 358.333px;">
+                    <center>
+                        <div id="OperationSpan_2">
+                            <div id="OperationSpan_2" class="fontFamilySizeDiv">
+                                <p class="title-text" style=" margin-top: 18%; margin-bottom: 69px;">下面练习同时完成这两项任务</p>
+                                <p class="title-text" style="text-indent: 1em;">请在做心算题的同时，</p>
+                                <p class="title-text" style="text-indent: 1em;">记住随后出现的属相。</p>
+                            </div>
+                        </div>
+                    </center><center><div style="width:162px;"><button class=" btn-start"v-on:click="start">开始练习</button></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="page" id="bothTestTitle_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent" style="margin: unset;">
+            <div class="container">
+                <div style="margin-top: 358.333px;"><center><div class="RecordZodiac">做心算，记属相</div><div class="RecordZodiactwo">[{{span}}-{{spanid}}]</div></center></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="page" id="bothTestRetry_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div class="ZodiacAnmation">
+                    <p><font style='color:red; font-size:xx-large'>错误，再练习一次</font></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="bothQuestionTip_11" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <div class="container">
+                <div>
+                    <center>
+                        <div id="OperationSpan_4">
+                            <div id="OperationSpan_4" class="fontFamilySizeDiv">
+                                <p class="title-text" style=" margin-top: 18%; margin-bottom: 69px;">下面开始正式测验</p>
+                                <p class="title-text" style="text-indent: 1em;">请在做心算题的同时，</p>
+                                <p class="title-text" style="text-indent: 1em;">记住随后出现的属相。</p>
+                            </div>
+                        </div>
+                    </center><center><div style="width:162px;"><button class="btn-start" v-on:click="start">开始测验</button></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

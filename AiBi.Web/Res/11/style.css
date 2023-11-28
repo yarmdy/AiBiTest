@@ -1,0 +1,468 @@
+﻿
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+button {
+    overflow: visible;
+}
+button, select {
+    text-transform: none;
+}
+    button, html input[type=button], input[type=reset], input[type=submit] {
+        -webkit-appearance: button;
+        cursor: pointer;
+    }
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+
+button[disabled], html input[disabled] {
+    cursor: default;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+body {
+    background: black !important;
+    color: white !important;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    font-size: large !important;
+    display: table;
+    line-height: 1.42857143;
+}
+
+.span_que {
+    vertical-align: middle;
+}
+
+.mainborder {
+    display: table-cell;
+    vertical-align: middle;
+    overflow-y: hidden;
+}
+
+.mainCoutent {
+    margin: auto;
+    /* width: 83.4%; */
+    /* border: 1px dotted mediumvioletred; */
+    height: 70%;
+}
+
+/*.title-translation {
+                margin-bottom: 3.5%;
+            }*/
+
+.fontSizesh {
+    font-size: 48px;
+}
+
+.btn-start {
+    height: 52px;
+    width: 162px;
+    color: #000000;
+    line-height: 51px;
+    font-size: 26px;
+    font-family: kaiTi;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background: #ffffff;
+    bottom: 15%;
+    border: none;
+    outline: none;
+}
+
+.btn-right {
+    position: fixed;
+    height: 52px;
+    width: 162px;
+    color: #000000;
+    line-height: 51px;
+    font-size: 32px;
+    font-family: kaiTi;
+    position: fixed;
+    left: 34.4%;
+    bottom: 17.6%;
+    border: none;
+    outline: none;
+}
+
+.btn-wrong {
+    position: fixed;
+    height: 52px;
+    width: 162px;
+    color: #000000;
+    line-height: 51px;
+    font-size: 32px;
+    font-family: kaiTi;
+    position: fixed;
+    right: 34.4%;
+    bottom: 17.6%;
+    border: none;
+    outline: none;
+}
+
+.btn {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: large !important;
+    text-align: center !important;
+    border: none;
+    outline: none;
+}
+
+.topoper {
+    margin-top: 3.3%;
+}
+
+.next {
+    background-color: black;
+    color: white;
+    border-color: white;
+    outline-color: white !important;
+}
+
+.back-next {
+    color: black !important;
+}
+
+.next:hover {
+    color: white;
+}
+
+.que {
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    text-align: center !important;
+    outline-color: white !important;
+    border-color: white;
+    margin: 5px;
+    padding: 0;
+    border: 1.5px solid #FFFFFF;
+}
+
+    .que:hover {
+        color: white;
+    }
+
+    .que:focus {
+        color: white;
+        text-decoration: none;
+    }
+
+.span_que:nth-child(1) {
+    margin-right: -2px;
+}
+
+.span_que:nth-child(2) {
+    margin-left: -5px;
+}
+
+.span_que:nth-child(3) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(4) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(5) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(6) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(7) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(8) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(9) {
+    margin-left: -8px;
+}
+
+.span_que:nth-child(10) {
+    margin-left: -8px;
+}
+
+.RecordZodiac-white {
+    width: 800px;
+    font-size: 46px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.RecordZodiac {
+    width: 800px;
+    font-size: 32px;
+    font-family: kaiTi;
+    text-align: center;
+    color: limegreen;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.RecordZodiactwo {
+    width: 800px;
+    font-size: 38px;
+    text-align: center;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.ZodiacAnmation {
+    font-size: 48px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.taskEnd {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    font-size: xx-large;
+    width: 260px;
+}
+
+.fontFamilySizeDiv {
+    display: table;
+}
+
+.que, input {
+    font-size: 26px !important;
+}
+
+.title-Description {
+    text-align: center;
+    font-family: KaiTi;
+    font-weight: bold;
+    font-size: 48px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.title-translation {
+    text-align: center;
+    font-family: KaiTi;
+    font-size: 24px;
+    margin: 2% auto 6%;
+}
+/*}*/
+@-moz-document url-prefix() {
+    .container {
+        margin-top: 160px;
+    }
+
+    .mainCoutent {
+        height: 70.6%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .btn-right {
+        left: 30%;
+    }
+
+    .btn-wrong {
+        right: 30%;
+    }
+
+    .topCenter {
+        margin-top: 0% !important;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-start {
+        position: fixed;
+        bottom: 15%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        font-size: 26px;
+    }
+
+    .span_que {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .que {
+        width: 60px !important;
+        height: 60px !important;
+    }
+}
+
+.timerDiv_lb {
+    padding-top: 30px;
+}
+
+@media only screen and (min-width: 321px) and (max-width: 1200px) {
+    .btn {
+        font-size: x-large !important;
+    }
+
+    .que, .span_que {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 28px !important;
+    }
+
+    .OperationSpan_2 > p:first-child {
+        margin-top: -17% !important;
+        margin-bottom: 112px !important;
+    }
+}
+
+
+@media only screen and (min-width: 992px) {
+    .title-Description_ {
+        font-family: KaiTi;
+        font-weight: bold;
+        font-size: 48px;
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .title-translation {
+        font-family: KaiTi;
+        font-size: 24px;
+    }
+
+    .title-text {
+        font-family: KaiTi;
+        font-size: 32px;
+    }
+
+    .title-text-left {
+        font-family: KaiTi;
+        font-size: 22px;
+        text-align: left;
+    }
+
+    .title-text16 {
+        font-family: KaiTi;
+        font-size: 22px;
+    }
+
+    .title-under {
+        text-indent: -8em;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .fontFamilySizeDiv {
+        text-align: left;
+    }
+
+    .title-Description {
+        text-align: center;
+        font-family: KaiTi;
+        font-weight: bold;
+        font-size: 48px;
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .title-translation {
+        text-align: center;
+        font-family: KaiTi;
+        font-size: 24px;
+        margin: 2% auto 6%;
+    }
+
+    .title-text {
+        text-align: center;
+        font-family: KaiTi;
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .topCenter {
+        margin-top: 0% !important;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .title-under {
+        text-indent: -8em;
+    }
+}
+
+
+.span_que,.que{
+    font-family:SimHei
+}

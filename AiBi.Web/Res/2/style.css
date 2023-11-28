@@ -1,0 +1,313 @@
+﻿
+
+.title-Description {
+    text-align: center;
+    font-family: KaiTi;
+    font-weight: bold;
+    font-size: 48px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.title-translation {
+    text-align: center;
+    font-family: KaiTi;
+    font-size: 24px;
+    margin: 2% auto 6%;
+}
+
+.title-text {
+    font-family: KaiTi;
+    font-size: 32px;
+}
+
+body {
+    background: black !important;
+    color: white !important;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    /*border: 1px solid white;*/
+    font-size: large !important;
+    /*新增*/
+    display: table;
+}
+
+.mainborder {
+    display: table-cell;
+    vertical-align: middle;
+    overflow-y: hidden;
+}
+
+.mainCoutent {
+    margin: auto;
+    /*border: 1px dotted mediumvioletred;*/
+    width: 86%;
+    height: 70%;
+}
+
+table {
+    margin: auto;
+    position: relative;
+    /* top: 4.3%; */
+}
+
+.container {
+    max-width: 1136px;
+}
+
+.DigitSymbol_0 {
+    margin: auto;
+    width: 83.4%;
+}
+
+.DigitSymbol_1 {
+    text-align: center;
+    margin-top: 20%;
+}
+
+.symCentrTop {
+    margin-top: 15%;
+    width: 100%;
+}
+
+.heightAuto {
+    width: 90%;
+    margin-top: 10%;
+}
+
+.timeroutEnd {
+    position: fixed;
+    bottom: 17.6%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
+.centerImg {
+    margin-top: 10%;
+}
+
+.centerTenEight {
+    margin-top: 14.8%;
+}
+
+.symPcenter {
+    margin-top: 22%;
+    font-size: xx-large;
+    font-family: kaiTi;
+}
+
+.title-text-noindent {
+    font-family: kaiTi;
+    font-size: 32px;
+}
+
+.centerTopLine {
+    margin-top: 10%;
+}
+
+.btn {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: large !important;
+    text-align: left !important;
+}
+
+.taskEnd {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    font-size: xx-large;
+    width: 260px;
+}
+
+.createStudyTable {
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-size: 16pt;
+    border: groove;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.tableclass td {
+    width: 50px;
+    overflow: hidden;
+    border: 1px solid white;
+    column-span: 2;
+    padding: 4px 0px;
+    -moz-padding: 0;
+    /*padding: 5px 10px 5px 5px;*/
+    border-collapse: separate;
+    /*font-size: 15px;*/
+    font-size: 30px;
+}
+
+.tableclass {
+    webkit-box-shadow: 1px 1px 1px #000;
+    -moz-box-shadow: 1px 1px 1px #000;
+    box-shadow: 1px 1px 1px #000;
+    border-spacing: 20px;
+    table-layout: fixed;
+}
+
+.btnnext {
+    background: #FFFFFF;
+    /*position: fixed;*/
+    /*bottom: 17.6%;*/
+    width: 162px;
+    color: #000000;
+    font-size: 32px;
+    height: 52px;
+    line-height: 51px;
+    font-family: STKaitiSC-Bold;
+}
+
+.btnnext {
+    background: #FFFFFF;
+    /*position: fixed;*/
+    /*bottom: 17.6%;*/
+    width: 162px;
+    color: #000000;
+    font-size: 32px;
+    height: 52px;
+    line-height: 51px;
+    font-family: STKaitiSC-Bold;
+}
+
+.ipadPcWidth {
+    width: 100%;
+    margin-top: 38%;
+}
+
+.Previouspage {
+    float: left;
+}
+
+@-moz-document url-prefix() {
+    table.tableclass td {
+        width: 50px;
+        border: 1px solid white;
+        column-span: 2;
+        padding: 0;
+        border-collapse: separate;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    table {
+        margin: auto;
+        position: relative;
+        /* top: 6.6%; */
+    }
+
+    .mainCoutent {
+        /* height: 93.4%; */
+    }
+
+    .timeroutEnd {
+        bottom: 3.1%;
+    }
+
+    .centerTenEight {
+        margin-top: 8.8%;
+    }
+
+    .btn-start {
+        background: #FFFFFF;
+        width: 162px;
+        height: 52px;
+        line-height: 51px;
+        color: #000000;
+        font-size: 26px;
+        position: fixed;
+        font-family: kaiti;
+        bottom: 15%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        border: none;
+        outline: none;
+    }
+
+    .btn-starttwo {
+        position: fixed;
+        bottom: 12.1%;
+        left: 42%;
+        width: 162px;
+        background: #ffffff;
+        font-family: kaiTi;
+        font-weight: 150;
+        color: #000000;
+        background: #FFFFFF;
+        height: 52px;
+        line-height: 51px;
+        font-size: 26px;
+    }
+
+    .xoDiv {
+        position: fixed;
+        bottom: 12.1%;
+        left: 24%;
+    }
+
+
+    .ipadPcWidth {
+        width: 100%;
+        margin-top: 50%;
+    }
+
+    .Previouspage {
+        float: left;
+    }
+
+
+    .nextpage {
+        float: right;
+    }
+
+    .btnnext {
+        background: #FFFFFF;
+        /*position: fixed;*/
+        /*bottom: 17.6%;*/
+        width: 162px;
+        color: #000000;
+        font-size: 26px;
+        height: 52px;
+        line-height: 51px;
+        /*font-family: STKaitiSC-Bold;*/
+        font-family: kaiTi;
+    }
+
+    /*.goButton {
+                left: 40% !important;
+            }*/
+}
+
+@media only screen and (min-width: 1200px) {
+    .timeroutEnd {
+        bottom: 17.6%;
+    }
+}
+/*@media only screen and (min-width: 321px) and (max-width: 1024px) {*/
+.title-Description {
+    text-align: center;
+    font-family: KaiTi;
+    font-weight: bold;
+    font-size: 48px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.title-translation {
+    text-align: center;
+    font-family: KaiTi;
+    font-size: 24px;
+    margin: 2% auto 6%;
+}
+/*}*/
+.idPointer0, .idPointer1, .idPointer2{
+    text-align: left
+}
