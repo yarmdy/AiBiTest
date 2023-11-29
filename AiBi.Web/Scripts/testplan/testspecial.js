@@ -201,7 +201,9 @@ layui.config({
         funcs = {
             onprev: function (e) {
                 TestPage1.setAnswer();
-                toPage(new TestPage1("question_1", TestPage1.getImgData(0, TestEndPage1.lines)));
+                var obj = TestPage1.getImgData(0, TestEndPage1.lines);
+                obj.istest = true;
+                toPage(new TestPage1("question_1", obj));
             },
             onnext: function () {
                 toPage(new AnswerStartPage1("answerStart_1", {}));
@@ -1684,7 +1686,7 @@ layui.config({
 
                 toPage(new AnswerTip2_22("answerTip2_21", data));
 
-            }, 300);
+            }, 3000);
 
         }
     }
