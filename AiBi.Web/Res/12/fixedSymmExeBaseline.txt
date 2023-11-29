@@ -1,0 +1,5 @@
+Weight	sympic	-1	answer	-1
+1	symm54	-1	2	-1
+1	symm35	-1	1	-1
+1	symm16	-1	1	-1
+1	symm80	-1	2	-1

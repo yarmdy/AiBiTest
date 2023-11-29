@@ -135,7 +135,7 @@ layui.config({
             TestPage1.answerData.score += obj.score;
         }
         isanswer = false;
-
+        isover = false;
         answer(exist) {
             if (this.isanswer) return;
             this.isanswer = true;
@@ -149,6 +149,9 @@ layui.config({
                 $(this.el).find(".msgDiv").show();
                 var that = this;
                 setTimeout(function () {
+                    if (that.isover) {
+                        return;
+                    }
                     that.toNext();
                 }, 750);
             }
@@ -187,6 +190,7 @@ layui.config({
             }
         }
         finishQuestion() {
+            this.isover = true;
             toPage(new FinishOverPage("finishOver", {}));
         }
     }
@@ -925,6 +929,877 @@ layui.config({
 
     //#endregion
 
+    //#region 第12题
+
+    //#region 第12题第一页
+    class FirstPage12 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/12/locationExe.txt";
+                //if (example.Title.indexOf("乙") > 0) {
+                //    url = "/Res/12/chars2.txt";
+                //}
+                var testtxt = await (await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/)).reduce((s, a, i) => {
+                    var last = s.pop();
+                    if (last && last.locs.length == last.span) {
+                        s.push(last);
+                        last = null;
+                    }
+                    if (!last) {
+                        s.push({ weight: a[0], span: a[1], loc: a[2], locs: [a[2]] });
+                        return s;
+                    }
+                    last.locs.push(a[2]);
+                    s.push(last);
+                    return s;
+                }, []);
+                //console.log(lines);
+                toPage(new ShowLocOnlyTitlePage12("greenword_11", { title: "记位置", lines: lines, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第12题显示记位置
+    class ShowLocOnlyTitlePage12 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+            setTimeout(function () {
+                data.locIndex = 0;
+                data.loc = data.lines[data.index].loc;
+                toPage(new ShowLocOnlyPage12("locshow_12", data));
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题显示位置
+    class ShowLocOnlyPage12 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+            data.locIndex++;
+            setTimeout(function () {
+                let line = data.lines[data.index];
+                if (data.locIndex >= line.span) {
+                    toPage(new ShowLocOnlyAnswerPage12("locAnswer_12", data));
+                } else {
+                    data.loc = line.locs[data.locIndex];
+                    toPage(new ShowLocOnlyPage12("locshow_12", data));
+                }
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题回答记位置
+    class ShowLocOnlyAnswerPage12 extends SinglePage {
+        myAnswer = [];
+        funcs = {
+            setvalue: function (e) {
+                var page = global.localPage;
+                $(page.el).find(".btnTop button").prop("disabled", false);
+                var data = page.data;
+                var line = data.lines[data.index];
+                if (page.myAnswer.length >= line.span) {
+                    return;
+                }
+                var ballNo = page.myAnswer.length + 1;
+                var url = "/Res/12/redgood" + ballNo + ".png";
+                var parent = $(e.target).closest("td");
+                $(e.target).hide();
+                parent.append('<img src="' + url + '">');
+                page.myAnswer.push(parent.attr("tid").replace("td_",""));
+            },
+            clearBox: function (e) {
+                var page = global.localPage;
+                if (page.myAnswer.length <= 0) {
+                    
+                    return;
+                }
+                var locNo = page.myAnswer.pop();
+                var td = $(page.el).find("td[tid=td_" + locNo + "]");
+                td.find("img").remove();
+                td.find("input").show();
+                if (page.myAnswer.length <= 0) {
+                    $(page.el).find(".btnTop button").prop("disabled", true);
+                }
+            },
+            checkBox: function (e) {
+                let page = global.localPage;
+                let data = page.data;
+                let line = data.lines[data.index];
+                let res = line.locs.join('>');
+                let myRes = page.myAnswer.join(">");
+                let span = line.span;
+                let nextIndex;
+                if (res == myRes) {
+                    nextIndex = data.lines.findIndex((a, i) => a.span > span);
+                } else {
+                    nextIndex = data.lines.findIndex((a, i) => i > data.index || a.span > span);
+                }
+                if (nextIndex >= 0) {
+                    data.title = "记位置";
+                    data.index = nextIndex;
+                    toPage(new ShowLocOnlyTitlePage12("greenword_11", data));
+                    return;
+                }
+                //跳
+                toPage(new SymmetryTipPage12("symmetryTip_12", {}));
+            }
+        };
+        onload() {
+            
+        }
+    }
+    //#endregion
+
+    //#region 第12题对称提示
+    class SymmetryTipPage12 extends SinglePage {
+        funcs = {
+            start: function () {
+                
+                toPage(new SymmetryTip2Page12("symmetryTip2_12", {}));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第12题对称提示2
+    class SymmetryTip2Page12 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/12/fixedSymmExeBaseline.txt";
+                //if (example.Title.indexOf("乙") > 0) {
+                //    url = "/Res/11/opspanbaseline2.txt";
+                //}
+                var testtxt = await (await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new ShowSymmetryTitlePage12("greenword_11", { title: "判对称", lines: lines, index: 0 }));
+            },
+            back: function () {
+                toPage(new SymmetryTipPage12("symmetryTip_12", {}));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第12题显示做对称
+    class ShowSymmetryTitlePage12 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+            setTimeout(function () {
+                toPage(new SymmetryTestPage12("symmetryTest_12", data));
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题做对称练习
+    class SymmetryTestPage12 extends SinglePage {
+        funcs = {
+            callRight: function (e) {
+                global.localPage.answer(1);
+            },
+            callWrong: function (e) {
+                global.localPage.answer(2);
+            }
+        }
+        isanswer = false;
+        timeout = false;
+        onload() {
+            var line = this.data.lines[this.data.index];
+            $(this.el).find(".tutu").attr("src", '/Res/12/' + line[1]+'.png');
+            var that = this;
+            setTimeout(function () {
+                that.timeout = true;
+                $(that.el).find(".timerDiv").css("visibility", "visible");
+            }, 5000);
+        }
+
+        answer(ret) {
+            if (this.isanswer) { return; }
+            this.isanswer = true;
+            var line = this.data.lines[this.data.index];
+            var res = line[3];
+            if (ret == res) {
+                this.next();
+                return;
+            }
+            $(this.el).find(".timerDiv").css("visibility", "visible").find("font").html("错误");
+            var that = this;
+            setTimeout(function () {
+                that.next();
+            }, 750);
+        }
+        next() {
+            var data = $.extend({}, this.data);
+            data.index++;
+            if (data.index < data.lines.length) {
+                toPage(new SymmetryTestPage12("symmetryTest_12", data));
+                return;
+            }
+            toPage(new BothTipPage12("bothTestTip_12", {}));
+        }
+    }
+    //#endregion
+
+    //#region 第12题同时提示
+    class BothTipPage12 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/12/fixedItems.txt";
+                if (example.Title.indexOf("乙") > 0) {
+                    url = "/Res/12/fixedItems2.txt";
+                }
+                var testtxt = await (await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/)).reduce((s, a, i) => {
+                    var last = s.pop();
+                    if (last && last.locs.length == last.span) {
+                        s.push(last);
+                        last = null;
+                    }
+                    if (!last) {
+                        s.push({ weight: a[0], span: a[7], loc: a[4], locs: [a[4]], tis: [{ tutu: a[1], ret: a[3] }], lines: [a] });
+                        return s;
+                    }
+                    last.locs.push(a[4]);
+                    last.tis.push({ tutu: a[1], ret: a[3] });
+                    last.lines.push(a);
+                    s.push(last);
+                    return s;
+                }, []);
+                var test = lines.shift();
+                //console.log(lines);
+                toPage(new ShowBothTitlePage12("bothTestTitle_12", { span: test.span, spanid: 1, lines: lines, test: test, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第12题显示全做
+    class ShowBothTitlePage12 extends BothQuestionPage11 {
+        onload() {
+            let data = $.extend({}, this.data);
+            setTimeout(function () {
+                data.index2 = 0;
+                toPage(new SymmetryQuestionPage12("symmetryTest_12", data));
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题全部做对称
+    class SymmetryQuestionPage12 extends BothQuestionPage11 {
+        funcs = {
+            callRight: function (e) {
+                global.localPage.answer(1);
+            },
+            callWrong: function (e) {
+                global.localPage.answer(2);
+            }
+        }
+        isanswer = false;
+        timeout = false;
+        onload() {
+            var line = this.getLine();
+            var index2 = this.data.index2;
+            $(this.el).find(".tutu").attr("src", '/Res/12/' + line.tis[index2].tutu + '.png');
+            var that = this;
+            setTimeout(function () {
+                that.timeout = true;
+                $(that.el).find(".timerDiv").css("visibility", "visible");
+            }, 5000);
+        }
+
+        answer(ret) {
+            if (this.isanswer) { return; }
+            this.isanswer = true;
+            var line = this.getLine();
+            var index2 = this.data.index2;
+            var res = line.tis[index2].ret;
+            if (ret == res) {
+                this.saveAnswer(true, ret);
+                this.next();
+                return;
+            }
+            this.saveAnswer(false, ret);
+            $(this.el).find(".timerDiv").css("visibility", "visible").find("font").html("错误");
+            var that = this;
+            setTimeout(function () {
+                that.next();
+            }, 750);
+        }
+        next() {
+            var data = $.extend({}, this.data);
+            var line = this.getLine();
+            var index2 = this.data.index2;
+            data.loc = line.locs[index2];
+            toPage(new ShowLocPage12("locshow_12", data));
+        }
+        saveAnswer(isright, answer) {
+            var line = this.getLine();
+            var index2 = this.data.index2;
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line.tis[index2].tutu, answer: answer });
+        }
+    }
+    //#endregion
+
+    //#region 第12题正式显示位置
+    class ShowLocPage12 extends BothQuestionPage11 {
+        onload() {
+            var data = $.extend({}, this.data);
+            data.index2++;
+            var line = this.getLine();
+            setTimeout(function () {
+                if (data.index2 < line.locs.length) {
+                    toPage(new SymmetryQuestionPage12("symmetryTest_12", data));
+                    return;
+                }
+                //global.setTimer(45);
+                //data.showtimer = true;
+                //data.BalanceSeconds = 45;
+                toPage(new ShowLocAnswerPage12("locAnswer_12", data));
+
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题回答记位置
+    class ShowLocAnswerPage12 extends BothQuestionPage11 {
+        timeout = false;
+        myAnswer = [];
+        funcs = {
+            setvalue: function (e) {
+                var page = global.localPage;
+                $(page.el).find(".btnTop button").prop("disabled", false);
+                var data = page.data;
+                var line = page.getLine();
+                if (page.myAnswer.length >= line.span) {
+                    return;
+                }
+                var ballNo = page.myAnswer.length + 1;
+                var url = "/Res/12/redgood" + ballNo + ".png";
+                var parent = $(e.target).closest("td");
+                $(e.target).hide();
+                parent.append('<img src="' + url + '">');
+                page.myAnswer.push(parent.attr("tid").replace("td_", ""));
+            },
+            clearBox: function (e) {
+                var page = global.localPage;
+                if (page.myAnswer.length <= 0) {
+
+                    return;
+                }
+                var locNo = page.myAnswer.pop();
+                var td = $(page.el).find("td[tid=td_" + locNo + "]");
+                td.find("img").remove();
+                td.find("input").show();
+                if (page.myAnswer.length <= 0) {
+                    $(page.el).find(".btnTop button").prop("disabled", true);
+                }
+            },
+            checkBox: function (e) {
+                let page = global.localPage;
+                let data = page.data;
+                let line = page.getLine();
+                let res = line.locs.join('');
+                let myRes = page.myAnswer.join("");
+                let span = line.span;
+                if (res == myRes) {
+                    page.saveAnswer(true, myRes);
+                } else {
+                    page.saveAnswer(false, myRes);
+                }
+                if (data.test) {
+                    page.processTest();
+                    return;
+                }
+                page.processQuestion();
+            }
+        };
+        onload() {
+            
+        }
+        ontimer(second) {
+            //$(this.el).find(".timerDiv_lb p font").html('剩余时间:' + second + '秒');
+            //if (second <= 0) {
+            //    this.timeout = true;
+            //    $(this.el).find(".timerDiv_lb p font").html('超时');
+            //}
+        }
+        saveAnswer(isright, answer) {
+            var line = this.getLine();
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line.locs.join(""), answer: answer });
+        }
+        getMyAnswer() {
+            return this.data.myAnswer.sum((i, a) => a.status == 1 ? 1 : 0) / this.data.myAnswer.length;
+        }
+        processTest() {
+            var score = this.getMyAnswer();
+            if (score >= 0.9 || this.data.istest2) {
+                this.data.myAnswer = null;
+                this.data.test = null;
+                toPage(new BothQuestionTip12("bothQuestionTip_12", this.data));
+                return;
+            }
+            this.data.istest2 = true;
+            this.data.myAnswer = null;
+            toPage(new BothTestRetry12("bothTestRetry_11", this.data));
+        }
+        processQuestion() {
+            var bili = this.getMyAnswer();
+            var index = this.data.index;
+            var line = this.getLine();
+            var nextIndex
+            var score = this.getMyAnswer();
+            if (score >= 0.9) {
+                nextIndex = this.data.lines.findIndex((a, i) => {
+                    return i > index && a.span > line.span;
+                });
+            } else {
+                nextIndex = this.data.lines.findIndex((a, i) => {
+                    return i > index && a.span == line.span;
+                });
+            }
+            if (nextIndex < 0) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+            if (score < 0.9) {
+                this.data.spanid++;
+            }
+            this.data.span = this.data.lines[nextIndex].span;
+            this.data.myAnswer = null;
+            this.data.index = nextIndex;
+            toPage(new ShowBothTitlePage12("bothTestTitle_12", this.data));
+        }
+    }
+    //#endregion
+
+    //#region 第12题显示重试
+    class BothTestRetry12 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+            setTimeout(function () {
+                toPage(new ShowBothTitlePage12("bothTestTitle_12", data));
+            }, 1000);
+        }
+    }
+    //#endregion
+
+    //#region 第12题正式显示双测
+    class BothQuestionTip12 extends SinglePage {
+        funcs = {
+            start: function () {
+                let page = global.localPage;
+                var data = $.extend({}, page.data);
+                toPage(new ShowBothTitlePage12("bothTestTitle_12", data));
+            }
+        };
+    }
+    //#endregion
+
+    //#endregion
+
+    //#region 第21题
+
+    //#region 第21题第一页
+    class FirstPage21 extends SinglePage {
+        funcs = {
+            start: function () {
+                toPage(new PhotoTip_21("photoTip_21", {  }));
+            }
+        }
+    }
+    //#endregion
+
+
+    //#region 第21题第一页
+    class PhotoTip_21 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/21/study.txt";
+                var url2 = "/Res/21/test.txt";
+                if (example.Title.indexOf("乙") > 0) {
+                    url = "/Res/21/study2.txt";
+                    url2 = "/Res/21/test2.txt";
+                }
+                var testtxt = await (await fetch(url)).text();
+                var testtxt2 = await (await fetch(url2)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                var tests = testtxt2.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new PhotoShow_21("photoShow_21", { lines: lines, tests: tests, index: 0,study:1,answerNo:0 }));
+            }
+        }
+    }
+    //#endregion
+
+    
+
+
+    //#region 第21题展示照片
+    class PhotoShow_21 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+
+            setTimeout(function () {
+                data.index++;
+
+                if (data.lines[data.index] && data.lines[data.index][0] == data.study) {
+                    toPage(new PhotoShow_21("photoShow_21", data));
+                    return;
+                }
+
+                if (data.answerNo == 0) {
+                    
+                    toPage(new AnswerTip_21("answerTip_21", data));
+                    return;
+                }
+
+                toPage(new AnswerTip2_21("answerTip2_21", data));
+
+            }, 12000);
+            
+        }
+    }
+    //#endregion
+
+    //#region 第21题答题开始提示
+    class AnswerTip_21 extends SinglePage {
+        funcs = {
+            start: function () {
+                var data = global.localPage.data;
+                global.setTimer(45);
+                toPage(new Answer_21("answer_21", data));
+            }
+        };
+    }
+    //#endregion
+
+    //#region 第21题答题开始提示2
+    class AnswerTip2_21 extends SinglePage {
+        funcs = {
+            start: function () {
+                var data = global.localPage.data;
+                global.setTimer(45);
+                toPage(new Answer_21("answer_21", data));
+            }
+        };
+    }
+    //#endregion
+
+    //#region 第22题答题
+    class Answer_21 extends SinglePage {
+        funcs = {
+            next: function () {
+                global.localPage.next();
+            },
+
+            select: function (e) {
+                var btn = $(e.target);
+                var name = btn.attr("name");
+
+                var parent = btn.closest(".tableBorder");
+
+                parent.find("input[name=" + name + "]").removeClass("active");
+                btn.addClass("active");
+                parent.closest(".container").find("button.id_next").prop("disabled",false);
+            }
+        };
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0) {
+                this.next();
+            }
+        }
+        next() {
+            this.saveAnswer();
+            let data = $.extend({}, this.data);
+
+            data.answerNo++;
+            let nextLine = data.tests[data.answerNo];
+
+            if (!nextLine) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+            if (nextLine[0] != data.study) {
+                data.study = nextLine[0];
+                toPage(new PhotoTip2_21("photoTip2_21", data));
+                return;
+            }
+
+            global.setTimer(45);
+            toPage(new Answer_21("answer_21", data));
+        }
+        saveAnswer() {
+            let data = this.data;
+            data.myAnswer = data.myAnswer || [];
+
+            let line = data.tests[data.answerNo];
+
+            let myRes = $(this.el).find("input[name=name].active").val() + ">" + $(this.el).find("input[name=career].active").val() + ">" + $(this.el).find("input[name=hobby].active").val();
+            let ret = line[2] + ">" + line[3] + ">" + line[4];
+            let isright = myRes == ret;
+            data.myAnswer.push({ status: isright ? 1 : -1, isright: isright, ti: line[1]+"："+ret, answer: myRes });
+        }
+    }
+    //#endregion
+
+    //#region 第21题再次呈现提示
+    class PhotoTip2_21 extends SinglePage {
+        funcs = {
+            start: function () {
+                var data = global.localPage.data;
+                toPage(new PhotoShow_21("photoShow_21", data));
+            }
+        }
+    }
+    //#endregion
+
+
+    //#endregion
+
+    //#region 第22题
+
+    //#region 第22题第一页
+    class FirstPage22 extends SinglePage {
+        funcs = {
+            start: function () {
+                toPage(new DemoTip_22("demoTip_22", {}));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第22题第一页
+    class DemoTip_22 extends SinglePage {
+        funcs = {
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+            clearBox: function (e) {
+                global.localPage.clear(e);
+            },
+            checkBox_learn: function (e) {
+                global.localPage.confirm(e);
+            }
+        }
+        myAnswer = [];
+        clear(e) {
+            var idx = this.myAnswer.length;
+            var el = $(this.el).find(".span_que").eq(idx - 1);
+            if (el.length <= 0) {
+                return;
+            }
+            
+            el.html("");
+            this.myAnswer.pop();
+            if (this.myAnswer.length <= 0) {
+                $(this.el).find("button").prop("disabled", true);
+            }
+        }
+        confirm(e) {
+            if (this.myAnswer.join("") != "月亮") {
+                return;
+            }
+            toPage(new WordTip_22("wordTip_22", {}));
+        }
+        setvalue(e) {
+            var idx = this.myAnswer.length;
+            var el = $(this.el).find(".span_que").eq(idx);
+            if (el.length <= 0) {
+                
+                return;
+            }
+            $(this.el).find("button").prop("disabled", false);
+            el.html($(e.target).val());
+            this.myAnswer.push($(e.target).val());
+
+            
+        }
+    }
+    //#endregion
+
+    //#region 第22题提示页
+    class WordTip_22 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/22/learn.txt";
+                var url2 = "/Res/22/test.txt";
+                if (example.Title.indexOf("乙") > 0) {
+                    url = "/Res/22/learn2.txt";
+                    url2 = "/Res/22/test2.txt";
+                }
+                var testtxt = await (await fetch(url)).text();
+                var testtxt2 = await (await fetch(url2)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                var tests = testtxt2.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new WordShow_22("wordShow_22", { lines: lines, tests: tests, index: 0, study: 1, answerNo: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第22题提示页
+    class WordTip2_22 extends SinglePage {
+        funcs = {
+            start: async function () {
+                toPage(new WordShow_22("wordShow_22", global.localPage.data));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第22题展示词组
+    class WordShow_22 extends SinglePage {
+        onload() {
+            var data = $.extend({}, this.data);
+
+            setTimeout(function () {
+                data.index++;
+
+                if (data.lines[data.index] && data.lines[data.index][0] == data.study) {
+                    toPage(new WordShow_22("wordShow_22", data));
+                    return;
+                }
+
+                if (data.answerNo == 0) {
+
+                    toPage(new AnswerTip_22("answerTip_21", data));
+                    return;
+                }
+
+                toPage(new AnswerTip2_22("answerTip2_21", data));
+
+            }, 300);
+
+        }
+    }
+    //#endregion
+
+    //#region 第22题答题开始提示
+    class AnswerTip_22 extends SinglePage {
+        funcs = {
+            start: function () {
+                var data = global.localPage.data;
+                global.setTimer(30);
+                toPage(new Answer_22("answer_22", data));
+            }
+        };
+    }
+    //#endregion
+
+    //#region 第22题答题开始提示2
+    class AnswerTip2_22 extends SinglePage {
+        funcs = {
+            start: function () {
+                var data = global.localPage.data;
+                global.setTimer(30);
+                toPage(new Answer_22("answer_22", data));
+            }
+        };
+    }
+    //#endregion
+
+    //#region 第22题答题
+    class Answer_22 extends SinglePage {
+        myAnswer = [];
+        funcs = {
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+            clearBox: function (e) {
+                global.localPage.clear(e);
+            },
+            checkBox_Test: function (e) {
+                global.localPage.confirm(e);
+            }
+        };
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0) {
+                this.next();
+            }
+        }
+        next() {
+            this.saveAnswer();
+            let data = $.extend({}, this.data);
+
+            data.answerNo++;
+            let nextLine = data.tests[data.answerNo];
+
+            if (!nextLine) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+            if (nextLine[0] != data.study) {
+                data.study = nextLine[0];
+                toPage(new WordTip2_22("photoTip2_21", data));
+                return;
+            }
+
+            global.setTimer(30);
+            toPage(new Answer_22("answer_22", data));
+        }
+        saveAnswer() {
+            let data = this.data;
+            data.myAnswer = data.myAnswer || [];
+
+            let line = data.tests[data.answerNo];
+
+            let myRes = this.myAnswer.join("");
+            let ret = line[2];
+            let isright = myRes == ret;
+            data.myAnswer.push({ status: isright ? 1 : -1, isright: isright, ti: line[1] + "：" + ret, answer: myRes });
+        }
+
+        clear(e) {
+            var idx = this.myAnswer.length;
+            var el = $(this.el).find(".span_que").eq(idx - 1);
+            if (el.length <= 0) {
+                return;
+            }
+
+            el.html("");
+            this.myAnswer.pop();
+            if (this.myAnswer.length <= 0) {
+                $(this.el).find("button").prop("disabled", true);
+            }
+        }
+        confirm(e) {
+            this.next();
+        }
+        setvalue(e) {
+            var idx = this.myAnswer.length;
+            var el = $(this.el).find(".span_que").eq(idx);
+            if (el.length <= 0) {
+
+                return;
+            }
+            $(this.el).find("button").prop("disabled", false);
+            el.html($(e.target).val());
+            this.myAnswer.push($(e.target).val());
+
+
+        }
+    }
+    //#endregion
+
+    //#endregion
+
     //#region 结束页
     class FinishOverPage extends SinglePage {
         onload() {
@@ -1011,10 +1886,17 @@ layui.config({
                 toPage(new FirstPage11("first_" + global.localExampleType, {}));
                 //toPage(new BothTipPage11("bothTestTip_11", {}));
             } break;
-            case 12: { } break;
+            case 12: {
+                toPage(new FirstPage12("first_" + global.localExampleType, {}));
+                //toPage(new BothTipPage12("bothTestTip_12", {}));
+            } break;
             
-            case 21: { } break;
-            case 22: { } break;
+            case 21: {
+                toPage(new FirstPage21("first_" + global.localExampleType, {}));
+            } break;
+            case 22: {
+                toPage(new FirstPage22("first_" + global.localExampleType, {}));
+            } break;
             
             case 31: { } break;
             case 32: { } break;

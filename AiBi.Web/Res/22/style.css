@@ -1,0 +1,453 @@
+﻿
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    overflow: visible;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+
+button[disabled], html input[disabled] {
+    cursor: default;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+@media only screen and (min-width: 992px) {
+    .title-Description_ {
+        font-family: KaiTi;
+        font-weight: bold;
+        font-size: 48px;
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .title-translation {
+        font-family: KaiTi;
+        font-size: 24px;
+    }
+
+    .title-text {
+        font-family: KaiTi;
+        font-size: 32px;
+    }
+
+    .title-text-left {
+        font-family: KaiTi;
+        font-size: 22px;
+        text-align: left;
+    }
+
+    .title-text16 {
+        font-family: KaiTi;
+        font-size: 22px;
+    }
+
+    .title-under {
+        text-indent: -8em;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .fontFamilySizeDiv {
+        text-align: left;
+    }
+
+    .title-Description {
+        text-align: center;
+        font-family: KaiTi;
+        font-weight: bold;
+        font-size: 48px;
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .title-translation {
+        text-align: center;
+        font-family: KaiTi;
+        font-size: 24px;
+        margin: 2% auto 6%;
+    }
+
+    .title-text {
+        text-align: center;
+        font-family: KaiTi;
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .topCenter {
+        margin-top: 0% !important;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .title-under {
+        text-indent: -8em;
+    }
+}
+
+
+
+body {
+    background: black !important;
+    color: white !important;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    font-size: large !important;
+    /*新增*/
+    display: table;
+}
+
+.mainborder {
+    display: table-cell;
+    vertical-align: middle;
+    overflow-y: hidden;
+}
+
+.ZodiacAnmation {
+    font-size: 38px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    width: 500px;
+    text-align: center;
+}
+
+.ZodiacAnmationSimHei {
+    font-family: SimHei;
+    font-size: 38px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    /*bottom: 0;*/
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    width: 300px;
+    text-align: center;
+}
+
+.WordAssociation_1 {
+    /*width: 65%;*/
+    margin: auto;
+    margin-top: 0%;
+    margin-bottom: 2%;
+}
+
+.WordAssociation_2 {
+    width: 65%;
+    margin: auto;
+    margin-bottom: 2%;
+    margin-top: 3%;
+}
+
+.btn-default {
+    width: 66px;
+    height: 30px;
+    font-size: 22px;
+    color: #000000;
+    white-space: nowrap;
+    text-align: center;
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+    -webkit-box-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.btn-start {
+    height: 52px;
+    width: 162px;
+    color: #000000;
+    font-size: 32px;
+    position: fixed;
+    bottom: 15%;
+    font-family: kaiti;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background: #ffffff;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.tableWidth {
+    height: 55.6%;
+    width: 42.2%;
+}
+
+.span_width {
+    font-family: SimHei;
+    font-size: 40px;
+    /*width: 120px;*/
+    white-space: nowrap;
+}
+
+.span_width_size {
+    font-family: SimHei;
+    width: 40px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.span_width span {
+    padding-left: 11px;
+    padding-right: 4px;
+}
+
+.sun_table {
+    height: 24px;
+    margin-left: auto;
+    margin-right: 20px;
+    /*width: 200px;*/
+    white-space: nowrap;
+    /*margin-top: 0px;*/
+    margin-top: -47px;
+    /*height: 87px;*/
+}
+
+    .sun_table tr {
+        height: 41px;
+    }
+
+.que_input_class {
+    font-family: SimHei;
+    width: 70px;
+    height: 70px;
+}
+
+.WordAssociation_0 {
+    margin: auto;
+    /* width: 83.4%; */
+}
+
+.title-text-noindent {
+    font-family: kaiTi;
+    font-size: 32px;
+    /*text-indent: 67px;*/
+}
+
+.title-text-noindent-color {
+    font-family: kaiTi;
+    color: #2DCC31;
+    font-size: 32px;
+}
+
+input {
+    outline: none;
+    padding: 0;
+}
+
+@media only screen and (min-width: 992px) {
+    .tableWidth {
+        width: 620px !important;
+    }
+
+    table {
+        margin: auto;
+        /*position: relative;*/
+        /*height: 100%;*/
+        /* top: 4.3%; */
+    }
+
+    .mainCoutent {
+        margin: auto;
+        width: 83.4%;
+        /* border: 1px dotted mediumvioletred; */
+        height: 70%;
+        position: relative;
+    }
+
+    .WordAssociation_1 {
+        width: 74%;
+    }
+
+    /*.title-text-noindent {
+                font-size: 26px;
+            }
+
+            .title-text-noindent-color {
+                font-size: 26px;
+            }*/
+    /*.btn-start {
+                position: fixed;
+                bottom: 12.1%;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+            }*/
+    .btn-start {
+        width: 162px;
+        color: #000000;
+        font-size: 22px;
+        position: fixed;
+        bottom: 15%;
+        font-family: kaiti;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background: #ffffff;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+
+    .taskEnd {
+        position: absolute;
+        left: 45%;
+        top: 50%;
+        font-size: xx-large;
+        width: 260px;
+    }
+
+    .symCentrTop {
+        /* margin-top: 5%; */
+    }
+}
+
+.title-Description {
+    text-align: center;
+    font-family: KaiTi;
+    font-weight: bold;
+    font-size: 48px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.title-translation {
+    text-align: center;
+    font-family: KaiTi;
+    font-size: 24px;
+    margin: 2% auto 6%;
+}
+
+@media only screen and (max-width: 800px) {
+    .WordAssociation_2 {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 1024px) {
+
+    .mainCoutent {
+        margin: auto;
+        width: 75%;
+        /* border: 1px dotted mediumvioletred; */
+        height: 70%;
+        position: relative;
+    }
+
+    .WordAssociation_1 {
+        margin-top: 50px;
+    }
+
+    .title-text {
+        font-family: KaiTi;
+        font-size: 32px;
+        text-align: left;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    /*.title-text-noindent {
+                font-size: 38px;
+            }*/
+
+    /*.title-text-noindent-color {
+                font-size: 38px;
+            }*/
+
+    .mainCoutent {
+        margin: auto;
+        /* width: 83.4%; */
+        height: 70%;
+    }
+
+    .WordAssociation_1 {
+        width: 65%;
+    }
+
+    table {
+        margin: auto;
+        /*position: relative;*/
+        /* top: 4.3%; */
+    }
+}
+    
