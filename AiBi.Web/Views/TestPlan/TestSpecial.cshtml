@@ -1174,8 +1174,13 @@
             <table>
                 <tbody>
                     <tr>
-                        <td> <div class="container"><div class="ZodiacAnmationSimHei" style="vertical-align: middle;">
-                            <p>{{lines[index][1]}}<span style="padding-right:24px;padding-left:24px;">-</span>{{lines[index][2]}}</p></div><div><br><center></center></div></div></td>
+                        <td>
+                            <div class="container">
+                                <div class="ZodiacAnmationSimHei" style="vertical-align: middle;">
+                                    <p>{{lines[index][1]}}<span style="padding-right:24px;padding-left:24px;">-</span>{{lines[index][2]}}</p>
+                                </div><div><br><center></center></div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1189,21 +1194,84 @@
             <table>
                 <tbody>
                     <tr>
-                        <td> <div class="container"><div class="ZodiacAnmation" style="vertical-align: middle;"><center><table> <tbody> <tr> <td> <table class="sun_table"><tbody><tr>
-                            <td class="span_width">{{tests[answerNo][1]}}<span>-</span></td>
-                            <td class="span_width_size span_que"></td><td class="span_width_size span_que"></td></tr><tr><td colspan="4">
-                            <div class="timerDiv" style="border: none; color: red; display: block;"><p><font style="color:red; font-size:x-large; ">剩余时间:30秒</font></p></div></td></tr></tbody></table></td><td><table width="210px" height="300px"><tbody><tr><td style="text-align:left; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][3]}}"></td><td style="text-align:center; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][4]}}"></td><td style="text-align:right; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][5]}}"></td></tr><tr><td style="text-align:left; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][6]}}"></td><td style="text-align:center; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][7]}}"></td><td style="text-align:right; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][8]}}"></td></tr><tr><td style="text-align:left; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][9]}}"></td><td style="text-align:center; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][10]}}"></td><td style="text-align:right; width:70px">
-                            <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][11]}}"></td></tr><tr><td style="text-align:left; width:80px;">
-                            <button class="btn-default" style="border:none; font-size:x-large; width:80px;height:40px; outline: none" disabled="true" v-on:click="clearBox">清除</button></td><td> </td><td style="text-align:right;width:80px;">
-                            <button class="btn-default" style="border:none; font-size:x-large; width:80px;height:40px; outline: none" disabled="true" v-on:click="checkBox_Test">确定</button></td></tr></tbody> </table>  </td> </tr> </tbody> </table></center></div><div><br><center></center></div></div></td>
+                        <td>
+                            <div class="container">
+                                <div class="ZodiacAnmation" style="vertical-align: middle;">
+                                    <center>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <table class="sun_table">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="span_width">{{tests[answerNo][1]}}<span>-</span></td>
+                                                                    <td class="span_width_size span_que"></td>
+                                                                    <td class="span_width_size span_que"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        <div class="timerDiv" style="border: none; color: red; display: block;"><p><font style="color:red; font-size:x-large; ">剩余时间:30秒</font></p></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table width="210px" height="300px">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="text-align:left; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][3]}}">
+                                                                    </td>
+                                                                    <td style="text-align:center; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][4]}}">
+                                                                    </td>
+                                                                    <td style="text-align:right; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][5]}}">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:left; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][6]}}">
+                                                                    </td>
+                                                                    <td style="text-align:center; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][7]}}">
+                                                                    </td>
+                                                                    <td style="text-align:right; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][8]}}">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:left; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][9]}}">
+                                                                    </td>
+                                                                    <td style="text-align:center; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][10]}}">
+                                                                    </td>
+                                                                    <td style="text-align:right; width:70px">
+                                                                        <input v-on:click="setvalue" class="que que_input_class" style="border: 1px solid #FFFFFF;  text-align:center;   background-color: black;  color:white; font-size:40px;" type="button" value="{{tests[answerNo][11]}}">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:left; width:80px;">
+                                                                        <button class="btn-default" style="border:none; font-size:x-large; width:80px;height:40px; outline: none" disabled="true" v-on:click="clearBox">清除</button>
+                                                                    </td>
+                                                                    <td> </td>
+                                                                    <td style="text-align:right;width:80px;">
+                                                                        <button class="btn-default" style="border:none; font-size:x-large; width:80px;height:40px; outline: none" disabled="true" v-on:click="checkBox_Test">确定</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+                                </div><div><br><center></center></div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1274,7 +1342,7 @@
                 <tbody>
                     <tr>
                         <td style="min-width:240px">
-                            <div class=""container">
+                            <div class="" container">
                                 <div>
                                     <div class="CubeRotation_0">
                                         <div class="CubeRotation_0 fontFamilySizeDiv">
@@ -1310,7 +1378,7 @@
                                                 <div class="CubeRotation_2 fontFamilySizeDiv">
                                                     <p class="title-text"> 横线上方是魔方的初始状态和旋转情况，横线下方给出了5种旋转后魔方上顶面的情况，其中只有一个是正确的答案。 </p>
                                                 </div>
-                                            </div><center><table><tbody><tr><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q1" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>初始状态 </td><td width="22.1px"></td><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q2" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>旋转</td> </tr></tbody></table></center><br><center><img class="lineImage" src="~/Res/32/line.png" style=" height: 5px"></center><br><center><div class="centerflex"><span><img class="x_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 95%; height: auto;"></span><span><img class="x_2 btn-img"  v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 95%; height: auto"></span><span><img class="x_3 btn-img"  v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 95%; height: auto;"></span><span><img class="x_4 btn-img"  v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto;"></span><span><img class="x_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto"></span></div><center><div class="p_id"></div></center><div class="clickMouse" style=""><span style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold">请点选您认为正确的答案</span></div><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class=" btn-default btnnext" v-on:click="startPage">上一页</button></div></td><td><div class="nextpage"><button class="id_next1 btn-default btnnext" v-on:click="startTest" disabled>下一页</button></div></td></tr></tbody></table></center></center>
+                                            </div><center><table><tbody><tr><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q1" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>初始状态 </td><td width="22.1px"></td><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q2" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>旋转</td> </tr></tbody></table></center><br><center><img class="lineImage" src="~/Res/32/line.png" style=" height: 5px"></center><br><center><div class="centerflex"><span><img class="x_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 95%; height: auto;"></span><span><img class="x_2 btn-img" v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 95%; height: auto"></span><span><img class="x_3 btn-img" v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 95%; height: auto;"></span><span><img class="x_4 btn-img" v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto;"></span><span><img class="x_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto"></span></div><center><div class="p_id"></div></center><div class="clickMouse" style=""><span style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold">请点选您认为正确的答案</span></div><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class=" btn-default btnnext" v-on:click="startPage">上一页</button></div></td><td><div class="nextpage"><button class="id_next1 btn-default btnnext" v-on:click="startTest" disabled>下一页</button></div></td></tr></tbody></table></center></center>
                                         </div>
                                     </div>
                                 </div>
@@ -1333,7 +1401,7 @@
                             <div class="container">
                                 <div>
                                     <div>
-                                        <div >
+                                        <div>
                                             <div class="CubeRotation_3" style="margin-bottom:2.8%">
                                                 <div class="CubeRotation_3 fontFamilySizeDiv">
                                                     <p class="title-text">请注意， 魔方初始状态时看不见的三个面全是空白。例如…</p>
@@ -1362,7 +1430,7 @@
                                 <div>
                                     <center><table><tbody><tr><td><img class="topPng" src="~/Res/32/top2.png" style="width: 100%; height: auto;"></td></tr></tbody></table></center><br><center>
                                         <div class="CubeRotation_1">
-                                            <div class="CubeRotation_1 fontFamilySizeDiv" >
+                                            <div class="CubeRotation_1 fontFamilySizeDiv">
                                                 <p class="title-text" style="text-indent: -1.5em;">（点击“下一页”，再来看一个例子）</p>
                                             </div>
                                         </div>
@@ -1419,3 +1487,73 @@
     </div>
 </div>
 
+<div class="page" id="first_41" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <center>
+                                        <div class="Vocabulary_0">
+                                            <div class="Vocabulary_0 fontFamilySizeDiv">
+                                                <div class="title-Description">词汇测验</div>
+                                                <div class="title-translation">Vocabulary</div>
+                                                <p class="title-text" style="text-align: left;text-indent: 2em;">请思考每次呈现的词语的含义，选出<br>你认为解释最准确的选项。</p>
+                                            </div>
+                                        </div>
+                                    </center><center><div style="width:200px;"> <button class="btn-start" v-on:click="start">开始测验</button></div></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="answer_41" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px"> <div class="container"><div class="questionleft"><p style="height:80px;text-align: center;"><font style="font-family: SimHei; font-size:xx-large !important;">{{lines[index][1]}}</font></p><p class="widthWords"><button class="0_1 btn que" v-on:click="setvalue" no="1" score="{{lines[index][7]}}">{{lines[index][2]}}</button></p><p class="widthWords"><button class="0_2 btn que" v-on:click="setvalue" no="2" score="{{lines[index][8]}}">{{lines[index][3]}}</button></p><p class="widthWords"><button class="0_3 btn que" v-on:click="setvalue" no="3" score="{{lines[index][9]}}">{{lines[index][4]}}</button></p><p class="widthWords"><button class="0_4 btn que" v-on:click="setvalue" no="4" score="{{lines[index][10]}}">{{lines[index][5]}}</button></p><p class="widthWords"><button class="0_5 btn que" v-on:click="setvalue" no="5" score="{{lines[index][11]}}">{{lines[index][6]}}</button></p><center><div class="p_id" style="height:20px; line-height: 20px; margin-bottom:20px;"><p class="Inaccurate" style="visibility:hidden"><font style="color:red; font-size:x-large;">，正确答案是第{{answer}}项，请继续做下一题</font></p></div></center><center><div style=" width:162px;background:#ffffff;"><button class="id_next" disabled="true" style="border:none; outline:none" v-on:click="next">下一题</button></div></center><br><center><div class="timerDiv" style="display: block;"><p class="timeroutEnd"><font style="color:red; font-size:x-large; ">剩余时间:30秒</font></p></div></center></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="page" id="first_42" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <center class="topoper">
+                                        <div class="Similarities_0">
+                                            <div class="Similarities_0 fontFamilySizeDiv">
+                                                <div class="title-Description">类同测验</div>
+                                                <div class="title-translation">Similarities</div>
+                                                <p class="title-text" style="text-indent: 2em; text-align:left">请思考每次呈现的两个词语有什么相<br>似的地方，选出你认为最准确的选项。</p>
+                                            </div>
+                                        </div>
+                                    </center><center><div style="width:200px;"> <button class="btn-start" v-on:click="start">开始测验</button></div></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

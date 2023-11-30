@@ -2181,6 +2181,230 @@ layui.config({
 
     //#endregion
 
+    //#region 第41题
+
+    //#region 第41题第一页
+    class FirstPage41 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/41/FEITSWsource.txt";
+                
+                var testtxt = await(await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new Answer_41("answer_41", { lines: lines, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第41题第一页
+    class Answer_41 extends SinglePage {
+        isanswer = false;
+        timeout = false;
+        funcs = {
+            next: function (e) {
+                global.localPage.next(e);
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            global.setTimer(30);
+            this.data.answer = (this.getLine().findIndex((a, i) => i >= 7 && a == "2") - 6)+"";
+        }
+        setvalue(e) {
+            $(this.el).find("button[no]").removeClass("active");
+            $(e.target).addClass("active");
+            $(this.el).find(".id_next").prop("disabled", false);
+        }
+        next() {
+            if (this.isanswer) {
+                this.data.index++;
+                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                    toPage(new FinishOverPage("finishOver", {}));
+                    return;
+                }
+                toPage(new Answer_41("answer_41", this.data));
+                return;
+            }
+            $(this.el).find(".id_next").prop("disabled", false);
+            this.isanswer = true;
+            var ret = this.data.answer;
+            var myRes = $(this.el).find("button[no].active").attr("no");
+            var isright = ret == myRes;
+            var score = $(this.el).find("button[no].active").attr("score");
+            if (score == null) {
+                score = 0;
+            } else {
+                score = parseInt(score);
+            }
+            this.saveAnswer(isright, myRes, score);
+            if (this.data.index < 4 && (!isright || this.timeout)) {
+                //报错
+                $(this.el).find(".Inaccurate font").html((this.timeout ? "超时" : (score<=0?"错误":"不准确")) + $(this.el).find(".Inaccurate").css("visibility", "visible").find("font").html());
+                $(this.el).find(".timerDiv").css("visibility", "hidden");
+                var that = this;
+                setTimeout(function () {
+                    if (that.isClose) return;
+                    that.next();
+                }, 3000);
+                return;
+            }
+            this.data.index++;
+            if (this.data.index >= this.data.lines.length || this.get5error()) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+
+
+
+            toPage(new Answer_41("answer_41", this.data));
+        }
+        get5error() {
+            let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
+            let error5 = last5.filter(a => a.status != 1).length;
+            if (last5.length == 5 && error5 == 5) {
+                return true;
+            }
+            return false;
+        }
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0 && !this.isanswer) {
+                this.timeout = true;
+                this.next();
+            }
+        }
+
+        getLine() {
+            return this.data.lines[this.data.index];
+        }
+        saveAnswer(isright, answer,score) {
+            var line = this.getLine();
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[12], answer: answer, score: score });
+        }
+    }
+    //#endregion
+
+
+    //#endregion
+
+    //#region 第42题
+
+    //#region 第42题第一页
+    class FirstPage42 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/42/FEITCOMMsource.txt";
+
+                var testtxt = await (await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new Answer_42("answer_41", { lines: lines, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第42题第一页
+    class Answer_42 extends SinglePage {
+        isanswer = false;
+        timeout = false;
+        funcs = {
+            next: function (e) {
+                global.localPage.next(e);
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            global.setTimer(30);
+            this.data.answer = (this.getLine().findIndex((a, i) => i >= 7 && a == "2") - 6) + "";
+        }
+        setvalue(e) {
+            $(this.el).find("button[no]").removeClass("active");
+            $(e.target).addClass("active");
+            $(this.el).find(".id_next").prop("disabled", false);
+        }
+        next() {
+            if (this.isanswer) {
+                this.data.index++;
+                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                    toPage(new FinishOverPage("finishOver", {}));
+                    return;
+                }
+                toPage(new Answer_42("answer_41", this.data));
+                return;
+            }
+            $(this.el).find(".id_next").prop("disabled", false);
+            this.isanswer = true;
+            var ret = this.data.answer;
+            var myRes = $(this.el).find("button[no].active").attr("no");
+            var isright = ret == myRes;
+            var score = $(this.el).find("button[no].active").attr("score");
+            if (score == null) {
+                score = 0;
+            } else {
+                score = parseInt(score);
+            }
+            this.saveAnswer(isright, myRes, score);
+            if (this.data.index < 4 && (!isright || this.timeout)) {
+                //报错
+                $(this.el).find(".Inaccurate font").html((this.timeout ? "超时" : (score <= 0 ? "错误" : "不准确")) + $(this.el).find(".Inaccurate").css("visibility", "visible").find("font").html());
+                $(this.el).find(".timerDiv").css("visibility", "hidden");
+                var that = this;
+                setTimeout(function () {
+                    if (that.isClose) return;
+                    that.next();
+                }, 3000);
+                return;
+            }
+            this.data.index++;
+            if (this.data.index >= this.data.lines.length || this.get5error()) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+
+
+
+            toPage(new Answer_42("answer_41", this.data));
+        }
+        get5error() {
+            let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
+            let error5 = last5.filter(a => a.status != 1).length;
+            if (last5.length == 5 && error5 == 5) {
+                return true;
+            }
+            return false;
+        }
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0 && !this.isanswer) {
+                this.timeout = true;
+                this.next();
+            }
+        }
+
+        getLine() {
+            return this.data.lines[this.data.index];
+        }
+        saveAnswer(isright, answer, score) {
+            var line = this.getLine();
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[12], answer: answer, score: score });
+        }
+    }
+    //#endregion
+
+
+    //#endregion
+
     //#region 结束页
     class FinishOverPage extends SinglePage {
         onload() {
@@ -2286,8 +2510,12 @@ layui.config({
                 toPage(new FirstPage32("first_" + global.localExampleType, {}));
             } break;
             
-            case 41: { } break;
-            case 42: { } break;
+            case 41: {
+                toPage(new FirstPage41("first_" + global.localExampleType, {}));
+            } break;
+            case 42: {
+                toPage(new FirstPage42("first_" + global.localExampleType, {}));
+            } break;
         }
     }
     function includeCss(number) {

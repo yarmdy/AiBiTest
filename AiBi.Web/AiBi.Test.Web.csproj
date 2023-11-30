@@ -2153,6 +2153,10 @@
     <Content Include="Res\32\style.css" />
     <Content Include="Res\32\top.png" />
     <Content Include="Res\32\top2.png" />
+    <Content Include="Res\41\FEITSWsource.txt" />
+    <Content Include="Res\41\style.css" />
+    <Content Include="Res\42\FEITCOMMsource.txt" />
+    <Content Include="Res\42\style.css" />
     <Content Include="Scripts\sortitems.js" />
     <Content Include="Scripts\importdialog.js" />
     <Content Include="Scripts\aibibase.js" />
