@@ -1,4 +1,5 @@
-﻿var global = {
+﻿//#region 全局对象
+var global = {
     localId: 1,
     localPage: null,
     localExampleIndex: null,
@@ -10,6 +11,8 @@
         global.BalanceSeconds = count
     }
 };
+//#endregion
+
 layui.config({
     base: "/js/"
 }).use(['vue'], async function () {
@@ -2415,6 +2418,7 @@ layui.config({
     }
     //#endregion
 
+    //#region 键盘事件
     $(document).on("keydown", function (e) {
         if (!global.localPage) return;
         switch (e.keyCode) {
@@ -2435,12 +2439,18 @@ layui.config({
             } break;
         }
     });
+    //#endregion
+
+    //#region 缩放事件
     $(window).on("resize", function (e) {
         if (!global.localPage) return;
         if (typeof global.localPage.onresize == "function") {
             global.localPage.onresize(e);
         }
     });
+    //#endregion
+
+    //#region 计时器
     global.timer = setInterval(function () {
         if (global.BalanceSeconds == null || global.BalanceSeconds < 0) {
             return;
@@ -2454,21 +2464,31 @@ layui.config({
         global.localPage.ontimer(global.BalanceSeconds);
         global.BalanceSeconds--;
     }, 1000);
+    //#endregion
 
+    //#region 关闭单页
     function toClose() {
         if (global.localPage) {
             global.localPage.close();
             global.localPage = null;
         }
     }
+    //#endregion
+
+    //#region 单页跳转
     function toPage(page) {
         toClose();
         global.localPage = page.init();
     }
+    //#endregion
+
+    //#region 退出单页
     function toExit() {
         $$.closeThis();
     }
+    //#endregion
 
+    //#region 跳转到第一页
     function toExampleStart(index) {
         global.localExampleIndex = index;
         var example = plan.BusTestPlanExamples[index];
@@ -2518,10 +2538,16 @@ layui.config({
             } break;
         }
     }
+    //#endregion
+
+    //#region 动态样式插入
     function includeCss(number) {
         $("#styleId").remove();
         $("head").append('<link id="styleId" rel="stylesheet" href="/Res/' + number + '/style.css" />');
     }
+    //#endregion
+
+    //#region 初始化
     async function init() {
         var json = await $$.get(BaseUrl + "/GetTest/" + PageInfo.KeyValueStr);
         let plan = json.data;
@@ -2529,5 +2555,7 @@ layui.config({
 
         toPage(new MainPage("welcome",{}));
     }
+    //#endregion
+    
     init();
 });
