@@ -31,7 +31,10 @@ layui.config({
                 return;
             }
             this.el = $("#" + this.oid).clone().attr("id", this.id).show().appendTo("body")[0];
-            this.data = $.extend(this.data,this.funcs);
+            if (typeof this.beforeLoad == "function") {
+                this.beforeLoad();
+            }
+            this.data = $.extend(this.data, this.funcs);
             this.vue = new Vue({
                 el: "#" + this.id,
                 data: this.data
@@ -140,11 +143,9 @@ layui.config({
             if (this.isanswer) return;
             this.isanswer = true;
             if (this.data.question.exist == exist) {
-                console.log("正确");
                 TestPage1.setAnswer({ score: 1, result: exist });
                 this.toNext();
             } else {
-                console.log("错误");
                 TestPage1.setAnswer({ score: 0, result: exist });
                 $(this.el).find(".msgDiv").show();
                 var that = this;
@@ -1802,6 +1803,384 @@ layui.config({
 
     //#endregion
 
+    //#region 第31题
+
+    //#region 第31题第一页
+    class FirstPage31 extends SinglePage {
+        funcs = {
+            start: function () {
+                toPage(new DemoTip_31("demoTip_31", {}));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第31题第一页
+    class DemoTip_31 extends SinglePage {
+        funcs = {
+            startPage: function (e) {
+                toPage(new FirstPage31("first_31", {}));
+            },
+            startTest: function (e) {
+                toPage(new PicTip_31("picTip_31", {}));
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            this.funcs.q1 = "/Res/31/q1.png";
+            this.funcs.q2 = "/Res/31/q2.png";
+            this.funcs.o1 = "/Res/31/o1.png";
+            this.funcs.o2 = "/Res/31/o2.png";
+            this.funcs.o3 = "/Res/31/o3.png";
+            this.funcs.o4 = "/Res/31/o4.png";
+            this.funcs.o5 = "/Res/31/o5.png";
+        }
+        setvalue(e) {
+            $(this.el).find("img[imgno]").removeClass("active");
+            $(e.target).addClass("active");
+            let isright = $(e.target).attr("imgno") == "3";
+            if (isright) {
+                $(this.el).find(".clickMouse span").text("正确").css("color", "green");
+            } else {
+                $(this.el).find(".clickMouse span").text("错误，正确答案是第3项").css("color", "red");
+            }
+            $(this.el).find(".id_next1").prop("disabled", false);
+        }
+    }
+    //#endregion
+
+    //#region 第31题图片说明
+    class PicTip_31 extends SinglePage {
+        funcs = {
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/31/test.txt";
+                if (example.Title.indexOf("乙") > 0) {
+                    url = "/Res/31/test2.txt";
+                }
+                var testtxt = await(await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new Answer_31("answer_31", { lines: lines, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第31题图片说明
+    class Answer_31 extends SinglePage {
+        isanswer = false;
+        timeout = false;
+        funcs = {
+            next: function (e) {
+                global.localPage.next(e);
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            var line = this.getLine();
+            this.funcs.q1 = "/Res/31/"+line[2]+".png";
+            this.funcs.q2 = "/Res/31/" + line[3] +".png";
+            this.funcs.o1 = "/Res/31/" + line[7] +".png";
+            this.funcs.o2 = "/Res/31/" + line[8] +".png";
+            this.funcs.o3 = "/Res/31/" + line[9] +".png";
+            this.funcs.o4 = "/Res/31/" + line[10] +".png";
+            this.funcs.o5 = "/Res/31/" + line[11] + ".png";
+            this.funcs.duration = 45;
+            this.funcs.answer = line[12];
+            if (line[4] != "#") {
+                this.funcs.duration = 75;
+                this.funcs.q3 = "/Res/31/" + line[4] + ".png";
+            }
+            if (line[5] != "#") {
+                this.funcs.duration = 120;
+                this.funcs.q4 = "/Res/31/" + line[5] + ".png";
+            }
+            global.setTimer(this.funcs.duration);
+        }
+        setvalue(e) {
+            $(this.el).find("img[imgno]").removeClass("active");
+            $(e.target).addClass("active");
+            $(this.el).find(".id_next1").prop("disabled", false);
+        }
+        next() {
+            if (this.isanswer) {
+                this.data.index++;
+                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                    toPage(new FinishOverPage("finishOver", {}));
+                    return;
+                }
+                toPage(new Answer_31("answer_31", this.data));
+                return;
+            }
+            $(this.el).find(".id_next1").prop("disabled", false);
+            this.isanswer = true;
+            var ret = this.data.answer;
+            var myRes = $(this.el).find("img[imgno].active").attr("imgno");
+            var isright = ret == myRes;
+            this.saveAnswer(isright, myRes);
+            if (this.data.index < 4 && (!isright || this.timeout)) {
+                //报错
+                $(this.el).find(".Inaccurate font").html((this.timeout ? "超时" : "错误") + $(this.el).find(".Inaccurate").css("visibility", "visible").find("font").html());
+                $(this.el).find(".timerDiv").css("visibility","hidden");
+                var that = this;
+                setTimeout(function () {
+                    if (that.isClose) return;
+                    that.next();
+                }, 3000);
+                return;
+            }
+            this.data.index++;
+            if (this.data.index >= this.data.lines.length || this.get5error()) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+
+            
+
+            toPage(new Answer_31("answer_31", this.data));
+        }
+        get5error() {
+            let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
+            let error5 = last5.filter(a => a.status != 1).length;
+            if (last5.length == 5 && error5 == 5) {
+                return true;
+            }
+            return false;
+        }
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0 && !this.isanswer) {
+                this.timeout = true;
+                this.next();
+            }
+        }
+
+        getLine() {
+            return this.data.lines[this.data.index];
+        }
+        saveAnswer(isright, answer) {
+            var line = this.getLine();
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0]+":"+line[12], answer: answer });
+        }
+    }
+    //#endregion
+
+    //#endregion
+
+    //#region 第32题
+
+    //#region 第32题第一页
+    class FirstPage32 extends SinglePage {
+        funcs = {
+            start: function () {
+                toPage(new DemoTip_32("demoTip_32", { demono :1}));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第32题第一页
+    class DemoTip_32 extends SinglePage {
+        funcs = {
+            startPage: function (e) {
+                if (global.localPage.data.demono == 1) {
+                    toPage(new FirstPage32("first_32", {}));
+                } else {
+                    toPage(new PicTip_32("picTip_32", {}));
+                }
+                
+            },
+            startTest: function (e) {
+                if (global.localPage.data.demono == 1) {
+                    toPage(new PicTip_32("picTip_32", {}));
+                } else {
+                    toPage(new PicTip2_32("picTip2_32", {}));
+                }
+                
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            if (this.data.demono == 1) {
+                this.funcs.q1 = "/Res/32/example/q1.png";
+                this.funcs.q2 = "/Res/32/example/q2.png";
+                this.funcs.o1 = "/Res/32/example/o1.png";
+                this.funcs.o2 = "/Res/32/example/o2.png";
+                this.funcs.o3 = "/Res/32/example/o3.png";
+                this.funcs.o4 = "/Res/32/example/o4.png";
+                this.funcs.o5 = "/Res/32/example/o5.png";
+            } else {
+                this.funcs.q1 = "/Res/32/example2/q1.png";
+                this.funcs.q2 = "/Res/32/example2/q2.png";
+                this.funcs.o1 = "/Res/32/example2/o1.png";
+                this.funcs.o2 = "/Res/32/example2/o2.png";
+                this.funcs.o3 = "/Res/32/example2/o3.png";
+                this.funcs.o4 = "/Res/32/example2/o4.png";
+                this.funcs.o5 = "/Res/32/example2/o5.png";
+            }
+            
+        }
+        setvalue(e) {
+            $(this.el).find("img[imgno]").removeClass("active");
+            $(e.target).addClass("active");
+            let isright = $(e.target).attr("imgno") == "1";
+            if (isright) {
+                $(this.el).find(".clickMouse span").text("正确").css("color", "green");
+            } else {
+                $(this.el).find(".clickMouse span").text("错误，正确答案是第1项").css("color", "red");
+            }
+            
+            $(this.el).find(".id_next1").prop("disabled", false);
+        }
+    }
+    //#endregion
+
+    //#region 第32题图片说明
+    class PicTip_32 extends SinglePage {
+        funcs = {
+            back: function () {
+                toPage(new DemoTip_32("demoTip_32", { demono: 1 }));
+            },
+            next: function () {
+                toPage(new DemoTip_32("demoTip2_32", { demono: 2 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第32题图片说明
+    class PicTip2_32 extends SinglePage {
+        funcs = {
+            back: function () {
+                toPage(new DemoTip_32("demoTip2_32", { demono: 2 }));
+            },
+            start: async function () {
+                var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
+                var url = "/Res/32/cube.txt";
+                if (example.Title.indexOf("乙") > 0) {
+                    url = "/Res/32/cube2.txt";
+                }
+                var testtxt = await (await fetch(url)).text();
+                var lines = testtxt.split("\r\n").filter((a, i) => i > 0 && a).map(a => a.split(/\s+/));
+                //console.log(lines);
+                toPage(new Answer_32("answer_32", { lines: lines, index: 0 }));
+            }
+        }
+    }
+    //#endregion
+
+    //#region 第32题图片说明
+    class Answer_32 extends SinglePage {
+        isanswer = false;
+        timeout = false;
+        funcs = {
+            next: function (e) {
+                global.localPage.next(e);
+            },
+            setvalue: function (e) {
+                global.localPage.setvalue(e);
+            },
+        }
+        beforeLoad() {
+            var line = this.getLine();
+            this.funcs.q1 = "/Res/32/" + line[2] + ".png";
+            this.funcs.q2 = "/Res/32/" + line[3] + ".png";
+            this.funcs.o1 = "/Res/32/" + line[7] + ".png";
+            this.funcs.o2 = "/Res/32/" + line[8] + ".png";
+            this.funcs.o3 = "/Res/32/" + line[9] + ".png";
+            this.funcs.o4 = "/Res/32/" + line[10] + ".png";
+            this.funcs.o5 = "/Res/32/" + line[11] + ".png";
+            this.funcs.duration = 45;
+            this.funcs.answer = line[12];
+            if (line[4] != "#") {
+                this.funcs.duration = 90;
+                this.funcs.q3 = "/Res/32/" + line[4] + ".png";
+            }
+            if (line[5] != "#") {
+                this.funcs.duration = 120;
+                this.funcs.q4 = "/Res/32/" + line[5] + ".png";
+            }
+            global.setTimer(this.funcs.duration);
+        }
+        setvalue(e) {
+            $(this.el).find("img[imgno]").removeClass("active");
+            $(e.target).addClass("active");
+            $(this.el).find(".id_next1").prop("disabled", false);
+        }
+        next() {
+            if (this.isanswer) {
+                this.data.index++;
+                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                    toPage(new FinishOverPage("finishOver", {}));
+                    return;
+                }
+                toPage(new Answer_32("answer_32", this.data));
+                return;
+            }
+            $(this.el).find(".id_next1").prop("disabled", false);
+            this.isanswer = true;
+            var ret = this.data.answer;
+            var myRes = $(this.el).find("img[imgno].active").attr("imgno");
+            var isright = ret == myRes;
+            this.saveAnswer(isright, myRes);
+            if (this.data.index < 4 && (!isright || this.timeout)) {
+                //报错
+                $(this.el).find(".Inaccurate font").html((this.timeout ? "超时" : "错误") + $(this.el).find(".Inaccurate").css("visibility", "visible").find("font").html());
+                $(this.el).find(".timerDiv").css("visibility", "hidden");
+                var that = this;
+                setTimeout(function () {
+                    if (that.isClose) return;
+                    that.next();
+                }, 3000);
+                return;
+            }
+            this.data.index++;
+            if (this.data.index >= this.data.lines.length || this.get5error()) {
+                toPage(new FinishOverPage("finishOver", {}));
+                return;
+            }
+
+
+
+            toPage(new Answer_32("answer_32", this.data));
+        }
+        get5error() {
+            let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
+            let error5 = last5.filter(a => a.status != 1).length;
+            if (last5.length == 5 && error5 == 5) {
+                return true;
+            }
+            return false;
+        }
+        ontimer(second) {
+            $(this.el).find(".timerDiv p font").html('剩余时间:' + second + '秒');
+            if (second <= 0 && !this.isanswer) {
+                this.timeout = true;
+                this.next();
+            }
+        }
+
+        getLine() {
+            return this.data.lines[this.data.index];
+        }
+        saveAnswer(isright, answer) {
+            var line = this.getLine();
+            this.data.myAnswer = this.data.myAnswer || [];
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[12], answer: answer });
+        }
+    }
+    //#endregion
+
+    //#endregion
+
     //#region 结束页
     class FinishOverPage extends SinglePage {
         onload() {
@@ -1900,8 +2279,12 @@ layui.config({
                 toPage(new FirstPage22("first_" + global.localExampleType, {}));
             } break;
             
-            case 31: { } break;
-            case 32: { } break;
+            case 31: {
+                toPage(new FirstPage31("first_" + global.localExampleType, {}));
+            } break;
+            case 32: {
+                toPage(new FirstPage32("first_" + global.localExampleType, {}));
+            } break;
             
             case 41: { } break;
             case 42: { } break;

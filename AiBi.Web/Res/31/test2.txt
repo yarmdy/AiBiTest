@@ -1,0 +1,17 @@
+	Tsource	T0index	T1index	T2index	T3index	Ssource	S0index	S1index	S2index	S3index	S4index	TarS	RT	 Answer	 Correctness											RT	 Answer	 Correctness 	 Iden 	 SameCateg 	 OpCategNum
+1	Pb	b1	b2	#	#	PbS	b_12	b_13	b_15	b_17	b_11	b_5	#	#	#																
+2	Pb	b3	b4	#	#	PbS	b_21	b_22	b_24	b_26	b_28	b_1	#	#	#																
+3	Pb	b5	b6	#	#	PbS	b_32	b_33	b_35	b_31	b_38	b_4	#	#	#																
+4	Pb	b7	b8	#	#	PbS	b_42	b_41	b_44	b_46	b_48	b_2	#	#	#																
+5	Pb	b9	b10	#	#	PbS	b_52	b_53	b_51	b_57	b_58	b_3	#	#	#																
+6	Pb	b17	b18	b19	#	PbS	b_82	b_83	b_85	b_81	b_88	b_4	#	#	#																
+7	Pb	b20	b21	b22	#	PbS	b_92	b_93	b_95	b_97	b_91	b_5	#	#	#																
+8	Pb	b23	b24	b25	#	PbS	b_102	b_103	b_101	b_106	b_108	b_3	#	#	#																
+9	Pb	b26	b27	b28	#	PbS	b_111	b_112	b_114	b_116	b_118	b_1	#	#	#																
+10	Pb	b29	b30	b31	#	PbS	b_122	b_123	b_125	b_127	b_121	b_5	#	#	#																
+11	Pb	b32	b33	b34	#	PbS	b_132	b_133	b_131	b_136	b_138	b_3	#	#	#																
+12	Pb	b35	b36	b37	#	PbS	b_142	b_141	b_144	b_146	b_148	b_2	#	#	#																
+13	Pb	b38	b39	b40	#	PbS	b_152	b_151	b_154	b_156	b_158	b_2	#	#	#																
+14	Pb	b41	b42	b43	b44	PbS	b_162	b_164	b_165	b_161	b_168	b_4	#	#	#																
+15	Pb	b45	b46	b47	b48	PbS	b_171	b_173	b_175	b_176	b_178	b_1	#	#	#																
+16	Pb	b49	b50	b51	b52	PbS	b_182	b_183	b_181	b_186	b_188	b_3	#	#	#																

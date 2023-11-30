@@ -1211,3 +1211,211 @@
     </div>
 </div>
 
+<div class="page" id="first_31" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td> <div class="container"><div style="display: block;"><div style="top:0%"><div class="title-Description">折纸测验</div><div class="title-translation">Paper Folding</div><p class="title-text" style="text-indent: 2em;"> 本测验需要在头脑中进行如下操作：</p><p class="title-text">按要求折叠一张正方形的纸，然后用铅笔</p><p class="title-text">在叠好的纸上扎一个孔，最后把纸展开。</p><p class="title-text"> 要求你想象展开后的纸上面会有几个孔，</p><p class="title-text" style="text-align:left"> 以及它们正确的位置。</p></div><button class="btn btn-start btn-default" v-on:click="start">看例题</button></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="demoTip_31" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td> <div class="container"><div style="display: block;"><div class="defaultfont"><p style="text-indent:2em;"> 横线上方是折纸和扎孔（扎透了所有的层）的过程，横线下方给出了5种纸被展开后的情况， 其中只有一个是正确的答案。</p></div><center class="under-icon"><table><tbody><tr><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q1" style="width: 70%; height: auto;margin-bottom:1.4%;"><br>折纸 </td><td width="25.02px"></td><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q2" style="width: 70%; height: auto;margin-bottom:1.4%;"><br>打孔</td> </tr></tbody></table></center><br><center><div class="lineImage"></div></center><br><center><table><tbody><tr><td><img class="x_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="x_2 btn-img" v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="x_3 btn-img" v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="x_4 btn-img" v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="x_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="5" style="width: 70%; height: auto"></td></tr></tbody></table></center><br><center><p class="p_id"></p></center><div class="clickMouse"><span style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold">请点选您认为正确的答案</span></div><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class="btn btn-default btn-left" v-on:click="startPage">上一页</button></div></td><td><div class="nextpage"><button disabled="true" class="id_next1 btn btn-default btn-right" v-on:click="startTest">下一页</button></div></td></tr></tbody></table></center></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="picTip_31" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td> <div class="container"><div><div style="display: block;"><center><table><tbody><tr><td><img class="topPng" src="~/Res/31/top.png"></td></tr></tbody></table></center><br><center><div class="PaperFolder_1"></div></center><div><p class="title-text" style="text-indent: -19em">请注意： </p><p class="title-text" style="text-indent: -1em;">1）每一次对纸折叠的过程(1-3次)都清楚地显示</p><p class="title-text">在横线上方，除此之外没有对纸做任何其它</p><p class="title-text" style="text-indent: -12em;">的折叠或移动。</p><p class="title-text" style="text-indent: -1.5em;">2）答案是纸完全展开后，纸上孔的正确位置。</p></div><center><table style="margin-top:10%"><tbody><tr><td><div><button class="btn btn-default btn-left" onclick="prevPage()">上一页</button></div></td><td width="100px"></td> <td><div><button class="btn btn-default btn-right" v-on:click="start">开始测验</button></div></td></tr></tbody></table></center></div></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="answer_31" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td> <div class="container"><div><div><p></p><center class="topnum_c" style="margin-top:4%;">({{index+1}})</center><p></p><center class="margintopBottom"><table><tbody><tr><td><img class="AIPNGTOP" v-bind:src="q1" style="width: 70%; height: auto"></td><td width="0px"></td><td><img class="AIPNGTOP" v-bind:src="q2" style="width: 70%; height: auto"></td><td v-if="q3" width="0px"></td><td v-if="q3"><img class="AIPNGTOP" v-bind:src="q3" style="width: 70%; height: auto"></td><td v-if="q4" width="0px"></td><td v-if="q4"><img class="AIPNGTOP" v-bind:src="q2" style="width: 70%; height: auto"></td></tr></tbody></table></center><center><div class="lineImage"></div></center><br><center><table><tbody><tr><td><img class="1_1 btn-img" v-on:click="setvalue" imgno="1" v-bind:src="o1" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="1_2 btn-img" v-on:click="setvalue" imgno="2" v-bind:src="o2" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="1_3 btn-img" v-on:click="setvalue" imgno="3" v-bind:src="o3" style="width: 70%; height: auto"></td><td 0=""></td><td><img class="1_4 btn-img" v-on:click="setvalue" imgno="4" v-bind:src="o4" style="width: 70%; height: auto;"></td><td 0=""></td><td><img class="1_5 btn-img" v-on:click="setvalue" imgno="5" v-bind:src="o5" style="width: 70%; height: auto"></td></tr></tbody></table></center><center><div class="p_id"><p class="Inaccurate" style="visibility:hidden"><font style="color:red; font-size:x-large; ">，正确答案是第{{answer}}项，请继续做下一题</font></p></div></center><center><div class="timerDiv" style="display: block;"><p class="timeroutEnd"><font style="color:red; font-size:x-large; ">剩余时间:{{duration}}秒</font></p></div></center><center><table><tbody><tr><td><div style="margin-top:1%"><button class="id_next1 btn btn-default" v-on:click="next" disabled>下一题</button></div></td></tr></tbody></table></center></div></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="first_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class=""container">
+                                <div>
+                                    <div class="CubeRotation_0">
+                                        <div class="CubeRotation_0 fontFamilySizeDiv">
+                                            <div class="title-Description">魔方旋转</div>
+                                            <div class="title-translation">Cube Rotation</div>
+                                            <p class="title-text" style="text-indent: 2em;">本测验需要在头脑中进行如下操作：</p>
+                                            <p class="title-text" style="text-indent: 0em;">按要求对四格魔方进行旋转，要求你想象</p>
+                                            <p class="title-text" style="text-indent: 0em;">旋转后魔方上顶面的情况。</p>
+                                        </div>
+                                    </div><center><div style="width:162px"><button class="btn-start" v-on:click="start">看例题</button></div></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="demoTip_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <div>
+                                        <div style="margin-bottom:2.8%">
+                                            <div class="CubeRotation_2">
+                                                <div class="CubeRotation_2 fontFamilySizeDiv">
+                                                    <p class="title-text"> 横线上方是魔方的初始状态和旋转情况，横线下方给出了5种旋转后魔方上顶面的情况，其中只有一个是正确的答案。 </p>
+                                                </div>
+                                            </div><center><table><tbody><tr><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q1" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>初始状态 </td><td width="22.1px"></td><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q2" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>旋转</td> </tr></tbody></table></center><br><center><img class="lineImage" src="~/Res/32/line.png" style=" height: 5px"></center><br><center><div class="centerflex"><span><img class="x_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 95%; height: auto;"></span><span><img class="x_2 btn-img"  v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 95%; height: auto"></span><span><img class="x_3 btn-img"  v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 95%; height: auto;"></span><span><img class="x_4 btn-img"  v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto;"></span><span><img class="x_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto"></span></div><center><div class="p_id"></div></center><div class="clickMouse" style=""><span style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold">请点选您认为正确的答案</span></div><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class=" btn-default btnnext" v-on:click="startPage">上一页</button></div></td><td><div class="nextpage"><button class="id_next1 btn-default btnnext" v-on:click="startTest" disabled>下一页</button></div></td></tr></tbody></table></center></center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="demoTip2_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <div>
+                                        <div >
+                                            <div class="CubeRotation_3" style="margin-bottom:2.8%">
+                                                <div class="CubeRotation_3 fontFamilySizeDiv">
+                                                    <p class="title-text">请注意， 魔方初始状态时看不见的三个面全是空白。例如…</p>
+                                                </div>
+                                            </div><center><table><tbody><tr><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q1" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>初始状态 </td><td width="22.1px"></td><td style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold"><img class="x_one" v-bind:src="q2" style="width: 79%; height: auto;margin-bottom:1.4%;"><br>旋转</td> </tr></tbody></table></center><br><center><img class="lineImage" src="~/Res/32/line.png" style=" height: 5px"></center><br><center><div class="centerflex"><span><img class="x_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 95%; height: auto;"></span><span><img class="x_2 btn-img" v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 95%; height: auto"></span><span><img class="x_3 btn-img" v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 95%; height: auto;"></span><span><img class="x_4 btn-img" v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto;"></span><span><img class="x_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto"></span></div><center><div class="p_id"></div></center><div class="clickMouse" style=""><span style="text-align:center; font-size:x-large; color:limegreen; font-weight:bold">请点选您认为正确的答案</span></div><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class=" btn-default btnnext" v-on:click="startPage">上一页</button></div></td><td><div class="nextpage"><button class="id_next1 btn-default btnnext" v-on:click="startTest" disabled>下一页</button></div></td></tr></tbody></table></center></center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="picTip_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <center><table><tbody><tr><td><img class="topPng" src="~/Res/32/top2.png" style="width: 100%; height: auto;"></td></tr></tbody></table></center><br><center>
+                                        <div class="CubeRotation_1">
+                                            <div class="CubeRotation_1 fontFamilySizeDiv" >
+                                                <p class="title-text" style="text-indent: -1.5em;">（点击“下一页”，再来看一个例子）</p>
+                                            </div>
+                                        </div>
+                                    </center><center><table class="ipadPcWidth"><tbody><tr><td><div class="Previouspage"><button class=" btnnext" style="border:none; outline:none" v-on:click="back">上一页</button></div></td><td><div class="nextpage"><button class="btn-default btnnext" style="border:none; outline:none" v-on:click="next">下一页</button></div></td></tr></tbody></table></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="picTip2_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px">
+                            <div class="container">
+                                <div>
+                                    <center><table><tbody><tr><td><img class="topPng" src="~/Res/32/top.png" style="width: 100%; height: auto;"></td></tr></tbody></table></center><br><center>
+                                        <div class="CubeRotation_4">
+                                            <div class="CubeRotation_4 fontFamilySizeDiv" style="width:70%;text-align:left;">
+                                                <p class="title-text-noindent">请注意： </p>
+                                                <p class="title-text-noindent">1）魔方初始状态看不见的三个面全是空白，但初始呈现的箭头和圆圈都始终存在。</p>
+                                                <p class="title-text-noindent">2）魔方可能旋转1-3次，正确答案是所有旋转完成后，魔方上顶面的情况。</p>
+                                            </div>
+                                        </div>
+                                    </center><center><table class=" ipadPcWidth ipadPcWidthstart"><tbody><tr><td><div class="Previouspage"><button class="btnnext" style="border:none; outline:none" v-on:click="back">上一页</button></div></td><td><div class="nextpage"><button class="btn-default btnnext" style="border:none; outline:none" v-on:click="start">开始测验</button></div></td></tr></tbody></table></center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="answer_32" style="display: none; ">
+    <div style="display:flex;justify-content:center;height:100%;">
+        <div class="mainCoutent">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="min-width:240px"> <div class="container"><div><div><p></p><center>({{index+1}})</center><p></p><center class="margintopBottom"><table><tbody><tr style="text-align: center"><td style="width: 300px"><img class="AIPNGTOP" v-bind:src="q1" style="width: 50%; height: auto"></td><td width="0px"></td><td style="width: 300px"><img class="AIPNGTOP" v-bind:src="q2" style="width: 50%; height: auto"></td><td v-if="q3" width="0px"></td><td v-if="q3" style="width: 300px"><img class="AIPNGTOP" v-bind:src="q2" style="width: 50%; height: auto"></td><td v-if="q4" width="0px"></td><td v-if="q4" style="width: 300px"><img class="AIPNGTOP" v-bind:src="q4" style="width: 50%; height: auto"></td></tr></tbody></table></center><center><img class="lineImage" src="~/Res/32/line.png" style=" height: 5px;margin-top:2.4%;"></center><br><center><div class="centerflex"><span><img class="3_1 btn-img" v-bind:src="o1" v-on:click="setvalue" imgno="1" style="width: 95%; height: auto;"></span><span><img class="3_2 btn-img" v-bind:src="o2" v-on:click="setvalue" imgno="2" style="width: 95%; height: auto"></span><span><img class="3_3 btn-img" v-bind:src="o3" v-on:click="setvalue" imgno="3" style="width: 95%; height: auto"></span><span><img class="3_4 btn-img" v-bind:src="o4" v-on:click="setvalue" imgno="4" style="width: 95%; height: auto"></span><span><img class="3_5 btn-img" v-bind:src="o5" v-on:click="setvalue" imgno="5" style="width: 95%; height: auto"></span></div></center><br><center><div class="p_id"><p class="Inaccurate" style="visibility:hidden"><font style="color:red; font-size:x-large; ">，正确答案是第{{answer}}项，请继续做下一题</font></p></div></center><br><center><table><tbody><tr><td><div class="btn-nextButton"><button class="id_next1 id_nextAnswer" v-on:click="next" disabled>下一题</button></div></td></tr></tbody></table></center><br><center><div class="timerDiv" style="display: block;"><p class="timeroutEnd"><font style="color:red; font-size:x-large; ">剩余时间:{{duration}}秒</font></p></div></center></div></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

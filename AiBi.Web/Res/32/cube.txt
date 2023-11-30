@@ -1,0 +1,17 @@
+	Tsource	T0index	T1index	T2index	T3index	Ssource	S0index	S1index	S2index	S3index	S4index	TarS	RT	 Answer	 Correctness 
+1	Pa	A1	A2	#	#	PaS	a_12	a_13	a_14	a_18	a_11	3	#	#	#
+2	Pa	A3	A4	#	#	PaS	a_21	a_22	a_28	a_25	a_24	5	#	#	#
+3	Pa	A9	A10	#	#	PaS	a_51	a_52	a_53	a_54	a_55	1	#	#	#
+4	Pa	A5	A6	#	#	PaS	a_32	a_38	a_34	a_31	a_35	5	#	#	#
+5	Pa	A7	A8	#	#	PaS	a_42	a_41	a_43	a_44	a_45	2	#	#	#
+6	Pa	A11	A12	A13	#	PaS	a_62	a_67	a_61	a_64	a_65	4	#	#	#
+7	Pa	A14	A15	A16	#	PaS	a_72	a_73	a_74	a_71	a_77	4	#	#	#
+8	Pa	A26	A27	A28	#	PaS	a_111	a_112	a_113	a_117	a_118	2	#	#	#
+9	Pa	A17	A18	A19	#	PaS	a_82	a_83	a_81	a_85	a_87	1	#	#	#
+10	Pa	A32	A33	A34	#	PaS	a_132	a_133	a_136	a_138	a_131	4	#	#	#
+11	Pa	A20	A21	A22	#	PaS	a_92	a_91	a_98	a_95	a_96	3	#	#	#
+12	Pa	A29	A30	A31	#	PaS	a_122	a_121	a_124	a_125	a_128	2	#	#	#
+13	Pa	A38	A39	A40	#	PaS	a_152	a_156	a_151	a_154	a_157	4	#	#	#
+14	Pa	A41	A42	A43	A44	PaS	a_162	a_163	a_168	a_165	a_161	5	#	#	#
+15	Pa	A49	A50	A51	A52	PaS	a_182	a_187	a_184	a_181	a_185	3	#	#	#
+16	Pa	A45	A46	A47	A48	PaS	a_172	a_173	a_171	a_174	a_177	1	#	#	#
