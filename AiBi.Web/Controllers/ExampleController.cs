@@ -36,5 +36,13 @@ namespace AiBi.Test.Web.Controllers
             
             return View("List");
         }
+
+        public ActionResult SpecialSelect()
+        {
+
+            return View("List");
+        }
+
+        
     }
 }

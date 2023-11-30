@@ -3,6 +3,7 @@
     var isadmin = ViewBag.isadmin ?? false;
 
     var isList = action.ActionName.ToLower() == "list" || action.ActionName.ToLower() == "speciallist";
+    var isSpecial = action.ActionName.ToLower().Contains("special");
 }
 @section scripts{
     <script>
@@ -52,7 +53,7 @@
                     <div class="layui-inline">
                         @if (isList)
                         {
-                            <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit" class="layui-btn layui-btn-sm" target="addtab">
+                            <a href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/@(isSpecial?"Special":"")Edit" class="layui-btn layui-btn-sm" target="addtab">
                                 添加量表组合
                             </a>
                         }
@@ -82,7 +83,7 @@
     <div class="layui-inline">
         @if (isList)
         {
-            <a class="layui-btn layui-btn-sm" target="addtab" title="修改量表组合-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/Edit/{{=d.Id}}">修改</a>
+            <a class="layui-btn layui-btn-sm" target="addtab" title="修改量表组合-{{=d.Id}}" href="/@(ViewBag.ActionInfo.ControllerDescriptor.ControllerName)/@(isSpecial?"Special":"")Edit/{{=d.Id}}">修改</a>
             <button class="layui-btn layui-btn-sm" lay-event="delete" style="display:none">删除</button>
         }
         @if (action.ActionName.ToLower().StartsWith("my"))

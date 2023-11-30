@@ -67,5 +67,10 @@ namespace AiBi.Test.Web.Controllers
         {
             return Json(CurBll.Remove(id, ids));
         }
+
+        public ActionResult SpecialEdit(int? id = null, int? id2 = null)
+        {
+            return View("Edit");
+        }
     }
 }
