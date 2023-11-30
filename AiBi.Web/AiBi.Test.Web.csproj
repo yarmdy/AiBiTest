@@ -1763,6 +1763,8 @@
     <Content Include="Res\1\test.txt" />
     <Content Include="Res\1\test2.txt" />
     <Content Include="Res\21\no1.png" />
+    <Content Include="Res\21\no11.png" />
+    <Content Include="Res\21\no12.png" />
     <Content Include="Res\21\no13.png" />
     <Content Include="Res\21\no14.png" />
     <Content Include="Res\21\no15.png" />
