@@ -1857,6 +1857,9 @@ layui.config({
     //#region 第31题图片说明
     class PicTip_31 extends SinglePage {
         funcs = {
+            back: function () {
+                toPage(new DemoTip_31("demoTip_31", {}));
+            },
             start: async function () {
                 var example = plan.BusTestPlanExamples[global.localExampleIndex].Example;
                 var url = "/Res/31/test.txt";
