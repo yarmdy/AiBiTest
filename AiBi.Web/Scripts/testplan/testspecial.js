@@ -1911,12 +1911,14 @@ layui.config({
             $(this.el).find(".id_next1").prop("disabled", false);
         }
         next() {
+            let nextIndex;
             if (this.isanswer) {
-                this.data.index++;
-                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                nextIndex = this.data.index + 1;
+                if (nextIndex >= this.data.lines.length || this.get5error()) {
                     toPage(new FinishOverPage("finishOver", {}));
                     return;
                 }
+                this.data.index++;
                 toPage(new Answer_31("answer_31", this.data));
                 return;
             }
@@ -1937,12 +1939,12 @@ layui.config({
                 }, 3000);
                 return;
             }
-            this.data.index++;
-            if (this.data.index >= this.data.lines.length || this.get5error()) {
+            nextIndex = this.data.index+1;
+            if (nextIndex >= this.data.lines.length || this.get5error()) {
                 toPage(new FinishOverPage("finishOver", {}));
                 return;
             }
-
+            this.data.index++;
             
 
             toPage(new Answer_31("answer_31", this.data));
@@ -2119,12 +2121,14 @@ layui.config({
             $(this.el).find(".id_next1").prop("disabled", false);
         }
         next() {
+            let nextIndex;
             if (this.isanswer) {
-                this.data.index++;
-                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                nextIndex= this.data.index+1;
+                if (nextIndex >= this.data.lines.length || this.get5error()) {
                     toPage(new FinishOverPage("finishOver", {}));
                     return;
                 }
+                this.data.index++;
                 toPage(new Answer_32("answer_32", this.data));
                 return;
             }
@@ -2145,12 +2149,12 @@ layui.config({
                 }, 3000);
                 return;
             }
-            this.data.index++;
-            if (this.data.index >= this.data.lines.length || this.get5error()) {
+            nextIndex = this.data.index+1;
+            if (nextIndex >= this.data.lines.length || this.get5error()) {
                 toPage(new FinishOverPage("finishOver", {}));
                 return;
             }
-
+            this.data.index++;
 
 
             toPage(new Answer_32("answer_32", this.data));
@@ -2224,12 +2228,14 @@ layui.config({
             $(this.el).find(".id_next").prop("disabled", false);
         }
         next() {
+            var nextIndex;
             if (this.isanswer) {
-                this.data.index++;
-                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                nextIndex = this.data.index+1;
+                if (nextIndex >= this.data.lines.length || this.get5error()) {
                     toPage(new FinishOverPage("finishOver", {}));
                     return;
                 }
+                this.data.index++;
                 toPage(new Answer_41("answer_41", this.data));
                 return;
             }
@@ -2256,12 +2262,12 @@ layui.config({
                 }, 3000);
                 return;
             }
-            this.data.index++;
-            if (this.data.index >= this.data.lines.length || this.get5error()) {
+            nextIndex = this.data.index + 1;
+            if (nextIndex >= this.data.lines.length || this.get5error()) {
                 toPage(new FinishOverPage("finishOver", {}));
                 return;
             }
-
+            this.data.index++;
 
 
             toPage(new Answer_41("answer_41", this.data));
@@ -2270,7 +2276,7 @@ layui.config({
             let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
             let error5 = last5.filter(a => a.status != 1).length;
             if (last5.length == 5 && error5 == 5) {
-                return true;
+                return false;
             }
             return false;
         }
@@ -2288,7 +2294,7 @@ layui.config({
         saveAnswer(isright, answer,score) {
             var line = this.getLine();
             this.data.myAnswer = this.data.myAnswer || [];
-            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[12], answer: answer, score: score });
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[1], answer: answer, score: score });
         }
     }
     //#endregion
@@ -2336,12 +2342,14 @@ layui.config({
             $(this.el).find(".id_next").prop("disabled", false);
         }
         next() {
+            var nextIndex;
             if (this.isanswer) {
-                this.data.index++;
-                if (this.data.index >= this.data.lines.length || this.get5error()) {
+                nextIndex = this.data.index+1;
+                if (nextIndex >= this.data.lines.length || this.get5error()) {
                     toPage(new FinishOverPage("finishOver", {}));
                     return;
                 }
+                this.data.index++;
                 toPage(new Answer_42("answer_41", this.data));
                 return;
             }
@@ -2368,12 +2376,12 @@ layui.config({
                 }, 3000);
                 return;
             }
-            this.data.index++;
-            if (this.data.index >= this.data.lines.length || this.get5error()) {
+            nextIndex = this.data.index+1;
+            if (nextIndex >= this.data.lines.length || this.get5error()) {
                 toPage(new FinishOverPage("finishOver", {}));
                 return;
             }
-
+            this.data.index++;
 
 
             toPage(new Answer_42("answer_41", this.data));
@@ -2400,7 +2408,7 @@ layui.config({
         saveAnswer(isright, answer, score) {
             var line = this.getLine();
             this.data.myAnswer = this.data.myAnswer || [];
-            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[12], answer: answer, score: score });
+            this.data.myAnswer.push({ status: this.timeout ? 0 : (isright ? 1 : -1), isright: isright, ti: line[0] + ":" + line[1], answer: answer, score: score });
         }
     }
     //#endregion
