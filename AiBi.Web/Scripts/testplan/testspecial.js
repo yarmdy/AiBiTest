@@ -2279,7 +2279,7 @@ layui.config({
             let last5 = this.data.myAnswer.filter((a, i) => i >= (this.data.myAnswer.length - 5));
             let error5 = last5.filter(a => a.status != 1).length;
             if (last5.length == 5 && error5 == 5) {
-                return false;
+                return true;
             }
             return false;
         }
