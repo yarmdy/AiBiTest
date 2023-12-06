@@ -9,6 +9,10 @@
         if (ActionInfo.Action.toLowerCase() == "ownlist") {
             $$.common.getPageList.url = "/GetOwnList";
         }
+        if (ActionInfo.Action.toLowerCase().indexOf("own")>=0) {
+            $$.common.getPageList.url = "/GetOwnList";
+        }
+
         if (ActionInfo.Action.toLowerCase().indexOf("special")>=0) {
             $$.common.getPageList.paramArr.ExampleType = 1;
         }
