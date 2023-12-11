@@ -14,12 +14,20 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace AiBi.Test.Web.Controllers
 {
     [Authorize]
     public abstract class BaseController<T, PageReqT> : Controller where T : BaseEntity where PageReqT : PageReq
     {
+        private static readonly Dictionary<string, bool> _exName = new Dictionary<string, bool> {
+            { ".png",true} ,
+            { ".jpg",true} ,
+            { ".bmp",true} ,
+            //{ ".gif",true} ,
+        };
+
         #region 属性
         public int CurrentUserId => Bll.CurrentUserId;
         public string CurrentUserName => Bll.CurrentUserName;
@@ -159,6 +167,22 @@ namespace AiBi.Test.Web.Controllers
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (Request.Files.Count > 0)
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    var exname = new DirectoryInfo(file.FileName).Extension.ToLower();
+                    if (!_exName.ContainsKey(exname))
+                    {
+                        Response.StatusCode = 403;
+                        var errres = new ContentResult();
+                        errres.Content = "上传的文件格式有误";
+                        filterContext.Result = errres;
+                        return;
+                    }
+                }
+            }
             base.OnActionExecuting(filterContext);
             ViewBag.ActionInfo = filterContext.ActionDescriptor;
             ViewBag.CurrentUser = SysUserBll.GetCookie();
