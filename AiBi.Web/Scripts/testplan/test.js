@@ -169,6 +169,9 @@ layui.config({
             await toRemark(question);
         }
 
+        if (question.testEnd) {
+            startTime = new Date();
+        }
         if (question.isTest) {
             clearInterval(timer);
         } else {
@@ -211,6 +214,7 @@ layui.config({
                 }
                 if (data2.SortNo == data.Example.TestNum+1) {
                     data2.remark2 = data.Example.Note;
+                    data2.testEnd = true;
                 }
                 if (data2.SortNo <= data.Example.TestNum) {
                     data2.isTest = true;

@@ -304,7 +304,7 @@ namespace AiBi.Test.Bll
             {
                 list=new List<BusTestPlanUserOption>();
             }
-            var plan = GetFirstOrDefault(a => GetIncludeQuery(a, b => new {b.Template.BusTestTemplateExamples.First().Example.BusExampleOptions.First().Option,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions }),false);
+            var plan = GetFirstOrDefault(a => GetIncludeQuery(a, b => new {b.Template.BusTestTemplateExamples.First().Example.BusExampleOptions.First().Option,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions }).Where(b=>b.Id==id),false);
             if (plan == null)
             {
                 res.code = EnumResStatus.Fail;
@@ -336,13 +336,32 @@ namespace AiBi.Test.Bll
                 res.msg = "非法操作";
                 return res;
             }
-            if (plan.CanPause)
+            var durPlus = false;
+            if (list.Count <= 0)
             {
-                planUser.Duration = planUser.Duration + (int)(DateTime.Now - planUser.ModifyTime.Value).TotalSeconds;
-            }else if (!plan.CanPause)
-            {
-                planUser.Duration = (int)(DateTime.Now - planUser.BeginTime.Value).TotalSeconds;
+                durPlus = true;
             }
+            else {
+                var optIn = list.FirstOrDefault();
+                var temTemp = plan.Template.BusTestTemplateExamples.FirstOrDefault(a => a.ExampleId == optIn.ExampleId)?.Example;
+                var temQues = temTemp?.BusExampleQuestions.FirstOrDefault(a=>a.QuestionId==optIn.QuestionId);
+                if (temQues?.SortNo > temTemp.TestNum)
+                {
+                    durPlus = true;
+                }
+            }
+            if (durPlus)
+            {
+                if (plan.CanPause)
+                {
+                    planUser.Duration = planUser.Duration + (int)(DateTime.Now - planUser.ModifyTime.Value).TotalSeconds;
+                }
+                else if (!plan.CanPause)
+                {
+                    planUser.Duration = (int)(DateTime.Now - planUser.BeginTime.Value).TotalSeconds;
+                }
+            }
+            
             if (planUser.Duration >= plan.Template.Duration*60)
             {
                 res.code = EnumResStatus.Fail;
