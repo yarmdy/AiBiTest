@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AiBi.Test.Dal.Model
 {
-    public partial class BusExampleQuestion:BaseEntity
+    public partial class BusExampleQuestion : BaseEntity
     {
         /// <summary>
         /// 测试
@@ -25,6 +25,10 @@ namespace AiBi.Test.Dal.Model
         /// 限时
         /// </summary>
         public int? Duration { get; set; }
+
+        public bool Prompt { get; set; }
+
+        public string PromptMsg { get; set; }
         public virtual BusExample Example { get; set; }
         public virtual BusQuestion Question { get; set; }
     }

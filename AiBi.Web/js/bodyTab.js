@@ -317,6 +317,8 @@ layui.define(["element","jquery"],function(exports){
 	}
 	$("body").on("click", ".top_tab li i.layui-tab-close", xRemoveTab)
 
+	
+
 	var bodyTab = new Tab();
 	exports("bodyTab",function(option){
 		return bodyTab.set(option);

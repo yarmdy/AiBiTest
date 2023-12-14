@@ -123,14 +123,20 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label"><span class="txt_r">*</span>摘要</label>
+            <label class="layui-form-label"><span class="txt_r">*</span>导语</label>
             <div class="layui-input-block">
                 <textarea class="layui-textarea" name="NContent"></textarea>
             </div>
         </div>
-
         <div class="layui-form-item">
-            <label class="layui-form-label"><span class="txt_r"></span>注意事项</label>
+            <label class="layui-form-label"><span class="txt_r"></span>练习数量</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="TestNum" />
+            </div>
+            <div class="layui-form-mid">个</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="txt_r"></span>导语2</label>
             <div class="layui-input-block">
                 <textarea class="layui-textarea" name="Note"></textarea>
             </div>
@@ -193,6 +199,20 @@
                         <input type="hidden" name="ImageId" />
                     </div>
                 </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="txt_r"></span>是否提示</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="Prompt" value="true" lay-skin="switch" title="提示|不提示" lay-filter="Prompt" />
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display:none">
+                    <label class="layui-form-label">提示语</label>
+                    <div class="layui-input-block">
+                        <textarea name="PromptMsg" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
             </form>
             <div class="layui-form-item">
                 <label class="layui-form-label">选项</label>
@@ -246,6 +266,19 @@
                         <input type="hidden" name="ImageId" />
                     </div>
                 </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="txt_r"></span>是否提示</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="Prompt" value="true" lay-skin="switch" title="提示|不提示"  lay-filter="Prompt" />
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display:none">
+                    <label class="layui-form-label">提示语</label>
+                    <div class="layui-input-block">
+                        <textarea name="PromptMsg" class="layui-textarea"></textarea>
+                    </div>
+                </div>
             </form>
             <div class="layui-form-item">
                 <label class="layui-form-label">选项</label>
@@ -297,6 +330,19 @@
                             <i class="layui-icon layui-icon-add-1"></i>
                         </button>
                         <input type="hidden" name="ImageId" />
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="txt_r"></span>是否提示</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="Prompt" value="true" lay-skin="switch" title="提示|不提示"  lay-filter="Prompt" />
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display:none">
+                    <label class="layui-form-label">提示语</label>
+                    <div class="layui-input-block">
+                        <textarea name="PromptMsg" class="layui-textarea"></textarea>
                     </div>
                 </div>
             </form>

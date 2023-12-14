@@ -1,5 +1,6 @@
 ﻿var localTimer;
 var startLocalTimer;
+var curQuestion;
 layui.config({
     base: "/js/"
 }).use(['table'], async function () {
@@ -9,13 +10,16 @@ layui.config({
     const carousel = layui.carousel;
 
     let plan = null;
-    let curQuestion = null;
+    
 
     let startTime;
-    let timer;
+    var timer;
 
-    function startTimer() {
-        startTime = new Date();
+    function startTimer(old) {
+        if (!old) {
+            startTime = new Date();
+        }
+        
         timer = setInterval(function () {
             let curTime = new Date();
             if (curTime.getSeconds() == 0) {
@@ -66,9 +70,12 @@ layui.config({
     async function init() {
         var json = await $$.get(BaseUrl + "/GetTest/" + PageInfo.KeyValueStr);
         const html = laytpl($("#noteTemplate").html()).render(json.data);
+        $(".tishow").hide();
         $("#page").html(html);
         plan = json.data;
         window.plan = plan;
+        window.MyOptions = json.data2.UserOptions;
+        window.MyOptionIds = json.data2.UserOptions.map(a=>a.OptionId);
         carousel.render({
             elem: '.layui-carousel'
         });
@@ -84,20 +91,69 @@ layui.config({
         let index = plan.Questions.findIndex(function (a) { return a.ExampleId == eid && a.SortNo == q.SortNo && (a.SortNo2 == 1 || a.SortNo2 == null) }) + qs.length;
         toIndex(index);
     }
-    function toIndex(index) {
+
+    async function toRemark2(question) {
+        if (!question.remark2) {
+            return;
+        }
+
+        var def = $.Deferred();
+
+        let uhtml;
+        uhtml = $("#remarkTemplate").html();
+        uhtml = laytpl(uhtml).render({ remark: question.remark2 });
+        $(".tishow").hide();
+        $("#page").html(uhtml);
+        form.render();
+        $("#page").find("button.btn-continue").on("click", async function () {
+            def.resolve();
+        });
+
+        return def.promise();
+    }
+    async function toRemark(question) {
+        if (!question.remark) {
+            await toRemark2(question);
+            return;
+        }
+
+        var def = $.Deferred();
+
+        let uhtml;
+        uhtml = $("#remarkTemplate").html();
+        uhtml = laytpl(uhtml).render({ remark: question.remark });
+        $(".tishow").hide();
+        $("#page").html(uhtml);
+        form.render();
+        $("#page").find("button.btn-continue").on("click", async function () {
+            await toRemark2(question);
+            def.resolve();
+        });
+
+        return def.promise();
+    }
+    function endAnswer() {
+        return $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
+            clearInterval(timer);
+            $$.callback("testover", {});
+            let html = $("#overTemplate").html();
+            html = laytpl(html).render(plan);
+            $(".tishow").hide();
+            $("#page").html(html);
+        });
+    }
+    async function toIndex(index,direct) {
         if (localTimer) {
             clearInterval(localTimer);
             localTimer = null;
         }
         if (index >= plan.Questions.length) {
-            //完成
-            $$.post('/TestPlan/EndAnswer/' + PageInfo.KeyValueStr, {}).then(function () {
-                clearInterval(timer);
-                $$.callback("testover", {});
-                let html = $("#overTemplate").html();
-                html = laytpl(html).render(plan);
-                $("#page").html(html);
-            });
+
+            if (plan.Template.CanBack) {
+                layer.success("已经做完最后一题，点击交卷提交答案");
+            } else {
+                endAnswer();
+            }
             
             return;
         }
@@ -105,23 +161,39 @@ layui.config({
         let questions = plan.Questions.filter(function (a) {
             return a.ExampleId == question.ExampleId && a.SortNo == question.SortNo;
         }).sort(function (a, b) { return a.SortNo2 - b.SortNo2; });
+        question = questions[0];
+        index = plan.Questions.findIndex(a => a.QuestionId == question.QuestionId);
+        clearInterval(timer);
+
+        if (!direct) {
+            await toRemark(question);
+        }
+
+        if (question.isTest) {
+            clearInterval(timer);
+        } else {
+            startTimer(true);
+        }
+        
+
+        let uhtml;
         if (questions.length > 1) {
             question.isMultiple = true;
             question.Index = (index + questions.length);
             question.Count = plan.Questions.length;
-            let uhtml = $("#multipleQuestionTemplate").html();
+            uhtml = $("#multipleQuestionTemplate").html();
             uhtml = laytpl(uhtml).render(questions);
-            $("#page").html(uhtml);
-            form.render();
-            curQuestion = question;
-            return;
+        } else {
+            question.isMultiple = false;
+            question.Index = (index + 1);
+            question.Count = plan.Questions.length;
+            uhtml = $("#singleQuestionTemplate").html();
+            uhtml = laytpl(uhtml).render(question);
         }
-        question.isMultiple = false;
-        question.Index = (index+1);
-        question.Count = plan.Questions.length;
-        let html = $("#singleQuestionTemplate").html();
-        html = laytpl(html).render(question);
-        $("#page").html(html);
+        if (plan.Template.CanBack) {
+            $(".tishow").show();
+        }
+        $("#page").html(uhtml);
         form.render();
         curQuestion = question;
     }
@@ -134,6 +206,15 @@ layui.config({
             data.Example.BusExampleQuestions = data.Example.BusExampleQuestions.sort(function (a, b) { return (a.SortNo - b.SortNo) * 1000 + (a.SortNo2 - b.SortNo2); });
             data.Example.BusExampleQuestions.forEach(function (data2) {
                 data2.Question.BusQuestionOptions = data2.Question.BusQuestionOptions.sort(function (a, b) { return a.SortNo - b.SortNo; });
+                if (data2.SortNo == 1) {
+                    data2.remark = data.Example.NContent;
+                }
+                if (data2.SortNo == data.Example.TestNum+1) {
+                    data2.remark2 = data.Example.Note;
+                }
+                if (data2.SortNo <= data.Example.TestNum) {
+                    data2.isTest = true;
+                }
             });
         });
         plan.Questions = plan.Template.BusTestTemplateExamples.reduce(function (total, curr) {
@@ -164,12 +245,13 @@ layui.config({
         }).then(function (json) {
             plan.BusTestPlanUsers[0].Duration = json.data;
             startTime = new Date();
+            startTimer();
             if (next) {
                 nextQuestion(currentExample, currentQuestion);
             } else {
                 toQuestion(currentExample, currentQuestion);
             }
-            startTimer();
+            
             if (plan.CanPause) {
                 $("#pausediv").show();
             }
@@ -231,6 +313,24 @@ layui.config({
         var json = await $$.post("/TestPlan/Answer/" + PageInfo.KeyValueStr, options);
         plan.BusTestPlanUsers[0].Duration = json.data;
         startTime = new Date();
+
+        //[{ ExampleId: formData.ExampleId, QuestionId: cur, OptionId:0 }];
+        var joinOptions = options.list.filter(a => a.OptionId != 0);
+        MyOptions = MyOptions.filter(a => {
+            var iii = joinOptions.findIndex(b => b.QuestionId == a.QuestionId);
+            return iii < 0;
+        }).concat(joinOptions);
+        MyOptionIds = MyOptions.map(a => parseInt( a.OptionId));
+
+        if (curQuestion.Prompt) {
+            var res = "你答对了！";
+            var icon = 1;
+            if (!json.data2.allRight) {
+                var res = "回答错误！";
+                var icon = 2;
+            }
+            await layer.alertAsync(res + curQuestion.PromptMsg, { icon: icon,title:"提示" });
+        }
         return true;
     }
     async function option(e) {
@@ -265,6 +365,8 @@ layui.config({
             e.html('<i class="layui-icon layui-icon-play"></i> 继续答题');
         } else {
             var json = await $$.post("/TestPlan/StartAnswer/" + PageInfo.KeyValueStr, {});
+            plan.BusTestPlanUsers[0].Duration = json.data;
+            startTime = new Date();
             startTimer();
             e.html('<i class="layui-icon layui-icon-pause"></i> 暂停答题');
         }
@@ -274,12 +376,33 @@ layui.config({
         
         $$.closeThis();
     }
+    function goprev() {
+        let index = curQuestion.Index -1 - (plan.Questions.filter(a => {
+            return a.ExampleId == curQuestion.ExampleId && a.SortNo == curQuestion.SortNo;
+        }).length);
+        if (index < 0) {
+            layer.error("已经是第一题了");
+            return;
+        }
+        toIndex(index,true);
+    }
+    function gonext() {
+        let index = curQuestion.Index;
+        if (index >= plan.Questions.length) {
+            layer.error("已经是最后一题了");
+            return;
+        }
+        toIndex(index, true);
+    }
     util.on("layon", {
         start: start,
         image: image,
         confirm: confirm,
         pause: pause,
-        close:close
+        close: close,
+        goprev: goprev,
+        gonext: gonext,
+        endAnswer: endAnswer
     });
     form.on("checkbox", function (e) {
         option.call(this, e);

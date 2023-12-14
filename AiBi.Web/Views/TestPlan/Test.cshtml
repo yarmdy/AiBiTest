@@ -60,12 +60,40 @@
         .ul {
             text-decoration: underline
         }
+
+        .right-left-btn{
+            position:fixed;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+        }
+            .right-left-btn .layui-icon{
+                font-size:72px;
+                transition:0.1s
+            }
+            .right-left-btn:hover .layui-icon {
+                font-size: 80px;
+            }
+                .left-btn {
+                    left: 30px;
+                }
+        .right-btn {
+            right:30px;
+        }
     </style>
 }
 <!-- Page header -->
 <div class="layui-fluid" id="page">
 
 </div>
+
+<div class="right-left-btn left-btn tishow" layon="goprev" style="display:none">
+    <i class="layui-icon layui-icon-prev"></i>
+</div>
+<div class="right-left-btn right-btn tishow" style="display:none">
+    <i class="layui-icon layui-icon-next" layon="gonext"></i>
+</div>
+<div class="tishow" style="cursor:pointer;position: fixed; right: 30px; top: 30px; width: 70px; height: 35px; line-height: 35px; text-align: center; border: 1px solid #ddd; background: cornflowerblue; color: white; border-radius: 10px;" layon="endAnswer">交卷</div>
 @*<div class="duration" id="durationdiv"></div>
     <div class="duration" id="pausediv" style="top:50px;pointer-events:auto;display:none"><button type="button" class="layui-btn layui-btn-lg layui-btn-danger" layon="pause"><i class="layui-icon layui-icon-pause"></i> 暂停</button></div>*@
 
@@ -78,6 +106,16 @@
     </div>
     <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
         <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg" layon="start" style="width: 250px; height: 40px; font-size: 18px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">知道了，开始测试</button>
+    </div>
+</script>
+
+<script type="text/template" id="remarkTemplate">
+    <div style="padding:50px;border-radius:15px;width:800px;margin:45px auto 20px auto;background:white;border:2px solid #ccc;box-sizing:border-box;font-size:18px">
+        <h2 style="text-align:center;font-size:32px">提示</h2>
+        <pre style="margin-top:20px;line-height:45px;min-height:350px">{{=d.remark}}</pre>
+    </div>
+    <div class="layui-container" style="margin-top:auto;margin-bottom:50px;text-align:center">
+        <button type="button" class="layui-btn layui-btn-primary layui-bg-blue layui-btn-lg btn-continue" style="width: 250px; height: 40px; font-size: 18px; box-sizing: border-box; background-color: #4874CB!important;border-radius:10px">继续</button>
     </div>
 </script>
 
@@ -95,7 +133,7 @@
         <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
         <div style="min-height:150px">
             {{# if(d.Question.Image){ }}
-            <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+            <img src="{{=d.Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
             {{# } }}
         </div>
 
@@ -106,7 +144,8 @@
         <div class="layui-inline" style="text-align:center">
             <div class="">
                 {{# layui.each(d.Question.BusQuestionOptions,function(i,a){ }}
-                <input type="checkbox" {{=(d.Question.Type==2?"multiple":"")}} name="{{a.QuestionId}}" value="{{a.Id}}" title="{{=a.Code}}" lay-skin="tag">
+                {{# let ischeck=MyOptionIds.indexOf(a.Id)>=0?"checked":""; }}
+                <input type="checkbox" {{=(d.Question.Type==2?"multiple":"")}} name="{{a.QuestionId}}" {{ischeck}} value="{{a.Id}}" title="{{=a.Code}}" lay-skin="tag">
                 {{# }) }}
                 {{# if(d.Question.Type==2){ }}
                 <button class="layui-btn layui-btn-primary layui-bg-red" layon="confirm" type="button">确认</button>
@@ -135,7 +174,7 @@
     <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
         {{# if(d[0].Question.Image){ }}
-        <img src="{{=d[0].Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+        <img src="{{=d[0].Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
         {{# } }}
         <form class="layui-form">
             <input type="hidden" name="ExampleId" value="{{=d[0].ExampleId}}" />
@@ -150,7 +189,8 @@
                     <label class="layui-form-label"></label>
                     <div class="layui-inline">
                         {{# layui.each(a.Question.BusQuestionOptions,function(i,b){ }}
-                        <input type="checkbox" {{=(a.Question.Type==2?"multiple":"")}} name="{{b.QuestionId}}" value="{{b.Id}}" title="{{=b.Code}}" lay-skin="tag">
+                        {{# let ischeck=MyOptionIds.indexOf(b.Id)>=0?"checked":""; }}
+                        <input type="checkbox" {{=(a.Question.Type==2?"multiple":"")}} name="{{b.QuestionId}}" {{ischeck}} value="{{b.Id}}" title="{{=b.Code}}" lay-skin="tag">
                         {{# }) }}
                     </div>
                 </div>
@@ -213,7 +253,7 @@
     <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #f1f1f1; background: white; padding: 20px;border-radius:30px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d.Question.NContent}}</pre>
         {{# if(d.Question.Image){ }}
-        <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+        <img src="{{=d.Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
         {{# } }}
     </div>
 
@@ -224,7 +264,7 @@
 
     {{# if(d.Question.Image){ }}
     <div class="layui-container" style="text-align:center;margin-bottom:64px;">
-        <img src="{{=d.Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+        <img src="{{=d.Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
     </div>
     {{# } }}
 
@@ -251,7 +291,7 @@
 
     {{# if(d[0].Question.Image){ }}
     <div class="layui-container" style="text-align:center;margin-bottom:64px;">
-        <img src="{{=d[0].Question.Image.FullName}}" style="width: 60%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
+        <img src="{{=d[0].Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
     </div>
     {{# } }}
     <form class="layui-form">

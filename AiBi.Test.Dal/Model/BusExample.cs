@@ -78,6 +78,8 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public int? SpecialType { get; set; }
 
+        public int TestNum { get; set; }
+
         public virtual BusClassify Classify { get; set; }
         public virtual SysAttachment Image { get; set; }
         public virtual BusClassify SubClassify { get; set; }

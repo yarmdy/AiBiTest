@@ -105,6 +105,8 @@ namespace AiBi.Test.Bll
             {
                 res.data = GetFirstOrDefault(a => GetIncludeQuery(a, b => new { b.Template.Image,image2 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions}).Where(b=>b.Id==id),false);
                 res.data.BusTestPlanUsers = res.data.BusTestPlanUsers.Where(a => a.UserId == CurrentUserId).ToList();
+                var UserOptions = Context.BusTestPlanUserOptions.AsNoTracking().Where(a => a.UserId == CurrentUserId && a.PlanId == id).ToList();
+                res.data2 = new { UserOptions };
                 //res.data.LoadChild(a => new { a.Template.Image ,Image2 = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.Select(c=>c.Question.Image)).ToList(),options = a.Template.BusTestTemplateExamples.SelectMany(b=>b.Example.BusExampleQuestions.SelectMany(c=>c.Question.BusQuestionOptions)).ToList()});
             }
             else if (Tag + "" == "report")
@@ -302,7 +304,7 @@ namespace AiBi.Test.Bll
             {
                 list=new List<BusTestPlanUserOption>();
             }
-            var plan = Find(false, id);
+            var plan = GetFirstOrDefault(a => GetIncludeQuery(a, b => new {b.Template.BusTestTemplateExamples.First().Example.BusExampleOptions.First().Option,b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.BusQuestionOptions }),false);
             if (plan == null)
             {
                 res.code = EnumResStatus.Fail;
@@ -424,6 +426,15 @@ namespace AiBi.Test.Bll
             planUser.ModifyUserId = CurrentUserId;
             planUser.Status = (int)EnumPlanUserStatus.Answer;
             Context.SaveChanges();
+
+            if (list.Count > 0)
+            {
+                var myan = list.GroupBy(a => a.QuestionId).ToDictionary(a=>a.Key,a=> $"{a.Key}:{string.Join(",", a.OrderBy(b => b.OptionId).Select(b => b.OptionId))}");
+                var quesIds = list.Select(a=>a.QuestionId).Distinct().ToList();
+                var realEx = optionDic.Where(a => quesIds.Contains(a.Value.Option.QuestionId)).GroupBy(a => a.Value.Option.QuestionId).ToDictionary(a => a.Key, a =>new { list= a.Select(b => b.Value).ToList() ,max=a.Max(b=>b.Value.Score)} ).ToDictionary(a=>a.Key,a=>$"{a.Key}:{string.Join(",", a.Value.list.Where(b => b.Score == a.Value.max).Select(b => b.OptionId))}");
+                var data2result = myan.ToDictionary(a => a.Key, a => realEx.G(a.Key) == a.Value);
+                res.data2 = new { result = data2result,allRight=data2result.All(a=>a.Value) };
+            }
             return res;
         }
         public Response<int, object, object, object> StartAnswer(int id)

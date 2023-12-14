@@ -222,6 +222,9 @@
         var elem = addQuestion.call(lastBtnType(type));
         $$.setFormData(elem, data.Question);
         $$.setFormData(elem, data, null, true);
+        if (data.Prompt) {
+            elem.find("[name=PromptMsg]").closest(".layui-form-item").show();
+        }
         elem.find("[name=ImageFullName]").attr("src", (data.Question.Image || {}).FullName);
         if (data.Question.Type == 3) {
             elem.find(".option .layui-inline").remove();
@@ -534,6 +537,14 @@
         .on("click", "div.btndel", delOption);
     form.on("select(ClassifyId)", function (e) {
         getSubClassifies(e.value);
+    });
+    form.on("switch(Prompt)", function (e) {
+        let next = $(e.elem).closest(".layui-form-item").next(".layui-form-item");
+        if ($(e.elem).prop("checked")) {
+            next.show();
+        } else {
+            next.hide();
+        }
     });
 
     var defClassify = getClassifies();

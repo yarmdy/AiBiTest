@@ -80,6 +80,7 @@ namespace AiBi.Test.Dal.Model
         /// </summary>
         public bool CanPause { get; set; }
 
+        public bool CanBack { get; set; }
         /// <summary>
         /// 0 普通 1 基础认知
         /// </summary>

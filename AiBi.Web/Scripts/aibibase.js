@@ -210,7 +210,7 @@
                 if (setval instanceof Array) {
                     $(a).prop("checked", setval.indexOf($(a).val()) >= 0);
                 } else {
-                    $(a).prop("checked", $(a).val() == setval);
+                    $(a).prop("checked", $(a).val() == setval+"");
                 }
 
                 return true;
@@ -708,6 +708,23 @@ layer.promptAsync = function (opt, yes) {
         yes && yes();
         def.resolve({ value: value, index: index, elem: elem });
     });
+    var promise = def.promise();
+    return promise;
+}
+layer.alertAsync = function (msg, opt, func) {
+    var options = {
+    };
+    $.extend(options, opt);
+    let def = $.Deferred();
+    options.cancel = function (index, elem, value) {
+        def.resolve({ value: value, index: index, elem: elem, ok: false });
+    }
+    layer.alert(msg, options, function (index ,elem,value) {
+        func && func(index, elem, value);
+        def.resolve({ value: value, index: index, elem: elem, ok: true });
+        layer.close(index);
+    });
+
     var promise = def.promise();
     return promise;
 }
