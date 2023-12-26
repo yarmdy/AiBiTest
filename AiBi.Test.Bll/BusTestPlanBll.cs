@@ -45,6 +45,14 @@ namespace AiBi.Test.Bll
             
             return base.PageWhere(req, query);
         }
+        public override IQueryable<BusTestPlan> PageOrder(PlanReq.Page req, IQueryable<BusTestPlan> query)
+        {
+            if (req.Tag + "" == "my")
+            {
+                return query.OrderBy(a=>a.EndTime);
+            }
+            return base.PageOrder(req, query);
+        }
         public void ProcessUserStatus(IEnumerable<BusTestPlan> list)
         {
             foreach(var plan in list)
