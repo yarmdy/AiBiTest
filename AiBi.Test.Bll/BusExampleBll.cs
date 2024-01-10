@@ -306,7 +306,7 @@ namespace AiBi.Test.Bll
             });
             exampleQuestionsDels.ForEach(a => {
                 SysAttachmentBll.Cancel(a.Question.Image);
-                var localOptions = model.BusExampleOptions.Where(b => b.Option.Question.BusExampleQuestions.Any(c => c.SortNo == a.SortNo && c.SortNo2 == a.SortNo2)).ToList();
+                var localOptions = model.BusExampleOptions.Where(b => a.Question.BusQuestionOptions.Any(c=>c.Id==b.OptionId)).ToList();
                 Context.BusQuestions.Remove(a.Question);
                 Context.BusExampleQuestions.Remove(a);
                 //Context.BusQuestionOptions.RemoveRange(a.Question.BusQuestionOptions);

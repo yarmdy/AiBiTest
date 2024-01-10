@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.IO.Compression;
+using iText.Svg.Renderers.Impl;
 
 namespace AiBi.Test.Bll
 {
@@ -59,7 +60,7 @@ namespace AiBi.Test.Bll
 
                 return BusTestPlanBll.GetIncludeQuery(a, b => new {
                     b.BusTestPlanExamples,
-                    PlanuserInfo = b.BusTestPlanUsers.First().User.BusUserInfoUsers,
+                    PlanuserInfo = b.BusTestPlanUsers.First().User.BusUserInfoUsers.First().UserGroup,
                     Image3 = b.Template.BusTestTemplateExamples.First().Example.BusExampleQuestions.First().Question.Image,
                     b.BusTestPlanUserOptions.First().Option,
                     b.BusTestPlanUserExamples,
@@ -86,14 +87,25 @@ namespace AiBi.Test.Bll
             {
                 throw new Exception("要导出的学员不存在");
             }
+            var groupIds = plan.BusTestPlanUsers.Select(a=>a.User.BusUserInfoUsers.FirstOrDefault()?.GroupId).Where(a=>a.HasValue).Select(a=>(int)a).Distinct().ToArray();
+            var dic = AutofacExt.GetService<BusUserGroupBll>().GetFullName(groupIds);
+            plan.BusTestPlanUsers.ForEach((a,i) => {
+                var group = a.User?.BusUserInfoUsers?.FirstOrDefault()?.UserGroup;
+                if (group == null)
+                {
+                    return;
+                }
+                group.Name = dic.G(group.Id) ?? group.Name;
+            });
+
             return plan;
         }
         public Stream Export(out string fileName,int planId, int[] userIds)
         {
             fileName = "测评报告.pdf";
             var plan = getExportPlan(planId,userIds);
-            fileName = $"{plan.Name}得测评报告.pdf";
-            var stream = planToPdf(plan);
+            fileName = $"{plan.Name}的测评报告.xlsx";
+            var stream = planToExcel(plan);
 
             return stream;
         }
@@ -101,7 +113,7 @@ namespace AiBi.Test.Bll
         {
             fileName = "测评报告.pdf";
             var plan = getExportPlan(planId, userIds);
-            fileName = $"{plan.Name}得测评报告明细.pdf";
+            fileName = $"{plan.Name}的测评报告明细.pdf";
             var stream = planToPdfDetails(plan);
 
             return stream;

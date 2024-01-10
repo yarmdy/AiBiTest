@@ -17,6 +17,10 @@ using iText.Html2pdf.Css.Apply.Impl;
 using iText.Kernel.Geom;
 using System.Numerics;
 using System.Text;
+using NPOI;
+using NPOI.XSSF;
+using NPOI.SS;
+using NPOI.XSSF.UserModel;
 
 namespace AiBi.Test.Bll
 {
@@ -275,9 +279,160 @@ namespace AiBi.Test.Bll
         const string _tabletr = @"<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>";
         #endregion
 
+        private Stream planToExcel(BusTestPlan plan)
+        {
+            var exDic = plan.BusTestPlanExamples.ToDictionary(a => a.ExampleId);
+            var examples = plan.Template.BusTestTemplateExamples;
+            exDic.ForEach((a, i) => {
+                a.Value.Example = examples.FirstOrDefault(b=>b.ExampleId == a.Key).Example;
+            });
+            var questions = examples.SelectMany(a => a.Example.BusExampleQuestions).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
+            var results = examples.SelectMany(a => a.Example.BusExampleResults).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
+            var stream = new MemoryStream();
+            using (var xlsx = new XSSFWorkbook())
+            {
+                var sheet = xlsx.CreateSheet();
+                var rowNo = 0;
+                var row = sheet.CreateRow(rowNo++);
+                var cellNo = 0;
+                var cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("登录名");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("用户名");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("手机号");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("密码");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("真实姓名");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("性别");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("生日");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("身份证号");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("单位名称");
+                cell = row.CreateCell(cellNo++);
+                cell.SetCellValue("分组");
+                var lastSortNo = 0;
+                questions.ForEach((a, i) => {
+                    string noStr;
+                    if (a.SortNo2 == null)
+                    {
+                        noStr = $"第({i + 1})题";
+                    }
+                    else if (a.SortNo2 == 1)
+                    {
+                        noStr = $"第({i + 1}-{a.SortNo2})题";
+                        lastSortNo = i + 1;
+                    }
+                    else
+                    {
+                        noStr = $"第({lastSortNo}-{a.SortNo2})题";
+                    }
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(noStr);
+                });
+                results.ForEach(a => { 
+                    if(a.MinQuestionNo == null || a.MinQuestionNo<1)
+                    {
+                        a.MinQuestionNo = 1;
+                    }
+                    if (a.MaxQuestionNo == null || a.MaxQuestionNo> exDic.G(a.ExampleId)?.Example?.QuestionNum)
+                    {
+                        a.MaxQuestionNo = exDic.G(a.ExampleId)?.Example?.QuestionNum;
+                    }
+                });
+                var results2 = results.GroupBy(a =>
+                    new { a.ExampleId, a.MinQuestionNo, a.MaxQuestionNo }
+                )
+                .OrderBy(a => exDic.G(a.Key.ExampleId)?.SortNo)
+                .ThenBy(a => a.Key.MinQuestionNo)
+                .ThenBy(a => a.Key.MaxQuestionNo)
+                .Select(a =>
+                    new { a.Key.ExampleId, a.Key.MinQuestionNo, a.Key.MaxQuestionNo, Ids = new HashSet<int>(a.Select(b => b.Id)) }
+                );
+
+                results2.ForEach((a, i) => {
+                    var temp = exDic.G(a.ExampleId);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue($"{temp?.Example?.Title}({a.MinQuestionNo}-{a.MaxQuestionNo})");
+                });
+
+                plan.BusTestPlanUsers.ForEach((planUser, index) =>
+                {
+                    var group = planUser.User?.BusUserInfoUsers?.FirstOrDefault()?.UserGroup;
+                    var userInfo = planUser.User?.BusUserInfoUsers?.FirstOrDefault();
+                    row = sheet.CreateRow(rowNo++);
+                    cellNo = 0;
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(planUser.User.Account);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(planUser.User.Name);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(planUser.User.Mobile);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue("");
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.RealName);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.Sex == 1 ? "女" : (userInfo?.Sex == 2 ? "男" : "未知"));
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.Birthday?.ToString("yyyy-M-d"));
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.IdCardNo);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.UnitName);
+                    cell = row.CreateCell(cellNo++);
+                    cell.SetCellValue(userInfo?.UserGroup?.Name);
+                    questions.ForEach((a, i) => {
+                        var myop = plan.BusTestPlanUserOptions.Where(b => { return b.QuestionId == a.QuestionId && b.UserId == planUser.UserId; });
+                        var mycode = string.Join(",", myop.Select(b => { return b.Option.Code; }));
+
+                        cell = row.CreateCell(cellNo++);
+                        cell.SetCellValue(mycode);
+                    });
+
+                    var myResArr = plan.BusTestPlanUserExamples
+                        .Where(b => b.UserId == planUser.UserId)
+                        .Select(b => 
+                            new { 
+                                ResultIds = (b.ResultIds ?? (b.Result + ""))
+                                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Where(c => int.TryParse(c, out int tmp))
+                                    .Select(int.Parse)
+                                    .ToList(), 
+                                Scores = (b.Scores ?? (b.Score + ""))
+                                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Where(c => int.TryParse(c, out int tmp))
+                                    .Select(int.Parse)
+                                    .ToList() 
+                            })
+                        .Select(b => b.ResultIds.ToDictionary(c => c, c => b.Scores[b.ResultIds.IndexOf(c)]))
+                        .SelectMany(b => b.Select(c => c))
+                        .GroupBy(b => b.Key)
+                        .ToDictionary(b => b.Key, b => b.FirstOrDefault().Value);
+                    results2.ForEach((a, i) => {
+                        var temp = exDic.G(a.ExampleId);
+                        var myres = myResArr.FirstOrDefault(b=>a.Ids.Contains(b.Key));
+                        cell = row.CreateCell(cellNo++);
+                        cell.SetCellValue(myres.Value);
+                    });
+                });
+
+                xlsx.Write(stream,true);
+                stream.Position = 0;
+                return stream;
+            }
+        }
         private Stream planToPdf(BusTestPlan plan)
         {
             var exDic = plan.BusTestPlanExamples.ToDictionary(a => a.ExampleId);
+            var examples = plan.Template.BusTestTemplateExamples;
+            exDic.ForEach((a, i) => {
+                a.Value.Example = examples.FirstOrDefault(b => b.ExampleId == a.Key).Example;
+            });
             var questions = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleQuestions).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
             var results = plan.Template.BusTestTemplateExamples.SelectMany(a => a.Example.BusExampleResults).Where(a => exDic.ContainsKey(a.ExampleId)).OrderBy(a => exDic.G(a.ExampleId).SortNo).ToList();
             var stream = new MemoryStream();
@@ -454,7 +609,9 @@ namespace AiBi.Test.Bll
                     }
                     else
                     {
-                        var resultArr = plan.BusTestPlanUserExamples.Where(a=> exDic.ContainsKey(a.ExampleId)).OrderBy(a=>exDic.G(a.ExampleId).SortNo).SelectMany((a, i) => {
+                        var resultArr = plan.BusTestPlanUserExamples.Where(a=> exDic.ContainsKey(a.ExampleId)).OrderBy(a => {
+                            return exDic.G(a.ExampleId).SortNo;
+                        }).SelectMany((a, i) => {
                             if (a.Result == null)
                             {
                                 return new List<KeyValuePair<int, BusExampleResult>> { new KeyValuePair<int, BusExampleResult>(a.Score,a.Result) };

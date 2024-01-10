@@ -85,13 +85,31 @@ namespace AiBi.Test.Bll
         public int[] GetChildrenIds(int id)
         {
             var sql = @"with cte as(
-select Id,ParentId,0 lvl from bus_UserGroup where Id=@id
+select Id,ParentId,0 lvl from test.bus_UserGroup where Id=@id
 union all
 select b.Id,b.ParentId,a.lvl+1 lvl from cte a
-join bus_UserGroup b on a.Id=b.ParentId and a.lvl<20
+join test.bus_UserGroup b on a.Id=b.ParentId and a.lvl<20
 )select distinct Id from cte";
             var ids = Context.Database.SqlQuery<int>(sql,new SqlParameter("@id",id)).ToArray();
             return ids;
+        }
+        class BusUserGroupX : BusUserGroup { }
+        public Dictionary<int,string> GetFullName(int[] groupIds)
+        {
+            groupIds = groupIds != null ? (groupIds.Where(a=>a>0).Distinct().ToArray()) : null;
+            if (groupIds==null || groupIds.Length <= 0) {
+                return new Dictionary<int, string>();
+            }
+            var cteSql = $@"with cte as(
+select Id,ParentId,Name,cast(Name as nvarchar(4000)) FullName,Id BaseId from test.bus_UserGroup where Id in ({string.Join(",", groupIds)})
+union all
+select a.Id,a.ParentId,a.Name,cast(a.Name+'/'+b.FullName as nvarchar(4000)) FullName,b.BaseId from test.bus_UserGroup a
+join cte b on a.Id=b.ParentId
+)select BaseId Id,FullName Name from cte where ParentId is null";
+            
+            var dic = Context.Database.SqlQuery<BusUserGroupX>(cteSql).ToDictionary(a=>a.Id,a=>a.Name);
+
+            return dic;
         }
 
         public Response<List<BusUserGroup>,object> GetGroupTree(int userId,bool includeChildrenIds=false)

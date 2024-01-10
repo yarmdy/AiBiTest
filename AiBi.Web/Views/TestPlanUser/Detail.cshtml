@@ -61,6 +61,8 @@
 
 <script type="text/template" id="pageTemplate">
     <div style="padding:20px;line-height:26px">
+        {{# var exDic = d.Plan.BusTestPlanExamples.reduce((s,a,i)=>(s[a.ExampleId]=a,s),{}); }}
+        {{# d.Plan.BusTestPlanUserExamples = d.Plan.BusTestPlanUserExamples.filter(a=>exDic[a.ExampleId]).sort((a,b)=>(exDic[a.ExampleId].SortNo-exDic[b.ExampleId].SortNo)); }}
         <h1 style="text-align:center;padding:35px 0">爱拜尔PSY心理测评报告</h1>
         <table class="layui-table" style="color:black">
             <tbody>

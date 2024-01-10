@@ -129,7 +129,7 @@
     {{# startLocalTimer(d.Duration) }}
     <div style="text-align:center;padding:10px">本题限时：<span style="color:red;font-size:27px" id="localdurationdiv">{{=d.Duration}}秒</span></div>
     {{# } }}
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
+    <div class="layui-container" style="line-height:1.5;text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px;padding-bottom:50px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left">{{=d.Question.Title}}</pre>
         <div style="min-height:150px">
             {{# if(d.Question.Image){ }}
@@ -171,7 +171,7 @@
     <div style="text-align:center;padding:10px">本题限时：<span style="color:red;font-size:27px" id="localdurationdiv">{{=d[0].Duration}}秒</span></div>
     {{# } }}
 
-    <div class="layui-container" style="text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px;border-radius:15px">
+    <div class="layui-container" style="line-height: 1.5; text-align: center; margin-bottom: 64px; width: 800px; margin-top: 30px; border: 1px solid #e1e1e1; background: white; padding: 20px; border-radius: 15px">
         <pre style="display: block; flex: 1; padding: 20px; text-align: left;">{{=d[0].Question.NContent}}</pre>
         {{# if(d[0].Question.Image){ }}
         <img src="{{=d[0].Question.Image.FullName}}" style="width: 80%; border: 15px solid white; box-shadow: 0 0 5px 0 black;" layon="image" />
